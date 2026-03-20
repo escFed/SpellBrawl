@@ -1,3 +1,5 @@
+using System.Collections;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +15,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckRadius = 0.2f;
 
+
+    [Header("Input Responsible")]
+    [SerializeField] GameObject hitBox;
+    [SerializeField] Coroutine coroutine;
+
     private Rigidbody2D rb;
     private InputSystem_Actions inputActions;
     private Vector2 moveInput;
@@ -20,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        
         rb = GetComponent<Rigidbody2D>();
         inputActions = new InputSystem_Actions();
     }
@@ -46,6 +54,9 @@ public class PlayerController : MonoBehaviour
             groundCheckRadius,
             groundLayer
         );
+
+   
+         
     }
 
     private void FixedUpdate()
@@ -67,4 +78,9 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
+
+
+
+
+
 }
