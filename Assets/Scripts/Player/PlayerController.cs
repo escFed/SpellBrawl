@@ -6,6 +6,19 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
+    [Header("Throw Point")]
+    [SerializeField] public Transform throwPoint;
+ 
+
+    [Header("FireBall")]
+    [SerializeField] GameObject fbPrefab;
+    [SerializeField] GameObject fbCard;
+    [SerializeField] private float cooldown;
+    private Coroutine fbCoroutine;
+    private bool canFbShot = true;
+    private int maxFbShoots = 3;
+    private int currentFbShoots;
+    
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float jumpForce = 12f;
@@ -38,11 +51,19 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         inputActions.Player.Jump.performed += OnJump;
+        inputActions.Player.Fire.performed += OnFire;
+      
+
+        currentFbShoots = maxFbShoots;
+
     }
 
     private void OnDestroy()
     {
         inputActions.Player.Jump.performed -= OnJump;
+        inputActions.Player.Fire.performed -= OnFire;
+      
+        
     }
 
     private void Update()
@@ -55,6 +76,9 @@ public class PlayerController : MonoBehaviour
             groundLayer
         );
 
+        
+       
+
    
          
     }
@@ -64,6 +88,7 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = new Vector2(moveInput.x * moveSpeed, rb.linearVelocity.y);
     }
 
+ 
     private void OnJump(InputAction.CallbackContext ctx)
     {
         if (isGrounded)
@@ -79,6 +104,72 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 
+
+    private void OnFire(InputAction.CallbackContext ctx)
+    {
+        if (!fbCard.activeSelf) return;
+        if(!canFbShot) return;
+        if(currentFbShoots <= 0) return; 
+
+        canFbShot = false;
+
+        GameObject fireball = Instantiate(fbPrefab, throwPoint.position, Quaternion.identity);
+
+        Vector2 direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
+
+        fireball.GetComponent<FireBallScript>().Init(direction);
+      
+
+        currentFbShoots--;
+
+        if(fbCoroutine != null)
+        {
+            StopCoroutine(fbCoroutine);
+        }
+
+        if(currentFbShoots <= 0)
+        {
+            canFbShot = false;
+            fbCard.SetActive(false);
+        }
+
+
+        fbCoroutine = StartCoroutine(CardDeactivated());
+
+        StartCoroutine(FbShoot());
+        
+    }
+
+
+
+    private IEnumerator CardDeactivated()
+    {
+        float time = 0f;
+        float duration = 6f;
+
+        Vector3 startPos = fbCard.transform.position;
+        Vector3 targetPos = startPos + new Vector3(-1f, 3f, 0f);
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+
+            fbCard.transform.position = Vector3.Lerp(startPos, targetPos, time / duration);
+
+            yield return null;
+        }
+
+        fbCard.SetActive(false);
+      
+
+
+
+    }
+    private IEnumerator FbShoot()
+    {
+        yield return new WaitForSeconds(cooldown);
+        canFbShot = true;
+    }
 
 
 
