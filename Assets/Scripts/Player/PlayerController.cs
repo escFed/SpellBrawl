@@ -2,13 +2,18 @@ using System.Collections;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
     [Header("Throw Point")]
     [SerializeField] public Transform throwPoint;
- 
+
+
+    [Header("StarThrow")]
+    [SerializeField] GameObject sThPrefab;
+    [SerializeField] public Transform starThrowPoint;
 
     [Header("FireBall")]
     [SerializeField] GameObject fbPrefab;
@@ -18,6 +23,20 @@ public class PlayerController : MonoBehaviour
     private bool canFbShot = true;
     private int maxFbShoots = 3;
     private int currentFbShoots;
+
+
+    [Header("ThunderStrike")]
+
+    [SerializeField] GameObject tsPrefab;
+    [SerializeField] GameObject tsCard;
+    [SerializeField] ThunderStrikeScript tsScript;
+    //[SerializeField] public Transform thunderPoint;
+    [SerializeField] private float cooldown2;
+    [SerializeField] private float currentThunderTime;
+    private bool canThunder = true;
+    private Coroutine thunderCoroutine;
+    
+    
     
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 7f;
@@ -29,14 +48,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundCheckRadius = 0.2f;
 
 
+
+    [Header("AI")]
+    [SerializeField] private GameObject e;
+
     [Header("Input Responsible")]
     [SerializeField] GameObject hitBox;
     [SerializeField] Coroutine coroutine;
 
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private InputSystem_Actions inputActions;
     private Vector2 moveInput;
     private bool isGrounded;
+
 
     private void Awake()
     {
@@ -52,8 +76,8 @@ public class PlayerController : MonoBehaviour
     {
         inputActions.Player.Jump.performed += OnJump;
         inputActions.Player.Fire.performed += OnFire;
-      
-
+        inputActions.Player.Thunder.performed += OnThunder;
+        inputActions.Player.StarThrow.performed += OnStarThrow;
         currentFbShoots = maxFbShoots;
 
     }
@@ -62,6 +86,8 @@ public class PlayerController : MonoBehaviour
     {
         inputActions.Player.Jump.performed -= OnJump;
         inputActions.Player.Fire.performed -= OnFire;
+        inputActions.Player.Thunder.performed -= OnThunder;
+        inputActions.Player.StarThrow.performed -= OnStarThrow;
       
         
     }
@@ -139,8 +165,59 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(FbShoot());
         
     }
+    private void OnStarThrow(InputAction.CallbackContext ctx)
+    {
+        
+
+        // Distancia mínima y máxima
+        float minDistance = 0f;
+        float maxDistance = 20f;
+
+        EnemyController enemy = e.GetComponent<EnemyController>();
+        if (enemy == null) return;
+
+        Vector2 direction = (enemy.transform.position - starThrowPoint.position).normalized;
+        float distanceToEnemy = Vector2.Distance(starThrowPoint.position, enemy.transform.position);
+        
 
 
+
+
+        Debug.DrawLine(starThrowPoint.position, starThrowPoint.position + (Vector3)direction * maxDistance, Color.red);
+
+        if (distanceToEnemy >= minDistance && distanceToEnemy <= maxDistance)
+        {
+
+            // Raycast desde el punto de disparo
+            RaycastHit2D hit = Physics2D.Raycast(starThrowPoint.position, direction, maxDistance);
+            Vector2 preciseDirection;
+          
+
+                if(hit.collider != null && hit.collider.CompareTag("AICharacter")) 
+            {
+
+                preciseDirection = (hit.point - (Vector2)starThrowPoint.position).normalized;
+
+
+
+            }
+
+            else
+            {
+                preciseDirection = direction;
+            }
+
+            GameObject star = Instantiate(sThPrefab, starThrowPoint.position, Quaternion.identity);
+
+            star.GetComponent<StarThrowScript>().Init(preciseDirection);
+                    
+            
+          
+        }
+
+
+        
+    }
 
     private IEnumerator CardDeactivated()
     {
@@ -172,6 +249,79 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    private void OnThunder(InputAction.CallbackContext ctx)
+    {
+      
+
+        
+        if (tsCard.activeSelf)
+        {
+            StartCoroutine(ThunderAnimation());
+        }
+
+        if(thunderCoroutine  != null)
+        {
+            StopCoroutine(thunderCoroutine);
+        }
+
+        currentThunderTime += Time.deltaTime;
+
+        if (currentThunderTime >= 1f)
+            
+        {
+            canThunder = false;
+            tsCard.SetActive(false);
+        }
+        thunderCoroutine = StartCoroutine(CardDeactivated2());
+
+        StartCoroutine(TsShoot());
+
+        
+    }
+
+    private IEnumerator TsShoot()
+    {
+        yield return new WaitForSeconds(cooldown2);
+        canThunder = true;
+    }
+    public IEnumerator ThunderAnimation()
+    {
+        
+        GameObject th = Instantiate(tsPrefab, throwPoint.position, Quaternion.identity);
+
+        rb.AddForce(new Vector2(0, tsScript.thunderForce), ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(tsScript.timeForNextTwinkle);
+
+        Destroy(th);
+
+      
+
+    }
+
+    private IEnumerator CardDeactivated2()
+    {
+        float time = 0f;
+        float duration = 6f;
+
+        Vector3 startPos = tsCard.transform.position;
+        Vector3 targetPos = startPos + new Vector3(-1f, 3f, 0f);
+
+
+        while (time < duration)
+
+        {
+            time += Time.deltaTime;
+            tsCard.transform.position = Vector3.Lerp(startPos, targetPos, time / duration);
+            yield return null;
+
+        }
+
+        tsCard.SetActive(false);
+    }
+
+
+  
 
 
 }

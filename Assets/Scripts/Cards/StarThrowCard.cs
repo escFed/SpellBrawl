@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class StarThrowCard : MonoBehaviour
+public class StarThrowCard : MonoBehaviour, ICardable
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -12,5 +12,10 @@ public class StarThrowCard : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void ExecuteCard()
+    {
+
     }
 }
