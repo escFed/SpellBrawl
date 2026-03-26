@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public class ThunderStrikeCard : MonoBehaviour
+public class ThunderStrikeCard : MonoBehaviour, ICardable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] GameObject cardPrefab;
 
-    // Update is called once per frame
-    void Update()
+    public void ExecuteCard()
     {
-        
+        PlayerController player = FindAnyObjectByType<PlayerController>();
+        if (player != null)
+        {
+            player.StartCoroutine(player.ThunderAnimation());
+        }
+       
     }
 }

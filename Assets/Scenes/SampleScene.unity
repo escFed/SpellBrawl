@@ -322,9 +322,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   throwPoint: {fileID: 826377178}
+  sThPrefab: {fileID: 7326506664099297154, guid: 009d203ad4b624f40a1ad1de64c2f3c2, type: 3}
+  starThrowPoint: {fileID: 1407524232}
   fbPrefab: {fileID: 1481198611316444041, guid: 93b32ae26f0b2114e86004e79ab97fa2, type: 3}
   fbCard: {fileID: 2021891487}
-  cooldown: 2
+  cooldown: 0.8
+  tsPrefab: {fileID: 1496933799799776180, guid: 594d7bbe86b68d34a9d7d9f5dccef0a8, type: 3}
+  tsCard: {fileID: 921750928}
+  tsScript: {fileID: 7060923586615083162, guid: 594d7bbe86b68d34a9d7d9f5dccef0a8, type: 3}
+  cooldown2: 1.2
+  currentThunderTime: 0
   moveSpeed: 7
   jumpForce: 8
   groundCheck: {fileID: 362211492}
@@ -332,7 +339,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   groundCheckRadius: 0.2
+  e: {fileID: 509258915}
   hitBox: {fileID: 194110073}
+  rb: {fileID: 0}
 --- !u!50 &478567368
 Rigidbody2D:
   serializedVersion: 5
@@ -472,6 +481,8 @@ Transform:
   - {fileID: 362211492}
   - {fileID: 194110074}
   - {fileID: 826377178}
+  - {fileID: 1407524232}
+  - {fileID: 2130020172}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &478567372
@@ -498,6 +509,7 @@ GameObject:
   - component: {fileID: 509258918}
   - component: {fileID: 509258917}
   - component: {fileID: 509258916}
+  - component: {fileID: 509258920}
   m_Layer: 0
   m_Name: AI
   m_TagString: AICharacter
@@ -643,6 +655,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &509258920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509258915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecfa5663b8e53834c864a396eb803420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyController
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,7 +1004,7 @@ Transform:
   m_GameObject: {fileID: 826377177}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.53, y: 0, z: 0}
+  m_LocalPosition: {x: 1.4, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1272,6 +1296,7 @@ GameObject:
   m_Component:
   - component: {fileID: 921750930}
   - component: {fileID: 921750929}
+  - component: {fileID: 921750931}
   m_Layer: 0
   m_Name: Card (1)
   m_TagString: Untagged
@@ -1353,6 +1378,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &921750931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921750928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f563b5182b57ec345b83c96dac941679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ThunderStrikeCard
+  cardPrefab: {fileID: 921750928}
 --- !u!1 &1246827356
 GameObject:
   m_ObjectHideFlags: 0
@@ -1444,6 +1482,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.7377243, y: 18.090832}
   m_EdgeRadius: 0
+--- !u!1 &1407524231
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1407524232}
+  m_Layer: 0
+  m_Name: StarThrowPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1407524232
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407524231}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.4, y: -0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 478567371}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1548352975
 GameObject:
   m_ObjectHideFlags: 0
@@ -1687,6 +1756,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FireBallCard
   cardPrefab: {fileID: 2021891487}
+--- !u!1 &2130020171
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2130020172}
+  m_Layer: 0
+  m_Name: ThunderPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2130020172
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130020171}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.2, y: -1.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 478567371}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
