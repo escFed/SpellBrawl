@@ -5,6 +5,9 @@ public class FireBallCard : MonoBehaviour, ICardable
 {
     [SerializeField] GameObject cardPrefab;
 
+
+
+  
     public void ExecuteCard()
     {
         PlayerController player = FindAnyObjectByType<PlayerController>();

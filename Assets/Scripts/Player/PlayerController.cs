@@ -35,9 +35,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float currentThunderTime;
     private bool canThunder = true;
     private Coroutine thunderCoroutine;
-    
-    
-    
+
+
+
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float jumpForce = 12f;
@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        
+
         rb = GetComponent<Rigidbody2D>();
         inputActions = new InputSystem_Actions();
     }
@@ -88,8 +88,8 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.Fire.performed -= OnFire;
         inputActions.Player.Thunder.performed -= OnThunder;
         inputActions.Player.StarThrow.performed -= OnStarThrow;
-      
-        
+
+
     }
 
     private void Update()
@@ -102,11 +102,11 @@ public class PlayerController : MonoBehaviour
             groundLayer
         );
 
-        
-       
 
-   
-         
+
+
+
+
     }
 
     private void FixedUpdate()
@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = new Vector2(moveInput.x * moveSpeed, rb.linearVelocity.y);
     }
 
- 
+
     private void OnJump(InputAction.CallbackContext ctx)
     {
         if (isGrounded)
@@ -134,8 +134,8 @@ public class PlayerController : MonoBehaviour
     private void OnFire(InputAction.CallbackContext ctx)
     {
         if (!fbCard.activeSelf) return;
-        if(!canFbShot) return;
-        if(currentFbShoots <= 0) return; 
+        if (!canFbShot) return;
+        if (currentFbShoots <= 0) return;
 
         canFbShot = false;
 
@@ -144,30 +144,34 @@ public class PlayerController : MonoBehaviour
         Vector2 direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
 
         fireball.GetComponent<FireBallScript>().Init(direction);
-      
+
 
         currentFbShoots--;
 
-        if(fbCoroutine != null)
+        if (currentFbShoots > 0)
         {
-            StopCoroutine(fbCoroutine);
+            canFbShot = true;
         }
 
-        if(currentFbShoots <= 0)
+        else
         {
-            canFbShot = false;
+
             fbCard.SetActive(false);
+
+            if (fbCoroutine != null)
+            {
+                StopCoroutine(fbCoroutine);
+            }
+
+
+            fbCoroutine = StartCoroutine(CardDeactivated());
         }
-
-
-        fbCoroutine = StartCoroutine(CardDeactivated());
-
         StartCoroutine(FbShoot());
-        
+
     }
     private void OnStarThrow(InputAction.CallbackContext ctx)
     {
-        
+
 
         // Distancia mínima y máxima
         float minDistance = 0f;
@@ -178,7 +182,7 @@ public class PlayerController : MonoBehaviour
 
         Vector2 direction = (enemy.transform.position - starThrowPoint.position).normalized;
         float distanceToEnemy = Vector2.Distance(starThrowPoint.position, enemy.transform.position);
-        
+
 
 
 
@@ -191,9 +195,9 @@ public class PlayerController : MonoBehaviour
             // Raycast desde el punto de disparo
             RaycastHit2D hit = Physics2D.Raycast(starThrowPoint.position, direction, maxDistance);
             Vector2 preciseDirection;
-          
 
-                if(hit.collider != null && hit.collider.CompareTag("AICharacter")) 
+
+            if (hit.collider != null && hit.collider.CompareTag("AICharacter"))
             {
 
                 preciseDirection = (hit.point - (Vector2)starThrowPoint.position).normalized;
@@ -210,38 +214,44 @@ public class PlayerController : MonoBehaviour
             GameObject star = Instantiate(sThPrefab, starThrowPoint.position, Quaternion.identity);
 
             star.GetComponent<StarThrowScript>().Init(preciseDirection);
-                    
-            
-          
+
+
+
         }
 
 
-        
+
     }
 
     private IEnumerator CardDeactivated()
     {
-        float time = 0f;
-        float duration = 6f;
 
-        Vector3 startPos = fbCard.transform.position;
-        Vector3 targetPos = startPos + new Vector3(-1f, 3f, 0f);
+        float culldown = 6f;
+        SpriteRenderer cardRenderer = fbCard.GetComponent<SpriteRenderer>();
 
-        while (time < duration)
-        {
-            time += Time.deltaTime;
-
-            fbCard.transform.position = Vector3.Lerp(startPos, targetPos, time / duration);
-
-            yield return null;
-        }
-
+        canFbShot = false;
         fbCard.SetActive(false);
-      
+
+        yield return new WaitForSeconds(culldown);
+
+        canFbShot = true;
+        fbCard.SetActive(true);
+
+        cardRenderer.color = Color.white;
+
+        currentFbShoots = 3;
 
 
 
     }
+
+
+       
+
+        
+
+
+    
     private IEnumerator FbShoot()
     {
         yield return new WaitForSeconds(cooldown);
@@ -251,33 +261,22 @@ public class PlayerController : MonoBehaviour
 
     private void OnThunder(InputAction.CallbackContext ctx)
     {
-      
-
-        
-        if (tsCard.activeSelf)
+        // Solo permitir si la carta está activa y se puede usar
+        if (tsCard.activeSelf && canThunder)
         {
             StartCoroutine(ThunderAnimation());
+            StartCoroutine(TsShoot());
+
+            // Iniciar cooldown
+            if (thunderCoroutine != null)
+            {
+                StopCoroutine(thunderCoroutine);
+            }
+            thunderCoroutine = StartCoroutine(CardDeactivated2());
         }
-
-        if(thunderCoroutine  != null)
-        {
-            StopCoroutine(thunderCoroutine);
-        }
-
-        currentThunderTime += Time.deltaTime;
-
-        if (currentThunderTime >= 1f)
-            
-        {
-            canThunder = false;
-            tsCard.SetActive(false);
-        }
-        thunderCoroutine = StartCoroutine(CardDeactivated2());
-
-        StartCoroutine(TsShoot());
-
-        
     }
+
+
 
     private IEnumerator TsShoot()
     {
@@ -299,25 +298,29 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private IEnumerator CardDeactivated2()
+   
+       private IEnumerator CardDeactivated2()
     {
-        float time = 0f;
-        float duration = 6f;
+      
+        float cooldown = 8f;
+        SpriteRenderer cardRenderer = tsCard.GetComponent<SpriteRenderer>();
 
-        Vector3 startPos = tsCard.transform.position;
-        Vector3 targetPos = startPos + new Vector3(-1f, 3f, 0f);
-
-
-        while (time < duration)
-
-        {
-            time += Time.deltaTime;
-            tsCard.transform.position = Vector3.Lerp(startPos, targetPos, time / duration);
-            yield return null;
-
-        }
-
+        canThunder = false;
         tsCard.SetActive(false);
+        cardRenderer.color = Color.blue;
+        
+
+
+        yield return new WaitForSeconds(cooldown);
+        
+
+        // Al terminar el cooldown, restaurar estado
+
+        canThunder = true;
+        tsCard.SetActive(true);
+
+
+        cardRenderer.color = Color.white;
     }
 
 
