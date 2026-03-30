@@ -1,8 +1,13 @@
+<<<<<<< Updated upstream
 using System.Collections;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
+=======
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
+>>>>>>> Stashed changes
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -42,12 +47,27 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float jumpForce = 12f;
 
+    [Header("Cards")]
+    [SerializeField] private GameObject slotCard;
+    [SerializeField] private GameObject slotCard1;
+
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckRadius = 0.2f;
 
 
+<<<<<<< Updated upstream
+=======
+    public IdleState IdleState { get; private set; }
+    public MoveState MoveState { get; private set; }
+    public JumpState JumpState { get; private set; }
+    public JabState JabState { get; private set; }
+    public ForwardTiltState ForwardTiltState { get; private set; }
+    public UpTiltState UpTiltState { get; private set; }
+    public CardState CardState { get; private set; }
+    public DieState DieState { get; private set; }
+>>>>>>> Stashed changes
 
     [Header("AI")]
     [SerializeField] private GameObject e;
@@ -61,6 +81,11 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private bool isGrounded;
 
+<<<<<<< Updated upstream
+=======
+    public float stunTimer;
+    public Transform throwPoint;
+>>>>>>> Stashed changes
 
     private void Awake()
     {
@@ -69,6 +94,7 @@ public class PlayerController : MonoBehaviour
         inputActions = new InputSystem_Actions();
     }
 
+<<<<<<< Updated upstream
     private void OnEnable() => inputActions.Player.Enable();
     private void OnDisable() => inputActions.Player.Disable();
 
@@ -90,6 +116,31 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.StarThrow.performed -= OnStarThrow;
       
         
+=======
+    private void Start()
+    {
+        stateMachine.Initialize(IdleState);
+
+        PlayerInput playerInput = GetComponent<PlayerInput>();
+        int playerIndex = playerInput != null ? playerInput.playerIndex : 0;
+
+        FireBallCard fireCard = slotCard.GetComponent<FireBallCard>();
+        ThunderStrikeCard thunderCard = slotCard1.GetComponent<ThunderStrikeCard>();
+
+        if (CardUIManager.Instance != null)
+        {
+            if (playerIndex == 0)
+            {
+                if (fireCard != null) fireCard.SetUI(CardUIManager.Instance.p1_fireCard);
+                if (thunderCard != null) thunderCard.SetUI(CardUIManager.Instance.p1_thunderCard);
+            }
+            else if (playerIndex == 1)
+            {
+                if (fireCard != null) fireCard.SetUI(CardUIManager.Instance.p2_fireCard);
+                if (thunderCard != null) thunderCard.SetUI(CardUIManager.Instance.p2_thunderCard);
+            }
+        }
+>>>>>>> Stashed changes
     }
 
     private void Update()
@@ -102,11 +153,27 @@ public class PlayerController : MonoBehaviour
             groundLayer
         );
 
+<<<<<<< Updated upstream
         
        
 
    
          
+=======
+        if (inputManager.HasBufferedFire)
+        {
+            TryUseCard(1);
+            inputManager.ConsumeFire();
+        }
+
+        if (inputManager.HasBufferedThunder)
+        {
+            TryUseCard(2);
+            inputManager.ConsumeThunder();
+        }
+
+        stateMachine.Update();
+>>>>>>> Stashed changes
     }
 
     private void FixedUpdate()
@@ -123,7 +190,31 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+<<<<<<< Updated upstream
     private void OnDrawGizmosSelected()
+=======
+    public void TryUseCard(int slotIndex)
+    {
+
+        if (stateMachine.CurrentState != IdleState && stateMachine.CurrentState != MoveState)
+            return;
+
+        ICardable cardToUse = null;
+
+        if (slotIndex == 1 && slotCard != null)
+            cardToUse = slotCard.GetComponent<ICardable>();
+        else if (slotIndex == 2 && slotCard1 != null)
+            cardToUse = slotCard1.GetComponent<ICardable>();
+
+        if (cardToUse != null)
+        {
+            CardState.SetCard(cardToUse, 0.5f);
+            stateMachine.ChangeState(CardState);
+        }
+    }
+
+    public IState ResolveAttackState()
+>>>>>>> Stashed changes
     {
         if (groundCheck == null) return;
         Gizmos.color = Color.green;
@@ -242,6 +333,7 @@ public class PlayerController : MonoBehaviour
 
 
     }
+<<<<<<< Updated upstream
     private IEnumerator FbShoot()
     {
         yield return new WaitForSeconds(cooldown);
@@ -325,3 +417,7 @@ public class PlayerController : MonoBehaviour
 
 
 }
+=======
+
+}
+>>>>>>> Stashed changes

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream:Assets/Scripts/Enemy.meta
 guid: 4f607008453aa2643a5e5f0b25ba9b70
+=======
+guid: df859566409510d439043098d401ef18
+>>>>>>> Stashed changes:Assets/Scripts/Cards/Thunder.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

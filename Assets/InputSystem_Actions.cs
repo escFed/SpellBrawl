@@ -176,7 +176,11 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Fire"",
                     ""type"": ""Button"",
+<<<<<<< Updated upstream
                     ""id"": ""65867d11-8889-40f3-9a3f-5e5cbabe9b3a"",
+=======
+                    ""id"": ""3f6464df-f18f-4cca-af3f-5672daff1129"",
+>>>>>>> Stashed changes
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -185,6 +189,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Thunder"",
                     ""type"": ""Button"",
+<<<<<<< Updated upstream
                     ""id"": ""5daf8a3d-f806-40ee-bf5a-d337463d9603"",
                     ""expectedControlType"": """",
                     ""processors"": """",
@@ -195,6 +200,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Star Throw"",
                     ""type"": ""Button"",
                     ""id"": ""337dcad6-7918-4905-89e3-c6dca6b4460c"",
+=======
+                    ""id"": ""aa3e6af8-834b-47a1-9aab-64bc0be7131d"",
+>>>>>>> Stashed changes
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -589,8 +597,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+<<<<<<< Updated upstream
                     ""id"": ""3f0a6e4d-b55e-4b41-8e78-763be1ed751c"",
                     ""path"": ""<Keyboard>/numpad1"",
+=======
+                    ""id"": ""08f9294d-4a4e-4a04-aca7-409e4e1fac38"",
+                    ""path"": ""<Keyboard>/u"",
+>>>>>>> Stashed changes
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -600,23 +613,51 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+<<<<<<< Updated upstream
                     ""id"": ""2969926e-8a82-4099-8f47-6b64ed75febb"",
                     ""path"": ""<Keyboard>/numpad2"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
+=======
+                    ""id"": ""532dbd31-75e9-482c-b6ad-263d7d66f200"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4098482-d041-4aa9-856f-9097919a6909"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+>>>>>>> Stashed changes
                     ""action"": ""Thunder"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
+<<<<<<< Updated upstream
                     ""id"": ""3e27585f-ffaf-4aa7-84c1-136555ae5d98"",
                     ""path"": ""<Keyboard>/numpad3"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Star Throw"",
+=======
+                    ""id"": ""de1180d5-2945-47b8-a50d-e7d614ca73a9"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Thunder"",
+>>>>>>> Stashed changes
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1215,7 +1256,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Thunder = m_Player.FindAction("Thunder", throwIfNotFound: true);
+<<<<<<< Updated upstream
         m_Player_StarThrow = m_Player.FindAction("Star Throw", throwIfNotFound: true);
+=======
+>>>>>>> Stashed changes
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1320,7 +1364,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Thunder;
+<<<<<<< Updated upstream
     private readonly InputAction m_Player_StarThrow;
+=======
+>>>>>>> Stashed changes
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1376,10 +1423,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Thunder".
         /// </summary>
         public InputAction @Thunder => m_Wrapper.m_Player_Thunder;
+<<<<<<< Updated upstream
         /// <summary>
         /// Provides access to the underlying input action "Player/StarThrow".
         /// </summary>
         public InputAction @StarThrow => m_Wrapper.m_Player_StarThrow;
+=======
+>>>>>>> Stashed changes
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1439,9 +1489,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Thunder.started += instance.OnThunder;
             @Thunder.performed += instance.OnThunder;
             @Thunder.canceled += instance.OnThunder;
+<<<<<<< Updated upstream
             @StarThrow.started += instance.OnStarThrow;
             @StarThrow.performed += instance.OnStarThrow;
             @StarThrow.canceled += instance.OnStarThrow;
+=======
+>>>>>>> Stashed changes
         }
 
         /// <summary>
@@ -1486,9 +1539,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Thunder.started -= instance.OnThunder;
             @Thunder.performed -= instance.OnThunder;
             @Thunder.canceled -= instance.OnThunder;
+<<<<<<< Updated upstream
             @StarThrow.started -= instance.OnStarThrow;
             @StarThrow.performed -= instance.OnStarThrow;
             @StarThrow.canceled -= instance.OnStarThrow;
+=======
+>>>>>>> Stashed changes
         }
 
         /// <summary>
@@ -1866,6 +1922,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnThunder(InputAction.CallbackContext context);
+<<<<<<< Updated upstream
         /// <summary>
         /// Method invoked when associated input action "Star Throw" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -1873,6 +1930,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnStarThrow(InputAction.CallbackContext context);
+=======
+>>>>>>> Stashed changes
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
