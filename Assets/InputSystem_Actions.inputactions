@@ -28,7 +28,7 @@
                     "name": "Attack",
                     "type": "Button",
                     "id": "6c2ab1b8-8984-453a-af3d-a3c78ae1679a",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -37,7 +37,7 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "852140f2-7766-474d-8707-702459ba45f3",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "Hold",
                     "initialStateCheck": false
@@ -90,11 +90,7 @@
                 {
                     "name": "Fire",
                     "type": "Button",
-<<<<<<< Updated upstream
-                    "id": "65867d11-8889-40f3-9a3f-5e5cbabe9b3a",
-=======
                     "id": "3f6464df-f18f-4cca-af3f-5672daff1129",
->>>>>>> Stashed changes
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -103,20 +99,7 @@
                 {
                     "name": "Thunder",
                     "type": "Button",
-<<<<<<< Updated upstream
-                    "id": "5daf8a3d-f806-40ee-bf5a-d337463d9603",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Star Throw",
-                    "type": "Button",
-                    "id": "337dcad6-7918-4905-89e3-c6dca6b4460c",
-=======
                     "id": "aa3e6af8-834b-47a1-9aab-64bc0be7131d",
->>>>>>> Stashed changes
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -347,7 +330,7 @@
                 {
                     "name": "",
                     "id": "b3c1c7f0-bd20-4ee7-a0f1-899b24bca6d7",
-                    "path": "<Keyboard>/enter",
+                    "path": "<Keyboard>/k",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -511,13 +494,8 @@
                 },
                 {
                     "name": "",
-<<<<<<< Updated upstream
-                    "id": "3f0a6e4d-b55e-4b41-8e78-763be1ed751c",
-                    "path": "<Keyboard>/numpad1",
-=======
                     "id": "08f9294d-4a4e-4a04-aca7-409e4e1fac38",
                     "path": "<Keyboard>/u",
->>>>>>> Stashed changes
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -527,13 +505,6 @@
                 },
                 {
                     "name": "",
-<<<<<<< Updated upstream
-                    "id": "2969926e-8a82-4099-8f47-6b64ed75febb",
-                    "path": "<Keyboard>/numpad2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-=======
                     "id": "532dbd31-75e9-482c-b6ad-263d7d66f200",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
@@ -550,28 +521,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
->>>>>>> Stashed changes
                     "action": "Thunder",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-<<<<<<< Updated upstream
-                    "id": "3e27585f-ffaf-4aa7-84c1-136555ae5d98",
-                    "path": "<Keyboard>/numpad3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Star Throw",
-=======
                     "id": "de1180d5-2945-47b8-a50d-e7d614ca73a9",
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Thunder",
->>>>>>> Stashed changes
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
