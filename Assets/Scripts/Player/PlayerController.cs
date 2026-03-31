@@ -1,12 +1,16 @@
+<<<<<<< HEAD
 using System.Collections;
 using System;
 using UnityEngine;
+=======
+﻿using UnityEngine;
+>>>>>>> 855693010ecf53b22095f371a3c3956132426006
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
+<<<<<<< HEAD
     [Header("Throw Point")]
     [SerializeField] public Transform throwPoint;
 
@@ -41,12 +45,21 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float jumpForce = 12f;
+=======
+    [Header("Stats")]
+    [SerializeField] private PlayerStats stats;
+
+    [Header("Cards")]
+    [SerializeField] private GameObject slotCard;
+    [SerializeField] private GameObject slotCard1;
+>>>>>>> 855693010ecf53b22095f371a3c3956132426006
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckRadius = 0.2f;
 
+<<<<<<< HEAD
 
 
     [Header("AI")]
@@ -60,20 +73,56 @@ public class PlayerController : MonoBehaviour
     private InputSystem_Actions inputActions;
     private Vector2 moveInput;
     private bool isGrounded;
+=======
+    private FightingInputManager inputManager;
+    private Rigidbody2D rb;
+    private StateMachine stateMachine;
+    private PlayerHitBox HitBox;
+
+    public IdleState IdleState { get; private set; }
+    public MoveState MoveState { get; private set; }
+    public JumpState JumpState { get; private set; }
+    public JabState JabState { get; private set; }
+    public ForwardTiltState ForwardTiltState { get; private set; }
+    public UpTiltState UpTiltState { get; private set; }
+    public CardState CardState { get; private set; }
+    public DieState DieState { get; private set; }
+
+    public Vector2 MoveInput => inputManager.CurrentDirection;
+    public bool JumpPressed => inputManager.HasBufferedJump;
+    public bool AttackInput => inputManager.HasBufferedAttack;
+    public bool IsGrounded { get; private set; }
+    public bool IsDead { get; private set; }
+
+    public float stunTimer;
+    public Transform throwPoint;
+>>>>>>> 855693010ecf53b22095f371a3c3956132426006
 
 
     private void Awake()
     {
+<<<<<<< HEAD
         
+=======
+        inputManager = GetComponent<FightingInputManager>();
+        HitBox = GetComponent<PlayerHitBox>();
+>>>>>>> 855693010ecf53b22095f371a3c3956132426006
         rb = GetComponent<Rigidbody2D>();
-        inputActions = new InputSystem_Actions();
-    }
 
-    private void OnEnable() => inputActions.Player.Enable();
-    private void OnDisable() => inputActions.Player.Disable();
+        stateMachine = new StateMachine();
+        IdleState = new IdleState(this, stateMachine);
+        MoveState = new MoveState(this, stateMachine);
+        JumpState = new JumpState(this, stateMachine);
+        JabState = new JabState(this, stateMachine);
+        ForwardTiltState = new ForwardTiltState(this, stateMachine);
+        UpTiltState = new UpTiltState(this, stateMachine);
+        DieState = new DieState(this, stateMachine);
+        CardState = new CardState(this, stateMachine);
+    }
 
     private void Start()
     {
+<<<<<<< HEAD
         inputActions.Player.Jump.performed += OnJump;
         inputActions.Player.Fire.performed += OnFire;
         inputActions.Player.Thunder.performed += OnThunder;
@@ -90,12 +139,37 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.StarThrow.performed -= OnStarThrow;
       
         
+=======
+        stateMachine.Initialize(IdleState);
+
+        PlayerInput playerInput = GetComponent<PlayerInput>();
+        int playerIndex = playerInput != null ? playerInput.playerIndex : 0;
+
+        FireBallCard fireCard = slotCard.GetComponent<FireBallCard>();
+        ThunderStrikeCard thunderCard = slotCard1.GetComponent<ThunderStrikeCard>();
+
+        if (CardUIManager.Instance != null)
+        {
+            if (playerIndex == 0)
+            {
+                if (fireCard != null) fireCard.SetUI(CardUIManager.Instance.p1_fireCard);
+                if (thunderCard != null) thunderCard.SetUI(CardUIManager.Instance.p1_thunderCard);
+            }
+            else if (playerIndex == 1)
+            {
+                if (fireCard != null) fireCard.SetUI(CardUIManager.Instance.p2_fireCard);
+                if (thunderCard != null) thunderCard.SetUI(CardUIManager.Instance.p2_thunderCard);
+            }
+        }
+>>>>>>> 855693010ecf53b22095f371a3c3956132426006
     }
 
     private void Update()
     {
-        moveInput = inputActions.Player.Move.ReadValue<Vector2>();
+        if (IsDead) return;
+        IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
+<<<<<<< HEAD
         isGrounded = Physics2D.OverlapCircle(
             groundCheck.position,
             groundCheckRadius,
@@ -107,29 +181,83 @@ public class PlayerController : MonoBehaviour
 
    
          
+=======
+        if (stunTimer > 0)
+        {
+            stunTimer -= Time.deltaTime;
+            return;
+        }
+
+        if (inputManager.HasBufferedFire)
+        {
+            TryUseCard(1);
+            inputManager.ConsumeFire();
+        }
+
+        if (inputManager.HasBufferedThunder)
+        {
+            TryUseCard(2);
+            inputManager.ConsumeThunder();
+        }
+
+        stateMachine.Update();
+>>>>>>> 855693010ecf53b22095f371a3c3956132426006
     }
 
     private void FixedUpdate()
     {
-        rb.linearVelocity = new Vector2(moveInput.x * moveSpeed, rb.linearVelocity.y);
+        if (IsDead) return;
+        if (stunTimer > 0) return;
+
+        stateMachine.FixedUpdate();
     }
 
+<<<<<<< HEAD
  
     private void OnJump(InputAction.CallbackContext ctx)
+=======
+    public void TakeHit(float stunDuration)
+>>>>>>> 855693010ecf53b22095f371a3c3956132426006
     {
-        if (isGrounded)
+        stunTimer = stunDuration;
+        inputManager.ClearAllInputs();
+        stateMachine.ChangeState(IdleState);
+    }
+
+    public void TryUseCard(int slotIndex)
+    {
+
+        if (stateMachine.CurrentState != IdleState && stateMachine.CurrentState != MoveState)
+            return;
+
+        ICardable cardToUse = null;
+
+        if (slotIndex == 1 && slotCard != null)
+            cardToUse = slotCard.GetComponent<ICardable>();
+        else if (slotIndex == 2 && slotCard1 != null)
+            cardToUse = slotCard1.GetComponent<ICardable>();
+
+        if (cardToUse != null)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            CardState.SetCard(cardToUse, 0.5f);
+            stateMachine.ChangeState(CardState);
         }
     }
 
-    private void OnDrawGizmosSelected()
+    public IState ResolveAttackState()
     {
-        if (groundCheck == null) return;
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        Vector2 dir = inputManager.CurrentDirection;
+        bool hasHorizontal = Mathf.Abs(dir.x) >= stats.tiltThreshold;
+        bool hasUp = dir.y >= stats.tiltThreshold;
+
+        inputManager.ConsumeAttack();
+
+        if (hasUp && (!hasHorizontal || dir.y >= Mathf.Abs(dir.x))) return UpTiltState;
+        if (hasHorizontal) return ForwardTiltState;
+        return JabState;
     }
 
+<<<<<<< HEAD
 
     private void OnFire(InputAction.CallbackContext ctx)
     {
@@ -325,3 +453,42 @@ public class PlayerController : MonoBehaviour
 
 
 }
+=======
+    public void ConsumeJump() => inputManager.ConsumeJump();
+
+    public void ApplyHorizontalMovement()
+    {
+        rb.linearVelocity = new Vector2(MoveInput.x * stats.moveSpeed, rb.linearVelocity.y);
+
+        HitBox.CheckAndFlip(MoveInput.x);
+    }
+
+    public void StopHorizontalMovement() => rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+
+    public void ApplyJumpForce() => rb.linearVelocity = new Vector2(rb.linearVelocity.x, stats.jumpForce);
+
+    public void OpenJabHitbox() => HitBox.SetJabHitbox(true);
+    public void CloseJabHitbox() => HitBox.SetJabHitbox(false);
+    public void OpenFTiltHitbox() => HitBox.SetFTiltHitbox(true);
+    public void CloseFTiltHitbox() => HitBox.SetFTiltHitbox(false);
+    public void OpenUTiltHitbox() => HitBox.SetUTiltHitbox(true);
+    public void CloseUTiltHitbox() => HitBox.SetUTiltHitbox(false);
+
+    public void OnDeath()
+    {
+        IsDead = true;
+        rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Static;
+    }
+
+    public void Respawn(Vector3 position)
+    {
+        IsDead = false;
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        transform.position = position;
+        inputManager.ClearAllInputs();
+        stateMachine.ChangeState(IdleState);
+    }
+
+}
+>>>>>>> 855693010ecf53b22095f371a3c3956132426006

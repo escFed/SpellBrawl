@@ -37,7 +37,7 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "852140f2-7766-474d-8707-702459ba45f3",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "Hold",
                     "initialStateCheck": false
@@ -90,7 +90,11 @@
                 {
                     "name": "Fire",
                     "type": "Button",
+<<<<<<< HEAD
                     "id": "65867d11-8889-40f3-9a3f-5e5cbabe9b3a",
+=======
+                    "id": "3f6464df-f18f-4cca-af3f-5672daff1129",
+>>>>>>> 855693010ecf53b22095f371a3c3956132426006
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -99,6 +103,7 @@
                 {
                     "name": "Thunder",
                     "type": "Button",
+<<<<<<< HEAD
                     "id": "5daf8a3d-f806-40ee-bf5a-d337463d9603",
                     "expectedControlType": "",
                     "processors": "",
@@ -109,6 +114,9 @@
                     "name": "Star Throw",
                     "type": "Button",
                     "id": "337dcad6-7918-4905-89e3-c6dca6b4460c",
+=======
+                    "id": "aa3e6af8-834b-47a1-9aab-64bc0be7131d",
+>>>>>>> 855693010ecf53b22095f371a3c3956132426006
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -339,7 +347,7 @@
                 {
                     "name": "",
                     "id": "b3c1c7f0-bd20-4ee7-a0f1-899b24bca6d7",
-                    "path": "<Keyboard>/enter",
+                    "path": "<Keyboard>/k",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -503,8 +511,13 @@
                 },
                 {
                     "name": "",
+<<<<<<< HEAD
                     "id": "3f0a6e4d-b55e-4b41-8e78-763be1ed751c",
                     "path": "<Keyboard>/numpad1",
+=======
+                    "id": "08f9294d-4a4e-4a04-aca7-409e4e1fac38",
+                    "path": "<Keyboard>/u",
+>>>>>>> 855693010ecf53b22095f371a3c3956132426006
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -514,8 +527,24 @@
                 },
                 {
                     "name": "",
+<<<<<<< HEAD
                     "id": "2969926e-8a82-4099-8f47-6b64ed75febb",
                     "path": "<Keyboard>/numpad2",
+=======
+                    "id": "532dbd31-75e9-482c-b6ad-263d7d66f200",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e4098482-d041-4aa9-856f-9097919a6909",
+                    "path": "<Keyboard>/i",
+>>>>>>> 855693010ecf53b22095f371a3c3956132426006
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -525,12 +554,21 @@
                 },
                 {
                     "name": "",
+<<<<<<< HEAD
                     "id": "3e27585f-ffaf-4aa7-84c1-136555ae5d98",
                     "path": "<Keyboard>/numpad3",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Star Throw",
+=======
+                    "id": "de1180d5-2945-47b8-a50d-e7d614ca73a9",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Thunder",
+>>>>>>> 855693010ecf53b22095f371a3c3956132426006
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

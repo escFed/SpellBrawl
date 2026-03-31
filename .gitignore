@@ -1,19 +1,22 @@
-# Carpetas estándar de Unity que no deben versionarse
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
 [Bb]uild/
 [Bb]uilds/
 [Ll]ogs/
-[Mm]emoryCaptures/
+UserSettings/
 
-# Archivos de configuración locales
 *.csproj
+*.unityproj
 *.sln
+*.suo
+*.tmp
 *.user
-*.vsconfig
+*.userprefs
+*.pidb
+*.booproj
+*.svd
 
-# Ignorar carpetas externas que no son parte de SpellBrawl
-DictionaryStoreEDD_PedroZampella/
-ejercicioEDD_PedroZampella/
-StrikeBall/
+.DS_Store
+.vscode/
+.idea/

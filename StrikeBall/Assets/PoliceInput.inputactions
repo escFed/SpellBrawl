@@ -1,0 +1,99 @@
+{
+    "version": 1,
+    "name": "PoliceInput",
+    "maps": [
+        {
+            "name": "Police",
+            "id": "24b28d23-9a19-4f52-8e4b-d2038f495128",
+            "actions": [
+                {
+                    "name": "MoveKeyBoard",
+                    "type": "Value",
+                    "id": "cbc13d66-6b76-457d-8738-7169ea3985a1",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MovePhone",
+                    "type": "Value",
+                    "id": "a1fd4c65-c4c9-458d-a640-087de0851f6a",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "3D Vector",
+                    "id": "6cd47a99-df61-45a3-9f56-754298af2207",
+                    "path": "3DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveKeyBoard",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "left",
+                    "id": "46cdb802-42d8-4893-b693-e6d93155e6dc",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveKeyBoard",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "01e1dd83-15fd-4ca6-b2b3-262322e78472",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveKeyBoard",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "3D Vector",
+                    "id": "4f3d8011-416d-45e6-abcf-1cd8c75854d7",
+                    "path": "3DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MovePhone",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "left",
+                    "id": "a6beac1c-4b49-4054-881d-3ba3d6d05ad3",
+                    "path": "<Gamepad>/leftStick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MovePhone",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "fdd71cc3-7068-4651-ab77-f0af2257d7c8",
+                    "path": "<AndroidGamepad>/rightStick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MovePhone",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
