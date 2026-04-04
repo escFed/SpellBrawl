@@ -1,4 +1,6 @@
-public interface ICardable
-{
-    void ExecuteCard(PlayerController player);
-}
+
+
+    public interface ICardable
+    {
+        void ExecuteCard(PlayerController player);
+    }

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &649731488060921880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3206283877804094256}
+  m_Layer: 0
+  m_Name: ThrowPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3206283877804094256
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649731488060921880}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.63, y: 0.05, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3262535833314222879}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &761718446458457031
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,131 +217,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
   damage: 10
   knockback: {x: 1, y: 4}
---- !u!1 &2106518977247315121
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2699452329992907090}
-  m_Layer: 7
-  m_Name: ThrowPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2699452329992907090
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2106518977247315121}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3262535833314222879}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2892131114005872698
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4826426936117987855}
-  - component: {fileID: 2026992684673211903}
-  m_Layer: 7
-  m_Name: CardThunder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4826426936117987855
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2892131114005872698}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3262535833314222879}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2026992684673211903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2892131114005872698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a656217eda053c342b5afb142b411ac3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ThunderStrikeCard
-  tsPrefab: {fileID: 7062071539232757206, guid: 36b700d52f911bf42bbad3ddd8180354, type: 3}
-  cooldownTime: 8
---- !u!1 &4027221528132638823
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3749395226855888788}
-  - component: {fileID: 1839299519167605699}
-  m_Layer: 7
-  m_Name: CardFire
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3749395226855888788
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4027221528132638823}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3262535833314222879}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1839299519167605699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4027221528132638823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 507bd2bbadfac014685b32d910d66152, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FireBallCard
-  fbPrefab: {fileID: 2221465273619720722, guid: f0973e9c22a6a32458aa00c1a5d8d237, type: 3}
-  cooldownBetweenShots: 0.5
-  reloadTime: 6
-  maxShoots: 3
 --- !u!1 &6999972211173830063
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,9 +384,7 @@ Transform:
   - {fileID: 2821202163269523307}
   - {fileID: 6799462884248209236}
   - {fileID: 4922200304664278578}
-  - {fileID: 2699452329992907090}
-  - {fileID: 3749395226855888788}
-  - {fileID: 4826426936117987855}
+  - {fileID: 3206283877804094256}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7737548126659744619
@@ -530,7 +434,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 0, g: 1, b: 0.060516834, a: 1}
@@ -619,15 +523,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   stats: {fileID: 11400000, guid: 45949cf4d906ebd4bb7288577cd2a53a, type: 2}
-  slotCard: {fileID: 4027221528132638823}
-  slotCard1: {fileID: 2892131114005872698}
+  slotCard: {fileID: 7924969739144726824, guid: 5ed80acf3578ed44f9db628b3fdcf879, type: 3}
+  slotCard1: {fileID: 3209582764441796673, guid: cc4e80b23e744f04880eecc0e866ba11, type: 3}
+  cardStack: {fileID: 7455876169265100226, guid: 2e7609775e196464b8f5469070cc7c78, type: 3}
   groundCheck: {fileID: 3329483558142694777}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   groundCheckRadius: 0.2
   stunTimer: 0
-  throwPoint: {fileID: 2699452329992907090}
+  throwPoint: {fileID: 3206283877804094256}
 --- !u!114 &2416802196115934665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,6 +548,7 @@ MonoBehaviour:
   attackBufferTime: 0.15
   jumpBufferTime: 0.15
   cardBufferTime: 0.15
+  drawCardBufferTime: 0.15
 --- !u!114 &9208369854405864837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -710,7 +616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: 7e556ffff786283479904062827b5a9c, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -722,7 +628,91 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1ec13843-7fd0-4887-8797-b379c98bd7df
+    m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2416802196115934665}
+        m_TargetAssemblyTypeName: FightingInputManager, Assembly-CSharp
+        m_MethodName: ConsumeJump
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b89da203-d0d5-46a6-aade-a3b14674050b
+    m_ActionName: 'Player/Jump[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 158549324596254434}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f55776ab-5a4e-4e75-b441-ba9d3f3ae4ca
+    m_ActionName: 'Player/Attack[/Keyboard/j]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 158549324596254434}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: TryUseCard
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f076ed67-2e91-439f-aee5-af5b3e0b95ba
+    m_ActionName: 'Player/Fire[/Keyboard/k]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 158549324596254434}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: TryUseCard
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b520cbb6-49f7-4daa-94f3-e0404a0dab3c
+    m_ActionName: 'Player/Thunder[/Keyboard/l]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2416802196115934665}
+        m_TargetAssemblyTypeName: FightingInputManager, Assembly-CSharp
+        m_MethodName: ConsumeDrawCard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b25fdd48-d406-4aa0-a01c-442fa5ae6d0a
+    m_ActionName: 'Player/Draw Card[/Mouse/leftButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

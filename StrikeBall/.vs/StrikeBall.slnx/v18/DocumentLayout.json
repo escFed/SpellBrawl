@@ -3,8 +3,23 @@
   "WorkspaceRootPath": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\StrikeBall\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\strikeball\\assets\\scripts\\playerscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playerscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\StrikeBall\\Assets\\Scripts\\PoliceController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\PoliceController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\strikeball\\assets\\scripts\\zombiecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\zombiecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\strikeball\\assets\\interfaces\\icontrollerable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\interfaces\\icontrollerable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Admin\\Documents\\GitHub\\Strike-Ball\\Assets\\Scripts\\PlayerScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:2:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\StrikeBall\\Assets\\Scripts\\PoliceController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:2:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\PoliceController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,20 +29,71 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "PlayerScript.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\StrikeBall\\Assets\\Scripts\\PlayerScript.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerScript.cs",
-              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\StrikeBall\\Assets\\Scripts\\PlayerScript.cs",
-              "RelativeToolTip": "Assets\\Scripts\\PlayerScript.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAtAAAAAAAAAA==",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\Strike-Ball\\Assets\\Scripts\\PlayerScript.cs",
+              "RelativeDocumentMoniker": "..\\..\\Strike-Ball\\Assets\\Scripts\\PlayerScript.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\Strike-Ball\\Assets\\Scripts\\PlayerScript.cs",
+              "RelativeToolTip": "..\\..\\Strike-Ball\\Assets\\Scripts\\PlayerScript.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAADoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-30T16:14:39.822Z",
+              "WhenOpened": "2026-04-01T21:56:34.954Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ZombieController.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\StrikeBall\\Assets\\Scripts\\ZombieController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\ZombieController.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\StrikeBall\\Assets\\Scripts\\ZombieController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\ZombieController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T16:58:30.741Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IControllerable.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\StrikeBall\\Assets\\Interfaces\\IControllerable.cs",
+              "RelativeDocumentMoniker": "Assets\\Interfaces\\IControllerable.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\StrikeBall\\Assets\\Interfaces\\IControllerable.cs",
+              "RelativeToolTip": "Assets\\Interfaces\\IControllerable.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T16:48:42.604Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PoliceController.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\StrikeBall\\Assets\\Scripts\\PoliceController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\PoliceController.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\StrikeBall\\Assets\\Scripts\\PoliceController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\PoliceController.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAIwBIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T21:51:22.728Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PoliceController.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\StrikeBall\\Assets\\Scripts\\PoliceController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\PoliceController.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\StrikeBall\\Assets\\Scripts\\PoliceController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\PoliceController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T16:58:15.86Z"
             }
           ]
         }

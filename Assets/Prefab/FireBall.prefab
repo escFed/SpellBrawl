@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2569498547290667887}
   - component: {fileID: 4286062266710070844}
   - component: {fileID: 6527858623474978620}
-  - component: {fileID: -3316599501036313283}
   - component: {fileID: 7746853461000442711}
+  - component: {fileID: 4253464464198819236}
   m_Layer: 0
   m_Name: FireBall
   m_TagString: Untagged
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 0.35870996, b: 0, a: 1}
@@ -158,20 +158,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-3316599501036313283
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1481198611316444041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3f40f8829985644d82d641d4828a3df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FireBallScript
-  speed: 30
-  p: {fileID: 0}
 --- !u!114 &7746853461000442711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,3 +210,21 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &4253464464198819236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481198611316444041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56be4e27de19ca34e9554003e83256b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FireProjectile
+  speed: 10
+  damage: 10
+  knockback: {x: 6, y: 2}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0

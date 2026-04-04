@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,6 +46,45 @@ public class Store : MonoBehaviour
             Item i = anItem[itemKey];
             Debug.Log($"Ha adquirido {i.name} por {i.prize}");
 
+        }
+    }
+
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+
+
+            Dictionary<string, int> valueOrder = new Dictionary<string, int>();
+
+            foreach (var lower in anItem)
+            {
+                valueOrder[lower.Key] = lower.Value.prize;
+
+            }
+
+            var l = valueOrder.OrderBy(x => x.Value).First();
+
+            Debug.Log($"El item con menor precio es {l.Key} con un precio que ronda los R${l.Value} ");
+        }
+
+
+
+        if(Input.GetKeyDown(KeyCode.H))
+        {
+            Dictionary<string, int> valueOrder = new Dictionary<string, int>();
+
+
+            foreach(var higher in anItem)
+            {
+                valueOrder[higher.Key] = higher.Value.prize;
+            }
+
+            var h = valueOrder.OrderByDescending(x => x.Value).First();
+
+            Debug.Log($"El item con mayor precio es {h.Key} con un precio que ronda los R${h.Value}");
         }
     }
 

@@ -14,7 +14,7 @@ public class ThunderStrikeScript : MonoBehaviour
         {
             PlayerController player = FindAnyObjectByType<PlayerController>();
 
-            player.rb.AddForce(new Vector2(0, thunderForce), ForceMode2D.Impulse);
+            player.Rb.AddForce(new Vector2(0, thunderForce), ForceMode2D.Impulse);
 
             Instantiate(thunderPrefab, player.throwPoint.position, Quaternion.identity);
         }

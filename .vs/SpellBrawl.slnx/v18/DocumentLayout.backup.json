@@ -3,40 +3,72 @@
   "WorkspaceRootPath": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\cards\\fire\\fireballcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cards\\fire\\fireballcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\starthrowscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\starthrowscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\cards\\fire\\fireprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cards\\fire\\fireprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\fireballscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\fireballscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\inputsystem_actions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\inputsystem_actions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\cards\\thunder\\thunderstrikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cards\\thunder\\thunderstrikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\thunderstrikescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\thunderstrikescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\enemy\\enemycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemy\\enemycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\cards\\icardable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cards\\icardable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\cards\\fireballcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cards\\fireballcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\cardstack\\cardstackscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cardstack\\cardstackscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\cardstack\\deckscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cardstack\\deckscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\managers\\fightinginputmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\managers\\fightinginputmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\cards\\starthrowcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cards\\starthrowcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\cards\\thunderstrikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cards\\thunderstrikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\managers\\spawnmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\managers\\spawnmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\player\\playerhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playerhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\thunderstrikescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\thunderstrikescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\inputsystem_actions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\inputsystem_actions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\player\\statemachine\\attackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\statemachine\\attackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\enemy\\enemycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemy\\enemycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\starthrowscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\starthrowscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\textmesh pro\\shaders\\tmp_sdf.shader||{3B902123-F8A7-4915-9F01-361F908088D0}",
@@ -79,12 +111,8 @@
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\textmesh pro\\fonts\\liberationsans - ofl.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\interfaces\\icardable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\interfaces\\icardable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\admin\\documents\\github\\spellbrawl\\assets\\scripts\\deathzone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\deathzone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\DeathZone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\DeathZone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -94,8 +122,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FireProjectile.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Cards\\Fire\\FireProjectile.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Cards\\Fire\\FireProjectile.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Cards\\Fire\\FireProjectile.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Cards\\Fire\\FireProjectile.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAxwBMAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T19:30:10.574Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FireBallCard.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Cards\\Fire\\FireBallCard.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Cards\\Fire\\FireBallCard.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Cards\\Fire\\FireBallCard.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Cards\\Fire\\FireBallCard.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAACMAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T15:04:45.159Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -107,25 +161,162 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-26T17:34:47.044Z",
-              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DeckScript.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\CardStack\\DeckScript.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CardStack\\DeckScript.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\CardStack\\DeckScript.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CardStack\\DeckScript.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAmwA0AAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T17:25:48.027Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "StarThrowCard.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Cards\\StarThrowCard.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Cards\\StarThrowCard.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Cards\\StarThrowCard.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Cards\\StarThrowCard.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-21T18:10:55.372Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PlayerController.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Player\\PlayerController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerController.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Player\\PlayerController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerController.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAA3wDEAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-02T17:20:17.17Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "InputSystem_Actions.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\InputSystem_Actions.cs",
-              "RelativeDocumentMoniker": "Assets\\InputSystem_Actions.cs",
-              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\InputSystem_Actions.cs",
-              "RelativeToolTip": "Assets\\InputSystem_Actions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "ThunderStrikeCard.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Cards\\Thunder\\ThunderStrikeCard.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Cards\\Thunder\\ThunderStrikeCard.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Cards\\Thunder\\ThunderStrikeCard.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Cards\\Thunder\\ThunderStrikeCard.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAowDYAAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-26T19:23:50.909Z",
+              "WhenOpened": "2026-03-31T15:02:21.606Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "FightingInputManager.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Managers\\FightingInputManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Managers\\FightingInputManager.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Managers\\FightingInputManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Managers\\FightingInputManager.cs",
+              "ViewState": "AgIAADoAAAAAAAAAAAAUwEkAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T15:23:41.446Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CardStackScript.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\CardStack\\CardStackScript.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CardStack\\CardStackScript.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\CardStack\\CardStackScript.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CardStack\\CardStackScript.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T13:44:38.461Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "ICardable.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Cards\\ICardable.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Cards\\ICardable.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Cards\\ICardable.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Cards\\ICardable.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAIAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T14:59:54.744Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "PlayerHealth.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Player\\PlayerHealth.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerHealth.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Player\\PlayerHealth.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerHealth.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-02T18:21:22.947Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ThunderStrikeScript.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\ThunderStrikeScript.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\ThunderStrikeScript.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\ThunderStrikeScript.cs",
+              "RelativeToolTip": "Assets\\Scripts\\ThunderStrikeScript.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAUwBAAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T18:53:53.698Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "InputSystem_Actions.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\InputSystem_Actions.cs",
+              "RelativeDocumentMoniker": "Assets\\InputSystem_Actions.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\InputSystem_Actions.cs",
+              "RelativeToolTip": "Assets\\InputSystem_Actions.cs",
+              "ViewState": "AgIAAF4HAAAAAAAAAAAAAGsHAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-26T19:23:50.909Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "SpawnManager.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Managers\\SpawnManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Managers\\SpawnManager.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Managers\\SpawnManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Managers\\SpawnManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-02T18:28:00.411Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "AttackState.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Player\\StateMachine\\AttackState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\StateMachine\\AttackState.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Player\\StateMachine\\AttackState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player\\StateMachine\\AttackState.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAD4vxcAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-31T14:51:24.51Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "EnemyController.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Enemy\\EnemyController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\EnemyController.cs",
@@ -133,38 +324,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Enemy\\EnemyController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-26T17:37:04.946Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-26T17:37:04.946Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "StarThrowScript.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\StarThrowScript.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\StarThrowScript.cs",
-              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\StarThrowScript.cs",
-              "RelativeToolTip": "Assets\\Scripts\\StarThrowScript.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-26T17:34:08.151Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "TMP_SDF.shader",
-              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\TextMesh Pro\\Shaders\\TMP_SDF.shader",
-              "RelativeDocumentMoniker": "Assets\\TextMesh Pro\\Shaders\\TMP_SDF.shader",
-              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\TextMesh Pro\\Shaders\\TMP_SDF.shader",
-              "RelativeToolTip": "Assets\\TextMesh Pro\\Shaders\\TMP_SDF.shader",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
-              "WhenOpened": "2026-03-26T16:21:07.83Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 24,
               "Title": "LineBreaking Leading Characters.txt",
               "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\TextMesh Pro\\Resources\\LineBreaking Leading Characters.txt",
               "RelativeDocumentMoniker": "Assets\\TextMesh Pro\\Resources\\LineBreaking Leading Characters.txt",
@@ -176,59 +340,31 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "PlayerController.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Player\\PlayerController.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerController.cs",
-              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Player\\PlayerController.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerController.cs",
-              "ViewState": "AgIAAKcAAAAAAAAAAAAzwKwAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-26T16:45:44.984Z",
-              "EditorCaption": ""
+              "DocumentIndex": 17,
+              "Title": "TMP_SDF.shader",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\TextMesh Pro\\Shaders\\TMP_SDF.shader",
+              "RelativeDocumentMoniker": "Assets\\TextMesh Pro\\Shaders\\TMP_SDF.shader",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\TextMesh Pro\\Shaders\\TMP_SDF.shader",
+              "RelativeToolTip": "Assets\\TextMesh Pro\\Shaders\\TMP_SDF.shader",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
+              "WhenOpened": "2026-03-26T16:21:07.83Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "FireBallCard.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Cards\\FireBallCard.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Cards\\FireBallCard.cs",
-              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Cards\\FireBallCard.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Cards\\FireBallCard.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAWAAAAAAAAAA==",
+              "DocumentIndex": 16,
+              "Title": "StarThrowScript.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\StarThrowScript.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StarThrowScript.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\StarThrowScript.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StarThrowScript.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-23T18:47:08.812Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-26T17:34:08.151Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "StarThrowCard.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Cards\\StarThrowCard.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Cards\\StarThrowCard.cs",
-              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Cards\\StarThrowCard.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Cards\\StarThrowCard.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-21T18:10:55.372Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ThunderStrikeScript.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\ThunderStrikeScript.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\ThunderStrikeScript.cs",
-              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\ThunderStrikeScript.cs",
-              "RelativeToolTip": "Assets\\Scripts\\ThunderStrikeScript.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-23T18:53:53.698Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 23,
               "Title": "SDFFunctions.hlsl",
               "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\TextMesh Pro\\Shaders\\SDFFunctions.hlsl",
               "RelativeDocumentMoniker": "Assets\\TextMesh Pro\\Shaders\\SDFFunctions.hlsl",
@@ -240,7 +376,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 22,
               "Title": "TMP_Bitmap.shader",
               "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\TextMesh Pro\\Shaders\\TMP_Bitmap.shader",
               "RelativeDocumentMoniker": "Assets\\TextMesh Pro\\Shaders\\TMP_Bitmap.shader",
@@ -252,7 +388,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 21,
               "Title": "TMP_Bitmap-Custom-Atlas.shader",
               "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\TextMesh Pro\\Shaders\\TMP_Bitmap-Custom-Atlas.shader",
               "RelativeDocumentMoniker": "Assets\\TextMesh Pro\\Shaders\\TMP_Bitmap-Custom-Atlas.shader",
@@ -264,20 +400,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ThunderStrikeCard.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Cards\\ThunderStrikeCard.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Cards\\ThunderStrikeCard.cs",
-              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Cards\\ThunderStrikeCard.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Cards\\ThunderStrikeCard.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-21T18:10:56.981Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 20,
               "Title": "TMP_Bitmap-Mobile.shader",
               "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\TextMesh Pro\\Shaders\\TMP_Bitmap-Mobile.shader",
               "RelativeDocumentMoniker": "Assets\\TextMesh Pro\\Shaders\\TMP_Bitmap-Mobile.shader",
@@ -289,7 +412,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 19,
               "Title": "TMP_SDF Overlay.shader",
               "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\TextMesh Pro\\Shaders\\TMP_SDF Overlay.shader",
               "RelativeDocumentMoniker": "Assets\\TextMesh Pro\\Shaders\\TMP_SDF Overlay.shader",
@@ -301,7 +424,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 18,
               "Title": "TMP_SDF SSD.shader",
               "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\TextMesh Pro\\Shaders\\TMP_SDF SSD.shader",
               "RelativeDocumentMoniker": "Assets\\TextMesh Pro\\Shaders\\TMP_SDF SSD.shader",
@@ -313,7 +436,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 25,
               "Title": "LineBreaking Following Characters.txt",
               "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\TextMesh Pro\\Resources\\LineBreaking Following Characters.txt",
               "RelativeDocumentMoniker": "Assets\\TextMesh Pro\\Resources\\LineBreaking Following Characters.txt",
@@ -325,7 +448,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 26,
               "Title": "LiberationSans - OFL.txt",
               "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\TextMesh Pro\\Fonts\\LiberationSans - OFL.txt",
               "RelativeDocumentMoniker": "Assets\\TextMesh Pro\\Fonts\\LiberationSans - OFL.txt",
@@ -337,19 +460,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "ICardable.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Interfaces\\ICardable.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Interfaces\\ICardable.cs",
-              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Interfaces\\ICardable.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Interfaces\\ICardable.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-21T18:11:01.775Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 27,
               "Title": "DeathZone.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\DeathZone.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\DeathZone.cs",

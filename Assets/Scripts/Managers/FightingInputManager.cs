@@ -8,13 +8,15 @@ public class FightingInputManager : MonoBehaviour
     [SerializeField] private float attackBufferTime = 0.15f;
     [SerializeField] private float jumpBufferTime = 0.15f;
     [SerializeField] private float cardBufferTime = 0.15f;
-
+    [SerializeField] private float drawCardBufferTime;
     public Vector2 CurrentDirection { get; private set; }
     public bool HasBufferedAttack { get; private set; }
     public bool HasBufferedJump { get; private set; }
 
     public bool HasBufferedFire { get; private set; }
     public bool HasBufferedThunder { get; private set; }
+
+    public bool HasBufferedDrawCard { get; private set; }
 
     private float attackTimer;
     private float jumpTimer;
@@ -35,6 +37,10 @@ public class FightingInputManager : MonoBehaviour
 
         if (thunderTimer > 0) { thunderTimer -= Time.deltaTime; HasBufferedThunder = true; }
         else HasBufferedThunder = false;
+
+        if (drawCardBufferTime > 0) { drawCardBufferTime -= Time.deltaTime; HasBufferedDrawCard = true; }
+        else HasBufferedDrawCard = false;
+
     }
 
     public void OnMove(InputValue value) => CurrentDirection = value.Get<Vector2>();
@@ -44,18 +50,28 @@ public class FightingInputManager : MonoBehaviour
     public void OnFire(InputValue value) { if (value.isPressed) fireTimer = cardBufferTime; }
     public void OnThunder(InputValue value) { if (value.isPressed) thunderTimer = cardBufferTime; }
 
+    public void OnDrawCard(InputValue value)
+    {
+        if(value.isPressed)
+        {
+            drawCardBufferTime = cardBufferTime;
+        }
+    }
+
     public void ConsumeAttack() { attackTimer = 0f; HasBufferedAttack = false; }
     public void ConsumeJump() { jumpTimer = 0f; HasBufferedJump = false; }
 
     public void ConsumeFire() { fireTimer = 0f; HasBufferedFire = false; }
     public void ConsumeThunder() { thunderTimer = 0f; HasBufferedThunder = false; }
 
+    public void ConsumeDrawCard() { drawCardBufferTime = 0f; HasBufferedDrawCard = false; }
     public void ClearAllInputs()
     {
         ConsumeAttack();
         ConsumeJump();
         ConsumeFire();
         ConsumeThunder();
+        ConsumeDrawCard();
         CurrentDirection = Vector2.zero;
     }
 }

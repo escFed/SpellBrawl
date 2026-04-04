@@ -27,12 +27,13 @@ public class FireBallCard : MonoBehaviour, ICardable
 
     public void ExecuteCard(PlayerController player)
     {
+        Debug.Log("Ejecutando FireBallCard para el jugador: " + player.name);
         if (!canShoot || currentShoots <= 0) return;
 
         canShoot = false;
 
         GameObject fireball = Instantiate(fbPrefab, player.throwPoint.position, Quaternion.identity);
-
+        Debug.Log("Fireball instanciado en " + player.throwPoint.position);
         Vector2 direction = player.transform.localScale.x > 0 ? Vector2.right : Vector2.left;
         if (fireball.TryGetComponent(out FireProjectile script))
         {
