@@ -4,14 +4,13 @@ using UnityEngine.UI;
 
 public class FireBallCard : MonoBehaviour, ICardable
 {
-    [SerializeField] private Image cardUI;
-
     [Header("Settings")]
     [SerializeField] private GameObject fbPrefab;
     [SerializeField] private float cooldownBetweenShots = 0.5f;
     [SerializeField] private float reloadTime = 6f;
     [SerializeField] private int maxShoots = 3;
 
+    private Image cardUI;
     private int currentShoots;
     private bool canShoot = true;
 

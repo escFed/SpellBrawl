@@ -1094,7 +1094,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: 400}
+  m_AnchoredPosition: {x: 700, y: 400}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &969920557
@@ -1129,12 +1129,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec8261f51c3cae44f86860d4e9228027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardUIManager
-  p1_fireCard: {fileID: 1360150111}
-  p1_thunderCard: {fileID: 379308569}
-  p2_fireCard: {fileID: 37541121}
-  p2_thunderCard: {fileID: 739260608}
   p1_damageText: {fileID: 2079288146}
   p2_damageText: {fileID: 929922492}
+  p1_cards:
+  - {fileID: 379308569}
+  - {fileID: 1360150111}
+  - {fileID: 0}
+  - {fileID: 0}
+  p2_cards:
+  - {fileID: 739260608}
+  - {fileID: 37541121}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &969920559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2516,7 +2522,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -600, y: 400}
+  m_AnchoredPosition: {x: -700, y: 400}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1660057539 &9223372036854775807

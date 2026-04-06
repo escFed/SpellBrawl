@@ -4,12 +4,11 @@ using UnityEngine.UI;
 
 public class ThunderStrikeCard : MonoBehaviour, ICardable
 {
-    [SerializeField] private Image cardUI;
-
     [Header("Settings")]
     [SerializeField] private GameObject tsPrefab;
     [SerializeField] private float cooldownTime = 8f;
 
+    private Image cardUI;
     private bool canUse = true;
 
     public void SetUI(Image uiImage)

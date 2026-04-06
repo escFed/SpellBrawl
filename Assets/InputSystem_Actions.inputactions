@@ -28,7 +28,7 @@
                     "name": "Attack",
                     "type": "Button",
                     "id": "6c2ab1b8-8984-453a-af3d-a3c78ae1679a",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -88,18 +88,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Fire",
+                    "name": "Special",
                     "type": "Button",
-                    "id": "3f6464df-f18f-4cca-af3f-5672daff1129",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Thunder",
-                    "type": "Button",
-                    "id": "aa3e6af8-834b-47a1-9aab-64bc0be7131d",
+                    "id": "32963271-17ea-4d7c-b4e9-09ba842554a0",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -494,45 +485,23 @@
                 },
                 {
                     "name": "",
-                    "id": "08f9294d-4a4e-4a04-aca7-409e4e1fac38",
-                    "path": "<Keyboard>/u",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "532dbd31-75e9-482c-b6ad-263d7d66f200",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e4098482-d041-4aa9-856f-9097919a6909",
-                    "path": "<Keyboard>/i",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Thunder",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "de1180d5-2945-47b8-a50d-e7d614ca73a9",
+                    "id": "2e074c49-6e19-4fb1-bf45-e08f098b13fc",
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Thunder",
+                    "action": "Special",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "94876fba-9a80-4350-b193-8106fc3baf06",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Special",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

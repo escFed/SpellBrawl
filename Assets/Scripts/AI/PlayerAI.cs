@@ -8,15 +8,14 @@ public class PlayerAI : MonoBehaviour, IInputProvider
     public float reactionTime = 0.2f;
     public float attackCooldown = 1.2f;
     private float nextAttackTime = 0f;
-    public Vector2 CurrentDirection { get; private set; }
-    public bool HasBufferedJump { get; private set; }
-    public bool HasBufferedAttack { get; private set; }
-    public bool HasBufferedFire { get; private set; }
-    public bool HasBufferedThunder { get; private set; }
-
     private PlayerController selfController;
     private Transform target;
     private float thinkTimer;
+
+    public Vector2 CurrentDirection { get; private set; }
+    public bool HasBufferedJump { get; private set; }
+    public bool HasBufferedAttack { get; private set; }
+    public bool HasBufferedSpecial { get; private set; }
 
     private void Awake()
     {
@@ -46,7 +45,6 @@ public class PlayerAI : MonoBehaviour, IInputProvider
         if (target == null)
         {
             FindTarget();
-
             if (target == null)
             {
                 CurrentDirection = Vector2.zero;
@@ -64,7 +62,7 @@ public class PlayerAI : MonoBehaviour, IInputProvider
         if (thinkTimer > 0) return;
         thinkTimer = reactionTime;
 
-        HasBufferedJump = HasBufferedAttack = HasBufferedFire = HasBufferedThunder = false;
+        ClearAllInputs();
 
         float distX = target.position.x - transform.position.x;
         float distY = target.position.y - transform.position.y;
@@ -75,7 +73,6 @@ public class PlayerAI : MonoBehaviour, IInputProvider
         if (absDistX <= attackRange && Mathf.Abs(distY) < 1f)
         {
             CurrentDirection = Vector2.zero;
-
             if (Time.time >= nextAttackTime)
             {
                 HasBufferedAttack = true;
@@ -88,23 +85,26 @@ public class PlayerAI : MonoBehaviour, IInputProvider
 
             if (absDistX > attackRange && absDistX < cardRange && Random.value < 0.6f)
             {
-                if (Random.value < 0.5f) HasBufferedFire = true;
-                else HasBufferedThunder = true;
+                HasBufferedSpecial = true;
+
+                int randomDirection = Random.Range(0, 4);
+                if (randomDirection == 0) CurrentDirection = Vector2.zero;
+                else if (randomDirection == 1) CurrentDirection = new Vector2(Mathf.Sign(distX), 0);
+                else if (randomDirection == 2) CurrentDirection = Vector2.up;
+                else CurrentDirection = Vector2.down;
             }
         }
     }
 
     public void ConsumeJump() => HasBufferedJump = false;
     public void ConsumeAttack() => HasBufferedAttack = false;
-    public void ConsumeFire() => HasBufferedFire = false;
-    public void ConsumeThunder() => HasBufferedThunder = false;
+    public void ConsumeSpecial() => HasBufferedSpecial = false;
 
     public void ClearAllInputs()
     {
         ConsumeJump();
         ConsumeAttack();
-        ConsumeFire();
-        ConsumeThunder();
+        ConsumeSpecial();
         CurrentDirection = Vector2.zero;
     }
 }

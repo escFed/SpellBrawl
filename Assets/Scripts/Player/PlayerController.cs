@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -7,8 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerStats stats;
 
     [Header("Cards")]
-    [SerializeField] private GameObject slotCard;
-    [SerializeField] private GameObject slotCard1;
+    public GameObject[] cardSlots = new GameObject[4];
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
@@ -64,22 +64,23 @@ public class PlayerController : MonoBehaviour
         PlayerIndex = playerInput != null ? playerInput.playerIndex : 1;
         PlayerHealth health = GetComponent<PlayerHealth>();
 
-        FireBallCard fireCard = slotCard != null ? slotCard.GetComponent<FireBallCard>() : null;
-        ThunderStrikeCard thunderCard = slotCard1 != null ? slotCard1.GetComponent<ThunderStrikeCard>() : null;
-
         if (UIManager.Instance != null)
         {
-            if (PlayerIndex == 0)
+            if (PlayerIndex == 0 && health != null) health.SetDamageText(UIManager.Instance.p1_damageText);
+            else if (PlayerIndex == 1 && health != null) health.SetDamageText(UIManager.Instance.p2_damageText);
+
+            Image[] UISlots = (PlayerIndex == 0) ? UIManager.Instance.p1_cards : UIManager.Instance.p2_cards;
+
+            for (int i = 0; i < cardSlots.Length; i++)
             {
-                if (health != null) health.SetDamageText(UIManager.Instance.p1_damageText);
-                if (fireCard != null) fireCard.SetUI(UIManager.Instance.p1_fireCard);
-                if (thunderCard != null) thunderCard.SetUI(UIManager.Instance.p1_thunderCard);
-            }
-            else if (PlayerIndex == 1)
-            {
-                if (health != null) health.SetDamageText(UIManager.Instance.p2_damageText);
-                if (fireCard != null) fireCard.SetUI(UIManager.Instance.p2_fireCard);
-                if (thunderCard != null) thunderCard.SetUI(UIManager.Instance.p2_thunderCard);
+                if (cardSlots[i] != null && i < UISlots.Length)
+                {
+                    ICardable genericCard = cardSlots[i].GetComponent<ICardable>();
+                    if (genericCard != null)
+                    {
+                        genericCard.SetUI(UISlots[i]);
+                    }
+                }
             }
         }
     }
@@ -95,17 +96,12 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (input.HasBufferedFire)
+        if (input.HasBufferedSpecial)
         {
-            TryUseCard(1);
-            input.ConsumeFire();
+            int slotToUse = ResolveCardSlot();
+            TryUseCard(slotToUse);
+            input.ConsumeSpecial();
         }
-
-        if (input.HasBufferedThunder)
-        {
-            TryUseCard(2);
-            input.ConsumeThunder();
-        }   
 
         stateMachine.Update();
     }
@@ -125,23 +121,37 @@ public class PlayerController : MonoBehaviour
         stateMachine.ChangeState(IdleState);
     }
 
+    private int ResolveCardSlot()
+    {
+        Vector2 dir = input.CurrentDirection;
+        float deadzone = 0.3f;
+
+        if (dir.magnitude < deadzone) return 0;
+
+        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+        {
+            return 1;
+        }
+        else
+        {
+            if (dir.y > 0) return 2;
+            else return 3;
+        }
+    }
+
     public void TryUseCard(int slotIndex)
     {
+        if (stateMachine.CurrentState != IdleState && stateMachine.CurrentState != MoveState) return;
 
-        if (stateMachine.CurrentState != IdleState && stateMachine.CurrentState != MoveState)
-            return;
-
-        ICardable cardToUse = null;
-
-        if (slotIndex == 1 && slotCard != null)
-            cardToUse = slotCard.GetComponent<ICardable>();
-        else if (slotIndex == 2 && slotCard1 != null)
-            cardToUse = slotCard1.GetComponent<ICardable>();
-
-        if (cardToUse != null)
+        if (slotIndex >= 0 && slotIndex < cardSlots.Length && cardSlots[slotIndex] != null)
         {
-            CardState.SetCard(cardToUse, 0.5f);
-            stateMachine.ChangeState(CardState);
+            ICardable cardToUse = cardSlots[slotIndex].GetComponent<ICardable>();
+
+            if (cardToUse != null)
+            {
+                CardState.SetCard(cardToUse, 0.5f);
+                stateMachine.ChangeState(CardState);
+            }
         }
     }
 

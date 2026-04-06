@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &286029161659632707
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6626593768532453427}
+  m_Layer: 7
+  m_Name: CardDown
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6626593768532453427
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286029161659632707}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7704541438735409549}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &509414199974305466
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,7 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
   damage: 8
   knockback: {x: 2, y: 1}
---- !u!1 &1652802444413489344
+--- !u!1 &1503312545660109464
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,37 +132,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 964989164576488534}
-  - component: {fileID: 2868878707878405654}
+  - component: {fileID: 8324196052573348412}
+  - component: {fileID: 2364139335073938416}
   m_Layer: 7
-  m_Name: CardFire
+  m_Name: CardNeutral
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &964989164576488534
+--- !u!4 &8324196052573348412
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1652802444413489344}
+  m_GameObject: {fileID: 1503312545660109464}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7704541438735409549}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2868878707878405654
+--- !u!114 &2364139335073938416
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1652802444413489344}
+  m_GameObject: {fileID: 1503312545660109464}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 507bd2bbadfac014685b32d910d66152, type: 3}
@@ -180,13 +211,15 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8324196052573348412}
+  - {fileID: 9222635808799692243}
+  - {fileID: 4816934616445552801}
+  - {fileID: 6626593768532453427}
   - {fileID: 1785916118178468197}
   - {fileID: 5718793641096653619}
   - {fileID: 4175778399756417381}
   - {fileID: 4724958139089590454}
   - {fileID: 531333499451203714}
-  - {fileID: 964989164576488534}
-  - {fileID: 3406027776486920543}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4443773354149934336
@@ -325,8 +358,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   stats: {fileID: 11400000, guid: 45949cf4d906ebd4bb7288577cd2a53a, type: 2}
-  slotCard: {fileID: 1652802444413489344}
-  slotCard1: {fileID: 3578656715742029629}
+  cardSlots:
+  - {fileID: 1503312545660109464}
+  - {fileID: 5377440114866375713}
+  - {fileID: 0}
+  - {fileID: 0}
   groundCheck: {fileID: 1785916118178468197}
   groundLayer:
     serializedVersion: 2
@@ -405,6 +441,7 @@ MonoBehaviour:
   attackRange: 1.8
   cardRange: 6
   reactionTime: 0.2
+  attackCooldown: 1.2
 --- !u!1 &3295659753739748874
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,7 +473,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7704541438735409549}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &3578656715742029629
+--- !u!1 &3404829219937814804
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -444,45 +481,29 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3406027776486920543}
-  - component: {fileID: 9097415828803429573}
+  - component: {fileID: 4816934616445552801}
   m_Layer: 7
-  m_Name: CardThunder
+  m_Name: CardUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3406027776486920543
+--- !u!4 &4816934616445552801
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3578656715742029629}
+  m_GameObject: {fileID: 3404829219937814804}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7704541438735409549}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9097415828803429573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3578656715742029629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a656217eda053c342b5afb142b411ac3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ThunderStrikeCard
-  cardUI: {fileID: 0}
-  tsPrefab: {fileID: 7062071539232757206, guid: 36b700d52f911bf42bbad3ddd8180354, type: 3}
-  cooldownTime: 8
 --- !u!1 &5228198483163591303
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,6 +535,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7704541438735409549}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5377440114866375713
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9222635808799692243}
+  - component: {fileID: 4803642919074054520}
+  m_Layer: 7
+  m_Name: CardFoward
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9222635808799692243
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5377440114866375713}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7704541438735409549}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4803642919074054520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5377440114866375713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a656217eda053c342b5afb142b411ac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ThunderStrikeCard
+  cardUI: {fileID: 0}
+  tsPrefab: {fileID: 7062071539232757206, guid: 36b700d52f911bf42bbad3ddd8180354, type: 3}
+  cooldownTime: 8
 --- !u!1 &7093909918081708081
 GameObject:
   m_ObjectHideFlags: 0
