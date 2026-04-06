@@ -1,0 +1,111 @@
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ThunderStrikeCard : MonoBehaviour, ICardable
+{
+    [SerializeField] private Image cardUI;
+
+    [Header("Settings")]
+    [SerializeField] private GameObject tsPrefab;
+    [SerializeField] private float cooldownTime = 1f;  // ✅ Reducido a 1 segundo para testing
+
+    private bool canUse = true;
+
+    public void SetUI(Image uiImage)
+    {
+        cardUI = uiImage;
+    }
+
+    public void ExecuteCard(PlayerController player)
+    {
+        try
+        {
+            Debug.Log("⚡ [Thunder] 1. INICIO ExecuteCard");
+
+            Debug.Log("⚡ [Thunder] 2. Player name: " + player.name);
+
+            Debug.Log("⚡ [Thunder] 3. Intentando acceder a canUse");
+            bool estado = canUse;
+            Debug.Log("⚡ [Thunder] 4. canUse = " + estado);
+
+            if (!canUse) 
+            {
+                Debug.Log("❌ [Thunder] 5. BLOQUEADO - Cooldown activo");
+                return;
+            }
+
+            Debug.Log("⚡ [Thunder] 6. Pasó check de cooldown");
+
+            if (tsPrefab == null)
+            {
+                Debug.LogError("❌ [Thunder] 7. ERROR - tsPrefab NULL");
+                return;
+            }
+
+            Debug.Log("⚡ [Thunder] 8. Pasó check de prefab");
+            Debug.Log("✅ [Thunder] 9. Iniciando corrutina");
+            player.StartCoroutine(ThunderRoutine(player));
+            Debug.Log("✅ [Thunder] 10. Corrutina iniciada");
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("❌ [Thunder] EXCEPCIÓN: " + ex.Message + " | " + ex.StackTrace);
+        }
+    }
+
+    private IEnumerator ThunderRoutine(PlayerController player)
+    {
+        Debug.Log("⏳ [Thunder] A. Corrutina comenzó");
+        canUse = false;
+        Debug.Log("⏳ [Thunder] B. canUse = false establecido");
+
+        if (cardUI != null) cardUI.enabled = false;
+
+        PlayerController target = null;
+
+        PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+        Debug.Log("⏳ [Thunder] C. Jugadores encontrados: " + allPlayers.Length);
+
+        foreach (PlayerController p in allPlayers)
+        {
+            if (p.gameObject != player.gameObject)
+            {
+                target = p;
+                break;
+            }
+        }
+
+        if (target != null)
+        {
+            Debug.Log("⚡ [Thunder] D. Instanciando trueno en posición: " + target.throwPoint.position);
+            GameObject th = Instantiate(tsPrefab, target.throwPoint.position, Quaternion.identity);
+            Debug.Log("✅ [Thunder] E. ThunderStrike instanciado: " + th.name);
+            Debug.Log("✅ [Thunder] F. Tiene SpriteRenderer: " + (th.GetComponent<SpriteRenderer>() != null));
+
+            if (th.TryGetComponent(out ThunderProjectile tProj))
+            {
+                tProj.Init(player.gameObject);
+                Debug.Log("✅ [Thunder] G. ThunderProjectile inicializado correctamente");
+            }
+            else
+            {
+                Debug.LogError("❌ [Thunder] H. No tiene componente ThunderProjectile!");
+            }
+        }
+        else
+        {
+            Debug.LogError("❌ [Thunder] I. No se encontró objetivo (otro jugador)!");
+        }
+
+        Debug.Log("⏳ [Thunder] J. Esperando " + cooldownTime + " segundos...");
+        yield return new WaitForSeconds(cooldownTime);
+        Debug.Log("⏳ [Thunder] K. Espera completada");
+
+        canUse = true;
+        Debug.Log("✅ [Thunder] L. Cooldown TERMINADO - canUse = true");
+
+        if (cardUI != null) cardUI.enabled = true;
+        Debug.Log("✅ [Thunder] M. Corrutina finalizada completamente");
+    }
+}

@@ -74,12 +74,53 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+<<<<<<< Updated upstream
         inputActions.Player.Jump.performed += OnJump;
         inputActions.Player.Fire.performed += OnFire;
         inputActions.Player.Thunder.performed += OnThunder;
         inputActions.Player.StarThrow.performed += OnStarThrow;
         currentFbShoots = maxFbShoots;
 
+=======
+
+        stateMachine.Initialize(IdleState);
+        inputManager = GetComponent<FightingInputManager>();
+        rb = GetComponent<Rigidbody2D>();
+        Rb = rb;
+
+        if(cardStack == null)
+        {
+            cardStack = FindAnyObjectByType<CardStackScript>();
+        }
+        PlayerInput playerInput = GetComponent<PlayerInput>();
+        int playerIndex = playerInput != null ? playerInput.playerIndex : 0;
+
+        Debug.Log("PlayerController Start - slotCard: " + (slotCard != null ? slotCard.name : "NULL"));
+        Debug.Log("PlayerController Start - slotCard1: " + (slotCard1 != null ? slotCard1.name : "NULL"));
+
+        FireBallCard fireCard = slotCard.GetComponent<FireBallCard>();
+        ThunderStrikeCard thunderCard = slotCard1.GetComponent<ThunderStrikeCard>();
+
+        Debug.Log("PlayerController Start - FireBallCard component: " + (fireCard != null ? "Found" : "NULL"));
+        Debug.Log("PlayerController Start - ThunderStrikeCard component: " + (thunderCard != null ? "Found" : "NULL"));
+
+
+        if (CardUIManager.Instance != null)
+        {
+            if (playerIndex == 0)
+            {
+                if (fireCard != null) fireCard.SetUI(CardUIManager.Instance.p1_fireCard);
+                if (thunderCard != null) thunderCard.SetUI(CardUIManager.Instance.p1_thunderCard);
+            }
+            else if (playerIndex == 1)
+            {
+                if (fireCard != null) fireCard.SetUI(CardUIManager.Instance.p2_fireCard);
+                if (thunderCard != null) thunderCard.SetUI(CardUIManager.Instance.p2_thunderCard);
+            }
+        }
+
+
+>>>>>>> Stashed changes
     }
 
     private void OnDestroy()
@@ -105,6 +146,21 @@ public class PlayerController : MonoBehaviour
 
 
 
+<<<<<<< Updated upstream
+=======
+        if(inputManager.HasBufferedDrawCard)
+        {
+            if (cardStack != null)
+            {
+                cardStack.DrawCard(this);
+                inputManager.ConsumeDrawCard();
+            }
+            else
+            {
+                Debug.LogError("PlayerController: cardStack es null - No se puede dibujar carta");
+            }
+        }
+>>>>>>> Stashed changes
 
 
     }
@@ -117,9 +173,55 @@ public class PlayerController : MonoBehaviour
 
     private void OnJump(InputAction.CallbackContext ctx)
     {
+<<<<<<< Updated upstream
         if (isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+=======
+        stunTimer = stunDuration;
+        inputManager.ClearAllInputs();
+        stateMachine.ChangeState(IdleState);
+    }
+
+    public void TryUseCard(int slotIndex)
+    {
+        Debug.Log("TryUseCard llamado con slotIndex: " + slotIndex + ", Estado actual: " + stateMachine.CurrentState.GetType().Name);
+
+        // Permitir cartas en casi todos los estados excepto CardState y DieState
+        if (stateMachine.CurrentState == CardState || stateMachine.CurrentState == DieState)
+
+        {
+            Debug.Log("No se puede usar carta - estado no permitido: " + stateMachine.CurrentState.GetType().Name);     
+            return; 
+        }
+
+        ICardable cardToUse = null;
+
+        if (slotIndex == 1 && slotCard != null)
+        {
+            Debug.Log("Obteniendo carta del slot 1 (Fire)");
+            cardToUse = slotCard.GetComponent<ICardable>();
+        }
+        else if (slotIndex == 2 && slotCard1 != null)
+        {
+            Debug.Log("Obteniendo carta del slot 2 (Thunder)");
+            cardToUse = slotCard1.GetComponent<ICardable>();
+        }
+        else
+        {
+            Debug.LogError("TryUseCard: slotCard" + (slotIndex == 1 ? "" : "1") + " es null o slotIndex inválido!");
+        }
+
+        if (cardToUse != null)
+        {
+            Debug.Log("Carta encontrada, cambiando a CardState");
+            CardState.SetCard(cardToUse, 0.5f);
+            stateMachine.ChangeState(CardState);
+>>>>>>> Stashed changes
+        }
+        else
+        {
+            Debug.LogError("TryUseCard: cardToUse es null - no se pudo obtener el componente ICardable");
         }
     }
 

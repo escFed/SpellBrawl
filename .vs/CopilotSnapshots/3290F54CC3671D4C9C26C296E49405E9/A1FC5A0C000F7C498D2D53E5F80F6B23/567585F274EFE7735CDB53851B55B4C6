@@ -1,0 +1,91 @@
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ThunderStrikeCard : MonoBehaviour, ICardable
+{
+    [SerializeField] private Image cardUI;
+
+    [Header("Settings")]
+    [SerializeField] private GameObject tsPrefab;
+    [SerializeField] private float cooldownTime = 8f;
+
+    private bool canUse = true;
+
+    public void SetUI(Image uiImage)
+    {
+        cardUI = uiImage;
+    }
+
+    public void ExecuteCard(PlayerController player)
+    {
+        Debug.Log("⚡ [Thunder] Ejecutando ThunderStrikeCard para el jugador: " + player.name);
+        Debug.Log("⚡ [Thunder] canUse actual: " + canUse);
+
+        if (!canUse) 
+        {
+            Debug.Log("❌ [Thunder] No puede usar la carta - Está en cooldown");
+            return;
+        }
+
+        if (tsPrefab == null)
+        {
+            Debug.LogError("❌ [Thunder] ERROR - tsPrefab no está asignado en el Inspector!");
+            return;
+        }
+
+        Debug.Log("✅ [Thunder] Iniciando rutina de trueno");
+        player.StartCoroutine(ThunderRoutine(player));
+    }
+
+    private IEnumerator ThunderRoutine(PlayerController player)
+    {
+        canUse = false;
+        Debug.Log("⏳ [Thunder] Cooldown INICIADO - canUse = false");
+
+        if (cardUI != null) cardUI.enabled = false;
+
+        PlayerController target = null;
+
+        PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+
+        foreach (PlayerController p in allPlayers)
+        {
+            if (p.gameObject != player.gameObject)
+            {
+                target = p;
+                break;
+            }
+        }
+
+        if (target != null)
+        {
+            Debug.Log("⚡ [Thunder] Instanciando trueno en posición: " + target.throwPoint.position);
+            GameObject th = Instantiate(tsPrefab, target.throwPoint.position, Quaternion.identity);
+            Debug.Log("✅ [Thunder] ThunderStrike instanciado: " + th.name);
+            Debug.Log("✅ [Thunder] Tiene SpriteRenderer: " + (th.GetComponent<SpriteRenderer>() != null));
+
+            if (th.TryGetComponent(out ThunderProjectile tProj))
+            {
+                tProj.Init(player.gameObject);
+                Debug.Log("✅ [Thunder] ThunderProjectile inicializado correctamente");
+            }
+            else
+            {
+                Debug.LogError("❌ [Thunder] No tiene componente ThunderProjectile!");
+            }
+        }
+        else
+        {
+            Debug.LogError("❌ [Thunder] No se encontró objetivo (otro jugador)!");
+        }
+
+        Debug.Log("⏳ [Thunder] Esperando " + cooldownTime + " segundos...");
+        yield return new WaitForSeconds(cooldownTime);
+
+        canUse = true;
+        Debug.Log("✅ [Thunder] Cooldown TERMINADO - canUse = true (disponible nuevamente)");
+
+        if (cardUI != null) cardUI.enabled = true;
+    }
+}
