@@ -1,36 +1,25 @@
-
-using System.Collections;
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using Unity.VisualScripting;
-using System.Runtime.CompilerServices;
 
 public class PlayerController : MonoBehaviour
 {
-
     [Header("Stats")]
     [SerializeField] private PlayerStats stats;
 
     [Header("Cards")]
-    [SerializeField] public GameObject slotCard;
-    [SerializeField] public GameObject slotCard1;
-
-    [Header("Decks")]
-    [SerializeField] private CardStackScript cardStack;
+    [SerializeField] private GameObject slotCard;
+    [SerializeField] private GameObject slotCard1;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckRadius = 0.2f;
 
-
-    private FightingInputManager inputManager;
+    private IInputProvider input;
     private Rigidbody2D rb;
     private StateMachine stateMachine;
     private PlayerHitBox HitBox;
 
-    public Rigidbody2D Rb { get; private set;  }
     public IdleState IdleState { get; private set; }
     public MoveState MoveState { get; private set; }
     public JumpState JumpState { get; private set; }
@@ -40,23 +29,21 @@ public class PlayerController : MonoBehaviour
     public CardState CardState { get; private set; }
     public DieState DieState { get; private set; }
 
-    public Vector2 MoveInput => inputManager.CurrentDirection;
-    public bool JumpPressed => inputManager.HasBufferedJump;
-    public bool AttackInput => inputManager.HasBufferedAttack;
+    public Vector2 MoveInput => input.CurrentDirection;
+    public bool JumpPressed =>  input.HasBufferedJump;
+    public bool AttackInput => input.HasBufferedAttack;
     public bool IsGrounded { get; private set; }
     public bool IsDead { get; private set; }
+    public int PlayerIndex { get; private set; }
 
     public float stunTimer;
     public Transform throwPoint;
 
-
-
     private void Awake()
     {
-      
-
-       
+        input = GetComponent<IInputProvider>();
         HitBox = GetComponent<PlayerHitBox>();
+        rb = GetComponent<Rigidbody2D>();
 
         stateMachine = new StateMachine();
         IdleState = new IdleState(this, stateMachine);
@@ -71,51 +58,36 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-     
         stateMachine.Initialize(IdleState);
-        inputManager = GetComponent<FightingInputManager>();
-        rb = GetComponent<Rigidbody2D>();
-        Rb = rb;
 
-        if(cardStack == null)
-        {
-            cardStack = FindAnyObjectByType<CardStackScript>();
-        }
         PlayerInput playerInput = GetComponent<PlayerInput>();
-        int playerIndex = playerInput != null ? playerInput.playerIndex : 0;
+        PlayerIndex = playerInput != null ? playerInput.playerIndex : 1;
+        PlayerHealth health = GetComponent<PlayerHealth>();
 
-        
-        FireBallCard fireCard = slotCard.GetComponent<FireBallCard>();
-        ThunderStrikeCard thunderCard = slotCard1.GetComponent<ThunderStrikeCard>();
+        FireBallCard fireCard = slotCard != null ? slotCard.GetComponent<FireBallCard>() : null;
+        ThunderStrikeCard thunderCard = slotCard1 != null ? slotCard1.GetComponent<ThunderStrikeCard>() : null;
 
-
-        
-
-        
-        if (CardUIManager.Instance != null)
+        if (UIManager.Instance != null)
         {
-            if (playerIndex == 0)
+            if (PlayerIndex == 0)
             {
-                if (fireCard != null) fireCard.SetUI(CardUIManager.Instance.p1_fireCard);
-                if (thunderCard != null) thunderCard.SetUI(CardUIManager.Instance.p1_thunderCard);
+                if (health != null) health.SetDamageText(UIManager.Instance.p1_damageText);
+                if (fireCard != null) fireCard.SetUI(UIManager.Instance.p1_fireCard);
+                if (thunderCard != null) thunderCard.SetUI(UIManager.Instance.p1_thunderCard);
             }
-            else if (playerIndex == 1)
+            else if (PlayerIndex == 1)
             {
-                if (fireCard != null) fireCard.SetUI(CardUIManager.Instance.p2_fireCard);
-                if (thunderCard != null) thunderCard.SetUI(CardUIManager.Instance.p2_thunderCard);
+                if (health != null) health.SetDamageText(UIManager.Instance.p2_damageText);
+                if (fireCard != null) fireCard.SetUI(UIManager.Instance.p2_fireCard);
+                if (thunderCard != null) thunderCard.SetUI(UIManager.Instance.p2_thunderCard);
             }
         }
-
-      
     }
-
-
 
     private void Update()
     {
         if (IsDead) return;
         IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-       
 
         if (stunTimer > 0)
         {
@@ -123,26 +95,19 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (inputManager.HasBufferedFire)
+        if (input.HasBufferedFire)
         {
             TryUseCard(1);
-            inputManager.ConsumeFire();
+            input.ConsumeFire();
         }
 
-        if (inputManager.HasBufferedThunder)
+        if (input.HasBufferedThunder)
         {
             TryUseCard(2);
-            inputManager.ConsumeThunder();
-        }
-
-        if(inputManager.HasBufferedDrawCard)
-        {
-            cardStack.DrawCard(this);
-            inputManager.ConsumeDrawCard();
-        }
+            input.ConsumeThunder();
+        }   
 
         stateMachine.Update();
-
     }
 
     private void FixedUpdate()
@@ -156,7 +121,7 @@ public class PlayerController : MonoBehaviour
     public void TakeHit(float stunDuration)
     {
         stunTimer = stunDuration;
-        inputManager.ClearAllInputs();
+        input.ClearAllInputs();
         stateMachine.ChangeState(IdleState);
     }
 
@@ -182,28 +147,24 @@ public class PlayerController : MonoBehaviour
 
     public IState ResolveAttackState()
     {
-        Vector2 dir = inputManager.CurrentDirection;
+        Vector2 dir = input.CurrentDirection;
         bool hasHorizontal = Mathf.Abs(dir.x) >= stats.tiltThreshold;
         bool hasUp = dir.y >= stats.tiltThreshold;
 
-        inputManager.ConsumeAttack();
+        input.ConsumeAttack();
 
         if (hasUp && (!hasHorizontal || dir.y >= Mathf.Abs(dir.x))) return UpTiltState;
         if (hasHorizontal) return ForwardTiltState;
         return JabState;
     }
 
-
-    public void ConsumeJump() => inputManager.ConsumeJump();
+    public void ConsumeJump() => input.ConsumeJump();
 
     public void ApplyHorizontalMovement()
     {
-
-        rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = new Vector2(MoveInput.x * stats.moveSpeed, rb.linearVelocity.y);
 
-            HitBox.CheckAndFlip(MoveInput.x);
-        
+        HitBox.CheckAndFlip(MoveInput.x);
     }
 
     public void StopHorizontalMovement() => rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
@@ -229,9 +190,8 @@ public class PlayerController : MonoBehaviour
         IsDead = false;
         rb.bodyType = RigidbodyType2D.Dynamic;
         transform.position = position;
-        inputManager.ClearAllInputs();
+        input.ClearAllInputs();
         stateMachine.ChangeState(IdleState);
     }
 
 }
-
