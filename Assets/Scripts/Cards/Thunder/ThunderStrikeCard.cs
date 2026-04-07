@@ -4,12 +4,11 @@ using UnityEngine.UI;
 
 public class ThunderStrikeCard : MonoBehaviour, ICardable
 {
-    [SerializeField] private Image cardUI;
-
     [Header("Settings")]
     [SerializeField] private GameObject tsPrefab;
     [SerializeField] private float cooldownTime = 8f;
 
+    private Image cardUI;
     private bool canUse = true;
 
     public void SetUI(Image uiImage)
@@ -19,16 +18,9 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
 
     public void ExecuteCard(PlayerController player)
     {
-        Debug.Log("Ejecutando ThunderStrikeCard para el jugador: " + player.name);
         if (!canUse) return;
 
-        if (gameObject.activeInHierarchy && enabled)
-        {
-
-
-            StartCoroutine(ThunderRoutine(player));
-
-        }
+        StartCoroutine(ThunderRoutine(player));
     }
 
     private IEnumerator ThunderRoutine(PlayerController player)
@@ -52,7 +44,7 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
 
         if (target != null)
         {
-            GameObject th = Instantiate(tsPrefab, target.throwPoint.position, Quaternion.identity);
+            GameObject th = Instantiate(tsPrefab, target.transform.position, Quaternion.identity);
 
             if (th.TryGetComponent(out ThunderProjectile tProj))
             {

@@ -1,18 +1,28 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class SpawnManager : MonoBehaviour
 {
-    [Header("Spawn Points")]
-    public Transform[] spawnPoints;
+    [Header("Prefabs")]
+    public GameObject playerPrefab;
+    public GameObject playerAiPrefab;
 
-    public void OnPlayerJoined(PlayerInput playerInput)
+    [Header("SpawnPoint")]
+    public Transform spawnPointPlayer1;
+    public Transform spawnPointPlayer2;
+
+    private void Start()
     {
-        int index = playerInput.playerIndex;
-
-        if (index < spawnPoints.Length)
+        if (playerPrefab != null && spawnPointPlayer1 != null)
         {
-            playerInput.transform.SetPositionAndRotation(spawnPoints[index].position, spawnPoints[index].rotation);
+            Instantiate(playerPrefab, spawnPointPlayer1.position, Quaternion.identity);
+        }
+
+        if (playerAiPrefab != null && spawnPointPlayer2 != null)
+        {
+            Instantiate(playerAiPrefab, spawnPointPlayer2.position, Quaternion.identity);
+
+            Vector3 aiScale = playerAiPrefab.transform.localScale;
+            aiScale.x = -Mathf.Abs(aiScale.x);
         }
     }
 }

@@ -1,62 +1,50 @@
-
-using System.Collections;
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using Unity.VisualScripting;
-using System.Runtime.CompilerServices;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-
     [Header("Stats")]
     [SerializeField] private PlayerStats stats;
 
     [Header("Cards")]
-    [SerializeField] public GameObject slotCard;
-    [SerializeField] public GameObject slotCard1;
-
-    [Header("Decks")]
-    [SerializeField] private CardStackScript cardStack;
+    public GameObject[] cardSlots = new GameObject[4];
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckRadius = 0.2f;
 
-
-    private FightingInputManager inputManager;
+    private IInputProvider input;
     private Rigidbody2D rb;
     private StateMachine stateMachine;
     private PlayerHitBox HitBox;
 
-    public Rigidbody2D Rb { get; private set;  }
     public IdleState IdleState { get; private set; }
     public MoveState MoveState { get; private set; }
     public JumpState JumpState { get; private set; }
     public JabState JabState { get; private set; }
     public ForwardTiltState ForwardTiltState { get; private set; }
+    public DownTiltState DownTiltState { get; private set; }
     public UpTiltState UpTiltState { get; private set; }
     public CardState CardState { get; private set; }
     public DieState DieState { get; private set; }
 
-    public Vector2 MoveInput => inputManager.CurrentDirection;
-    public bool JumpPressed => inputManager.HasBufferedJump;
-    public bool AttackInput => inputManager.HasBufferedAttack;
+    public Vector2 MoveInput => input.CurrentDirection;
+    public bool JumpPressed =>  input.HasBufferedJump;
+    public bool AttackInput => input.HasBufferedAttack;
     public bool IsGrounded { get; private set; }
     public bool IsDead { get; private set; }
+    public int PlayerIndex { get; private set; }
 
     public float stunTimer;
     public Transform throwPoint;
 
-
-
     private void Awake()
     {
-      
-
-       
+        input = GetComponent<IInputProvider>();
         HitBox = GetComponent<PlayerHitBox>();
+        rb = GetComponent<Rigidbody2D>();
 
         stateMachine = new StateMachine();
         IdleState = new IdleState(this, stateMachine);
@@ -65,57 +53,44 @@ public class PlayerController : MonoBehaviour
         JabState = new JabState(this, stateMachine);
         ForwardTiltState = new ForwardTiltState(this, stateMachine);
         UpTiltState = new UpTiltState(this, stateMachine);
+        DownTiltState = new DownTiltState(this, stateMachine);
         DieState = new DieState(this, stateMachine);
         CardState = new CardState(this, stateMachine);
     }
 
     private void Start()
     {
-     
         stateMachine.Initialize(IdleState);
-        inputManager = GetComponent<FightingInputManager>();
-        rb = GetComponent<Rigidbody2D>();
-        Rb = rb;
 
-        if(cardStack == null)
-        {
-            cardStack = FindAnyObjectByType<CardStackScript>();
-        }
         PlayerInput playerInput = GetComponent<PlayerInput>();
-        int playerIndex = playerInput != null ? playerInput.playerIndex : 0;
+        PlayerIndex = playerInput != null ? playerInput.playerIndex : 1;
+        PlayerHealth health = GetComponent<PlayerHealth>();
 
-        
-        FireBallCard fireCard = slotCard.GetComponent<FireBallCard>();
-        ThunderStrikeCard thunderCard = slotCard1.GetComponent<ThunderStrikeCard>();
-
-
-        
-
-        
-        if (CardUIManager.Instance != null)
+        if (UIManager.Instance != null)
         {
-            if (playerIndex == 0)
+            if (PlayerIndex == 0 && health != null) health.SetDamageText(UIManager.Instance.p1_damageText);
+            else if (PlayerIndex == 1 && health != null) health.SetDamageText(UIManager.Instance.p2_damageText);
+
+            Image[] UISlots = (PlayerIndex == 0) ? UIManager.Instance.p1_cards : UIManager.Instance.p2_cards;
+
+            for (int i = 0; i < cardSlots.Length; i++)
             {
-                if (fireCard != null) fireCard.SetUI(CardUIManager.Instance.p1_fireCard);
-                if (thunderCard != null) thunderCard.SetUI(CardUIManager.Instance.p1_thunderCard);
-            }
-            else if (playerIndex == 1)
-            {
-                if (fireCard != null) fireCard.SetUI(CardUIManager.Instance.p2_fireCard);
-                if (thunderCard != null) thunderCard.SetUI(CardUIManager.Instance.p2_thunderCard);
+                if (cardSlots[i] != null && i < UISlots.Length)
+                {
+                    ICardable genericCard = cardSlots[i].GetComponent<ICardable>();
+                    if (genericCard != null)
+                    {
+                        genericCard.SetUI(UISlots[i]);
+                    }
+                }
             }
         }
-
-      
     }
-
-
 
     private void Update()
     {
         if (IsDead) return;
         IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-       
 
         if (stunTimer > 0)
         {
@@ -123,26 +98,14 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (inputManager.HasBufferedFire)
+        if (input.HasBufferedSpecial)
         {
-            TryUseCard(1);
-            inputManager.ConsumeFire();
-        }
-
-        if (inputManager.HasBufferedThunder)
-        {
-            TryUseCard(2);
-            inputManager.ConsumeThunder();
-        }
-
-        if(inputManager.HasBufferedDrawCard)
-        {
-            cardStack.DrawCard(this);
-            inputManager.ConsumeDrawCard();
+            int slotToUse = ResolveCardSlot();
+            TryUseCard(slotToUse);
+            input.ConsumeSpecial();
         }
 
         stateMachine.Update();
-
     }
 
     private void FixedUpdate()
@@ -156,54 +119,70 @@ public class PlayerController : MonoBehaviour
     public void TakeHit(float stunDuration)
     {
         stunTimer = stunDuration;
-        inputManager.ClearAllInputs();
+        input.ClearAllInputs();
         stateMachine.ChangeState(IdleState);
+    }
+
+    private int ResolveCardSlot()
+    {
+        Vector2 dir = input.CurrentDirection;
+        float deadzone = 0.3f;
+
+        if (dir.magnitude < deadzone) return 0;
+
+        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+        {
+            return 1;
+        }
+        else
+        {
+            if (dir.y > 0) return 2;
+            else return 3;
+        }
     }
 
     public void TryUseCard(int slotIndex)
     {
+        if (stateMachine.CurrentState != IdleState && stateMachine.CurrentState != MoveState) return;
 
-        if (stateMachine.CurrentState != IdleState && stateMachine.CurrentState != MoveState)
-            return;
-
-        ICardable cardToUse = null;
-
-        if (slotIndex == 1 && slotCard != null)
-            cardToUse = slotCard.GetComponent<ICardable>();
-        else if (slotIndex == 2 && slotCard1 != null)
-            cardToUse = slotCard1.GetComponent<ICardable>();
-
-        if (cardToUse != null)
+        if (slotIndex >= 0 && slotIndex < cardSlots.Length && cardSlots[slotIndex] != null)
         {
-            CardState.SetCard(cardToUse, 0.5f);
-            stateMachine.ChangeState(CardState);
+            ICardable cardToUse = cardSlots[slotIndex].GetComponent<ICardable>();
+
+            if (cardToUse != null)
+            {
+                CardState.SetCard(cardToUse, 0.5f);
+                stateMachine.ChangeState(CardState);
+            }
         }
     }
 
     public IState ResolveAttackState()
     {
-        Vector2 dir = inputManager.CurrentDirection;
+        Vector2 dir = input.CurrentDirection;
         bool hasHorizontal = Mathf.Abs(dir.x) >= stats.tiltThreshold;
         bool hasUp = dir.y >= stats.tiltThreshold;
 
-        inputManager.ConsumeAttack();
+        bool hasDown = dir.y <= -stats.tiltThreshold;
+
+        input.ConsumeAttack();
 
         if (hasUp && (!hasHorizontal || dir.y >= Mathf.Abs(dir.x))) return UpTiltState;
+
+        if (hasDown && (!hasHorizontal || Mathf.Abs(dir.y) >= Mathf.Abs(dir.x))) return DownTiltState;
+
         if (hasHorizontal) return ForwardTiltState;
+
         return JabState;
     }
 
-
-    public void ConsumeJump() => inputManager.ConsumeJump();
+    public void ConsumeJump() => input.ConsumeJump();
 
     public void ApplyHorizontalMovement()
     {
-
-        rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = new Vector2(MoveInput.x * stats.moveSpeed, rb.linearVelocity.y);
 
-            HitBox.CheckAndFlip(MoveInput.x);
-        
+        HitBox.CheckAndFlip(MoveInput.x);
     }
 
     public void StopHorizontalMovement() => rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
@@ -216,6 +195,8 @@ public class PlayerController : MonoBehaviour
     public void CloseFTiltHitbox() => HitBox.SetFTiltHitbox(false);
     public void OpenUTiltHitbox() => HitBox.SetUTiltHitbox(true);
     public void CloseUTiltHitbox() => HitBox.SetUTiltHitbox(false);
+    public void OpenDTiltHitbox() => HitBox.SetDTiltHitbox(true);
+    public void CloseDTiltHitbox() => HitBox.SetDTiltHitbox(false);
 
     public void OnDeath()
     {
@@ -229,9 +210,8 @@ public class PlayerController : MonoBehaviour
         IsDead = false;
         rb.bodyType = RigidbodyType2D.Dynamic;
         transform.position = position;
-        inputManager.ClearAllInputs();
+        input.ClearAllInputs();
         stateMachine.ChangeState(IdleState);
     }
 
 }
-

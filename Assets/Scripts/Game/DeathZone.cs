@@ -2,13 +2,17 @@ using UnityEngine;
 
 public class DeathZone : MonoBehaviour
 {
-    private void OnTriggerExit2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        PlayerRespawn player = other.GetComponent<PlayerRespawn>();
+        PlayerHealth health = other.GetComponentInParent<PlayerHealth>();
 
-        if (player != null)
+        if (health != null)
         {
-            player.Respawn();
+            health.FallPenalty();
+        }
+        else
+        {
+            Destroy(other.gameObject);
         }
     }
 }
