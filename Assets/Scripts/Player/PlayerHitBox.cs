@@ -4,8 +4,9 @@ public class PlayerHitBox : MonoBehaviour
 {
     [Header("Combat Hitboxes")]
     [SerializeField] private AttackHitbox jabHitbox;
-    [SerializeField] private AttackHitbox ftiltHitbox;
-    [SerializeField] private AttackHitbox uptiltHitbox;
+    [SerializeField] private AttackHitbox fTiltHitbox;
+    [SerializeField] private AttackHitbox upTiltHitbox;
+    [SerializeField] private AttackHitbox dTiltHitbox;
 
     public bool IsFacingRight { get; private set; } = true;
 
@@ -32,12 +33,17 @@ public class PlayerHitBox : MonoBehaviour
     }
     public void SetFTiltHitbox(bool active) 
     { 
-        if (active) ftiltHitbox?.BeginSwing(); 
-        else ftiltHitbox?.EndSwing(); 
+        if (active) fTiltHitbox?.BeginSwing(); 
+        else fTiltHitbox?.EndSwing(); 
     }
     public void SetUTiltHitbox(bool active) 
     { 
-        if (active) uptiltHitbox?.BeginSwing(); 
-        else uptiltHitbox?.EndSwing(); 
+        if (active) upTiltHitbox?.BeginSwing(); 
+        else upTiltHitbox?.EndSwing(); 
+    }
+    public void SetDTiltHitbox(bool active)
+    {
+        if (active) dTiltHitbox?.BeginSwing();
+        else dTiltHitbox?.EndSwing();
     }
 }

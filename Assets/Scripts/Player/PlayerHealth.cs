@@ -6,10 +6,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [Header("Health Settings")]
     public int currentDamage = 0;
     public int maxDamage = 100;
+    public int fallLives = 3;
 
-    [Header("UI Reference")]
-    [SerializeField] private TextMeshProUGUI damageText;
-
+    private TextMeshProUGUI damageText;
     private Rigidbody2D rb;
     private bool isDead = false;
 
@@ -36,7 +35,30 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         GetComponent<PlayerController>().TakeHit(0.4f);
 
-        if (currentDamage >= maxDamage) Die();
+        if (currentDamage >= maxDamage)
+        {
+            Die();
+        }               
+    }
+
+    public void FallPenalty()
+    {
+        if (isDead) return;
+
+        fallLives--;
+
+        if (fallLives > 0)
+        {
+            PlayerRespawn respawnScript = GetComponent<PlayerRespawn>();
+            if (respawnScript != null)
+            {
+                respawnScript.Respawn();
+            }
+        }
+        else
+        {
+            Die();
+        }
     }
 
     private void UpdateUI()

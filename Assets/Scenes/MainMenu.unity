@@ -285,6 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24a343f912dcba349be88cd219a1b7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuManager
+  HowToPlayPanel: {fileID: 0}
 --- !u!4 &1130039857
 Transform:
   m_ObjectHideFlags: 0

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class ForwardTiltState : AttackState
 {
     protected override float Startup => 0.10f;

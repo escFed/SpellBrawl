@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     public JumpState JumpState { get; private set; }
     public JabState JabState { get; private set; }
     public ForwardTiltState ForwardTiltState { get; private set; }
+    public DownTiltState DownTiltState { get; private set; }
     public UpTiltState UpTiltState { get; private set; }
     public CardState CardState { get; private set; }
     public DieState DieState { get; private set; }
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
         JabState = new JabState(this, stateMachine);
         ForwardTiltState = new ForwardTiltState(this, stateMachine);
         UpTiltState = new UpTiltState(this, stateMachine);
+        DownTiltState = new DownTiltState(this, stateMachine);
         DieState = new DieState(this, stateMachine);
         CardState = new CardState(this, stateMachine);
     }
@@ -161,10 +163,16 @@ public class PlayerController : MonoBehaviour
         bool hasHorizontal = Mathf.Abs(dir.x) >= stats.tiltThreshold;
         bool hasUp = dir.y >= stats.tiltThreshold;
 
+        bool hasDown = dir.y <= -stats.tiltThreshold;
+
         input.ConsumeAttack();
 
         if (hasUp && (!hasHorizontal || dir.y >= Mathf.Abs(dir.x))) return UpTiltState;
+
+        if (hasDown && (!hasHorizontal || Mathf.Abs(dir.y) >= Mathf.Abs(dir.x))) return DownTiltState;
+
         if (hasHorizontal) return ForwardTiltState;
+
         return JabState;
     }
 
@@ -187,6 +195,8 @@ public class PlayerController : MonoBehaviour
     public void CloseFTiltHitbox() => HitBox.SetFTiltHitbox(false);
     public void OpenUTiltHitbox() => HitBox.SetUTiltHitbox(true);
     public void CloseUTiltHitbox() => HitBox.SetUTiltHitbox(false);
+    public void OpenDTiltHitbox() => HitBox.SetDTiltHitbox(true);
+    public void CloseDTiltHitbox() => HitBox.SetDTiltHitbox(false);
 
     public void OnDeath()
     {
