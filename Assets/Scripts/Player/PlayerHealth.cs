@@ -5,47 +5,65 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 {
     [Header("Health Settings")]
     public int currentDamage = 0;
-    public int maxDamage = 100;
+
+    [Header("Knockback Settings")]
+    public float knockbackMultiplier = 1.5f;
+
+    [Header("Penalty Settings")]
     public int fallLives = 3;
 
-    private TextMeshProUGUI damageText;
+    [Header("UI Reference")]
+    [SerializeField] private TextMeshProUGUI damageText;
+    private GameObject[] lifeIcons;
+
     private Rigidbody2D rb;
     private bool isDead = false;
+    private float lastFallTime = -2f;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void SetDamageText(TextMeshProUGUI text)
+    public void SetUIElements(TextMeshProUGUI text, GameObject[] icons)
     {
         damageText = text;
+        lifeIcons = icons;
         UpdateUI();
     }
 
-    public void TakeDamage(int amount, Vector2 knockback)
+    public void TakeDamage(int amount, Vector2 baseKnockback)
     {
         if (isDead) return;
 
         currentDamage += amount;
         UpdateUI();
 
-        rb.linearVelocity = Vector2.zero;
-        rb.AddForce(knockback, ForceMode2D.Impulse);
+        float damageScale = 1f;
+
+        if (currentDamage > 100)
+        {
+            float extraDamage = currentDamage - 100f;
+            damageScale += (extraDamage / 100f) * knockbackMultiplier;
+        }
+
+        Vector2 finalKnockback = baseKnockback * damageScale;
+
+        rb.linearVelocity = Vector2.zero; 
+        rb.AddForce(finalKnockback, ForceMode2D.Impulse);
 
         GetComponent<PlayerController>().TakeHit(0.4f);
-
-        if (currentDamage >= maxDamage)
-        {
-            Die();
-        }               
     }
 
     public void FallPenalty()
     {
         if (isDead) return;
 
+        if (Time.time - lastFallTime < 1f) return;
+        lastFallTime = Time.time;
+
         fallLives--;
+        UpdateUI();
 
         if (fallLives > 0)
         {
@@ -61,18 +79,38 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
     }
 
+    public void InstantGameOver()
+    {
+        if (isDead) return;
+
+        fallLives = 0;
+        UpdateUI();
+
+        Die();
+    }
+
     private void UpdateUI()
     {
         if (damageText != null)
         {
             damageText.text = currentDamage + "%";
         }
+
+        if (lifeIcons != null)
+        {
+            for (int i = 0; i < lifeIcons.Length; i++)
+            {
+                if (lifeIcons[i] != null)
+                {
+                    lifeIcons[i].SetActive(i < fallLives);
+                }
+            }
+        }
     }
 
     private void Die()
     {
         isDead = true;
-
         gameObject.SetActive(false);
 
         PlayerController controller = GetComponent<PlayerController>();

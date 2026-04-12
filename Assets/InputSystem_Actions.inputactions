@@ -88,9 +88,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Special",
+                    "name": "Hand1",
                     "type": "Button",
-                    "id": "32963271-17ea-4d7c-b4e9-09ba842554a0",
+                    "id": "50d9fe7c-96af-4705-894e-1cf646b6a3ab",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Hand2",
+                    "type": "Button",
+                    "id": "7b1e366a-ea1e-481f-a844-f22994cbc927",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -485,23 +494,45 @@
                 },
                 {
                     "name": "",
-                    "id": "2e074c49-6e19-4fb1-bf45-e08f098b13fc",
-                    "path": "<Gamepad>/buttonNorth",
+                    "id": "afc622af-8ffa-4add-bcf3-faa352684757",
+                    "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Special",
+                    "action": "Hand1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "94876fba-9a80-4350-b193-8106fc3baf06",
-                    "path": "<Keyboard>/j",
+                    "id": "47498470-1978-4035-9273-01c813a1d35e",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Special",
+                    "action": "Hand1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "abfccf64-b6e7-4859-adb2-05ed9adf5540",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hand2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "598ba497-45a7-44e3-a56a-a24c2021e313",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hand2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

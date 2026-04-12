@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -8,7 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerStats stats;
 
     [Header("Cards")]
-    public GameObject[] cardSlots = new GameObject[4];
+    public GameObject[] DeckSlots = new GameObject[4];
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
@@ -19,6 +21,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private StateMachine stateMachine;
     private PlayerHitBox HitBox;
+    private Queue<ICardable> reserveDeck = new Queue<ICardable>();
+    private ICardable[] currentHand = new ICardable[2];
 
     public IdleState IdleState { get; private set; }
     public MoveState MoveState { get; private set; }
@@ -64,26 +68,51 @@ public class PlayerController : MonoBehaviour
 
         PlayerInput playerInput = GetComponent<PlayerInput>();
         PlayerIndex = playerInput != null ? playerInput.playerIndex : 1;
+
         PlayerHealth health = GetComponent<PlayerHealth>();
-
-        if (UIManager.Instance != null)
+        if (health != null && UIManager.Instance != null)
         {
-            if (PlayerIndex == 0 && health != null) health.SetDamageText(UIManager.Instance.p1_damageText);
-            else if (PlayerIndex == 1 && health != null) health.SetDamageText(UIManager.Instance.p2_damageText);
+            TextMeshProUGUI myText = (PlayerIndex == 0) ? UIManager.Instance.p1_damageText : UIManager.Instance.p2_damageText;
+            GameObject[] myLines = (PlayerIndex == 0) ? UIManager.Instance.p1_life : UIManager.Instance.p2_life;
 
-            Image[] UISlots = (PlayerIndex == 0) ? UIManager.Instance.p1_cards : UIManager.Instance.p2_cards;
+            health.SetUIElements(myText, myLines);
+        }
 
-            for (int i = 0; i < cardSlots.Length; i++)
+        foreach (GameObject cardObj in DeckSlots)
+        {
+            if (cardObj != null)
             {
-                if (cardSlots[i] != null && i < UISlots.Length)
-                {
-                    ICardable genericCard = cardSlots[i].GetComponent<ICardable>();
-                    if (genericCard != null)
-                    {
-                        genericCard.SetUI(UISlots[i]);
-                    }
-                }
+                ICardable cardComponent = cardObj.GetComponent<ICardable>();
+                if (cardComponent != null) reserveDeck.Enqueue(cardComponent);
             }
+        }
+
+        if (reserveDeck.Count >= 2)
+        {
+            currentHand[0] = reserveDeck.Dequeue();
+            currentHand[1] = reserveDeck.Dequeue();
+        }
+
+        UpdateHandUI();
+    }
+
+    private void UpdateHandUI()
+    {
+        if (UIManager.Instance == null) return;
+
+        Image[] UISlots = (PlayerIndex == 0) ? UIManager.Instance.p1_cards : UIManager.Instance.p2_cards;
+
+        foreach (Image img in UISlots) img.gameObject.SetActive(false);
+
+        if (currentHand[0] != null)
+        {
+            UISlots[0].gameObject.SetActive(true);
+            currentHand[0].SetUI(UISlots[0]);
+        }
+        if (currentHand[1] != null)
+        {
+            UISlots[1].gameObject.SetActive(true);
+            currentHand[1].SetUI(UISlots[1]);
         }
     }
 
@@ -97,15 +126,39 @@ public class PlayerController : MonoBehaviour
             stunTimer -= Time.deltaTime;
             return;
         }
-
-        if (input.HasBufferedSpecial)
+        if (input.HasBufferedHand1)
         {
-            int slotToUse = ResolveCardSlot();
-            TryUseCard(slotToUse);
-            input.ConsumeSpecial();
+            TryUseCardFromHand(0);
+            input.ConsumeHand1();
+        }
+        else if (input.HasBufferedHand2)
+        {
+            TryUseCardFromHand(1);
+            input.ConsumeHand2();
         }
 
         stateMachine.Update();
+    }
+
+    public void TryUseCardFromHand(int handIndex)
+    {
+        if (stateMachine.CurrentState != IdleState && stateMachine.CurrentState != MoveState) return;
+
+        if (currentHand[handIndex] != null)
+        {
+            ICardable cardToUse = currentHand[handIndex];
+
+            CardState.SetCard(cardToUse, 0.5f);
+            stateMachine.ChangeState(CardState);
+
+            if (reserveDeck.Count > 0)
+            {
+                reserveDeck.Enqueue(cardToUse);             
+                currentHand[handIndex] = reserveDeck.Dequeue();
+            }
+
+            UpdateHandUI();
+        }
     }
 
     private void FixedUpdate()
@@ -121,40 +174,6 @@ public class PlayerController : MonoBehaviour
         stunTimer = stunDuration;
         input.ClearAllInputs();
         stateMachine.ChangeState(IdleState);
-    }
-
-    private int ResolveCardSlot()
-    {
-        Vector2 dir = input.CurrentDirection;
-        float deadzone = 0.3f;
-
-        if (dir.magnitude < deadzone) return 0;
-
-        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
-        {
-            return 1;
-        }
-        else
-        {
-            if (dir.y > 0) return 2;
-            else return 3;
-        }
-    }
-
-    public void TryUseCard(int slotIndex)
-    {
-        if (stateMachine.CurrentState != IdleState && stateMachine.CurrentState != MoveState) return;
-
-        if (slotIndex >= 0 && slotIndex < cardSlots.Length && cardSlots[slotIndex] != null)
-        {
-            ICardable cardToUse = cardSlots[slotIndex].GetComponent<ICardable>();
-
-            if (cardToUse != null)
-            {
-                CardState.SetCard(cardToUse, 0.5f);
-                stateMachine.ChangeState(CardState);
-            }
-        }
     }
 
     public IState ResolveAttackState()

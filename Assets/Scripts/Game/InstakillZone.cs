@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class DeathZone : MonoBehaviour
+public class InstaKillZone : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         PlayerHealth health = other.GetComponentInParent<PlayerHealth>();
 
         if (health != null)
         {
-            health.FallPenalty();
+            if (other.gameObject == health.gameObject)
+            {
+                health.InstantGameOver();
+            }
         }
         else
         {
