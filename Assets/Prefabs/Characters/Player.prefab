@@ -363,6 +363,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7610331827614850892}
+  - component: {fileID: 590173469278819655}
   m_Layer: 7
   m_Name: Card3
   m_TagString: Untagged
@@ -385,6 +386,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3262535833314222879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &590173469278819655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4757604913434371634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da1b9d67a70eb3b408f27045251568d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StarThrowCard
+  sthPrefab: {fileID: 2650016348247390371, guid: 7730236bc5be1434586f74a36fa6c9a2, type: 3}
+  cooldownBetweenShots: 0.5
+  reloadTime: 1
+  maxShoots: 4
 --- !u!1 &5310919436588583875
 GameObject:
   m_ObjectHideFlags: 0
