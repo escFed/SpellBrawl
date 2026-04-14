@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Cards")]
     public GameObject[] DeckSlots = new GameObject[4];
-    public float timeToDrawNewCard = 3.0f;
+    public float timeToDrawNewCard = 6.0f;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;

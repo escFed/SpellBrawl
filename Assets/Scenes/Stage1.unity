@@ -1545,8 +1545,8 @@ RectTransform:
   - {fileID: 2079288148}
   - {fileID: 929922494}
   - {fileID: 870613706}
-  - {fileID: 1992192620}
   - {fileID: 1260444765}
+  - {fileID: 1992192620}
   - {fileID: 1507935011}
   - {fileID: 809614424}
   - {fileID: 1241678198}
@@ -2267,7 +2267,7 @@ GameObject:
   - component: {fileID: 1260444767}
   - component: {fileID: 1260444766}
   m_Layer: 5
-  m_Name: logo2
+  m_Name: logoP1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2305,7 +2305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.48584908, g: 1, b: 0.4902215, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3196,7 +3196,7 @@ GameObject:
   - component: {fileID: 1992192622}
   - component: {fileID: 1992192621}
   m_Layer: 5
-  m_Name: logo1
+  m_Name: logoP2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3234,7 +3234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.48584908, b: 0.48584908, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

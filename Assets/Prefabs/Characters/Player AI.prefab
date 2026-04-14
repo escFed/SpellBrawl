@@ -624,7 +624,7 @@ MonoBehaviour:
   - {fileID: 5377440114866375713}
   - {fileID: 3404829219937814804}
   - {fileID: 286029161659632707}
-  timeToDrawNewCard: 3
+  timeToDrawNewCard: 6
   groundCheck: {fileID: 1785916118178468197}
   groundLayer:
     serializedVersion: 2
