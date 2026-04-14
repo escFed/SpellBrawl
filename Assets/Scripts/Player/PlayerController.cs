@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Cards")]
     public GameObject[] DeckSlots = new GameObject[4];
+    public float timeToDrawNewCard = 3.0f;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
@@ -153,10 +154,24 @@ public class PlayerController : MonoBehaviour
 
             if (reserveDeck.Count > 0)
             {
-                reserveDeck.Enqueue(cardToUse);             
-                currentHand[handIndex] = reserveDeck.Dequeue();
+                reserveDeck.Enqueue(cardToUse);
             }
 
+            currentHand[handIndex] = null;
+
+            UpdateHandUI();
+
+            StartCoroutine(DrawNextCardRoutine(handIndex));
+        }
+    }
+
+    private System.Collections.IEnumerator DrawNextCardRoutine(int handIndex)
+    {
+        yield return new WaitForSeconds(timeToDrawNewCard);
+
+        if (reserveDeck.Count > 0)
+        {
+            currentHand[handIndex] = reserveDeck.Dequeue();
             UpdateHandUI();
         }
     }

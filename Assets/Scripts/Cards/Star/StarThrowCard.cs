@@ -2,11 +2,12 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ThunderStrikeCard : MonoBehaviour, ICardable
+public class StarThrowCard : MonoBehaviour, ICardable
 {
     [Header("Settings")]
-    [SerializeField] private GameObject tsPrefab;
-    [SerializeField] private float cooldownTime = 8f;
+    [SerializeField] private GameObject starPrefab;
+    [SerializeField] private float cooldownTime = 6f;
+    [SerializeField] private float spawnHeight = 12f;
 
     public Sprite cardSprite;
 
@@ -28,18 +29,15 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
     public void ExecuteCard(PlayerController player)
     {
         if (!canUse) return;
-
-        StartCoroutine(ThunderRoutine(player));
+        StartCoroutine(StarRoutine(player));
     }
 
-    private IEnumerator ThunderRoutine(PlayerController player)
+    private IEnumerator StarRoutine(PlayerController player)
     {
         canUse = false;
-
         if (cardUI != null) cardUI.enabled = false;
 
         PlayerController target = null;
-
         PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
 
         foreach (PlayerController p in allPlayers)
@@ -53,18 +51,19 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
 
         if (target != null)
         {
-            GameObject th = Instantiate(tsPrefab, target.transform.position, Quaternion.identity);
+            Vector3 spawnPosition = new Vector3(player.transform.position.x, player.transform.position.y + spawnHeight, 0f);
 
-            if (th.TryGetComponent(out ThunderProjectile tProj))
+            GameObject starObj = Instantiate(starPrefab, spawnPosition, Quaternion.identity);
+
+            if (starObj.TryGetComponent(out StarProjectile starProjectile))
             {
-                tProj.Init(player.gameObject);
+                starProjectile.Init(player.gameObject, target.transform);
             }
         }
 
         yield return new WaitForSeconds(cooldownTime);
 
         canUse = true;
-
         if (cardUI != null) cardUI.enabled = true;
     }
 }

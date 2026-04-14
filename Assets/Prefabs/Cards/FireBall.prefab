@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56be4e27de19ca34e9554003e83256b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FireProjectile
-  speed: 10
+  speed: 15
   damage: 10
   knockback: {x: 6, y: 2}
   groundLayer:

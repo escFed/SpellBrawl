@@ -431,6 +431,7 @@ MonoBehaviour:
   cooldownBetweenShots: 0.5
   reloadTime: 6
   maxShoots: 3
+  cardSprite: {fileID: -8703317477055725012, guid: 8b436fe85e5f15848a9a8134fce1763e, type: 3}
 --- !u!1 &2464666211507732312
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,6 +478,7 @@ Transform:
   - {fileID: 5718793641096653619}
   - {fileID: 4175778399756417381}
   - {fileID: 4724958139089590454}
+  - {fileID: 3440886894782662767}
   - {fileID: 531333499451203714}
   - {fileID: 8435742142538301835}
   m_Father: {fileID: 0}
@@ -622,6 +624,7 @@ MonoBehaviour:
   - {fileID: 5377440114866375713}
   - {fileID: 3404829219937814804}
   - {fileID: 286029161659632707}
+  timeToDrawNewCard: 3
   groundCheck: {fileID: 1785916118178468197}
   groundLayer:
     serializedVersion: 2
@@ -642,9 +645,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHitBox
   jabHitbox: {fileID: 5713145579488713931}
-  fTiltHitbox: {fileID: 0}
-  upTiltHitbox: {fileID: 0}
-  dTiltHitbox: {fileID: 0}
+  fTiltHitbox: {fileID: 8246800037079071242}
+  upTiltHitbox: {fileID: 445758605109185613}
+  dTiltHitbox: {fileID: 5378816027172720550}
 --- !u!114 &7554642670596897687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -824,6 +827,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4816934616445552801}
+  - component: {fileID: 2579626517902031314}
   m_Layer: 7
   m_Name: Card3
   m_TagString: Untagged
@@ -846,6 +850,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7704541438735409549}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2579626517902031314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3404829219937814804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 783a822f67f72774d85df43e647b4a42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StarThrowCard
+  starPrefab: {fileID: 2942788602873880493, guid: 1e325a311c0cb7d49a27f9eb1d3038c2, type: 3}
+  cooldownTime: 6
+  spawnHeight: 12
+  cardSprite: {fileID: 8038980596141600677, guid: 306e652062a229046b4f794f1ce25eb8, type: 3}
 --- !u!1 &5228198483163591303
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,6 +943,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ThunderStrikeCard
   tsPrefab: {fileID: 7062071539232757206, guid: 36b700d52f911bf42bbad3ddd8180354, type: 3}
   cooldownTime: 8
+  cardSprite: {fileID: 1650011137122960578, guid: 17a5c538829024b48be3ab308223d548, type: 3}
 --- !u!1 &7093909918081708081
 GameObject:
   m_ObjectHideFlags: 0
@@ -1109,3 +1130,96 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
   damage: 10
   knockback: {x: 1, y: 4}
+--- !u!1 &8512186710467760690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3440886894782662767}
+  - component: {fileID: 1146568869585491778}
+  - component: {fileID: 5378816027172720550}
+  m_Layer: 7
+  m_Name: DTiltHB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3440886894782662767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8512186710467760690}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4, y: -0.9, z: 0}
+  m_LocalScale: {x: 1.5, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7704541438735409549}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1146568869585491778
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8512186710467760690}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &5378816027172720550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8512186710467760690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3fc8b3d4d5570e4cae480ba3ad4ad50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
+  damage: 9
+  knockback: {x: 0.5, y: 2}

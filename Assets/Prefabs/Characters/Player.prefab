@@ -363,6 +363,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7610331827614850892}
+  - component: {fileID: 7145457831584134424}
   m_Layer: 7
   m_Name: Card3
   m_TagString: Untagged
@@ -385,6 +386,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3262535833314222879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7145457831584134424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4757604913434371634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 783a822f67f72774d85df43e647b4a42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StarThrowCard
+  starPrefab: {fileID: 2942788602873880493, guid: 1e325a311c0cb7d49a27f9eb1d3038c2, type: 3}
+  cooldownTime: 6
+  spawnHeight: 12
+  cardSprite: {fileID: 8038980596141600677, guid: 306e652062a229046b4f794f1ce25eb8, type: 3}
 --- !u!1 &5310919436588583875
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,6 +769,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ThunderStrikeCard
   tsPrefab: {fileID: 7062071539232757206, guid: 36b700d52f911bf42bbad3ddd8180354, type: 3}
   cooldownTime: 8
+  cardSprite: {fileID: 1650011137122960578, guid: 17a5c538829024b48be3ab308223d548, type: 3}
 --- !u!1 &7345901011278583841
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,6 +849,7 @@ MonoBehaviour:
   cooldownBetweenShots: 0.5
   reloadTime: 6
   maxShoots: 3
+  cardSprite: {fileID: -8703317477055725012, guid: 8b436fe85e5f15848a9a8134fce1763e, type: 3}
 --- !u!1 &7950928319824809028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1117,6 +1136,7 @@ MonoBehaviour:
   - {fileID: 7615385312346413976}
   - {fileID: 4757604913434371634}
   - {fileID: 6857446786280242423}
+  timeToDrawNewCard: 3
   groundCheck: {fileID: 3329483558142694777}
   groundLayer:
     serializedVersion: 2

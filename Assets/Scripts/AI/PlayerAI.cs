@@ -16,15 +16,13 @@ public class PlayerAI : MonoBehaviour, IInputProvider
     public float lookAheadDistance = 1f;
     public float fallCheckDepth = 2f;
 
-    private enum AITactic { Aggressive, Defensive, Zoning }
-    private AITactic currentTactic = AITactic.Aggressive;
+    private AIBehavior currentBehavior;
+    public OffensiveBehavior offensiveBehavior;
+    public DefensiveBehavior defensiveBehavior;
+    public PatrolBehavior patrolBehavior;
+    public PlayerController SelfController { get; private set; }
+    public Transform Target { get; private set; }
 
-    private float tacticTimer;
-    private float nextAttackTime;
-    private float nextCardTime;
-
-    private PlayerController selfController;
-    private Transform target;
     private float thinkTimer;
 
     public Vector2 CurrentDirection { get; private set; }
@@ -33,28 +31,39 @@ public class PlayerAI : MonoBehaviour, IInputProvider
     public bool HasBufferedHand1 { get; private set; }
     public bool HasBufferedHand2 { get; private set; }
 
-    private void Awake() => selfController = GetComponent<PlayerController>();
+    private void Awake()
+    {
+        SelfController = GetComponent<PlayerController>();
 
-    private void Start() => Invoke(nameof(FindTarget), 0.5f);
+        offensiveBehavior = new OffensiveBehavior();
+        defensiveBehavior = new DefensiveBehavior();
+        patrolBehavior = new PatrolBehavior();
+    }
+
+    private void Start()
+    {
+        Invoke(nameof(FindTarget), 0.5f);
+        ChangeBehavior(offensiveBehavior);
+    }
 
     private void FindTarget()
     {
         PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
         foreach (PlayerController p in allPlayers)
         {
-            if (p != selfController) { target = p.transform; break; }
+            if (p != SelfController) { Target = p.transform; break; }
         }
     }
 
     private void Update()
     {
-        if (target == null)
+        if (Target == null)
         {
             FindTarget();
-            if (target == null) { CurrentDirection = Vector2.zero; return; }
+            if (Target == null) { CurrentDirection = Vector2.zero; return; }
         }
 
-        if (selfController.IsDead || selfController.stunTimer > 0)
+        if (SelfController.IsDead || SelfController.stunTimer > 0)
         {
             CurrentDirection = Vector2.zero;
             return;
@@ -66,115 +75,34 @@ public class PlayerAI : MonoBehaviour, IInputProvider
 
         ClearAllInputs();
 
-        tacticTimer -= thinkTimer;
-        if (tacticTimer <= 0)
+        if (currentBehavior != null)
         {
-            NewTactic();
-        }
-
-        float distX = target.position.x - transform.position.x;
-        float distY = target.position.y - transform.position.y;
-        float absDistX = Mathf.Abs(distX);
-
-        if (distY > 1.5f && selfController.IsGrounded) HasBufferedJump = true;
-
-        switch (currentTactic)
-        {
-            case AITactic.Aggressive:
-                ExecuteAggressive(distX, absDistX, distY);
-                break;
-
-            case AITactic.Defensive:
-                ExecuteDefensive(distX, absDistX);
-                break;
-
-            case AITactic.Zoning:
-                ExecuteZoning(distX, absDistX);
-                break;
+            currentBehavior.UpdateBehavior(this);
         }
     }
 
-    private bool IsSafeToMove(float directionX)
+    public void ChangeBehavior(AIBehavior newBehavior)
     {
-        if (!selfController.IsGrounded) return true;
+        if (currentBehavior != null) currentBehavior.Exit(this);
+        currentBehavior = newBehavior;
+        if (currentBehavior != null) currentBehavior.Enter(this);
+    }
+
+    public void SetDirection(Vector2 dir) => CurrentDirection = dir;
+    public void TriggerJump() => HasBufferedJump = true;
+    public void TriggerAttack() => HasBufferedAttack = true;
+    public void TriggerHand1() => HasBufferedHand1 = true;
+    public void TriggerHand2() => HasBufferedHand2 = true;
+
+    public bool IsSafeToMove(float directionX)
+    {
+        if (!SelfController.IsGrounded) return true;
 
         Vector2 rayOrigin = new Vector2(transform.position.x + (directionX * lookAheadDistance), transform.position.y);
-
         RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, fallCheckDepth, groundLayer);
-
         Debug.DrawRay(rayOrigin, Vector2.down * fallCheckDepth, hit.collider != null ? Color.green : Color.red, reactionTime);
 
         return hit.collider != null;
-    }
-
-    private void ExecuteAggressive(float distX, float absDistX, float distY)
-    {
-        if (absDistX > attackRange)
-        {
-            float dirX = Mathf.Sign(distX);
-
-            if (IsSafeToMove(dirX)) CurrentDirection = new Vector2(dirX, 0);
-            else CurrentDirection = Vector2.zero;
-        }
-        else
-        {
-            CurrentDirection = Vector2.zero;
-            if (Time.time >= nextAttackTime && Mathf.Abs(distY) < 1f)
-            {
-                HasBufferedAttack = true;
-                nextAttackTime = Time.time + attackCooldown;
-            }
-        }
-    }
-
-    private void ExecuteDefensive(float distX, float absDistX)
-    {
-        float dirX = -Mathf.Sign(distX);
-
-        if (absDistX > cardRange)
-        {
-            CurrentDirection = Vector2.zero;
-        }
-        else
-        {
-            if (IsSafeToMove(dirX)) CurrentDirection = new Vector2(dirX, 0);
-            else CurrentDirection = Vector2.zero;
-        }
-    }
-
-    private void ExecuteZoning(float distX, float absDistX)
-    {
-        CurrentDirection = Vector2.zero;
-
-        if (Time.time >= nextCardTime)
-        {
-            if (Random.value < 0.5f) HasBufferedHand1 = true;
-            else HasBufferedHand2 = true;
-
-            nextCardTime = Time.time + timeBetweenCards;
-            if (Random.value > 0.5f) NewTactic();
-        }
-    }
-
-    private void NewTactic()
-    {
-        float random = Random.value;
-
-        if (random < 0.4f)
-        {
-            currentTactic = AITactic.Aggressive;
-            tacticTimer = 2.0f;
-        }
-        else if (random < 0.7f)
-        {
-            currentTactic = AITactic.Zoning;
-            tacticTimer = 4.0f;
-        }
-        else
-        {
-            currentTactic = AITactic.Defensive;
-            tacticTimer = 1.5f;
-        }
     }
 
     public void ConsumeJump() => HasBufferedJump = false;

@@ -10,6 +10,8 @@ public class FireBallCard : MonoBehaviour, ICardable
     [SerializeField] private float reloadTime = 6f;
     [SerializeField] private int maxShoots = 3;
 
+    public Sprite cardSprite;
+
     private Image cardUI;
     private int currentShoots;
     private bool canShoot = true;
@@ -22,6 +24,13 @@ public class FireBallCard : MonoBehaviour, ICardable
     public void SetUI(Image uiImage)
     {
         cardUI = uiImage;
+
+        if (cardUI != null)
+        {
+            cardUI.sprite = cardSprite;
+
+            cardUI.enabled = true;
+        }
     }
 
     public void ExecuteCard(PlayerController player)
