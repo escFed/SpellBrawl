@@ -8,6 +8,7 @@ Unity generated folders
 [Mm]emoryCaptures/
 UserSettings/
 
+
 Unity cache / artifact database
 ArtifactDB
 Artifacts/
@@ -34,6 +35,7 @@ Visual Studio / Rider / VSCode
 .vs/
 .vscode/
 .idea/
+*.json
 *.csproj
 *.unityproj
 *.sln
@@ -62,3 +64,5 @@ ServerData/
 
 Unity Collab
 .collabignore
+.vs/SpellBrawl.slnx/v18/DocumentLayout.json
+.vs/SpellBrawl.slnx/v18/DocumentLayout.backup.json

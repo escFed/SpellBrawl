@@ -34,10 +34,10 @@ public class StarThrowCard : MonoBehaviour, ICardable
 
         canShoot = false;
 
-        GameObject fireball = Instantiate(sthPrefab, player.throwPoint.position, Quaternion.identity);
+        GameObject star = Instantiate(sthPrefab, player.throwPoint.position, Quaternion.identity);
 
         Vector2 direction = player.transform.localScale.x > 0 ? Vector2.right : Vector2.left;
-        if (fireball.TryGetComponent(out StarThrowProjectile script))
+        if (star.TryGetComponent(out StarThrowProjectile script))
         {
             script.Init(direction, player.gameObject);
         }

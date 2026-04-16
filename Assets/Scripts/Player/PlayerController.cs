@@ -44,6 +44,9 @@ public class PlayerController : MonoBehaviour
     public float stunTimer;
     public Transform throwPoint;
 
+
+    public Transform starThrowPoint;
+
     private void Awake()
     {
         input = GetComponent<IInputProvider>();

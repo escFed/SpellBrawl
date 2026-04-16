@@ -6,6 +6,7 @@ public class FireProjectile : MonoBehaviour
     [SerializeField] private float speed = 10f;
     [SerializeField] private int damage = 10;
     [SerializeField] private Vector2 knockback = new Vector2(6f, 2f);
+    
 
     [SerializeField] private LayerMask groundLayer;
 
@@ -31,7 +32,6 @@ public class FireProjectile : MonoBehaviour
         {
             float dir = Mathf.Sign(rb.linearVelocity.x);
             target.TakeDamage(damage, new Vector2(knockback.x * dir, knockback.y));
-
             Destroy(gameObject);
         }
         else if (((1 << collision.gameObject.layer) & groundLayer) != 0)
