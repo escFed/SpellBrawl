@@ -2812,7 +2812,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1671460924}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plataforms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
