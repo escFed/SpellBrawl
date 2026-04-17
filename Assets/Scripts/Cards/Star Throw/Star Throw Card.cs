@@ -18,9 +18,13 @@ public class StarThrowCard : MonoBehaviour, ICardable
 
     public void SetUI(Image uiImage)
     {
-        cardUI = uiImage;
+        cardUI = uiImage; // ← esto faltaba
+        if (cardUI != null)
+        {
+            cardUI.sprite = cardUI.GetComponent<Sprite>();
+            cardUI.enabled = true;
+        }
     }
-
 
     private void Awake()
     {

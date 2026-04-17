@@ -20,9 +20,27 @@ public class UIManager : MonoBehaviour
     public GameObject[] p1_life = new GameObject[3];
     public GameObject[] p2_life = new GameObject[3];
 
+
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
+
+
+    public void UpdateDamage(int playerId, int damage, float knockBackReductionQuantity)
+    {
+        TextMeshProUGUI damageUI = (playerId == 1) ? p1_damageText : p2_damageText;
+
+        if (damageUI != null)
+        {
+            // Mostrar solo daño
+            damageUI.text = damage + "%";
+
+            
+        }
+    }
+
+
 }

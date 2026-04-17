@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDamageable
 {
+
+
     [Header("Stats")]
     [SerializeField] private PlayerStats stats;
 
@@ -17,13 +20,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckRadius = 0.2f;
 
+    [Header("Player Settings")]
+    [SerializeField] private int playerId;
+
     private IInputProvider input;
     private Rigidbody2D rb;
     private StateMachine stateMachine;
     private PlayerHitBox HitBox;
     private Queue<ICardable> reserveDeck = new Queue<ICardable>();
     private ICardable[] currentHand = new ICardable[2];
-
+   
     public IdleState IdleState { get; private set; }
     public MoveState MoveState { get; private set; }
     public JumpState JumpState { get; private set; }
@@ -35,17 +41,25 @@ public class PlayerController : MonoBehaviour
     public DieState DieState { get; private set; }
 
     public Vector2 MoveInput => input.CurrentDirection;
-    public bool JumpPressed =>  input.HasBufferedJump;
+    public bool JumpPressed => input.HasBufferedJump;
     public bool AttackInput => input.HasBufferedAttack;
     public bool IsGrounded { get; private set; }
     public bool IsDead { get; private set; }
     public int PlayerIndex { get; private set; }
+
+    public int PlayerId => playerId;
 
     public float stunTimer;
     public Transform throwPoint;
 
 
     public Transform starThrowPoint;
+
+
+
+
+
+   
 
     private void Awake()
     {
@@ -75,6 +89,8 @@ public class PlayerController : MonoBehaviour
         PlayerHealth health = GetComponent<PlayerHealth>();
         if (health != null && UIManager.Instance != null)
         {
+
+            health.Init(playerId);
             TextMeshProUGUI myText = (PlayerIndex == 0) ? UIManager.Instance.p1_damageText : UIManager.Instance.p2_damageText;
             GameObject[] myLines = (PlayerIndex == 0) ? UIManager.Instance.p1_life : UIManager.Instance.p2_life;
 
@@ -98,6 +114,8 @@ public class PlayerController : MonoBehaviour
 
         UpdateHandUI();
     }
+
+   
 
     private void UpdateHandUI()
     {
@@ -156,7 +174,7 @@ public class PlayerController : MonoBehaviour
 
             if (reserveDeck.Count > 0)
             {
-                reserveDeck.Enqueue(cardToUse);             
+                reserveDeck.Enqueue(cardToUse);
                 currentHand[handIndex] = reserveDeck.Dequeue();
             }
 
@@ -236,4 +254,21 @@ public class PlayerController : MonoBehaviour
         stateMachine.ChangeState(IdleState);
     }
 
+    public void TakeDamage(int amount, Vector2 knockback)
+    {
+        Vector2 finalKnockback = DamageManager.CalculateKnockback(playerId, knockback);
+        GetComponent<PlayerHealth>().TakeDamage(amount, finalKnockback); // ← línea faltante
+    }
+
+    public void ActivateHeal(Vector2 reduction, float duration)
+    {
+        DamageManager.AddKnockbackReduction(PlayerId, reduction, duration);
+    }
+
+    public int GetPlayerId()
+    {
+        return playerId;
+    }
 }
+
+

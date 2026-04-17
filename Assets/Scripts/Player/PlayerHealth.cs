@@ -24,7 +24,13 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         rb = GetComponent<Rigidbody2D>();
     }
+    
+    public int PlayerId { get; private set; }
 
+    public void Init(int id)
+    {
+        PlayerId = id;
+    }
     public void SetUIElements(TextMeshProUGUI text, GameObject[] icons)
     {
         damageText = text;
@@ -118,5 +124,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         {
             MatchManager.Instance.PlayerDied(controller.PlayerIndex);
         }
+    }
+
+    public int GetPlayerId()
+    {
+        return PlayerId;
     }
 }

@@ -21,7 +21,9 @@ public class ThunderProjectile : MonoBehaviour
 
         if (collision.TryGetComponent(out IDamageable target))
         {
-            target.TakeDamage(damage, knockback);
+            int finalDamage = DamageManager.CalculateDamage(damage);
+            Vector2 finalKnockback = DamageManager.CalculateKnockback(target.GetPlayerId(), knockback);
+            target.TakeDamage(finalDamage, finalKnockback);
         }
     }
 }

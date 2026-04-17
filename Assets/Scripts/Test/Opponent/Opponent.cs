@@ -10,6 +10,8 @@ public class Opponent : MonoBehaviour, IDamageable
     private Rigidbody2D rb;
     private bool isDead = false;
 
+    [SerializeField] private int opponentId;
+    public int OpponentId => opponentId;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -40,5 +42,10 @@ public class Opponent : MonoBehaviour, IDamageable
         rb.bodyType = RigidbodyType2D.Static;
 
         Destroy(gameObject);
+    }
+
+    public int GetPlayerId()
+    {
+        return opponentId;
     }
 }

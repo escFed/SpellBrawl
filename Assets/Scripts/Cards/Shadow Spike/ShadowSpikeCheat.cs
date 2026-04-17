@@ -5,7 +5,7 @@ public class ShadowSpikeCheat : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] private int damage = 25;
-    [SerializeField] private Vector2 knockback = new Vector2(0f, 10f);
+    [SerializeField] private Vector2 knockback = new Vector2(0f, 0f);
     [SerializeField] private float delayBetweenAnimations;
     [SerializeField] private GameObject shadowSpikePrefab;
     [SerializeField] private float delayForFirstFrame;
@@ -63,7 +63,9 @@ public class ShadowSpikeCheat : MonoBehaviour
 
         if (collision.TryGetComponent(out IDamageable hitTarget))
         {
-            hitTarget.TakeDamage(damage, knockback);
+            int finalDamage = DamageManager.CalculateDamage(damage);
+            Vector2 finalKnockback = DamageManager.CalculateKnockback(hitTarget.GetPlayerId(), knockback);
+            hitTarget.TakeDamage(finalDamage, finalKnockback);
             Destroy(gameObject);
         }
 

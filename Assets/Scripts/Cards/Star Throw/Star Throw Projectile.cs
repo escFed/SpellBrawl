@@ -30,7 +30,9 @@ public class StarThrowProjectile : MonoBehaviour
         if (collision.TryGetComponent(out IDamageable target))
         {
             float dir = Mathf.Sign(rb.linearVelocity.x);
-            target.TakeDamage(damage, new Vector2(knockback.x * dir, knockback.y));
+            int finalDamage = DamageManager.CalculateDamage(damage);
+            Vector2 finalKnockback = DamageManager.CalculateKnockback(target.GetPlayerId(), knockback);
+            target.TakeDamage(finalDamage, new Vector2(finalKnockback.x * dir, finalKnockback.y));
 
             Destroy(gameObject);
         }
