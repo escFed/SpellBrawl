@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class DamageManager : MonoBehaviour
@@ -49,16 +50,16 @@ public class DamageManager : MonoBehaviour
         if (instance.playerKnockbackReductions.ContainsKey(playerId))
             reduction = instance.playerKnockbackReductions[playerId];
 
-  
-        Vector2 finalKnockback = new Vector2(
+       
+
+        
+
+        return new Vector2(
             Mathf.Max(0, baseKnockback.x - reduction.x),
             Mathf.Max(0, baseKnockback.y - reduction.y)
         );
-
-
-       baseKnockback = finalKnockback;
-        return baseKnockback;
     }
+
 
     public static void AddKnockbackReduction(int playerId, Vector2 reduction, float duration)
     {
@@ -70,17 +71,51 @@ public class DamageManager : MonoBehaviour
         if (!playerKnockbackReductions.ContainsKey(playerId))
             playerKnockbackReductions[playerId] = Vector2.zero;
 
+        // Activar reducción
         playerKnockbackReductions[playerId] += reduction;
-
-       
-
 
         yield return new WaitForSeconds(duration);
 
+        // Quitar reducción al terminar
         playerKnockbackReductions[playerId] -= reduction;
-
-    
-     
     }
 
+
+    public static void UpdateTargetText(int playerId, string message)
+    {
+
+
+        TextMeshProUGUI targetText = null;
+
+        if (playerId == 1)
+        {
+            targetText = UIManager.Instance.p1_damageText;
+        }
+
+        else if (playerId == 2)
+        {
+            targetText = UIManager.Instance.p2_damageText;
+        }
+
+        if (targetText != null)
+        {
+            targetText.text = message;
+            targetText.color = Color.red;
+            UIManager.Instance.StartCoroutine(DelayForChangeColor(targetText, Color.white, 3f));
+        }
+
+
+    }
+
+    private static IEnumerator DelayForChangeColor(TextMeshProUGUI text, Color original, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (text != null)
+        {
+            text.color = original;
+
+        }
+
+    }
 }

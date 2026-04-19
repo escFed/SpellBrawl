@@ -7,7 +7,6 @@ public class HealCard : MonoBehaviour, ICardable
     [Header("Settings")]
     private Image cardUI;
     private bool canHeal = true;
-    [SerializeField] private Vector2 knockBackRed;
     [SerializeField] private float duration;
     [SerializeField] private GameObject hPrefab;
 
@@ -26,6 +25,7 @@ public class HealCard : MonoBehaviour, ICardable
         HealLogic logic = Instantiate(hPrefab).GetComponent<HealLogic>();
         logic.Init(player.gameObject);
         logic.HealExecution(player.PlayerId);
+
     }
 
 

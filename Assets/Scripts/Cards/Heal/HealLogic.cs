@@ -19,12 +19,16 @@ public class HealLogic : MonoBehaviour
         targeter = target;
     }
 
-
     public void HealExecution(int playerId)
-    {
-        DamageManager.AddKnockbackReduction(playerId, new Vector2(0f, 5f), timeForHealActivated);
-        // Eliminá la línea UIManager.Instance.UpdateDamage(...)
-    }
+{
+    DamageManager.AddKnockbackReduction(playerId, knockBackReduction, timeForHealActivated);
+
+    // Mostrar feedback visual SOLO aquí
+    string message = $"Knockback ↓ {knockBackReduction}%";
+        UIManager.Instance.ShowKnockbackBuff(playerId, timeForHealActivated);
+        DamageManager.UpdateTargetText(playerId, message);
+}
+
 
 
 }

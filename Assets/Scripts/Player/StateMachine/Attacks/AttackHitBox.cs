@@ -26,9 +26,10 @@ public class AttackHitbox : MonoBehaviour
         if (other.TryGetComponent(out IDamageable target))
         {
             _hitThisSwing.Add(other);
-
             float dir = Mathf.Sign(other.transform.position.x - transform.root.position.x);
-            target.TakeDamage(damage, new Vector2(knockback.x * dir, knockback.y));
+            Vector2 baseKB = new Vector2(knockback.x * dir, knockback.y);
+            Vector2 finalKB = DamageManager.CalculateKnockback(target.GetPlayerId(), baseKB);
+            target.TakeDamage(damage, finalKB);
         }
     }
 

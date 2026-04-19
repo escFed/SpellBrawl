@@ -256,8 +256,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void TakeDamage(int amount, Vector2 knockback)
     {
-        Vector2 finalKnockback = DamageManager.CalculateKnockback(playerId, knockback);
-        GetComponent<PlayerHealth>().TakeDamage(amount, finalKnockback); // ← línea faltante
+        Vector2 reducedKnockback = DamageManager.CalculateKnockback(playerId, knockback);
+        GetComponent<PlayerHealth>().TakeDamage(amount, knockback);
     }
 
     public void ActivateHeal(Vector2 reduction, float duration)

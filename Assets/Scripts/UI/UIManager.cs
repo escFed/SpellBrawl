@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +21,9 @@ public class UIManager : MonoBehaviour
     public GameObject[] p1_life = new GameObject[3];
     public GameObject[] p2_life = new GameObject[3];
 
-
+    [Header("Buff indicators")]
+    public GameObject p1_buffIndicator;
+    public GameObject p2_buffIndicator;
 
     private void Awake()
     {
@@ -41,6 +44,23 @@ public class UIManager : MonoBehaviour
             
         }
     }
+
+
+
+    public void ShowKnockbackBuff(int playerId, float duration)
+    {
+        GameObject indicator = (playerId == 1) ? p1_buffIndicator : p2_buffIndicator;
+        if (indicator != null)
+            StartCoroutine(ShowBuffFor(indicator, duration));
+    }
+
+    private IEnumerator ShowBuffFor(GameObject indicator, float duration)
+    {
+        indicator.SetActive(true);
+        yield return new WaitForSeconds(duration);
+        indicator.SetActive(false);
+    }
+
 
 
 }

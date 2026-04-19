@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class PlayerHealth : MonoBehaviour, IDamageable
+public class PlayerHealth : MonoBehaviour
 {
     [Header("Health Settings")]
     public int currentDamage = 0;
@@ -126,8 +126,5 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
     }
 
-    public int GetPlayerId()
-    {
-        return PlayerId;
-    }
+    
 }

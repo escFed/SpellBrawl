@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9958cb5b387009e44957c667c7b5cce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealLogic
-  timeForHealActivated: 10
+  timeForHealActivated: 0
   knockBackReduction: {x: 10, y: 10}
