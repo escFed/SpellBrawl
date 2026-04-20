@@ -137,8 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e36c5d1bda443234a9407dd58a855752, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealCard
-  knockBackRed: {x: 10, y: 10}
-  duration: 1
+  duration: -10
   hPrefab: {fileID: 1128783388111230556, guid: 3156b610035f83a4fba48948268bd2e7, type: 3}
 --- !u!1 &1699992194255100795
 GameObject:

@@ -29,9 +29,10 @@ public class DamageManager : MonoBehaviour
         return Mathf.Max(0, baseDamage - instance.globalDamageReduction);
     }
 
-    public static void AddGlobalDamageReduction(int amount, float duration)
+    public static int AddGlobalDamageReduction(int amount, float duration)
     {
         instance.StartCoroutine(instance.ApplyDamageReduction(amount, duration));
+        return amount;
     }
 
     private IEnumerator ApplyDamageReduction(int amount, float duration)

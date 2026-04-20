@@ -1602,8 +1602,6 @@ MonoBehaviour:
   - {fileID: 129397640}
   - {fileID: 1773109141}
   - {fileID: 1686796638}
-  p1_buffIndicator: {fileID: 182484421}
-  p2_buffIndicator: {fileID: 1129960853}
 --- !u!114 &969920559
 MonoBehaviour:
   m_ObjectHideFlags: 0

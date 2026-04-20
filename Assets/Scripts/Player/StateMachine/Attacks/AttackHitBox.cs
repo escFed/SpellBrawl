@@ -27,9 +27,9 @@ public class AttackHitbox : MonoBehaviour
         {
             _hitThisSwing.Add(other);
             float dir = Mathf.Sign(other.transform.position.x - transform.root.position.x);
-            Vector2 baseKB = new Vector2(knockback.x * dir, knockback.y);
-            Vector2 finalKB = DamageManager.CalculateKnockback(target.GetPlayerId(), baseKB);
-            target.TakeDamage(damage, finalKB);
+            float duration = 2f;
+            int newDamage = DamageManager.AddGlobalDamageReduction(damage, duration);
+            target.TakeDamage(newDamage, knockback);
         }
     }
 

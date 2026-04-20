@@ -256,7 +256,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void TakeDamage(int amount, Vector2 knockback)
     {
-        Vector2 reducedKnockback = DamageManager.CalculateKnockback(playerId, knockback);
+        int reducedDamage = DamageManager.CalculateDamage(amount);
         GetComponent<PlayerHealth>().TakeDamage(amount, knockback);
     }
 

@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealLogic
   timeForHealActivated: 0
-  knockBackReduction: {x: 10, y: 10}
+  damage: 10

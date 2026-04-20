@@ -66,7 +66,6 @@ public class ShadowSpikeCheat : MonoBehaviour
             int finalDamage = DamageManager.CalculateDamage(damage);
             Vector2 finalKnockback = DamageManager.CalculateKnockback(hitTarget.GetPlayerId(), knockback);
             hitTarget.TakeDamage(finalDamage, finalKnockback);
-            Destroy(gameObject);
         }
 
         else if (((1 << collision.gameObject.layer) & shadowLayer) != 0)

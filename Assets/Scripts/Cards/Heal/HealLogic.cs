@@ -8,7 +8,7 @@ public class HealLogic : MonoBehaviour
     [Header("Stats")]
    
    [SerializeField] private float timeForHealActivated;
-    [SerializeField] private Vector2 knockBackReduction;
+    [SerializeField] private int damage;
    
     private GameObject targeter;
 
@@ -21,11 +21,11 @@ public class HealLogic : MonoBehaviour
 
     public void HealExecution(int playerId)
 {
-    DamageManager.AddKnockbackReduction(playerId, knockBackReduction, timeForHealActivated);
+        UIManager.Instance.UpdateDamage(playerId, damage, timeForHealActivated);
 
     // Mostrar feedback visual SOLO aquí
-    string message = $"Knockback ↓ {knockBackReduction}%";
-        UIManager.Instance.ShowKnockbackBuff(playerId, timeForHealActivated);
+    string message = $"Damage ↓ {damage}%";
+
         DamageManager.UpdateTargetText(playerId, message);
 }
 

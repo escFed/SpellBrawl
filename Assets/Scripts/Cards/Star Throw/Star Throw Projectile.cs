@@ -32,9 +32,10 @@ public class StarThrowProjectile : MonoBehaviour
             float dir = Mathf.Sign(rb.linearVelocity.x);
             int finalDamage = DamageManager.CalculateDamage(damage);
             Vector2 finalKnockback = DamageManager.CalculateKnockback(target.GetPlayerId(), knockback);
-            target.TakeDamage(finalDamage, new Vector2(finalKnockback.x * dir, finalKnockback.y));
-
+            target.TakeDamage(finalDamage, finalKnockback);
             Destroy(gameObject);
+
+           
         }
         else if (((1 << collision.gameObject.layer) & groundLayer) != 0)
         {
