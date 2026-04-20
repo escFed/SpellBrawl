@@ -263,6 +263,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3262535833314222879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2606392393110623635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5391014373240358035}
+  - component: {fileID: 7525498461521152901}
+  m_Layer: 7
+  m_Name: Card6
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5391014373240358035
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2606392393110623635}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3262535833314222879}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7525498461521152901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2606392393110623635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9e5a2d134aff2d4197848ce7a2d90c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HasteCard
+  hstPrefab: {fileID: 4251933731476793263, guid: d0f4e02d5e53fa94bab384a5ac8315ed, type: 3}
 --- !u!1 &2917053776910038355
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,6 +1097,7 @@ Transform:
   - {fileID: 7610331827614850892}
   - {fileID: 4899586216856803602}
   - {fileID: 5992251722110604642}
+  - {fileID: 5391014373240358035}
   - {fileID: 779554312341870718}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1197,6 +1243,7 @@ MonoBehaviour:
   - {fileID: 4757604913434371634}
   - {fileID: 6857446786280242423}
   - {fileID: 1491135891624530694}
+  - {fileID: 2606392393110623635}
   groundCheck: {fileID: 3329483558142694777}
   groundLayer:
     serializedVersion: 2

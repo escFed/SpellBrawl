@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     public CardState CardState { get; private set; }
     public DieState DieState { get; private set; }
 
+    public PlayerStats Stats => stats;
     public Vector2 MoveInput => input.CurrentDirection;
     public bool JumpPressed => input.HasBufferedJump;
     public bool AttackInput => input.HasBufferedAttack;
