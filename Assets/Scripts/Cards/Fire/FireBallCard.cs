@@ -9,9 +9,9 @@ public class FireBallCard : MonoBehaviour, ICardable
     [SerializeField] private float cooldownBetweenShots = 0.5f;
     [SerializeField] private float reloadTime = 6f;
     [SerializeField] private int maxShoots = 3;
+    public int EnergyCost => 40;
 
     public Sprite cardSprite;
-
     private Image cardUI;
     private int currentShoots;
     private bool canShoot = true;

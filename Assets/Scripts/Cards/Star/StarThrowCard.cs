@@ -8,6 +8,7 @@ public class StarThrowCard : MonoBehaviour, ICardable
     [SerializeField] private GameObject starPrefab;
     [SerializeField] private float cooldownTime = 6f;
     [SerializeField] private float spawnHeight = 12f;
+    public int EnergyCost => 40;
 
     public Sprite cardSprite;
 

@@ -8,23 +8,29 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] private PlayerStats stats;
+    public bool IsGrounded { get; private set; }
+    public bool IsDead { get; private set; }
+    public int PlayerIndex { get; private set; }
+    public float stunTimer;
 
     [Header("Cards")]
-    public GameObject[] DeckSlots = new GameObject[4];
-    public float timeToDrawNewCard = 6.0f;
+    public GameObject[] cardPrefabsPool;
+    public int totalDeckSize = 20;
+    private List<ICardable> reserveDeck = new List<ICardable>();
+    private ICardable[] currentHand = new ICardable[5];
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckRadius = 0.2f;
 
+    public Transform throwPoint;
     private IInputProvider input;
     private Rigidbody2D rb;
-    private StateMachine stateMachine;
     private PlayerHitBox HitBox;
-    private Queue<ICardable> reserveDeck = new Queue<ICardable>();
-    private ICardable[] currentHand = new ICardable[2];
+    private EnergyManager energy;
 
+    private StateMachine stateMachine;
     public IdleState IdleState { get; private set; }
     public MoveState MoveState { get; private set; }
     public JumpState JumpState { get; private set; }
@@ -38,18 +44,13 @@ public class PlayerController : MonoBehaviour
     public Vector2 MoveInput => input.CurrentDirection;
     public bool JumpPressed =>  input.HasBufferedJump;
     public bool AttackInput => input.HasBufferedAttack;
-    public bool IsGrounded { get; private set; }
-    public bool IsDead { get; private set; }
-    public int PlayerIndex { get; private set; }
-
-    public float stunTimer;
-    public Transform throwPoint;
 
     private void Awake()
     {
         input = GetComponent<IInputProvider>();
         HitBox = GetComponent<PlayerHitBox>();
         rb = GetComponent<Rigidbody2D>();
+        energy = GetComponent<EnergyManager>();
 
         stateMachine = new StateMachine();
         IdleState = new IdleState(this, stateMachine);
@@ -75,51 +76,24 @@ public class PlayerController : MonoBehaviour
         {
             TextMeshProUGUI myText = (PlayerIndex == 0) ? UIManager.Instance.p1_damageText : UIManager.Instance.p2_damageText;
             GameObject[] myLines = (PlayerIndex == 0) ? UIManager.Instance.p1_life : UIManager.Instance.p2_life;
-
             health.SetUIElements(myText, myLines);
         }
 
-        foreach (GameObject cardObj in DeckSlots)
+        EnergyManager energy = GetComponent<EnergyManager>();
+        if (energy != null && UIManager.Instance != null)
         {
-            if (cardObj != null)
-            {
-                ICardable cardComponent = cardObj.GetComponent<ICardable>();
-                if (cardComponent != null) reserveDeck.Enqueue(cardComponent);
-            }
+            Slider myEnergySlider = (PlayerIndex == 0) ? UIManager.Instance.p1_energySlider : UIManager.Instance.p2_energySlider;
+
+            energy.SetUIElements(myEnergySlider);
         }
 
-        if (reserveDeck.Count >= 2)
-        {
-            currentHand[0] = reserveDeck.Dequeue();
-            currentHand[1] = reserveDeck.Dequeue();
-        }
-
-        UpdateHandUI();
-    }
-
-    private void UpdateHandUI()
-    {
-        if (UIManager.Instance == null) return;
-
-        Image[] UISlots = (PlayerIndex == 0) ? UIManager.Instance.p1_cards : UIManager.Instance.p2_cards;
-
-        foreach (Image img in UISlots) img.gameObject.SetActive(false);
-
-        if (currentHand[0] != null)
-        {
-            UISlots[0].gameObject.SetActive(true);
-            currentHand[0].SetUI(UISlots[0]);
-        }
-        if (currentHand[1] != null)
-        {
-            UISlots[1].gameObject.SetActive(true);
-            currentHand[1].SetUI(UISlots[1]);
-        }
+        ResetDeckForNewRound();
     }
 
     private void Update()
     {
         if (IsDead) return;
+
         IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
         if (stunTimer > 0)
@@ -127,61 +101,93 @@ public class PlayerController : MonoBehaviour
             stunTimer -= Time.deltaTime;
             return;
         }
-        if (input.HasBufferedHand1)
-        {
-            TryUseCardFromHand(0);
-            input.ConsumeHand1();
-        }
-        else if (input.HasBufferedHand2)
-        {
-            TryUseCardFromHand(1);
-            input.ConsumeHand2();
-        }
+
+        if (input.HasBufferedHand1) { TryUseCardFromHand(0); input.ConsumeHand1(); }
+        else if (input.HasBufferedHand2) { TryUseCardFromHand(1); input.ConsumeHand2(); }
+        else if (input.HasBufferedHand3) { TryUseCardFromHand(2); input.ConsumeHand3(); }
+        else if (input.HasBufferedHand4) { TryUseCardFromHand(3); input.ConsumeHand4(); }
+        else if (input.HasBufferedHand5) { TryUseCardFromHand(4); input.ConsumeHand5(); }
 
         stateMachine.Update();
+    }
+
+    private void FixedUpdate()
+    {
+        if (IsDead || stunTimer > 0) return;
+        stateMachine.FixedUpdate();
+    }
+
+    public void ResetDeckForNewRound()
+    {
+        foreach (var card in currentHand) { if (card != null && card is MonoBehaviour mb) Destroy(mb.gameObject); }
+        foreach (var card in reserveDeck) { if (card != null && card is MonoBehaviour mb) Destroy(mb.gameObject); }
+
+        reserveDeck.Clear();
+        for (int i = 0; i < currentHand.Length; i++) currentHand[i] = null;
+
+        if (cardPrefabsPool != null && cardPrefabsPool.Length > 0)
+        {
+            for (int i = 0; i < totalDeckSize; i++)
+            {
+                GameObject randomPrefab = cardPrefabsPool[Random.Range(0, cardPrefabsPool.Length)];
+                GameObject newCard = Instantiate(randomPrefab, transform.position, Quaternion.identity, transform);
+                newCard.SetActive(false);
+                reserveDeck.Add(newCard.GetComponent<ICardable>());
+            }
+        }
+
+        for (int i = 0; i < 5; i++)
+        {
+            if (reserveDeck.Count > 0)
+            {
+                currentHand[i] = reserveDeck[0];
+                reserveDeck.RemoveAt(0);
+            }
+        }
+
+        UpdateHandUI();
     }
 
     public void TryUseCardFromHand(int handIndex)
     {
         if (stateMachine.CurrentState != IdleState && stateMachine.CurrentState != MoveState) return;
-
-        if (currentHand[handIndex] != null)
+        if (handIndex < currentHand.Length && currentHand[handIndex] != null)
         {
             ICardable cardToUse = currentHand[handIndex];
 
-            CardState.SetCard(cardToUse, 0.5f);
-            stateMachine.ChangeState(CardState);
-
-            if (reserveDeck.Count > 0)
+            if (energy != null && !energy.TrySpendEnergy(cardToUse.EnergyCost))
             {
-                reserveDeck.Enqueue(cardToUse);
+                return;
+            }
+            if (cardToUse is MonoBehaviour mb)
+            {
+                mb.gameObject.SetActive(true);
             }
 
+            CardState.SetCard(cardToUse, 0.5f);
+            stateMachine.ChangeState(CardState);
             currentHand[handIndex] = null;
-
             UpdateHandUI();
-
-            StartCoroutine(DrawNextCardRoutine(handIndex));
         }
     }
 
-    private System.Collections.IEnumerator DrawNextCardRoutine(int handIndex)
+    private void UpdateHandUI()
     {
-        yield return new WaitForSeconds(timeToDrawNewCard);
+        if (UIManager.Instance == null) return;
+        Image[] UISlots = (PlayerIndex == 0) ? UIManager.Instance.p1_cards : UIManager.Instance.p2_cards;
 
-        if (reserveDeck.Count > 0)
+        for (int i = 0; i < UISlots.Length; i++)
         {
-            currentHand[handIndex] = reserveDeck.Dequeue();
-            UpdateHandUI();
+            if (i < currentHand.Length && currentHand[i] != null)
+            {
+                UISlots[i].gameObject.SetActive(true);
+                currentHand[i].SetUI(UISlots[i]);
+            }
+            else
+            {
+                UISlots[i].gameObject.SetActive(false);
+            }
         }
-    }
-
-    private void FixedUpdate()
-    {
-        if (IsDead) return;
-        if (stunTimer > 0) return;
-
-        stateMachine.FixedUpdate();
     }
 
     public void TakeHit(float stunDuration)
@@ -196,7 +202,6 @@ public class PlayerController : MonoBehaviour
         Vector2 dir = input.CurrentDirection;
         bool hasHorizontal = Mathf.Abs(dir.x) >= stats.tiltThreshold;
         bool hasUp = dir.y >= stats.tiltThreshold;
-
         bool hasDown = dir.y <= -stats.tiltThreshold;
 
         input.ConsumeAttack();
@@ -210,18 +215,16 @@ public class PlayerController : MonoBehaviour
         return JabState;
     }
 
-    public void ConsumeJump() => input.ConsumeJump();
-
     public void ApplyHorizontalMovement()
     {
         rb.linearVelocity = new Vector2(MoveInput.x * stats.moveSpeed, rb.linearVelocity.y);
-
         HitBox.CheckAndFlip(MoveInput.x);
     }
 
     public void StopHorizontalMovement() => rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
-
     public void ApplyJumpForce() => rb.linearVelocity = new Vector2(rb.linearVelocity.x, stats.jumpForce);
+    public void ConsumeJump() => input.ConsumeJump();
+    public void EnterDieState() => stateMachine.ChangeState(DieState);
 
     public void OpenJabHitbox() => HitBox.SetJabHitbox(true);
     public void CloseJabHitbox() => HitBox.SetJabHitbox(false);
@@ -237,6 +240,11 @@ public class PlayerController : MonoBehaviour
         IsDead = true;
         rb.linearVelocity = Vector2.zero;
         rb.bodyType = RigidbodyType2D.Static;
+
+        if (TryGetComponent(out SpriteRenderer sr)) sr.enabled = false;
+        if (TryGetComponent(out Collider2D col)) col.enabled = false;
+
+        if (GameManager.Instance != null) GameManager.Instance.PlayerDied(PlayerIndex);
     }
 
     public void Respawn(Vector3 position)
@@ -244,8 +252,11 @@ public class PlayerController : MonoBehaviour
         IsDead = false;
         rb.bodyType = RigidbodyType2D.Dynamic;
         transform.position = position;
+
+        if (TryGetComponent(out SpriteRenderer sr)) sr.enabled = true;
+        if (TryGetComponent(out Collider2D col)) col.enabled = true;
+
         input.ClearAllInputs();
         stateMachine.ChangeState(IdleState);
     }
-
 }

@@ -3,9 +3,13 @@ using System.Collections.Generic;
 
 public class AttackHitbox : MonoBehaviour
 {
+    [Header("Damage Settings")]
     [SerializeField] private int damage = 10;
 
     [SerializeField] private Vector2 knockback = new Vector2(4f, 2f);
+
+    [Header("Energy Settings")]
+    [SerializeField] private int energyGain = 10;
 
     private readonly HashSet<Collider2D> _hitThisSwing = new();
 
@@ -29,6 +33,12 @@ public class AttackHitbox : MonoBehaviour
 
             float dir = Mathf.Sign(other.transform.position.x - transform.root.position.x);
             target.TakeDamage(damage, new Vector2(knockback.x * dir, knockback.y));
+
+            EnergyManager Energy = transform.root.GetComponent<EnergyManager>();
+            if (Energy != null)
+            {
+                Energy.AddEnergy(energyGain);
+            }
         }
     }
 

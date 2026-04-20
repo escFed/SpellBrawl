@@ -171,7 +171,6 @@ GameObject:
   - component: {fileID: 867306605531300887}
   - component: {fileID: -4514689518637611313}
   - component: {fileID: -1121429765940191557}
-  - component: {fileID: -2070309439354916196}
   - component: {fileID: -3097896229931793527}
   m_Layer: 8
   m_Name: Opponent
@@ -338,8 +337,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   stats: {fileID: 11400000, guid: 45949cf4d906ebd4bb7288577cd2a53a, type: 2}
-  slotCard: {fileID: 8815647941104321812}
-  slotCard1: {fileID: 7069278171732706657}
+  DeckSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  timeToDrawNewCard: 6
   groundCheck: {fileID: 7291086170508900748}
   groundLayer:
     serializedVersion: 2
@@ -360,8 +363,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHitBox
   jabHitbox: {fileID: 8997680787535540856}
-  ftiltHitbox: {fileID: 4644670045056136842}
-  uptiltHitbox: {fileID: 4802939389216651003}
+  fTiltHitbox: {fileID: 0}
+  upTiltHitbox: {fileID: 0}
+  dTiltHitbox: {fileID: 0}
 --- !u!114 &-4514689518637611313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,8 +379,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   currentDamage: 0
-  maxDamage: 100
-  damageText: {fileID: 0}
+  knockbackMultiplier: 1.5
+  fallLives: 3
 --- !u!114 &-1121429765940191557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,18 +395,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerVisuals
   p1Color: {r: 0, g: 1, b: 0, a: 1}
   p2Color: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &-2070309439354916196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4050468633710792051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 653dc7e6b954d8248b36e7c47b8260bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawn
 --- !u!114 &-3097896229931793527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,6 +410,13 @@ MonoBehaviour:
   attackRange: 1.8
   cardRange: 6
   reactionTime: 0.2
+  attackCooldown: 0.5
+  timeBetweenCards: 2.5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  lookAheadDistance: 1
+  fallCheckDepth: 2
 --- !u!1 &5954852230686067957
 GameObject:
   m_ObjectHideFlags: 0
@@ -648,9 +647,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a656217eda053c342b5afb142b411ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThunderStrikeCard
-  cardUI: {fileID: 0}
   tsPrefab: {fileID: 7062071539232757206, guid: 36b700d52f911bf42bbad3ddd8180354, type: 3}
   cooldownTime: 8
+  cardSprite: {fileID: 0}
 --- !u!1 &8815647941104321812
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,8 +694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 507bd2bbadfac014685b32d910d66152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FireBallCard
-  cardUI: {fileID: 0}
   fbPrefab: {fileID: 2221465273619720722, guid: f0973e9c22a6a32458aa00c1a5d8d237, type: 3}
   cooldownBetweenShots: 0.5
   reloadTime: 6
   maxShoots: 3
+  cardSprite: {fileID: 0}

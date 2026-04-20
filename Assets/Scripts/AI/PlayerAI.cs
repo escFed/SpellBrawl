@@ -30,6 +30,9 @@ public class PlayerAI : MonoBehaviour, IInputProvider
     public bool HasBufferedAttack { get; private set; }
     public bool HasBufferedHand1 { get; private set; }
     public bool HasBufferedHand2 { get; private set; }
+    public bool HasBufferedHand3 { get; private set; }
+    public bool HasBufferedHand4 { get; private set; }
+    public bool HasBufferedHand5 { get; private set; }
 
     private void Awake()
     {
@@ -109,6 +112,9 @@ public class PlayerAI : MonoBehaviour, IInputProvider
     public void ConsumeAttack() => HasBufferedAttack = false;
     public void ConsumeHand1() => HasBufferedHand1 = false;
     public void ConsumeHand2() => HasBufferedHand2 = false;
+    public void ConsumeHand3() => HasBufferedHand3 = false;
+    public void ConsumeHand4() => HasBufferedHand4 = false;
+    public void ConsumeHand5() => HasBufferedHand5 = false;
 
     public void ClearAllInputs()
     {
@@ -116,6 +122,9 @@ public class PlayerAI : MonoBehaviour, IInputProvider
         ConsumeAttack();
         ConsumeHand1();
         ConsumeHand2();
+        ConsumeHand3();
+        ConsumeHand4();
+        ConsumeHand5();
         CurrentDirection = Vector2.zero;
     }
 }

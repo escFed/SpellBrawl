@@ -11,14 +11,18 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI p2_damageText;
 
     [Header("Player 1")]
-    public Image[] p1_cards = new Image[2];
+    public Image[] p1_cards = new Image[5];
 
     [Header("Player 2")]
-    public Image[] p2_cards = new Image[2];
+    public Image[] p2_cards = new Image[5];
 
     [Header("Life")]
     public GameObject[] p1_life = new GameObject[3];
     public GameObject[] p2_life = new GameObject[3];
+
+    [Header("Energy")]
+    public Slider p1_energySlider;
+    public Slider p2_energySlider;
 
     private void Awake()
     {

@@ -124,6 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
   damage: 8
   knockback: {x: 2, y: 1}
+  energyGain: 10
 --- !u!1 &1028923879047636406
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,16 +443,15 @@ GameObject:
   m_Component:
   - component: {fileID: 7704541438735409549}
   - component: {fileID: 4443773354149934336}
-  - component: {fileID: 5055813842769960742}
   - component: {fileID: 5918209336108744888}
   - component: {fileID: 673171157153144058}
   - component: {fileID: 1186901822830925340}
   - component: {fileID: 7554642670596897687}
-  - component: {fileID: 4937623741451428123}
-  - component: {fileID: 315485297624212524}
   - component: {fileID: 280409982384417210}
+  - component: {fileID: -5258937813226330191}
+  - component: {fileID: 4726040971515111972}
   m_Layer: 7
-  m_Name: Player AI
+  m_Name: PlayerAI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -467,7 +467,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8324196052573348412}
@@ -532,8 +532,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 7145198348311737387, guid: ce9ac3708cd074e48ac5c13cb47caa96, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -542,43 +542,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!70 &5055813842769960742
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2464666211507732312}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: bdb1a6a16d740ad4b8a20a10fe3ac8bf, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
-  m_Direction: 0
 --- !u!50 &5918209336108744888
 Rigidbody2D:
   serializedVersion: 5
@@ -619,18 +582,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   stats: {fileID: 11400000, guid: 45949cf4d906ebd4bb7288577cd2a53a, type: 2}
-  DeckSlots:
+  stunTimer: 0
+  cardPrefabsPool:
   - {fileID: 1503312545660109464}
   - {fileID: 5377440114866375713}
   - {fileID: 3404829219937814804}
-  - {fileID: 286029161659632707}
-  timeToDrawNewCard: 6
+  totalDeckSize: 20
   groundCheck: {fileID: 1785916118178468197}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   groundCheckRadius: 0.2
-  stunTimer: 0
   throwPoint: {fileID: 531333499451203714}
 --- !u!114 &1186901822830925340
 MonoBehaviour:
@@ -663,33 +625,6 @@ MonoBehaviour:
   currentDamage: 0
   knockbackMultiplier: 1.5
   fallLives: 3
-  damageText: {fileID: 0}
---- !u!114 &4937623741451428123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2464666211507732312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57a42b5271ce519439ec15c1e5a81bc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerVisuals
-  p1Color: {r: 0, g: 1, b: 0, a: 1}
-  p2Color: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &315485297624212524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2464666211507732312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 653dc7e6b954d8248b36e7c47b8260bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawn
 --- !u!114 &280409982384417210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -712,6 +647,67 @@ MonoBehaviour:
     m_Bits: 64
   lookAheadDistance: 1
   fallCheckDepth: 2
+--- !u!114 &-5258937813226330191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2464666211507732312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb129c2505d1329478de6fe892690a26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnergyManager
+  maxEnergy: 100
+  startingEnergy: 50
+  currentEnergy: 0
+--- !u!61 &4726040971515111972
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2464666211507732312}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: bdb1a6a16d740ad4b8a20a10fe3ac8bf, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.21875, y: 1.125}
+    newSize: {x: 1, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.21875, y: 1.125}
+  m_EdgeRadius: 0
 --- !u!1 &3295659753739748874
 GameObject:
   m_ObjectHideFlags: 0
@@ -1037,6 +1033,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
   damage: 14
   knockback: {x: 4, y: 2}
+  energyGain: 10
 --- !u!1 &8370410250001529188
 GameObject:
   m_ObjectHideFlags: 0
@@ -1130,6 +1127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
   damage: 10
   knockback: {x: 1, y: 4}
+  energyGain: 10
 --- !u!1 &8512186710467760690
 GameObject:
   m_ObjectHideFlags: 0
@@ -1223,3 +1221,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
   damage: 9
   knockback: {x: 0.5, y: 2}
+  energyGain: 10

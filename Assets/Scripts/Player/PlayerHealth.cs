@@ -13,16 +13,18 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public int fallLives = 3;
 
     [Header("UI Reference")]
-    [SerializeField] private TextMeshProUGUI damageText;
+    private TextMeshProUGUI damageText;
     private GameObject[] lifeIcons;
 
     private Rigidbody2D rb;
+    private PlayerController controller;
     private bool isDead = false;
     private float lastFallTime = -2f;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        controller = GetComponent<PlayerController>();
     }
 
     public void SetUIElements(TextMeshProUGUI text, GameObject[] icons)
@@ -40,7 +42,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         UpdateUI();
 
         float damageScale = 1f;
-
         if (currentDamage > 100)
         {
             float extraDamage = currentDamage - 100f;
@@ -49,10 +50,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         Vector2 finalKnockback = baseKnockback * damageScale;
 
-        rb.linearVelocity = Vector2.zero; 
+        rb.linearVelocity = Vector2.zero;
         rb.AddForce(finalKnockback, ForceMode2D.Impulse);
 
-        GetComponent<PlayerController>().TakeHit(0.4f);
+        if (controller != null) controller.TakeHit(0.4f);
     }
 
     public void FallPenalty()
@@ -67,10 +68,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         if (fallLives > 0)
         {
-            PlayerRespawn respawnScript = GetComponent<PlayerRespawn>();
-            if (respawnScript != null)
+            if (RespawnManager.Instance != null && controller != null)
             {
-                respawnScript.Respawn();
+                RespawnManager.Instance.RespawnPlayerAfterFall(this, controller.PlayerIndex);
             }
         }
         else
@@ -85,25 +85,39 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         fallLives = 0;
         UpdateUI();
-
         Die();
+    }
+
+    public void ResetHealth()
+    {
+        isDead = false;
+        currentDamage = 0;
+        fallLives = 3;
+
+        PlayerController controller = GetComponent<PlayerController>();
+        if (controller != null)
+        {
+            controller.Respawn(transform.position);
+            controller.ResetDeckForNewRound();
+        }
+
+        EnergyManager energy = GetComponent<EnergyManager>();
+        if (energy != null) energy.ResetEnergy();
+
+        if (rb != null) rb.linearVelocity = Vector2.zero;
+
+        UpdateUI();
     }
 
     private void UpdateUI()
     {
-        if (damageText != null)
-        {
-            damageText.text = currentDamage + "%";
-        }
+        if (damageText != null) damageText.text = currentDamage + "%";
 
         if (lifeIcons != null)
         {
             for (int i = 0; i < lifeIcons.Length; i++)
             {
-                if (lifeIcons[i] != null)
-                {
-                    lifeIcons[i].SetActive(i < fallLives);
-                }
+                if (lifeIcons[i] != null) lifeIcons[i].SetActive(i < fallLives);
             }
         }
     }
@@ -111,12 +125,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private void Die()
     {
         isDead = true;
-        gameObject.SetActive(false);
 
         PlayerController controller = GetComponent<PlayerController>();
-        if (controller != null && MatchManager.Instance != null)
+        if (controller != null)
         {
-            MatchManager.Instance.PlayerDied(controller.PlayerIndex);
+            controller.EnterDieState();
         }
     }
 }

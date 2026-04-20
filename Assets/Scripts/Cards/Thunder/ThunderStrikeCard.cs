@@ -7,6 +7,7 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
     [Header("Settings")]
     [SerializeField] private GameObject tsPrefab;
     [SerializeField] private float cooldownTime = 8f;
+    public int EnergyCost => 40;
 
     public Sprite cardSprite;
 
