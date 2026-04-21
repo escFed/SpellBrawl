@@ -17,9 +17,11 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     public bool HasBufferedHand3 => hand3Timer > 0;
     public bool HasBufferedHand4 => hand4Timer > 0;
     public bool HasBufferedHand5 => hand5Timer > 0;
+    public bool HasBufferedDrawCards => drawCardsTimer > 0;
 
     private float attackTimer, jumpTimer;
     private float hand1Timer, hand2Timer, hand3Timer, hand4Timer, hand5Timer;
+    private float drawCardsTimer;
 
     private void Update()
     {
@@ -30,12 +32,13 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
         if (hand3Timer > 0) hand3Timer -= Time.deltaTime;
         if (hand4Timer > 0) hand4Timer -= Time.deltaTime;
         if (hand5Timer > 0) hand5Timer -= Time.deltaTime;
+        if (drawCardsTimer > 0) drawCardsTimer -= Time.deltaTime;
     }
 
     public void OnMove(InputValue value) => CurrentDirection = value.Get<Vector2>();
     public void OnJump(InputValue value) { if (value.isPressed) jumpTimer = jumpBufferTime; }
     public void OnAttack(InputValue value) { if (value.isPressed) attackTimer = attackBufferTime; }
-
+    public void OnDrawCards(InputValue value) { if (value.isPressed) drawCardsTimer = cardBufferTime; }
     public void OnHand1(InputValue value) { if (value.isPressed) hand1Timer = cardBufferTime; }
     public void OnHand2(InputValue value) { if (value.isPressed) hand2Timer = cardBufferTime; }
     public void OnHand3(InputValue value) { if (value.isPressed) hand3Timer = cardBufferTime; }
@@ -49,6 +52,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     public void ConsumeHand3() => hand3Timer = 0;
     public void ConsumeHand4() => hand4Timer = 0;
     public void ConsumeHand5() => hand5Timer = 0;
+    public void ConsumeDrawCards() => drawCardsTimer = 0;
 
     public void ClearAllInputs()
     {
@@ -57,8 +61,9 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
         ConsumeAttack();
         ConsumeHand1(); 
         ConsumeHand2(); 
-        ConsumeHand3(); 
-        ConsumeHand4(); 
+        ConsumeHand3();
+        ConsumeHand4();
         ConsumeHand5();
+        ConsumeDrawCards();
     }
 }

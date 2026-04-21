@@ -24,6 +24,10 @@ public class UIManager : MonoBehaviour
     public Slider p1_energySlider;
     public Slider p2_energySlider;
 
+    [Header("Deck UI")]
+    public TMPro.TextMeshProUGUI p1_deckCountText;
+    public TMPro.TextMeshProUGUI p2_deckCountText;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;

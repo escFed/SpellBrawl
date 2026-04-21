@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerHitBox HitBox;
     private EnergyManager energy;
+    private TextMeshProUGUI deckCountText;
 
     private StateMachine stateMachine;
     public IdleState IdleState { get; private set; }
@@ -82,9 +83,14 @@ public class PlayerController : MonoBehaviour
         EnergyManager energy = GetComponent<EnergyManager>();
         if (energy != null && UIManager.Instance != null)
         {
-            Slider myEnergySlider = (PlayerIndex == 0) ? UIManager.Instance.p1_energySlider : UIManager.Instance.p2_energySlider;
+            Slider energySlider = (PlayerIndex == 0) ? UIManager.Instance.p1_energySlider : UIManager.Instance.p2_energySlider;
 
-            energy.SetUIElements(myEnergySlider);
+            energy.SetUIElements(energySlider);
+        }
+
+        if (UIManager.Instance != null)
+        {
+            deckCountText = (PlayerIndex == 0) ? UIManager.Instance.p1_deckCountText : UIManager.Instance.p2_deckCountText;
         }
 
         ResetDeckForNewRound();
@@ -93,13 +99,18 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if (IsDead) return;
-
         IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
         if (stunTimer > 0)
         {
             stunTimer -= Time.deltaTime;
             return;
+        }
+
+        if (input.HasBufferedDrawCards)
+        {
+            TryDrawNewHand();
+            input.ConsumeDrawCards();
         }
 
         if (input.HasBufferedHand1) { TryUseCardFromHand(0); input.ConsumeHand1(); }
@@ -146,6 +157,7 @@ public class PlayerController : MonoBehaviour
         }
 
         UpdateHandUI();
+        UpdateDeckCountUI();
     }
 
     public void TryUseCardFromHand(int handIndex)
@@ -171,6 +183,38 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void TryDrawNewHand()
+    {
+        if (stateMachine.CurrentState != IdleState && stateMachine.CurrentState != MoveState) return;
+
+        EnergyManager energy = GetComponent<EnergyManager>();
+        if (energy == null || !energy.TrySpendEnergy(75))
+        {
+            return;
+        }
+
+        for (int i = 0; i < currentHand.Length; i++)
+        {
+            if (currentHand[i] != null)
+            {
+                if (currentHand[i] is MonoBehaviour mb) Destroy(mb.gameObject);
+                currentHand[i] = null;
+            }
+        }
+
+        for (int i = 0; i < 5; i++)
+        {
+            if (reserveDeck.Count > 0)
+            {
+                currentHand[i] = reserveDeck[0];
+                reserveDeck.RemoveAt(0);
+            }
+        }
+
+        UpdateHandUI();
+        UpdateDeckCountUI();
+    }
+
     private void UpdateHandUI()
     {
         if (UIManager.Instance == null) return;
@@ -187,6 +231,13 @@ public class PlayerController : MonoBehaviour
             {
                 UISlots[i].gameObject.SetActive(false);
             }
+        }
+    }
+    private void UpdateDeckCountUI()
+    {
+        if (deckCountText != null)
+        {
+            deckCountText.text = reserveDeck.Count.ToString();
         }
     }
 

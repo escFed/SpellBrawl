@@ -33,6 +33,7 @@ public class PlayerAI : MonoBehaviour, IInputProvider
     public bool HasBufferedHand3 { get; private set; }
     public bool HasBufferedHand4 { get; private set; }
     public bool HasBufferedHand5 { get; private set; }
+    public bool HasBufferedDrawCards { get; private set; }
 
     private void Awake()
     {
@@ -115,6 +116,7 @@ public class PlayerAI : MonoBehaviour, IInputProvider
     public void ConsumeHand3() => HasBufferedHand3 = false;
     public void ConsumeHand4() => HasBufferedHand4 = false;
     public void ConsumeHand5() => HasBufferedHand5 = false;
+    public void ConsumeDrawCards() => HasBufferedDrawCards = false;
 
     public void ClearAllInputs()
     {
@@ -125,6 +127,7 @@ public class PlayerAI : MonoBehaviour, IInputProvider
         ConsumeHand3();
         ConsumeHand4();
         ConsumeHand5();
+        ConsumeDrawCards();
         CurrentDirection = Vector2.zero;
     }
 }
