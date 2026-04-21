@@ -3,8 +3,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
-public class PlayerController : MonoBehaviour, IDamageable
+public class PlayerController : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] private PlayerStats stats;
@@ -24,7 +25,9 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckRadius = 0.2f;
 
-    [SerializeField] private int playerId;
+    [Header("Buff Multipliers")]
+    public float moveSpeedMultiplier = 1f;
+    public float attackSpeedMultiplier = 1f;
 
     public Transform throwPoint;
     private IInputProvider input;
@@ -44,11 +47,9 @@ public class PlayerController : MonoBehaviour, IDamageable
     public CardState CardState { get; private set; }
     public DieState DieState { get; private set; }
 
-    public PlayerStats Stats => stats;
     public Vector2 MoveInput => input.CurrentDirection;
     public bool JumpPressed =>  input.HasBufferedJump;
     public bool AttackInput => input.HasBufferedAttack;
-    public int PlayerId => playerId;
 
     private void Awake()
     {
@@ -79,7 +80,6 @@ public class PlayerController : MonoBehaviour, IDamageable
         PlayerHealth health = GetComponent<PlayerHealth>();
         if (health != null && UIManager.Instance != null)
         {
-            health.Init(playerId);
             TextMeshProUGUI myText = (PlayerIndex == 0) ? UIManager.Instance.p1_damageText : UIManager.Instance.p2_damageText;
             GameObject[] myLines = (PlayerIndex == 0) ? UIManager.Instance.p1_life : UIManager.Instance.p2_life;
             health.SetUIElements(myText, myLines);
@@ -273,7 +273,9 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void ApplyHorizontalMovement()
     {
-        rb.linearVelocity = new Vector2(MoveInput.x * stats.moveSpeed, rb.linearVelocity.y);
+        float currentSpeed = stats.moveSpeed * moveSpeedMultiplier;
+
+        rb.linearVelocity = new Vector2(MoveInput.x * currentSpeed, rb.linearVelocity.y);
         HitBox.CheckAndFlip(MoveInput.x);
     }
 
@@ -314,21 +316,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 
         input.ClearAllInputs();
         stateMachine.ChangeState(IdleState);
-    }
 
-    public void TakeDamage(int amount, Vector2 knockback)
-    {
-        int reducedDamage = DamageManager.CalculateDamage(amount);
-        GetComponent<PlayerHealth>().TakeDamage(amount, knockback);
-    }
-
-    public void ActivateHeal(Vector2 reduction, float duration)
-    {
-        DamageManager.AddKnockbackReduction(PlayerId, reduction, duration);
-    }
-
-    public int GetPlayerId()
-    {
-        return playerId;
+        moveSpeedMultiplier = 1f;
+        attackSpeedMultiplier = 1f;
     }
 }

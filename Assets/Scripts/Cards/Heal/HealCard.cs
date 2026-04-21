@@ -1,36 +1,41 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class HealCard : MonoBehaviour, ICardable
 {
-    [Header("Settings")]
-    private bool canHeal = true;
-    [SerializeField] private float duration;
-    [SerializeField] private GameObject hPrefab;
-    public Sprite cardSprite;
-    private Image cardUI;
+    [Header("Heal Settings")]
+    public int healAmount = 25;
 
-    public int EnergyCost => 40;
-    public void SetUI(Image uiImage)
+    public int energyCost = 30;
+    public Sprite cardIcon;
+
+    public int EnergyCost => energyCost;
+
+    public void SetUI(Image img)
     {
-        cardUI = uiImage;
+        if (img != null && cardIcon != null)
+        {
+            img.sprite = cardIcon;
+        }
     }
 
     public void ExecuteCard(PlayerController player)
     {
-        if (!canHeal) return;
-
-        Debug.Log("Executing Heal Card");
-
-
-        HealLogic logic = Instantiate(hPrefab).GetComponent<HealLogic>();
-        logic.Init(player.gameObject);
-        logic.HealExecution(player.PlayerId);
-
+        StartCoroutine(HealRoutine(player));
     }
 
+    private IEnumerator HealRoutine(PlayerController player)
+    {
+        PlayerHealth health = player.GetComponent<PlayerHealth>();
 
+        if (health != null)
+        {
+            health.HealDamage(healAmount);
+        }
 
+        yield return new WaitForSeconds(0.2f);
 
-  
+        Destroy(gameObject);
+    }
 }

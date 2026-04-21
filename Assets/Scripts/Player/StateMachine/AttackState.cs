@@ -38,19 +38,19 @@ public abstract class AttackState : PlayerState
         switch (_phase)
         {
             case Phase.Startup:
-                if (_timer >= Startup) EnterActive();
+                if (_timer >= (Startup / player.attackSpeedMultiplier)) EnterActive();
                 break;
 
             case Phase.Active:
-                if (_timer >= Active) EnterRecovery();
+                if (_timer >= (Active / player.attackSpeedMultiplier)) EnterRecovery();
                 break;
 
             case Phase.Recovery:
-                if (_timer >= Recovery) EnterCooldown();
+                if (_timer >= (Recovery / player.attackSpeedMultiplier)) EnterCooldown();
                 break;
 
             case Phase.Cooldown:
-                if (_timer >= Cooldown)
+                if (_timer >= (Cooldown / player.attackSpeedMultiplier))
                 {
                     if (player.AttackInput)
                     {
