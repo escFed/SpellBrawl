@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Opponent : MonoBehaviour, IDamageable
+public class Opponent : MonoBehaviour
 {
     [Header("Health Settings")]
     public int currentDamage = 0;

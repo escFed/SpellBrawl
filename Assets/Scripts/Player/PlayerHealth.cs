@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class PlayerHealth : MonoBehaviour, IDamageable
+public class PlayerHealth : MonoBehaviour
 {
     [Header("Health Settings")]
     public int currentDamage = 0;
@@ -21,10 +21,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private bool isDead = false;
     private float lastFallTime = -2f;
 
+    public int PlayerId { get; private set; }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        controller = GetComponent<PlayerController>();
     }
 
     public void SetUIElements(TextMeshProUGUI text, GameObject[] icons)
@@ -32,6 +33,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         damageText = text;
         lifeIcons = icons;
         UpdateUI();
+    }
+
+    public void Init(int id)
+    {
+        PlayerId = id;
     }
 
     public void TakeDamage(int amount, Vector2 baseKnockback)
@@ -53,7 +59,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         rb.linearVelocity = Vector2.zero;
         rb.AddForce(finalKnockback, ForceMode2D.Impulse);
 
-        if (controller != null) controller.TakeHit(0.4f);
+        GetComponent<PlayerController>().TakeHit(0.4f);
     }
 
     public void FallPenalty()

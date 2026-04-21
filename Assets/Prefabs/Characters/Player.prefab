@@ -219,6 +219,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3262535833314222879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2265160400876863671
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4979424273830908784}
+  - component: {fileID: 3007072292727361971}
+  m_Layer: 7
+  m_Name: Card5
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4979424273830908784
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2265160400876863671}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3262535833314222879}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3007072292727361971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2265160400876863671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e36c5d1bda443234a9407dd58a855752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealCard
+  duration: 0
+  hPrefab: {fileID: 1128783388111230556, guid: f7dac911bba37a94390f83d6c093cf97, type: 3}
+  cardSprite: {fileID: 6876101926305785287, guid: 216e9d45f8ec71142af1d8370816485c, type: 3}
 --- !u!1 &2917053776910038355
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,6 +403,52 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &4134725247025423324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7012739312968731437}
+  - component: {fileID: 491267888190818319}
+  m_Layer: 7
+  m_Name: Card6
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7012739312968731437
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4134725247025423324}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3262535833314222879}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &491267888190818319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4134725247025423324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9e5a2d134aff2d4197848ce7a2d90c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HasteCard
+  hstPrefab: {fileID: 4251933731476793263, guid: 7b32de2255aeff249b7895973165a800, type: 3}
+  cardSprite: {fileID: -9155219071720790082, guid: 665ad15aeddc4764eae13148e548bc6f, type: 3}
 --- !u!1 &4757604913434371634
 GameObject:
   m_ObjectHideFlags: 0
@@ -610,6 +703,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4899586216856803602}
+  - component: {fileID: 4200855489904778045}
   m_Layer: 7
   m_Name: Card4
   m_TagString: Untagged
@@ -632,6 +726,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3262535833314222879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4200855489904778045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6857446786280242423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fd0dd65f3669754284667d8d6066a0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShadowSpikeCard
+  shadowSpikePrefab: {fileID: 3180080982280238681, guid: 4f3f298be703234459f7627e6d39f709, type: 3}
+  cardSprite: {fileID: -6773075584596642006, guid: c47b7cd90f7143b4593171330b75f91f, type: 3}
 --- !u!1 &6999972211173830063
 GameObject:
   m_ObjectHideFlags: 0
@@ -995,6 +1103,8 @@ Transform:
   - {fileID: 7901644913050761444}
   - {fileID: 7610331827614850892}
   - {fileID: 4899586216856803602}
+  - {fileID: 4979424273830908784}
+  - {fileID: 7012739312968731437}
   - {fileID: 779554312341870718}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1102,12 +1212,16 @@ MonoBehaviour:
   - {fileID: 7177753264557812337}
   - {fileID: 7615385312346413976}
   - {fileID: 4757604913434371634}
+  - {fileID: 6857446786280242423}
+  - {fileID: 2265160400876863671}
+  - {fileID: 4134725247025423324}
   totalDeckSize: 20
   groundCheck: {fileID: 3329483558142694777}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   groundCheckRadius: 0.2
+  playerId: 0
   throwPoint: {fileID: 2699452329992907090}
 --- !u!114 &2416802196115934665
 MonoBehaviour:

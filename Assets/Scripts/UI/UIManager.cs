@@ -33,4 +33,17 @@ public class UIManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
+
+    public void UpdateDamage(int playerId, int damage, float knockBackReductionQuantity)
+    {
+        TextMeshProUGUI damageUI = (playerId == 1) ? p1_damageText : p2_damageText;
+
+        if (damageUI != null)
+        {
+            // Mostrar solo daño
+            damageUI.text = damage + "%";
+
+
+        }
+    }
 }

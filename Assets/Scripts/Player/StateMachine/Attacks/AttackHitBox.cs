@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class AttackHitbox : MonoBehaviour
 {
@@ -30,15 +30,16 @@ public class AttackHitbox : MonoBehaviour
         if (other.TryGetComponent(out IDamageable target))
         {
             _hitThisSwing.Add(other);
-
             float dir = Mathf.Sign(other.transform.position.x - transform.root.position.x);
-            target.TakeDamage(damage, new Vector2(knockback.x * dir, knockback.y));
+            float duration = 2f;
+            int newDamage = DamageManager.AddGlobalDamageReduction(damage, duration);
+            target.TakeDamage(newDamage, knockback);
+        }
 
-            EnergyManager Energy = transform.root.GetComponent<EnergyManager>();
-            if (Energy != null)
-            {
-                Energy.AddEnergy(energyGain);
-            }
+        EnergyManager Energy = transform.root.GetComponent<EnergyManager>();
+        if (Energy != null)
+        {
+            Energy.AddEnergy(energyGain);
         }
     }
 
@@ -47,3 +48,4 @@ public class AttackHitbox : MonoBehaviour
         gameObject.SetActive(false);
     }
 }
+

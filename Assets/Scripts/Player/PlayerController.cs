@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDamageable
 {
     [Header("Stats")]
     [SerializeField] private PlayerStats stats;
@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckRadius = 0.2f;
 
+    [SerializeField] private int playerId;
+
     public Transform throwPoint;
     private IInputProvider input;
     private Rigidbody2D rb;
@@ -42,9 +44,11 @@ public class PlayerController : MonoBehaviour
     public CardState CardState { get; private set; }
     public DieState DieState { get; private set; }
 
+    public PlayerStats Stats => stats;
     public Vector2 MoveInput => input.CurrentDirection;
     public bool JumpPressed =>  input.HasBufferedJump;
     public bool AttackInput => input.HasBufferedAttack;
+    public int PlayerId => playerId;
 
     private void Awake()
     {
@@ -75,6 +79,7 @@ public class PlayerController : MonoBehaviour
         PlayerHealth health = GetComponent<PlayerHealth>();
         if (health != null && UIManager.Instance != null)
         {
+            health.Init(playerId);
             TextMeshProUGUI myText = (PlayerIndex == 0) ? UIManager.Instance.p1_damageText : UIManager.Instance.p2_damageText;
             GameObject[] myLines = (PlayerIndex == 0) ? UIManager.Instance.p1_life : UIManager.Instance.p2_life;
             health.SetUIElements(myText, myLines);
@@ -309,5 +314,21 @@ public class PlayerController : MonoBehaviour
 
         input.ClearAllInputs();
         stateMachine.ChangeState(IdleState);
+    }
+
+    public void TakeDamage(int amount, Vector2 knockback)
+    {
+        int reducedDamage = DamageManager.CalculateDamage(amount);
+        GetComponent<PlayerHealth>().TakeDamage(amount, knockback);
+    }
+
+    public void ActivateHeal(Vector2 reduction, float duration)
+    {
+        DamageManager.AddKnockbackReduction(PlayerId, reduction, duration);
+    }
+
+    public int GetPlayerId()
+    {
+        return playerId;
     }
 }
