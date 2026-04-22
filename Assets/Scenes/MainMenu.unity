@@ -1593,20 +1593,18 @@ MonoBehaviour:
   m_text: 'Controls
 
 
-    AD move
+    WASD to move
 
-    SPACE jump
+    K to hit
 
-    K JAB
+    SPACE to jump
 
-    AK to ADD Forward
-    Tilt
+    1,2,3,4,5
+    to use cards
 
-    WK Up Tilt
+    L to draw cards from the deck
 
-    SK Down tilt
-
-    1 and 2 to use cards'
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
