@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public bool IsGrounded { get; private set; }
     public bool IsDead { get; private set; }
     public int PlayerIndex { get; private set; }
+    public bool IsParrying { get; set; }
     public float stunTimer;
 
     [Header("Cards")]
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public int totalDeckSize = 20;
     private List<ICardable> reserveDeck = new List<ICardable>();
     private ICardable[] currentHand = new ICardable[5];
+    public ICardable[] GetCurrentHand() => currentHand;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
@@ -46,6 +48,7 @@ public class PlayerController : MonoBehaviour
     public UpTiltState UpTiltState { get; private set; }
     public CardState CardState { get; private set; }
     public DieState DieState { get; private set; }
+    public ParryState ParryState { get; private set; }
 
     public Vector2 MoveInput => input.CurrentDirection;
     public bool JumpPressed =>  input.HasBufferedJump;
@@ -68,6 +71,7 @@ public class PlayerController : MonoBehaviour
         DownTiltState = new DownTiltState(this, stateMachine);
         DieState = new DieState(this, stateMachine);
         CardState = new CardState(this, stateMachine);
+        ParryState = new ParryState(this, stateMachine);
     }
 
     private void Start()
@@ -116,6 +120,12 @@ public class PlayerController : MonoBehaviour
         {
             TryDrawNewHand();
             input.ConsumeDrawCards();
+        }
+
+        if (input.HasBufferedParry)
+        {
+            TryParry();
+            input.ConsumeParry();
         }
 
         if (input.HasBufferedHand1) { TryUseCardFromHand(0); input.ConsumeHand1(); }
@@ -172,6 +182,11 @@ public class PlayerController : MonoBehaviour
         {
             ICardable cardToUse = currentHand[handIndex];
 
+            if (!cardToUse.CanBeUsed(this))
+            {
+                Debug.Log("you can't use this card right now.");
+                return;
+            }
             if (energy != null && !energy.TrySpendEnergy(cardToUse.EnergyCost))
             {
                 return;
@@ -277,6 +292,27 @@ public class PlayerController : MonoBehaviour
 
         rb.linearVelocity = new Vector2(MoveInput.x * currentSpeed, rb.linearVelocity.y);
         HitBox.CheckAndFlip(MoveInput.x);
+    }
+
+    public void TryParry()
+    {
+        if (stateMachine.CurrentState == IdleState || stateMachine.CurrentState == MoveState)
+        {
+            stateMachine.ChangeState(ParryState);
+        }
+    }
+
+    public void OnSuccessfulParry()
+    {
+        EnergyManager energy = GetComponent<EnergyManager>();
+        if (energy != null)
+        {
+            energy.AddEnergy(50);
+        }
+
+        stateMachine.ChangeState(IdleState);
+
+        Debug.Log("¡Perfect Parry!");
     }
 
     public void StopHorizontalMovement() => rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);

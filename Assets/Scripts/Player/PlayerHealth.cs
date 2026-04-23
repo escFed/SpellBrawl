@@ -38,6 +38,13 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
+        PlayerController controller = GetComponent<PlayerController>();
+        if (controller != null && controller.IsParrying)
+        {
+            controller.OnSuccessfulParry();
+            return;
+        }
+
         currentDamage += amount;
         UpdateUI();
 

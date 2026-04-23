@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: -1121429765940191557}
   - component: {fileID: -3097896229931793527}
   m_Layer: 8
-  m_Name: Opponent
+  m_Name: Dummie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

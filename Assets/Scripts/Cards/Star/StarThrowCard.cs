@@ -8,12 +8,16 @@ public class StarThrowCard : MonoBehaviour, ICardable
     [SerializeField] private GameObject starPrefab;
     [SerializeField] private float cooldownTime = 6f;
     [SerializeField] private float spawnHeight = 12f;
-    public int EnergyCost => 40;
+    [SerializeField] private int energyCost = 20;
 
-    public Sprite cardSprite;
-
-    private Image cardUI;
+    [Header("Visual")]
+    [SerializeField] private Sprite cardSprite;
+    [SerializeField] private Image cardUI;
+    
     private bool canUse = true;
+
+    public int EnergyCost => energyCost;
+    public CardType Type => CardType.Offensive;
 
     public void SetUI(Image uiImage)
     {
@@ -26,6 +30,8 @@ public class StarThrowCard : MonoBehaviour, ICardable
             cardUI.enabled = true;
         }
     }
+
+    public bool CanBeUsed(PlayerController user) => true;
 
     public void ExecuteCard(PlayerController player)
     {

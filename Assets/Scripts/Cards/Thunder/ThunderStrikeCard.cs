@@ -7,11 +7,14 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
     [Header("Settings")]
     [SerializeField] private GameObject tsPrefab;
     [SerializeField] private float cooldownTime = 8f;
-    public int EnergyCost => 40;
+    [SerializeField] private int energyCost = 20;
 
-    public Sprite cardSprite;
+    public int EnergyCost => energyCost;
+    public CardType Type => CardType.Offensive;
 
-    private Image cardUI;
+    [Header("Visual")]
+    [SerializeField] public Sprite cardSprite;
+    [SerializeField] private Image cardUI;
     private bool canUse = true;
 
     public void SetUI(Image uiImage)
@@ -25,6 +28,8 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
             cardUI.enabled = true;
         }
     }
+
+    public bool CanBeUsed(PlayerController user) => true;
 
     public void ExecuteCard(PlayerController player)
     {

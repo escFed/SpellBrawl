@@ -28,6 +28,10 @@ public class UIManager : MonoBehaviour
     public TMPro.TextMeshProUGUI p1_deckCountText;
     public TMPro.TextMeshProUGUI p2_deckCountText;
 
+    [Header("Round Wins UI")]
+    public TMPro.TextMeshProUGUI p1_winsText;
+    public TMPro.TextMeshProUGUI p2_winsText;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;

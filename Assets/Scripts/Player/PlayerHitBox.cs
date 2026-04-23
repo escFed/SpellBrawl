@@ -8,7 +8,18 @@ public class PlayerHitBox : MonoBehaviour
     [SerializeField] private AttackHitbox upTiltHitbox;
     [SerializeField] private AttackHitbox dTiltHitbox;
 
-    public bool IsFacingRight { get; private set; } = true;
+    [SerializeField] private bool originalSpriteFacesRight = true;
+    public bool IsFacingRight { get; private set; }
+
+    private void Awake()
+    {
+        IsFacingRight = originalSpriteFacesRight;
+
+        if (transform.localScale.x < 0)
+        {
+            IsFacingRight = !originalSpriteFacesRight;
+        }
+    }
 
     public void CheckAndFlip(float directionX)
     {

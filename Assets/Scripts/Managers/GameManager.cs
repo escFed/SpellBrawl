@@ -18,10 +18,19 @@ public class GameManager : MonoBehaviour
     public GameObject victoryPanel;
     public TextMeshProUGUI winnerText;
 
+    [Header("RoundsPoint")]
+    public int p1Wins = 0;
+    public int p2Wins = 0;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        UpdateWinsUI();
     }
 
     public void PlayerDied(int deadPlayerIndex)
@@ -39,6 +48,11 @@ public class GameManager : MonoBehaviour
             p1RoundsWon++;
         }
 
+        if (deadPlayerIndex == 0) p2Wins++;
+        else p1Wins++;
+
+        UpdateWinsUI();
+
         if (p1RoundsWon >= roundsToWin)
         {
             ShowVictoryScreen("Player 1 Wins");
@@ -50,6 +64,17 @@ public class GameManager : MonoBehaviour
         else
         {
             StartCoroutine(ResetRoundRoutine());
+        }
+    }
+
+    public void UpdateWinsUI()
+    {
+        if (UIManager.Instance != null)
+        {
+            if (UIManager.Instance.p1_winsText != null)
+                UIManager.Instance.p1_winsText.text = p1Wins.ToString(); ;
+            if (UIManager.Instance.p2_winsText != null)
+                UIManager.Instance.p2_winsText.text = p2Wins.ToString(); ;
         }
     }
 

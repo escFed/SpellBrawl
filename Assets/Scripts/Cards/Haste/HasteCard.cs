@@ -5,18 +5,20 @@ using System.Collections;
 public class HasteCard : MonoBehaviour, ICardable
 {
     [Header("Haste Settings")]
-    public float speedMultiplier = 1.5f;
-    public float duration = 5f;
-    public int energyCost = 45;
-
-    public Sprite cardIcon;
+    [SerializeField] private float speedMultiplier = 1.5f;
+    [SerializeField] private float duration = 5f;
+    [SerializeField] private int energyCost = 20;
+    [SerializeField] private Sprite cardIcon;
 
     public int EnergyCost => energyCost;
+    public CardType Type => CardType.Utility;
 
     public void SetUI(Image img)
     {
         if (img != null && cardIcon != null) img.sprite = cardIcon;
     }
+
+    public bool CanBeUsed(PlayerController user) => true;
 
     public void ExecuteCard(PlayerController player)
     {

@@ -5,12 +5,12 @@ using System.Collections;
 public class HealCard : MonoBehaviour, ICardable
 {
     [Header("Heal Settings")]
-    public int healAmount = 25;
-
-    public int energyCost = 30;
-    public Sprite cardIcon;
+    [SerializeField] private int healAmount = 25;
+    [SerializeField] private int energyCost = 20;
+    [SerializeField] private Sprite cardIcon;
 
     public int EnergyCost => energyCost;
+    public CardType Type => CardType.Utility;
 
     public void SetUI(Image img)
     {
@@ -19,6 +19,8 @@ public class HealCard : MonoBehaviour, ICardable
             img.sprite = cardIcon;
         }
     }
+
+    public bool CanBeUsed(PlayerController user) => true;
 
     public void ExecuteCard(PlayerController player)
     {

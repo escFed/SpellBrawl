@@ -403,7 +403,9 @@ MonoBehaviour:
   starPrefab: {fileID: 2942788602873880493, guid: 1e325a311c0cb7d49a27f9eb1d3038c2, type: 3}
   cooldownTime: 6
   spawnHeight: 12
+  energyCost: 20
   cardSprite: {fileID: 8038980596141600677, guid: 306e652062a229046b4f794f1ce25eb8, type: 3}
+  cardUI: {fileID: 0}
 --- !u!1 &5310919436588583875
 GameObject:
   m_ObjectHideFlags: 0
@@ -648,7 +650,7 @@ MonoBehaviour:
   damage: 8
   slowAmount: 0.4
   duration: 2
-  energyCost: 40
+  energyCost: 20
   spikePrefab: {fileID: 4468951265254541048, guid: ba5530e1633eafc43a19aa26acca2cc7, type: 3}
   cardIcon: {fileID: 5335944466910855660, guid: 8950bd25504247647b7258e64a159332, type: 3}
 --- !u!1 &6999972211173830063
@@ -791,7 +793,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ThunderStrikeCard
   tsPrefab: {fileID: 7062071539232757206, guid: 36b700d52f911bf42bbad3ddd8180354, type: 3}
   cooldownTime: 8
+  energyCost: 20
   cardSprite: {fileID: 1650011137122960578, guid: 17a5c538829024b48be3ab308223d548, type: 3}
+  cardUI: {fileID: 0}
 --- !u!1 &7345901011278583841
 GameObject:
   m_ObjectHideFlags: 0
@@ -868,7 +872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealCard
   healAmount: 25
-  energyCost: 30
+  energyCost: 20
   cardIcon: {fileID: -9155219071720790082, guid: fe275024ca388884c858f1ba67012d26, type: 3}
 --- !u!1 &7615385312346413976
 GameObject:
@@ -918,7 +922,9 @@ MonoBehaviour:
   cooldownBetweenShots: 0.5
   reloadTime: 6
   maxShoots: 3
+  energyCost: 20
   cardSprite: {fileID: -8703317477055725012, guid: 8b436fe85e5f15848a9a8134fce1763e, type: 3}
+  cardUI: {fileID: 0}
 --- !u!1 &7950928319824809028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,7 +1065,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HasteCard
   speedMultiplier: 1.5
   duration: 5
-  energyCost: 45
+  energyCost: 20
   cardIcon: {fileID: 6876101926305785287, guid: 216e9d45f8ec71142af1d8370816485c, type: 3}
 --- !u!1 &8413723424367857399
 GameObject:
@@ -1072,13 +1078,13 @@ GameObject:
   - component: {fileID: 3262535833314222879}
   - component: {fileID: 7737548126659744619}
   - component: {fileID: 3497981266603642460}
+  - component: {fileID: 4496039527245687636}
   - component: {fileID: 158549324596254434}
   - component: {fileID: 2416802196115934665}
   - component: {fileID: 9208369854405864837}
   - component: {fileID: 4907414666020560748}
   - component: {fileID: 1580126540270080604}
   - component: {fileID: 8597003566808776856}
-  - component: {fileID: 1912084347644107578}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -1189,7 +1195,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: bdb1a6a16d740ad4b8a20a10fe3ac8bf, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1200,6 +1206,43 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!70 &4496039527245687636
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8413723424367857399}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: bdb1a6a16d740ad4b8a20a10fe3ac8bf, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.2, y: 0}
+  m_Size: {x: 0.6, y: 1}
+  m_Direction: 0
 --- !u!114 &158549324596254434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1261,6 +1304,7 @@ MonoBehaviour:
   fTiltHitbox: {fileID: 3356354871029855129}
   upTiltHitbox: {fileID: 7306960972718543922}
   dTiltHitbox: {fileID: 5261446718028661164}
+  originalSpriteFacesRight: 1
 --- !u!114 &4907414666020560748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1321,49 +1365,3 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!61 &1912084347644107578
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8413723424367857399}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: bdb1a6a16d740ad4b8a20a10fe3ac8bf, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.96875, y: 1}
-    newSize: {x: 1, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 0.96875, y: 1}
-  m_EdgeRadius: 0

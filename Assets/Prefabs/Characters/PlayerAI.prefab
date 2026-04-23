@@ -47,7 +47,7 @@ MonoBehaviour:
   damage: 8
   slowAmount: 0.4
   duration: 2
-  energyCost: 40
+  energyCost: 20
   spikePrefab: {fileID: 4468951265254541048, guid: ba5530e1633eafc43a19aa26acca2cc7, type: 3}
   cardIcon: {fileID: 5335944466910855660, guid: 8950bd25504247647b7258e64a159332, type: 3}
 --- !u!1 &509414199974305466
@@ -451,7 +451,9 @@ MonoBehaviour:
   cooldownBetweenShots: 0.5
   reloadTime: 6
   maxShoots: 3
+  energyCost: 20
   cardSprite: {fileID: -8703317477055725012, guid: 8b436fe85e5f15848a9a8134fce1763e, type: 3}
+  cardUI: {fileID: 0}
 --- !u!1 &2046053546899529829
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,7 +499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealCard
   healAmount: 25
-  energyCost: 30
+  energyCost: 20
   cardIcon: {fileID: -9155219071720790082, guid: fe275024ca388884c858f1ba67012d26, type: 3}
 --- !u!1 &2464666211507732312
 GameObject:
@@ -510,12 +512,12 @@ GameObject:
   - component: {fileID: 7704541438735409549}
   - component: {fileID: 4443773354149934336}
   - component: {fileID: 5918209336108744888}
+  - component: {fileID: 8888154453022043796}
   - component: {fileID: 673171157153144058}
   - component: {fileID: 1186901822830925340}
   - component: {fileID: 7554642670596897687}
   - component: {fileID: 280409982384417210}
   - component: {fileID: -5258937813226330191}
-  - component: {fileID: 4726040971515111972}
   m_Layer: 7
   m_Name: PlayerAI
   m_TagString: Untagged
@@ -533,7 +535,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8324196052573348412}
@@ -626,7 +628,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: bdb1a6a16d740ad4b8a20a10fe3ac8bf, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -637,6 +639,43 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!70 &8888154453022043796
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2464666211507732312}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: bdb1a6a16d740ad4b8a20a10fe3ac8bf, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.7, y: 1}
+  m_Direction: 0
 --- !u!114 &673171157153144058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -683,6 +722,7 @@ MonoBehaviour:
   fTiltHitbox: {fileID: 8246800037079071242}
   upTiltHitbox: {fileID: 445758605109185613}
   dTiltHitbox: {fileID: 5378816027172720550}
+  originalSpriteFacesRight: 1
 --- !u!114 &7554642670596897687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -713,13 +753,12 @@ MonoBehaviour:
   attackRange: 1.8
   cardRange: 6
   reactionTime: 0.2
-  attackCooldown: 1.2
-  timeBetweenCards: 2.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   lookAheadDistance: 1
   fallCheckDepth: 2
+  currentDecision: 0
 --- !u!114 &-5258937813226330191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -735,52 +774,6 @@ MonoBehaviour:
   maxEnergy: 100
   startingEnergy: 50
   currentEnergy: 0
---- !u!61 &4726040971515111972
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2464666211507732312}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: bdb1a6a16d740ad4b8a20a10fe3ac8bf, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.21875, y: 1.125}
-    newSize: {x: 1, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1.21875, y: 1.125}
-  m_EdgeRadius: 0
 --- !u!1 &3295659753739748874
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,7 +927,9 @@ MonoBehaviour:
   starPrefab: {fileID: 2942788602873880493, guid: 1e325a311c0cb7d49a27f9eb1d3038c2, type: 3}
   cooldownTime: 6
   spawnHeight: 12
+  energyCost: 20
   cardSprite: {fileID: 8038980596141600677, guid: 306e652062a229046b4f794f1ce25eb8, type: 3}
+  cardUI: {fileID: 0}
 --- !u!1 &5228198483163591303
 GameObject:
   m_ObjectHideFlags: 0
@@ -1012,7 +1007,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ThunderStrikeCard
   tsPrefab: {fileID: 7062071539232757206, guid: 36b700d52f911bf42bbad3ddd8180354, type: 3}
   cooldownTime: 8
+  energyCost: 20
   cardSprite: {fileID: 1650011137122960578, guid: 17a5c538829024b48be3ab308223d548, type: 3}
+  cardUI: {fileID: 0}
 --- !u!1 &6701156928870937196
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,6 +1019,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 712887643167462098}
+  - component: {fileID: 387532931752406634}
   m_Layer: 7
   m_Name: Card6
   m_TagString: Untagged
@@ -1044,6 +1042,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7704541438735409549}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &387532931752406634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6701156928870937196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4842cb7d75ffc064cb5df42e223b3219, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HasteCard
+  speedMultiplier: 1.5
+  duration: 5
+  energyCost: 20
+  cardIcon: {fileID: 6876101926305785287, guid: 216e9d45f8ec71142af1d8370816485c, type: 3}
 --- !u!1 &7093909918081708081
 GameObject:
   m_ObjectHideFlags: 0

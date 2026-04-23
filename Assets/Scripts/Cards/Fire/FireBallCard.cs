@@ -9,10 +9,14 @@ public class FireBallCard : MonoBehaviour, ICardable
     [SerializeField] private float cooldownBetweenShots = 0.5f;
     [SerializeField] private float reloadTime = 6f;
     [SerializeField] private int maxShoots = 3;
-    public int EnergyCost => 40;
+    [SerializeField] private int energyCost = 20;
 
-    public Sprite cardSprite;
-    private Image cardUI;
+    [Header("Visual")]
+    [SerializeField] private Sprite cardSprite;
+    [SerializeField] private Image cardUI;
+
+    public int EnergyCost => energyCost;
+    public CardType Type => CardType.Offensive;
     private int currentShoots;
     private bool canShoot = true;
 
@@ -32,6 +36,8 @@ public class FireBallCard : MonoBehaviour, ICardable
             cardUI.enabled = true;
         }
     }
+
+    public bool CanBeUsed(PlayerController user) => true;
 
     public void ExecuteCard(PlayerController player)
     {

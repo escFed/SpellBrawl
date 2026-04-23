@@ -11,17 +11,18 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     public Vector2 CurrentDirection { get; private set; }
     public bool HasBufferedJump => jumpTimer > 0;
     public bool HasBufferedAttack => attackTimer > 0;
-
     public bool HasBufferedHand1 => hand1Timer > 0;
     public bool HasBufferedHand2 => hand2Timer > 0;
     public bool HasBufferedHand3 => hand3Timer > 0;
     public bool HasBufferedHand4 => hand4Timer > 0;
     public bool HasBufferedHand5 => hand5Timer > 0;
+    public bool HasBufferedParry => parryTimer > 0;
     public bool HasBufferedDrawCards => drawCardsTimer > 0;
 
     private float attackTimer, jumpTimer;
     private float hand1Timer, hand2Timer, hand3Timer, hand4Timer, hand5Timer;
     private float drawCardsTimer;
+    private float parryTimer;
 
     private void Update()
     {
@@ -33,6 +34,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
         if (hand4Timer > 0) hand4Timer -= Time.deltaTime;
         if (hand5Timer > 0) hand5Timer -= Time.deltaTime;
         if (drawCardsTimer > 0) drawCardsTimer -= Time.deltaTime;
+        if (parryTimer > 0) parryTimer -= Time.deltaTime;
     }
 
     public void OnMove(InputValue value) => CurrentDirection = value.Get<Vector2>();
@@ -44,6 +46,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     public void OnHand3(InputValue value) { if (value.isPressed) hand3Timer = cardBufferTime; }
     public void OnHand4(InputValue value) { if (value.isPressed) hand4Timer = cardBufferTime; }
     public void OnHand5(InputValue value) { if (value.isPressed) hand5Timer = cardBufferTime; }
+    public void OnParry(InputValue value) { if (value.isPressed) parryTimer = cardBufferTime; }
 
     public void ConsumeJump() => jumpTimer = 0;
     public void ConsumeAttack() => attackTimer = 0;
@@ -52,6 +55,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     public void ConsumeHand3() => hand3Timer = 0;
     public void ConsumeHand4() => hand4Timer = 0;
     public void ConsumeHand5() => hand5Timer = 0;
+    public void ConsumeParry() => parryTimer = 0;
     public void ConsumeDrawCards() => drawCardsTimer = 0;
 
     public void ClearAllInputs()
@@ -64,6 +68,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
         ConsumeHand3();
         ConsumeHand4();
         ConsumeHand5();
+        ConsumeParry();
         ConsumeDrawCards();
     }
 }
