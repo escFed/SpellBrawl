@@ -690,6 +690,51 @@ MonoBehaviour:
   p1Color: {r: 1, g: 1, b: 1, a: 1}
   iaName: IA
   iaColor: {r: 1, g: 0, b: 0.009498596, a: 1}
+--- !u!1 &6053219358716341949
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5158910968694176767}
+  - component: {fileID: 4587937998124200571}
+  m_Layer: 7
+  m_Name: Card7
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5158910968694176767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6053219358716341949}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3262535833314222879}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4587937998124200571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6053219358716341949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07fb8a2121666a8488e55c4e303f71fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FortifyCard
+  fortPrefab: {fileID: 1138445505339871499, guid: 9f20f80e0d643144faea5fbb54257a20, type: 3}
 --- !u!1 &6857446786280242423
 GameObject:
   m_ObjectHideFlags: 0
@@ -1098,6 +1143,7 @@ Transform:
   - {fileID: 4899586216856803602}
   - {fileID: 5992251722110604642}
   - {fileID: 5391014373240358035}
+  - {fileID: 5158910968694176767}
   - {fileID: 779554312341870718}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1244,6 +1290,7 @@ MonoBehaviour:
   - {fileID: 6857446786280242423}
   - {fileID: 1491135891624530694}
   - {fileID: 2606392393110623635}
+  - {fileID: 6053219358716341949}
   groundCheck: {fileID: 3329483558142694777}
   groundLayer:
     serializedVersion: 2

@@ -40,6 +40,7 @@ public class DamageManager : MonoBehaviour
         globalDamageReduction += amount;
         yield return new WaitForSeconds(duration);
         globalDamageReduction -= amount;
+ 
     }
 
     // --- KNOCKBACK POR JUGADOR ---

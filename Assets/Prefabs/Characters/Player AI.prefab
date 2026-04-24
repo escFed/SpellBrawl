@@ -490,6 +490,7 @@ Transform:
   - {fileID: 6626593768532453427}
   - {fileID: 3750503075501138368}
   - {fileID: 4098419647723879529}
+  - {fileID: 2169681416171070459}
   - {fileID: 1785916118178468197}
   - {fileID: 5718793641096653619}
   - {fileID: 4175778399756417381}
@@ -641,6 +642,7 @@ MonoBehaviour:
   - {fileID: 286029161659632707}
   - {fileID: 8605933343170908018}
   - {fileID: 9193652344416225040}
+  - {fileID: 4797828446922116166}
   groundCheck: {fileID: 1785916118178468197}
   groundLayer:
     serializedVersion: 2
@@ -867,6 +869,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7704541438735409549}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4797828446922116166
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2169681416171070459}
+  - component: {fileID: 5177999942823269523}
+  m_Layer: 7
+  m_Name: Card7
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2169681416171070459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4797828446922116166}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7704541438735409549}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5177999942823269523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4797828446922116166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07fb8a2121666a8488e55c4e303f71fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FortifyCard
+  fortPrefab: {fileID: 1138445505339871499, guid: 9f20f80e0d643144faea5fbb54257a20, type: 3}
 --- !u!1 &5228198483163591303
 GameObject:
   m_ObjectHideFlags: 0
