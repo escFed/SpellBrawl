@@ -3,28 +3,20 @@
   "WorkspaceRootPath": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\managers\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\managers\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\ui\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\ai\\playerai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ai\\playerai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\player\\playerhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playerhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\player\\playerhitbox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playerhitbox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\characters\\characterbrain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\characters\\characterbrain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\cards\\shadow\\shadowspikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cards\\shadow\\shadowspikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\assets\\scripts\\ai\\aidecision.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ai\\aidecision.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,84 +26,57 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "GameManager.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Managers\\GameManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Managers\\GameManager.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Managers\\GameManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Managers\\GameManager.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAAABYAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-23T19:54:26.744Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UIManager.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\UIManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\UIManager.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\UIManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\UI\\UIManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAtAAAAAAAAAA==",
+              "Title": "PlayerHealth.cs",
+              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Player\\PlayerHealth.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerHealth.cs",
+              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Player\\PlayerHealth.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerHealth.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAAADwAAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-23T19:48:38.215Z",
+              "WhenOpened": "2026-04-24T20:29:13.631Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "PlayerAI.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\AI\\PlayerAI.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\AI\\PlayerAI.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\AI\\PlayerAI.cs",
-              "RelativeToolTip": "Assets\\Scripts\\AI\\PlayerAI.cs",
-              "ViewState": "AgIAAJQAAAAAAAAAAAAAAKgAAAA9AAAAAAAAAA==",
+              "Title": "CharacterBrain.cs",
+              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterBrain.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Characters\\CharacterBrain.cs",
+              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterBrain.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Characters\\CharacterBrain.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-23T19:47:24.927Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ShadowSpikeCard.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Cards\\Shadow\\ShadowSpikeCard.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Cards\\Shadow\\ShadowSpikeCard.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Cards\\Shadow\\ShadowSpikeCard.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Cards\\Shadow\\ShadowSpikeCard.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAACIAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-23T19:39:34.502Z",
+              "WhenOpened": "2026-04-24T19:07:52.469Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "PlayerController.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Player\\PlayerController.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerController.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Player\\PlayerController.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerController.cs",
-              "ViewState": "AgIAAKcAAAAAAAAAAAAAALoAAABAAAAAAAAAAA==",
+              "Title": "AIDecision.cs",
+              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\AI\\AIDecision.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\AI\\AIDecision.cs",
+              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\AI\\AIDecision.cs",
+              "RelativeToolTip": "Assets\\Scripts\\AI\\AIDecision.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-23T19:37:25.398Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-23T20:36:23.418Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PlayerHitBox.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Player\\PlayerHitBox.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerHitBox.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Player\\PlayerHitBox.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerHitBox.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABCAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "PlayerAI.cs",
+              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\AI\\PlayerAI.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\AI\\PlayerAI.cs",
+              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\AI\\PlayerAI.cs",
+              "RelativeToolTip": "Assets\\Scripts\\AI\\PlayerAI.cs",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAAAFQAAABYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-23T17:25:08.921Z",
+              "WhenOpened": "2026-04-23T19:47:24.927Z",
               "EditorCaption": ""
             }
           ]

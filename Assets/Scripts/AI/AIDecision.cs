@@ -7,5 +7,6 @@ public enum AIDecision
     UseOffensiveCard,
     UseDefensiveCard,
     UseUtilityCard,
-    Parry
+    Parry,
+    DrawCards
 }

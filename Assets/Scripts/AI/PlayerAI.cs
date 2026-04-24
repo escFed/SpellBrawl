@@ -10,7 +10,8 @@ public class PlayerAI : MonoBehaviour, IInputProvider
     [Header("Fall check")]
     public LayerMask groundLayer;
     public float lookAheadDistance = 1f;
-    public float fallCheckDepth = 2f;
+    public float fallCheckDepth = 5f;
+    public float gapJumpDistance = 4f;
 
     public PlayerController SelfController { get; private set; }
     public EnergyManager SelfEnergy { get; private set; }
@@ -18,8 +19,11 @@ public class PlayerAI : MonoBehaviour, IInputProvider
     public Transform Target { get; private set; }
 
     public AIDecision currentDecision = AIDecision.Search;
+    private AIDecision previousDecision;
+
     private float thinkTimer;
     private int selectedCardIndex = -1;
+    private float cardTimer;
 
     public Vector2 CurrentDirection { get; private set; }
     public bool HasBufferedJump { get; private set; }
@@ -67,18 +71,32 @@ public class PlayerAI : MonoBehaviour, IInputProvider
             if (Target == null) return;
         }
 
+        if (cardTimer > 0) cardTimer -= Time.deltaTime;
+
         thinkTimer -= Time.deltaTime;
         if (thinkTimer <= 0)
         {
             thinkTimer = reactionTime;
             EvaluateSituation();
             ExecuteDecision();
+
+            if (currentDecision != previousDecision)
+            {
+                //Debug.Log($"[IA] State change: {previousDecision} {currentDecision}");
+                previousDecision = currentDecision;
+            }
         }
     }
     private void EvaluateSituation()
     {
         float distance = Vector2.Distance(transform.position, Target.position);
-        float myDamage = SelfHealth != null ? SelfHealth.currentDamage : 0f;
+        float damage = SelfHealth != null ? SelfHealth.currentDamage : 0f;
+
+        if (HasEmptyHand() && SelfEnergy != null && SelfEnergy.currentEnergy >= 75)
+        {
+            currentDecision = AIDecision.DrawCards;
+            return;
+        }
 
         if (distance > 15f)
         {
@@ -86,22 +104,31 @@ public class PlayerAI : MonoBehaviour, IInputProvider
             return;
         }
 
-        if (myDamage > 80f)
+        if (damage > 80f)
         {
-            if (TryFindCardCategory(CardType.Defensive)) { currentDecision = AIDecision.UseDefensiveCard; return; }
+            if (TryFindCardType(CardType.Defensive)) { currentDecision = AIDecision.UseDefensiveCard; return; }
             if (distance < attackRange * 2) { currentDecision = AIDecision.Flee; return; }
         }
 
-        if (SelfEnergy != null && SelfEnergy.currentEnergy >= 30)
+        if (SelfEnergy != null && SelfEnergy.currentEnergy >= 30 && cardTimer <= 0)
         {
-            if (distance > attackRange && distance <= cardRange && TryFindCardCategory(CardType.Utility))
-            {
-                currentDecision = AIDecision.UseUtilityCard; return;
-            }
+            float probability = SelfEnergy.currentEnergy / 100f;
 
-            if (distance > attackRange && TryFindCardCategory(CardType.Offensive))
+            if (Random.value <= probability)
             {
-                currentDecision = AIDecision.UseOffensiveCard; return;
+                if (distance > attackRange && distance <= cardRange && TryFindCardType(CardType.Utility))
+                {
+                    currentDecision = AIDecision.UseUtilityCard; return;
+                }
+
+                if (distance > attackRange && TryFindCardType(CardType.Offensive))
+                {
+                    currentDecision = AIDecision.UseOffensiveCard; return;
+                }
+            }
+            else
+            {
+                cardTimer = 1.0f;
             }
         }
 
@@ -130,13 +157,29 @@ public class PlayerAI : MonoBehaviour, IInputProvider
                 break;
 
             case AIDecision.Chase:
-                if (IsSafeToMove(dirX)) CurrentDirection = new Vector2(dirX, 0);
-                else { CurrentDirection = Vector2.zero; HasBufferedJump = true; }
+                bool jumpToChase = false;
+                if (IsSafeToMove(dirX, out jumpToChase))
+                {
+                    CurrentDirection = new Vector2(dirX, 0);
+                    if (jumpToChase) HasBufferedJump = true;
+                }
+                else
+                {
+                    CurrentDirection = Vector2.zero;
+                }
                 break;
 
             case AIDecision.Flee:
-                if (IsSafeToMove(-dirX)) CurrentDirection = new Vector2(-dirX, 0);
-                else { CurrentDirection = Vector2.zero; HasBufferedJump = true; }
+                bool jumpToFlee = false;
+                if (IsSafeToMove(-dirX, out jumpToFlee))
+                {
+                    CurrentDirection = new Vector2(-dirX, 0);
+                    if (jumpToFlee) HasBufferedJump = true;
+                }
+                else
+                {
+                    CurrentDirection = Vector2.zero;
+                }
                 break;
 
             case AIDecision.Attack:
@@ -149,6 +192,11 @@ public class PlayerAI : MonoBehaviour, IInputProvider
                 HasBufferedParry = true;
                 break;
 
+            case AIDecision.DrawCards:
+                CurrentDirection = Vector2.zero;
+                HasBufferedDrawCards = true;
+                break;
+
             case AIDecision.UseOffensiveCard:
             case AIDecision.UseDefensiveCard:
             case AIDecision.UseUtilityCard:
@@ -158,7 +206,7 @@ public class PlayerAI : MonoBehaviour, IInputProvider
         }
     }
 
-    private bool TryFindCardCategory(CardType targetType)
+    private bool TryFindCardType(CardType targetType)
     {
         ICardable[] hand = SelfController.GetCurrentHand();
 
@@ -177,6 +225,16 @@ public class PlayerAI : MonoBehaviour, IInputProvider
         return false;
     }
 
+    private bool HasEmptyHand()
+    {
+        ICardable[] hand = SelfController.GetCurrentHand();
+        for (int i = 0; i < hand.Length; i++)
+        {
+            if (hand[i] != null) return false;
+        }
+        return true;
+    }
+
     private void PressCardButton(int index)
     {
         if (index == 0) HasBufferedHand1 = true;
@@ -186,12 +244,27 @@ public class PlayerAI : MonoBehaviour, IInputProvider
         else if (index == 4) HasBufferedHand5 = true;
     }
 
-    public bool IsSafeToMove(float directionX)
+    public bool IsSafeToMove(float directionX, out bool shouldJump)
     {
+        shouldJump = false;
+
         if (!SelfController.IsGrounded) return true;
-        Vector2 rayOrigin = new Vector2(transform.position.x + (directionX * lookAheadDistance), transform.position.y);
-        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, fallCheckDepth, groundLayer);
-        return hit.collider != null;
+
+        Vector2 edgeCheck = new Vector2(transform.position.x + (directionX * lookAheadDistance), transform.position.y);
+        RaycastHit2D edgeHit = Physics2D.Raycast(edgeCheck, Vector2.down, fallCheckDepth, groundLayer);
+
+        if (edgeHit.collider != null) return true;
+
+        Vector2 gapCheck = new Vector2(transform.position.x + (directionX * gapJumpDistance), transform.position.y);
+        RaycastHit2D gapHit = Physics2D.Raycast(gapCheck, Vector2.down, fallCheckDepth, groundLayer);
+
+        if (gapHit.collider != null)
+        {
+            shouldJump = true;
+            return true;
+        }
+
+        return false;
     }
 
     public void ConsumeJump() => HasBufferedJump = false;

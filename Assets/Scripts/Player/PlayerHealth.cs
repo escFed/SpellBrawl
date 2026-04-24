@@ -58,7 +58,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         Vector2 finalKnockback = baseKnockback * damageScale;
 
         rb.linearVelocity = Vector2.zero;
-        rb.AddForce(finalKnockback, ForceMode2D.Impulse);
+        rb.AddForce(finalKnockback * rb.mass, ForceMode2D.Impulse);
 
         if (controller != null) controller.TakeHit(0.4f);
     }
