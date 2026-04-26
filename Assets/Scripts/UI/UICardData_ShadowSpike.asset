@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 972cbc2278f40d44f96f133ea7448f76, type: 3}
+  m_Name: UICardData_ShadowSpike
+  m_EditorClassIdentifier: Assembly-CSharp::UICardData
+  cardName: Shadow Spike
+  cardPrefab: {fileID: 3180080982280238681, guid: 1f32535ea1dde3e43a6f894cbb189fc4, type: 3}
+  description: Instancia espinas violetas en tu oponente
+  damage: 25
+  cooldown: 0

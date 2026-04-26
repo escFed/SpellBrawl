@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Windows;
 
 public class PlayerAI : MonoBehaviour, IInputProvider
 {
@@ -35,8 +36,14 @@ public class PlayerAI : MonoBehaviour, IInputProvider
 
     private void Awake() => selfController = GetComponent<PlayerController>();
 
-    private void Start() => Invoke(nameof(FindTarget), 0.5f);
+    private void Start()
+    {
+        this.enabled = false;
+        SetInputEnabled(false);
+        Invoke(nameof(FindTarget), 0.5f);
+    }
 
+  
     private void FindTarget()
     {
         PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
@@ -190,4 +197,16 @@ public class PlayerAI : MonoBehaviour, IInputProvider
         ConsumeHand2();
         CurrentDirection = Vector2.zero;
     }
+
+
+    public void SetInputEnabled(bool enabled)
+    {
+        this.enabled = enabled;
+        var inputMono = GetComponent<IInputProvider>() as MonoBehaviour;
+        if (inputMono != null)
+            inputMono.enabled = enabled;
+        else
+            Debug.LogWarning("No IInputProvider en: " + gameObject.name);
+    }
 }
+

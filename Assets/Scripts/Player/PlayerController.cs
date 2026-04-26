@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void Awake()
     {
-        input = GetComponent<IInputProvider>();
+     
         HitBox = GetComponent<PlayerHitBox>();
         rb = GetComponent<Rigidbody2D>();
 
@@ -82,6 +82,12 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void Start()
     {
+        input = GetComponent<IInputProvider>();
+        this.enabled = false;
+        if (input != null)
+        {
+            (input as MonoBehaviour).enabled = false;
+        }
         stateMachine.Initialize(IdleState);
 
         PlayerInput playerInput = GetComponent<PlayerInput>();
@@ -270,6 +276,20 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         return playerId;
     }
+
+    public void SetInputEnabled(bool enabled)
+    {
+        this.enabled = enabled;
+
+        var inputMono = GetComponent<IInputProvider>() as MonoBehaviour;
+        if (inputMono != null)
+            inputMono.enabled = enabled;
+        else
+            Debug.LogWarning("No IInputProvider en: " + gameObject.name);
+
+    }
+
+
 }
 
 
