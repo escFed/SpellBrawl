@@ -39,6 +39,12 @@ public class GameManager : MonoBehaviour
 
         isRoundTransitioning = true;
 
+        TargetGroup camUpdater = FindAnyObjectByType<TargetGroup>();
+        if (camUpdater != null)
+        {
+            camUpdater.RefreshTargets();
+        }
+
         if (deadPlayerIndex == 0)
         {
             p2RoundsWon++;

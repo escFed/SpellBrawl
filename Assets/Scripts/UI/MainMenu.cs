@@ -4,10 +4,14 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public GameObject panelControls;
+    public GameObject cardsSelect;
 
     public void PlayGame()
     {
-        SceneManager.LoadScene("Stage1");
+        if (cardsSelect != null)
+        {
+            cardsSelect.SetActive(true);
+        }
     }
 
     public void QuitGame()

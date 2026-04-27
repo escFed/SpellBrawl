@@ -12,6 +12,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [Header("Penalty Settings")]
     public int fallLives = 3;
 
+    [Header("Defense Settings")]
+    public float defenseMultiplier = 1f;
+
     [Header("UI Reference")]
     private TextMeshProUGUI damageText;
     private GameObject[] lifeIcons;
@@ -38,6 +41,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
+        int finalDamage = Mathf.RoundToInt(amount * defenseMultiplier);
+
         PlayerController controller = GetComponent<PlayerController>();
         if (controller != null && controller.IsParrying)
         {
@@ -45,7 +50,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             return;
         }
 
-        currentDamage += amount;
+        currentDamage += finalDamage;
         UpdateUI();
 
         float damageScale = 1f;
@@ -85,10 +90,12 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         lastFallTime = Time.time;
 
         fallLives--;
-        UpdateUI();
 
         if (fallLives > 0)
         {
+            currentDamage = 0;
+            UpdateUI();
+
             if (RespawnManager.Instance != null && controller != null)
             {
                 RespawnManager.Instance.RespawnPlayerAfterFall(this, controller.PlayerIndex);
@@ -96,6 +103,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
         else
         {
+            UpdateUI();
             Die();
         }
     }
@@ -114,6 +122,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         isDead = false;
         currentDamage = 0;
         fallLives = 3;
+        defenseMultiplier = 1f;
 
         PlayerController controller = GetComponent<PlayerController>();
         if (controller != null)
@@ -132,7 +141,19 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private void UpdateUI()
     {
-        if (damageText != null) damageText.text = currentDamage + "%";
+        if (damageText != null)
+        {
+            damageText.text = currentDamage.ToString() + "%";
+
+            if (currentDamage >= 100)
+            {
+                damageText.color = Color.red;
+            }
+            else
+            {
+                damageText.color = Color.white;
+            }
+        }
 
         if (lifeIcons != null)
         {

@@ -81,6 +81,11 @@ public class PlayerController : MonoBehaviour
         PlayerInput playerInput = GetComponent<PlayerInput>();
         PlayerIndex = playerInput != null ? playerInput.playerIndex : 1;
 
+        if (DeckManager.Instance != null && DeckManager.Instance.characterDeck.Count > 0 && PlayerIndex == 0)
+        {
+            cardPrefabsPool = DeckManager.Instance.characterDeck.ToArray();
+        }
+
         PlayerHealth health = GetComponent<PlayerHealth>();
         if (health != null && UIManager.Instance != null)
         {
