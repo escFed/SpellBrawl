@@ -49,4 +49,4 @@ MonoBehaviour:
   duration: 2
   energyCost: 20
   spikePrefab: {fileID: 4468951265254541048, guid: ba5530e1633eafc43a19aa26acca2cc7, type: 3}
-  cardIcon: {fileID: -6773075584596642006, guid: c47b7cd90f7143b4593171330b75f91f, type: 3}
+  cardIcon: {fileID: 8736062599295021686, guid: c41d36de60f78654eb37d65a364ebce6, type: 3}

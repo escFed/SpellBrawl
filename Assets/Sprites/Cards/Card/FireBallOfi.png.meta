@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8b436fe85e5f15848a9a8134fce1763e
+guid: 2eb86d250183cd14186104aa12639832
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8703317477055725012
-    second: Captura de pantalla 2026-03-21 150433_0
+      213: 755929074753127798
+    second: FireBallOfi_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Captura de pantalla 2026-03-21 150433_0
+      name: FireBallOfi_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 159
-        height: 233
+        width: 128
+        height: 170
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c2205a4edda973780800000000000000
-      internalID: -8703317477055725012
+      spriteID: 675cc080d799d7a00800000000000000
+      internalID: 755929074753127798
       vertices: []
       indices: 
       edges: []
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Captura de pantalla 2026-03-21 150433_0: -8703317477055725012
+      FireBallOfi_0: 755929074753127798
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

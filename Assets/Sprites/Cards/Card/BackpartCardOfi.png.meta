@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 216e9d45f8ec71142af1d8370816485c
+guid: 9fdf59d1ed50b914c940e574aaa7ba15
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6876101926305785287
-    second: Captura de pantalla 2026-04-02 141831_0
+      213: 3673020506609438900
+    second: BackpartCardOfi_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Captura de pantalla 2026-04-02 141831_0
+      name: BackpartCardOfi_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 302
-        height: 455
+        width: 128
+        height: 170
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7c5e5d45542dc6f50800000000000000
-      internalID: 6876101926305785287
+      spriteID: 4b05e25b0b039f230800000000000000
+      internalID: 3673020506609438900
       vertices: []
       indices: 
       edges: []
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Captura de pantalla 2026-04-02 141831_0: 6876101926305785287
+      BackpartCardOfi_0: 3673020506609438900
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

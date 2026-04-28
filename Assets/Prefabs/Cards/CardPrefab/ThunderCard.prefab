@@ -47,5 +47,5 @@ MonoBehaviour:
   tsPrefab: {fileID: 7062071539232757206, guid: 36b700d52f911bf42bbad3ddd8180354, type: 3}
   cooldownTime: 8
   energyCost: 20
-  cardSprite: {fileID: 1650011137122960578, guid: 17a5c538829024b48be3ab308223d548, type: 3}
+  cardSprite: {fileID: -5031075911619066452, guid: 7c4d4c03f4b75894fbb8c89cadb23ef3, type: 3}
   cardUI: {fileID: 0}

@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour
         if (stateMachine.CurrentState != IdleState && stateMachine.CurrentState != MoveState) return;
 
         EnergyManager energy = GetComponent<EnergyManager>();
-        if (energy == null || !energy.TrySpendEnergy(75))
+        if (energy == null || !energy.TrySpendEnergy(40))
         {
             return;
         }
@@ -317,7 +317,7 @@ public class PlayerController : MonoBehaviour
 
         stateMachine.ChangeState(IdleState);
 
-        Debug.Log("¡Perfect Parry!");
+        //Debug.Log("¡Perfect Parry!");
     }
 
     public void StopHorizontalMovement() => rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);

@@ -48,5 +48,5 @@ MonoBehaviour:
   cooldownTime: 6
   spawnHeight: 12
   energyCost: 20
-  cardSprite: {fileID: 8038980596141600677, guid: 306e652062a229046b4f794f1ce25eb8, type: 3}
+  cardSprite: {fileID: 2170560513983882954, guid: e90dddbd423e3fd4a9e464e69fad876e, type: 3}
   cardUI: {fileID: 0}

@@ -49,5 +49,5 @@ MonoBehaviour:
   reloadTime: 6
   maxShoots: 3
   energyCost: 20
-  cardSprite: {fileID: -8703317477055725012, guid: 8b436fe85e5f15848a9a8134fce1763e, type: 3}
+  cardSprite: {fileID: 755929074753127798, guid: 2eb86d250183cd14186104aa12639832, type: 3}
   cardUI: {fileID: 0}

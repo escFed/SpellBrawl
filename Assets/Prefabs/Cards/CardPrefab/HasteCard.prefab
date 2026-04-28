@@ -47,4 +47,4 @@ MonoBehaviour:
   speedMultiplier: 1.5
   duration: 5
   energyCost: 20
-  cardIcon: {fileID: 6876101926305785287, guid: 216e9d45f8ec71142af1d8370816485c, type: 3}
+  cardIcon: {fileID: -2028240897101911080, guid: 56d8ce3ad7cb29f418f974fcf10514ac, type: 3}

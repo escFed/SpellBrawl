@@ -47,4 +47,4 @@ MonoBehaviour:
   damageMultiplier: 0.5
   duration: 3
   energyCost: 20
-  cardIcon: {fileID: -3386021897727791967, guid: d8c52e91899a4f64abf471cc8e7ea197, type: 3}
+  cardIcon: {fileID: 4870125245114056259, guid: c74bc045efffbd84a9de89292c928773, type: 3}
