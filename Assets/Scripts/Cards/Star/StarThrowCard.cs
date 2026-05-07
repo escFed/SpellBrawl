@@ -33,13 +33,13 @@ public class StarThrowCard : MonoBehaviour, ICardable
 
     public bool CanBeUsed(PlayerController user) => true;
 
-    public void ExecuteCard(PlayerController player)
+    public void ExecuteCard(PlayerController character)
     {
         if (!canUse) return;
-        StartCoroutine(StarRoutine(player));
+        StartCoroutine(StarRoutine(character));
     }
 
-    private IEnumerator StarRoutine(PlayerController player)
+    private IEnumerator StarRoutine(PlayerController character)
     {
         canUse = false;
         if (cardUI != null) cardUI.enabled = false;
@@ -49,7 +49,7 @@ public class StarThrowCard : MonoBehaviour, ICardable
 
         foreach (PlayerController p in allPlayers)
         {
-            if (p.gameObject != player.gameObject)
+            if (p.gameObject != character.gameObject)
             {
                 target = p;
                 break;
@@ -58,13 +58,13 @@ public class StarThrowCard : MonoBehaviour, ICardable
 
         if (target != null)
         {
-            Vector3 spawnPosition = new Vector3(player.transform.position.x, player.transform.position.y + spawnHeight, 0f);
+            Vector3 spawnPosition = new Vector3(character.transform.position.x, character.transform.position.y + spawnHeight, 0f);
 
             GameObject starObj = Instantiate(starPrefab, spawnPosition, Quaternion.identity);
 
             if (starObj.TryGetComponent(out StarProjectile starProjectile))
             {
-                starProjectile.Init(player.gameObject, target.transform);
+                starProjectile.Init(character.gameObject, target.transform);
             }
         }
 

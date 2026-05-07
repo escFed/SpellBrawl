@@ -31,14 +31,14 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
 
     public bool CanBeUsed(PlayerController user) => true;
 
-    public void ExecuteCard(PlayerController player)
+    public void ExecuteCard(PlayerController character)
     {
         if (!canUse) return;
 
-        StartCoroutine(ThunderRoutine(player));
+        StartCoroutine(ThunderRoutine(character));
     }
 
-    private IEnumerator ThunderRoutine(PlayerController player)
+    private IEnumerator ThunderRoutine(PlayerController character)
     {
         canUse = false;
 
@@ -50,7 +50,7 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
 
         foreach (PlayerController p in allPlayers)
         {
-            if (p.gameObject != player.gameObject)
+            if (p.gameObject != character.gameObject)
             {
                 target = p;
                 break;
@@ -63,7 +63,7 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
 
             if (th.TryGetComponent(out ThunderProjectile tProj))
             {
-                tProj.Init(player.gameObject);
+                tProj.Init(character.gameObject);
             }
         }
 

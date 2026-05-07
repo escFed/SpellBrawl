@@ -24,11 +24,11 @@ public class UIIndicator : MonoBehaviour
         originalScale = transform.localScale;
 
 
-        PlayerController player = GetComponentInParent<PlayerController>();
+        PlayerController character = GetComponentInParent<PlayerController>();
 
-        if (player != null)
+        if (character != null)
         {
-            if (player.PlayerIndex == 0)
+            if (character.PlayerIndex == 0)
             {
                 if (indicatorText != null) indicatorText.text = p1Name;
                 if (indicatorText != null) indicatorText.color = p1Color;

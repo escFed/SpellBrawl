@@ -25,26 +25,26 @@ public class DefenseCard : MonoBehaviour, ICardable
 
     public bool CanBeUsed(PlayerController user) => true;
 
-    public void ExecuteCard(PlayerController player)
+    public void ExecuteCard(PlayerController character)
     {
-        StartCoroutine(ShieldRoutine(player));
+        StartCoroutine(ShieldRoutine(character));
     }
 
-    private IEnumerator ShieldRoutine(PlayerController player)
+    private IEnumerator ShieldRoutine(PlayerController character)
     {
-        PlayerHealth health = player.GetComponent<PlayerHealth>();
+        CharacterHealth health = character.GetComponent<CharacterHealth>();
 
         if (health != null)
         {
-            health.defenseMultiplier = damageMultiplier;
+            health.activeDefenseMultiplier = damageMultiplier;
 
-            player.GetComponent<SpriteRenderer>().color = Color.blue;
+            character.GetComponent<SpriteRenderer>().color = Color.blue;
 
             yield return new WaitForSeconds(duration);
 
-            health.defenseMultiplier = 1f;
+            health.activeDefenseMultiplier = 1f;
 
-            player.GetComponent<SpriteRenderer>().color = Color.white;
+            character.GetComponent<SpriteRenderer>().color = Color.white;
         }
 
         Destroy(gameObject);

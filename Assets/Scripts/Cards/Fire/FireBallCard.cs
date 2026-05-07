@@ -39,18 +39,18 @@ public class FireBallCard : MonoBehaviour, ICardable
 
     public bool CanBeUsed(PlayerController user) => true;
 
-    public void ExecuteCard(PlayerController player)
+    public void ExecuteCard(PlayerController character)
     {
         if (!canShoot || currentShoots <= 0) return;
 
         canShoot = false;
 
-        GameObject fireball = Instantiate(fbPrefab, player.throwPoint.position, Quaternion.identity);
+        GameObject fireball = Instantiate(fbPrefab, character.Combat.throwPoint.position, Quaternion.identity);
 
-        Vector2 direction = player.transform.localScale.x > 0 ? Vector2.right : Vector2.left;
+        Vector2 direction = character.transform.localScale.x > 0 ? Vector2.right : Vector2.left;
         if (fireball.TryGetComponent(out FireProjectile script))
         {
-            script.Init(direction, player.gameObject);
+            script.Init(direction, character.gameObject);
         }
 
         currentShoots--;

@@ -35,46 +35,46 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
         return false;
     }
 
-    public void ExecuteCard(PlayerController player)
+    public void ExecuteCard(PlayerController character)
     {
-        StartCoroutine(SpikeRoutine(player));
+        StartCoroutine(SpikeRoutine(character));
     }
 
-    private IEnumerator SpikeRoutine(PlayerController player)
+    private IEnumerator SpikeRoutine(PlayerController character)
     {
-        PlayerController rival = null;
+        PlayerController opponent = null;
         PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
 
         foreach (var p in allPlayers)
         {
-            if (p.PlayerIndex != player.PlayerIndex)
+            if (p.PlayerIndex != character.PlayerIndex)
             {
-                rival = p;
+                opponent = p;
                 break;
             }
         }
 
-        if (rival != null)
+        if (opponent != null)
         {
             if (spikePrefab != null)
             {
-                Instantiate(spikePrefab, rival.transform.position, Quaternion.identity);
+                Instantiate(spikePrefab, opponent.transform.position, Quaternion.identity);
             }
 
-            if (rival.TryGetComponent(out PlayerHealth rivalHealth))
+            if (opponent.TryGetComponent(out CharacterHealth opponentHealth))
             {
-                rivalHealth.TakeDamage(damage, new Vector2(0, 1f));
+                opponentHealth.TakeDamage(damage, new Vector2(0, 1f));
             }
 
-            rival.moveSpeedMultiplier = slowAmount;
-            rival.attackSpeedMultiplier = slowAmount;
+            opponent.Movement.moveSpeedMultiplier = slowAmount;
+            opponent.Combat.attackSpeedMultiplier = slowAmount;
 
             yield return new WaitForSeconds(duration);
 
-            if (rival != null)
+            if (opponent != null)
             {
-                rival.moveSpeedMultiplier = 1f;
-                rival.attackSpeedMultiplier = 1f;
+                opponent.Movement.moveSpeedMultiplier = 1f;
+                opponent.Combat.attackSpeedMultiplier = 1f;
             }
         }
 

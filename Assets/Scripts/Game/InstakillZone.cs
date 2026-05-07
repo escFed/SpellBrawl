@@ -4,7 +4,7 @@ public class InstaKillZone : MonoBehaviour
 {
     private void OnTriggerExit2D(Collider2D other)
     {
-        PlayerHealth health = other.GetComponentInParent<PlayerHealth>();
+        CharacterHealth health = other.GetComponentInParent<CharacterHealth>();
 
         if (health != null)
         {

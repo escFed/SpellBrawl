@@ -22,14 +22,14 @@ public class HealCard : MonoBehaviour, ICardable
 
     public bool CanBeUsed(PlayerController user) => true;
 
-    public void ExecuteCard(PlayerController player)
+    public void ExecuteCard(PlayerController character)
     {
-        StartCoroutine(HealRoutine(player));
+        StartCoroutine(HealRoutine(character));
     }
 
-    private IEnumerator HealRoutine(PlayerController player)
+    private IEnumerator HealRoutine(PlayerController character)
     {
-        PlayerHealth health = player.GetComponent<PlayerHealth>();
+        CharacterHealth health = character.GetComponent<CharacterHealth>();
 
         if (health != null)
         {

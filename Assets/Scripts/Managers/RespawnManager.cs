@@ -43,13 +43,13 @@ public class RespawnManager : MonoBehaviour
         }
     }
 
-    public void RespawnPlayerAfterFall(PlayerHealth healthScript, int playerIndex)
+    public void RespawnPlayerAfterFall(CharacterHealth health, int playerIndex)
     {
         Transform targetSpawn = (playerIndex == 0) ? p1SpawnPoint : p2SpawnPoint;
 
-        healthScript.transform.position = targetSpawn.position;
+        health.transform.position = targetSpawn.position;
 
-        Rigidbody2D rb = healthScript.GetComponent<Rigidbody2D>();
+        Rigidbody2D rb = health.GetComponent<Rigidbody2D>();
         if (rb != null) rb.linearVelocity = Vector2.zero;
     }
 
@@ -59,7 +59,7 @@ public class RespawnManager : MonoBehaviour
 
         foreach (PlayerController p in allPlayers)
         {
-            PlayerHealth pHealth = p.GetComponent<PlayerHealth>();
+            CharacterHealth pHealth = p.GetComponent<CharacterHealth>();
 
             if (p.PlayerIndex == 0)
             {

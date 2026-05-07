@@ -2852,6 +2852,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec8261f51c3cae44f86860d4e9228027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardUIManager
+  p1_icon: {fileID: 1260444766}
+  p2_icon: {fileID: 1992192621}
   p1_damageText: {fileID: 2079288146}
   p2_damageText: {fileID: 929922492}
   p1_cards:
@@ -4349,7 +4351,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5626999505755021147, guid: 47c952369a7a8aa45bb2076eafe90bdd, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6403,7 +6405,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6620623385148806820, guid: 862f8ffd448ebaf448c4aaa180719cce, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

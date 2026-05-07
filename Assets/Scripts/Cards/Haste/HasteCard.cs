@@ -20,25 +20,25 @@ public class HasteCard : MonoBehaviour, ICardable
 
     public bool CanBeUsed(PlayerController user) => true;
 
-    public void ExecuteCard(PlayerController player)
+    public void ExecuteCard(PlayerController character)
     {
-        StartCoroutine(HasteRoutine(player));
+        StartCoroutine(HasteRoutine(character));
     }
 
-    private IEnumerator HasteRoutine(PlayerController player)
+    private IEnumerator HasteRoutine(PlayerController character)
     {
-        player.moveSpeedMultiplier = speedMultiplier;
-        player.attackSpeedMultiplier = speedMultiplier;
+        character.Movement.moveSpeedMultiplier = speedMultiplier;
+        character.Combat.attackSpeedMultiplier = speedMultiplier;
 
-        player.GetComponent<SpriteRenderer>().color = Color.yellow;
+        character.GetComponent<SpriteRenderer>().color = Color.yellow;
 
         yield return new WaitForSeconds(duration);
 
-        if (player != null)
+        if (character != null)
         {
-            player.moveSpeedMultiplier = 1f;
-            player.attackSpeedMultiplier = 1f;
-            player.GetComponent<SpriteRenderer>().color = Color.white;
+            character.Movement.moveSpeedMultiplier = 1f;
+            character.Combat.attackSpeedMultiplier = 1f;
+            character.GetComponent<SpriteRenderer>().color = Color.white;
         }
 
         Destroy(gameObject);

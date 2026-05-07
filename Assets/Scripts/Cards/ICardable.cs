@@ -6,6 +6,6 @@ public interface ICardable
     CardType Type { get; }
     bool CanBeUsed(PlayerController user);
 
-    void ExecuteCard(PlayerController player);
+    void ExecuteCard(PlayerController character);
     void SetUI(Image uiImage);
 }
