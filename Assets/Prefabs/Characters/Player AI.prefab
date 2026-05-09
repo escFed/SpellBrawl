@@ -665,8 +665,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHitBox
   jabHitbox: {fileID: 5713145579488713931}
-  fTiltHitbox: {fileID: 0}
-  upTiltHitbox: {fileID: 0}
+  fTiltHitbox: {fileID: 8246800037079071242}
+  upTiltHitbox: {fileID: 445758605109185613}
   dTiltHitbox: {fileID: 0}
 --- !u!114 &7554642670596897687
 MonoBehaviour:

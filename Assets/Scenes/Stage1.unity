@@ -473,8 +473,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5b18e473080e237468e38efcbe9f3eff, type: 2}
   - {fileID: 11400000, guid: 5b18e473080e237468e38efcbe9f3eff, type: 2}
   - {fileID: 11400000, guid: 5b18e473080e237468e38efcbe9f3eff, type: 2}
-  player: {fileID: 158549324596254434, guid: a77aba504c334f642a1f2b061daa667a, type: 3}
-  ai: {fileID: 280409982384417210, guid: 07be9d78391b0fa4984a4db28a6d4950, type: 3}
+  cardsperPlayer: 20
 --- !u!4 &247398147
 Transform:
   m_ObjectHideFlags: 0
@@ -2442,10 +2441,10 @@ MonoBehaviour:
   p1_damageText: {fileID: 2079288146}
   p2_damageText: {fileID: 929922492}
   p1_cards:
-  - {fileID: 379308569}
-  - {fileID: 1360150111}
-  - {fileID: 1360150111}
-  - {fileID: 379308569}
+  - {fileID: 739260608}
+  - {fileID: 37541121}
+  - {fileID: 739260608}
+  - {fileID: 37541121}
   p2_cards:
   - {fileID: 739260608}
   - {fileID: 37541121}

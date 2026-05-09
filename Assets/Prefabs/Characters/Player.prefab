@@ -883,7 +883,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3957139015731673527}
-  - component: {fileID: 2468143522956855123}
+  - component: {fileID: 481308063183366783}
   m_Layer: 7
   m_Name: Card1
   m_TagString: Untagged
@@ -906,7 +906,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3262535833314222879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2468143522956855123
+--- !u!114 &481308063183366783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -915,11 +915,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7177753264557812337}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a656217eda053c342b5afb142b411ac3, type: 3}
+  m_Script: {fileID: 11500000, guid: 13383055efeb8614b8435b8a610544a1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ThunderStrikeCard
-  tsPrefab: {fileID: 7062071539232757206, guid: 36b700d52f911bf42bbad3ddd8180354, type: 3}
-  cooldownTime: 8
+  m_EditorClassIdentifier: Assembly-CSharp::InverseGravityCard
+  iGprefab: {fileID: 182592610554272179, guid: 7f7cf5af98a153a45910fa8de472598f, type: 3}
 --- !u!1 &7345901011278583841
 GameObject:
   m_ObjectHideFlags: 0
