@@ -29,7 +29,10 @@ public class PlayerController : MonoBehaviour, IDamageable
     private PlayerHitBox HitBox;
     private Queue<ICardable> reserveDeck = new Queue<ICardable>();
     private ICardable[] currentHand = new ICardable[2];
-   
+
+
+    public Queue<ICardable> ReserveDeck => reserveDeck; 
+
     public IdleState IdleState { get; private set; }
     public MoveState MoveState { get; private set; }
     public JumpState JumpState { get; private set; }

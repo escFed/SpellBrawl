@@ -918,6 +918,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13383055efeb8614b8435b8a610544a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InverseGravityCard
+  isInverted: 0
   iGprefab: {fileID: 182592610554272179, guid: 7f7cf5af98a153a45910fa8de472598f, type: 3}
 --- !u!1 &7345901011278583841
 GameObject:
@@ -959,7 +960,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7901644913050761444}
-  - component: {fileID: 656740184495688272}
+  - component: {fileID: 7120443252813857854}
   m_Layer: 7
   m_Name: Card2
   m_TagString: Untagged
@@ -982,7 +983,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3262535833314222879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &656740184495688272
+--- !u!114 &7120443252813857854
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -991,13 +992,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7615385312346413976}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 507bd2bbadfac014685b32d910d66152, type: 3}
+  m_Script: {fileID: 11500000, guid: d0959f94cc440cc4084e44ff67497112, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FireBallCard
-  fbPrefab: {fileID: 2221465273619720722, guid: f0973e9c22a6a32458aa00c1a5d8d237, type: 3}
-  cooldownBetweenShots: 0.5
-  reloadTime: 6
-  maxShoots: 3
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDeckShuffleCard
+  canShuffle: 1
+  deckShufflePrefab: {fileID: 5246764615878720983, guid: 6251d7e5798b3f044857dec542946dcc, type: 3}
 --- !u!1 &7950928319824809028
 GameObject:
   m_ObjectHideFlags: 0

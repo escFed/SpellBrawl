@@ -407,7 +407,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8324196052573348412}
-  - component: {fileID: 2364139335073938416}
+  - component: {fileID: 4276959866699634305}
   m_Layer: 7
   m_Name: Card1
   m_TagString: Untagged
@@ -430,7 +430,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7704541438735409549}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2364139335073938416
+--- !u!114 &4276959866699634305
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -439,13 +439,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1503312545660109464}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 507bd2bbadfac014685b32d910d66152, type: 3}
+  m_Script: {fileID: 11500000, guid: d0959f94cc440cc4084e44ff67497112, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FireBallCard
-  fbPrefab: {fileID: 2221465273619720722, guid: f0973e9c22a6a32458aa00c1a5d8d237, type: 3}
-  cooldownBetweenShots: 0.5
-  reloadTime: 6
-  maxShoots: 3
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDeckShuffleCard
+  canShuffle: 1
+  deckShufflePrefab: {fileID: 5246764615878720983, guid: 6251d7e5798b3f044857dec542946dcc, type: 3}
 --- !u!1 &2464666211507732312
 GameObject:
   m_ObjectHideFlags: 0
