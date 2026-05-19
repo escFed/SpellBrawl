@@ -5,6 +5,8 @@ public class CharacterParry : MonoBehaviour
     private PlayerController controller;
     private EnergyManager energy;
 
+    private bool hasParriedThisHit = false;
+
     private void Awake()
     {
         controller = GetComponent<PlayerController>();
@@ -16,17 +18,20 @@ public class CharacterParry : MonoBehaviour
 
         if (currentState == controller.stateMachine.Idle || currentState == controller.stateMachine.Move)
         {
+            hasParriedThisHit = false;
             controller.ChangeState(StateCharacter.Parry);
         }
     }
 
     public void OnSuccessfulParry()
     {
+        if (hasParriedThisHit) return;
+
         if (energy != null)
         {
             energy.AddEnergy(50);
         }
 
-        controller.ChangeState(StateCharacter.Idle);
+        hasParriedThisHit = true;
     }
 }

@@ -2,76 +2,47 @@ using UnityEngine;
 
 public abstract class AttackState : PlayerState
 {
-    protected abstract float Startup { get; }
-    protected abstract float Active { get; }
-    protected abstract float Recovery { get; }
-    protected abstract float Cooldown { get; }
+    protected AttackStats stats;
+    private float timer;
+    private bool hitboxOpen;
+    private bool hitboxClose;
 
-    protected abstract void OpenHitbox();
-    protected abstract void CloseHitbox();
-
-    private enum Phase { Startup, Active, Recovery, Cooldown }
-    private Phase _phase;
-    private float _timer;
-
-    protected AttackState(PlayerController character, StateMachine sm) : base(character, sm) { }
+    public AttackState(PlayerController character, StateMachine sm, AttackStats attackStats): base(character, sm)
+    {
+        stats = attackStats;
+    }
 
     public override void Enter()
     {
-        _phase = Phase.Startup;
-        _timer = 0f;
-
-        character.Movement.StopHorizontalMovement();
+        timer = 0;
+        hitboxOpen = false;
+        hitboxClose = false;
+        ReadyHitbox();
     }
 
     public override void Update()
     {
-        if (character.IsDead)
+        timer += Time.deltaTime;
+
+        if (timer >= stats.startup && !hitboxOpen)
         {
-            CloseHitbox();
-            stateMachine.ChangeState(StateCharacter.Die);
-            return;
+            OpenHitbox();
+            hitboxOpen = true;
         }
 
-        _timer += Time.deltaTime;
-
-        switch (_phase)
+        if (timer >= stats.startup + stats.active && !hitboxClose)
         {
-            case Phase.Startup:
-                if (_timer >= (Startup / character.Combat.attackSpeedMultiplier)) EnterActive();
-                break;
+            CloseHitbox();
+            hitboxClose = true;
+        }
 
-            case Phase.Active:
-                if (_timer >= (Active / character.Combat.attackSpeedMultiplier)) EnterRecovery();
-                break;
-
-            case Phase.Recovery:
-                if (_timer >= (Recovery / character.Combat.attackSpeedMultiplier)) EnterCooldown();
-                break;
-
-            case Phase.Cooldown:
-                if (_timer >= (Cooldown / character.Combat.attackSpeedMultiplier))
-                {
-                    if (character.AttackInput)
-                    {
-                        stateMachine.ChangeState(character.Combat.ResolveAttackState());
-                    }
-                    else if (Mathf.Abs(character.MoveInput.x) > 0.01f)
-                    {
-                        stateMachine.ChangeState(StateCharacter.Move);
-                    }
-                    else
-                    {
-                        stateMachine.ChangeState(StateCharacter.Idle);
-                    }
-                }
-                break;
+        if (timer >= stats.startup + stats.active + stats.recovery)
+        {
+            stateMachine.ChangeState(StateCharacter.Idle);
         }
     }
 
-    public override void Exit() => CloseHitbox();
-
-    private void EnterActive() { _phase = Phase.Active; _timer = 0f; OpenHitbox(); }
-    private void EnterRecovery() { _phase = Phase.Recovery; _timer = 0f; CloseHitbox(); }
-    private void EnterCooldown() { _phase = Phase.Cooldown; _timer = 0f; }
+    protected abstract void ReadyHitbox();
+    protected abstract void OpenHitbox();
+    protected abstract void CloseHitbox();
 }

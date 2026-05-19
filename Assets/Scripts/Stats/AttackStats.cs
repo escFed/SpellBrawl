@@ -7,7 +7,6 @@ public class AttackStats : ScriptableObject
     public float startup = 0.05f;
     public float active = 0.05f;
     public float recovery = 0.15f;
-    public float cooldown = 0f;
 
     [Header("Hit Data")]
     public int damage = 10;

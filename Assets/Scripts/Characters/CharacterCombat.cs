@@ -42,6 +42,10 @@ public class CharacterCombat : MonoBehaviour
 
     public void CheckAndFlip(float directionX) => hitBox.CheckAndFlip(directionX);
 
+    public void SetupJab(AttackStats stats) => hitBox.SetupJab(stats);
+    public void SetupFTilt(AttackStats stats) => hitBox.SetupFTilt(stats);
+    public void SetupUTilt(AttackStats stats) => hitBox.SetupUTilt(stats);
+    public void SetupDTilt(AttackStats stats) => hitBox.SetupDTilt(stats);
     public void OpenJabHitbox() => hitBox.SetJabHitbox(true);
     public void CloseJabHitbox() => hitBox.SetJabHitbox(false);
     public void OpenFTiltHitbox() => hitBox.SetFTiltHitbox(true);

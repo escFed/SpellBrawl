@@ -37,6 +37,11 @@ public class CharacterHitBox : MonoBehaviour
         transform.localScale = localScale;
     }
 
+    public void SetupJab(AttackStats stats) => jabHitbox?.Setup(stats);
+    public void SetupFTilt(AttackStats stats) => fTiltHitbox?.Setup(stats);
+    public void SetupUTilt(AttackStats stats) => upTiltHitbox?.Setup(stats);
+    public void SetupDTilt(AttackStats stats) => dTiltHitbox?.Setup(stats);
+
     public void SetJabHitbox(bool active) 
     { 
         if (active) jabHitbox?.BeginSwing(); 

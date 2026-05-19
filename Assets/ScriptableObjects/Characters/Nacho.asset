@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Nacho
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
   characterName: Nacho
+  characterPrefab: {fileID: 8413723424367857399, guid: a77aba504c334f642a1f2b061daa667a, type: 3}
   characterIcon: {fileID: 5626999505755021147, guid: 47c952369a7a8aa45bb2076eafe90bdd, type: 3}
   moveSpeed: 5
-  jumpForce: 5
+  jumpForce: 9
   maxJumps: 2
   weight: 100
   maxFallSpeed: -15
@@ -24,7 +25,7 @@ MonoBehaviour:
   defenseMultiplier: 1
   knockbackMultiplier: 1.5
   maxEnergy: 100
-  startingEnergy: 50
+  startingEnergy: 0
   jabAttack: {fileID: 11400000, guid: 6c0c086cebddbfa4db9bddd2ff3374a1, type: 2}
   fTiltAttack: {fileID: 11400000, guid: 376742cb7e3e2294b947633c444dc4f5, type: 2}
   upTiltAttack: {fileID: 11400000, guid: 53a20cbb049392c41b901c0ccd538c33, type: 2}

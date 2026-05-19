@@ -37,10 +37,10 @@ public class PlayerController : MonoBehaviour
         stateMachine.Idle = new IdleState(this, stateMachine);
         stateMachine.Move = new MoveState(this, stateMachine);
         stateMachine.Jump = new JumpState(this, stateMachine);
-        stateMachine.Jab = new JabState(this, stateMachine);
-        stateMachine.ForwardTilt = new ForwardTiltState(this, stateMachine);
-        stateMachine.UpTilt = new UpTiltState(this, stateMachine);
-        stateMachine.DownTilt = new DownTiltState(this, stateMachine);
+        stateMachine.Jab = new JabState(this, stateMachine, stats.jabAttack);
+        stateMachine.ForwardTilt = new ForwardTiltState(this, stateMachine, stats.fTiltAttack);
+        stateMachine.UpTilt = new UpTiltState(this, stateMachine, stats.upTiltAttack);
+        stateMachine.DownTilt = new DownTiltState(this, stateMachine, stats.dTiltAttack);
         stateMachine.Card = new CardState(this, stateMachine);
         stateMachine.Die = new DieState(this, stateMachine);
         stateMachine.Parry = new ParryState(this, stateMachine);

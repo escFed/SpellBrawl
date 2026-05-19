@@ -1,43 +1,48 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class AttackHitbox : MonoBehaviour
 {
-    public AttackStats attackData;
+    private AttackStats currentStats;
+    private Collider2D Collider;
+    private bool hasHit = false;
 
-    private readonly HashSet<Collider2D> _hitThisSwing = new();
+    private void Awake() => Collider = GetComponent<Collider2D>();
 
-    public void BeginSwing()
+    public void Setup(AttackStats stats)
     {
-        _hitThisSwing.Clear();
-        gameObject.SetActive(true);
+        currentStats = stats;
+        hasHit = false;
     }
 
-    public void EndSwing() => gameObject.SetActive(false);
+    public void BeginSwing() => Collider.enabled = true;
+    public void EndSwing() => Collider.enabled = false;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.transform.root == transform.root) return;
+        if (hasHit || currentStats == null) return;
 
-        if (_hitThisSwing.Contains(other)) return;
+        if (other.transform.root == transform.root) return;
 
         if (other.TryGetComponent(out IDamageable target))
         {
-            _hitThisSwing.Add(other);
-
-            float dir = Mathf.Sign(other.transform.position.x - transform.root.position.x);
-            target.TakeDamage(attackData.damage, new Vector2(attackData.knockback.x * dir, attackData.knockback.y));
-
-            EnergyManager Energy = transform.root.GetComponent<EnergyManager>();
-            if (Energy != null)
-            {
-                Energy.AddEnergy(attackData.energyGain);
-            }
+            target.TakeDamage(currentStats.damage, currentStats.knockback);
+            transform.root.GetComponent<EnergyManager>()?.AddEnergy(currentStats.energyGain);
+            hasHit = true;
         }
     }
 
-    private void Awake()
+    private void OnDrawGizmos()
     {
-        gameObject.SetActive(false);
+        Collider2D colliderToDraw = GetComponent<Collider2D>();
+
+        if (colliderToDraw != null && colliderToDraw.enabled)
+        {
+            Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
+
+            Gizmos.DrawCube(colliderToDraw.bounds.center, colliderToDraw.bounds.size);
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(colliderToDraw.bounds.center, colliderToDraw.bounds.size);
+        }
     }
 }

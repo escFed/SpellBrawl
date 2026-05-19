@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Jack
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
   characterName: Jack
+  characterPrefab: {fileID: 2464666211507732312, guid: 07be9d78391b0fa4984a4db28a6d4950, type: 3}
   characterIcon: {fileID: -6620623385148806820, guid: 862f8ffd448ebaf448c4aaa180719cce, type: 3}
   moveSpeed: 5
-  jumpForce: 5
+  jumpForce: 9
   maxJumps: 2
   weight: 100
   maxFallSpeed: -15

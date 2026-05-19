@@ -40,7 +40,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 509414199974305466}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -91,7 +91,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3fc8b3d4d5570e4cae480ba3ad4ad50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
-  attackData: {fileID: 11400000, guid: 6c0c086cebddbfa4db9bddd2ff3374a1, type: 2}
 --- !u!1 &1028923879047636406
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,7 +846,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7093909918081708081}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -898,7 +897,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3fc8b3d4d5570e4cae480ba3ad4ad50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
-  attackData: {fileID: 11400000, guid: 376742cb7e3e2294b947633c444dc4f5, type: 2}
 --- !u!1 &8370410250001529188
 GameObject:
   m_ObjectHideFlags: 0
@@ -939,7 +937,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8370410250001529188}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -990,7 +988,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3fc8b3d4d5570e4cae480ba3ad4ad50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
-  attackData: {fileID: 11400000, guid: 53a20cbb049392c41b901c0ccd538c33, type: 2}
 --- !u!1 &8512186710467760690
 GameObject:
   m_ObjectHideFlags: 0
@@ -1031,7 +1028,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8512186710467760690}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -1082,4 +1079,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3fc8b3d4d5570e4cae480ba3ad4ad50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
-  attackData: {fileID: 11400000, guid: df93bbed5071fa44cae51a47cd8f89fd, type: 2}

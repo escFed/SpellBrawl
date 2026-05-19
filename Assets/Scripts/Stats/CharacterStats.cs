@@ -5,6 +5,7 @@ public class CharacterStats : ScriptableObject
 {
     [Header("Character ID")]
     public string characterName = "New Character";
+    public GameObject characterPrefab;
     public Sprite characterIcon;
 
     [Header("Movement Stats")]

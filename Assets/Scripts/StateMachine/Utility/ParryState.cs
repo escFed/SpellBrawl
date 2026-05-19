@@ -16,7 +16,6 @@ public class ParryState : PlayerState
     {
         _timer = 0f;
         _phase = Phase.Startup;
-        character.Movement.ApplyJumpForce();
         character.IsParrying = false;
     }
 

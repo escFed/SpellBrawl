@@ -112,6 +112,22 @@ public class CharacterDeck : MonoBehaviour
         }
     }
 
+    public void ForceSabotageRedraw()
+    {
+        for (int i = 0; i < currentHand.Length; i++)
+        {
+            if (currentHand[i] != null)
+            {
+                if (currentHand[i] is MonoBehaviour mb) Destroy(mb.gameObject);
+                currentHand[i] = null;
+            }
+        }
+
+        DrawCardsToFillHand();
+        UpdateHandUI();
+        UpdateDeckCountUI();
+    }
+
     public void UpdateHandUI()
     {
         if (controller != null) UIEvents.OnHandChanged?.Invoke(controller.PlayerIndex, currentHand);
