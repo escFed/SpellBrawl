@@ -50,8 +50,17 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.ChangeState(StateCharacter.Idle);
 
-        PlayerInput playerInput = GetComponent<PlayerInput>();
-        PlayerIndex = playerInput != null ? playerInput.playerIndex : 1;
+        bool isAI = GetComponent<CharacterAI>() != null && GetComponent<CharacterAI>().enabled;
+        PlayerIndex = isAI ? 1 : 0;
+
+        if (isAI)
+        {
+            input = GetComponent<CharacterAI>();
+        }
+        else
+        {
+            input = GetComponent<CharacterBrain>();
+        }
 
         if (stats != null && stats.characterIcon != null)
         {

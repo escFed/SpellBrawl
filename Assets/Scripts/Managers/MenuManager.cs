@@ -22,7 +22,7 @@ public class MenuManager : MonoBehaviour
         if (controlsPanel != null) controlsPanel.SetActive(false);
     }
 
-    public void PlayGame()
+    public void CharacterSelect()
     {
         mainMenuPanel.SetActive(false);
         characterSelectPanel.SetActive(true);
@@ -32,6 +32,12 @@ public class MenuManager : MonoBehaviour
     {
         characterSelectPanel.SetActive(false);
         cardsSelectPanel.SetActive(true);
+    }
+
+    public void BackToCharacterSelect()
+    {
+        cardsSelectPanel.SetActive(false);
+        characterSelectPanel.SetActive(true);
     }
 
     public void GoToStage1() 

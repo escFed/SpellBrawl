@@ -24,6 +24,6 @@ public class CharacterSlotButton : MonoBehaviour
         int totalCharacters = SelectionManager.Instance.characterDb.CharacterCount;
         SelectionManager.Instance.aiSelectedIndex = Random.Range(0, totalCharacters);
 
-        uiManager.EnableNextButton();
+        uiManager.ShowCharacterPreview(characterIcon.sprite, characterName.text);
     }
 }

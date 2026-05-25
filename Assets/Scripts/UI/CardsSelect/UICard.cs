@@ -5,10 +5,8 @@ using UnityEngine.EventSystems;
 public class UICard : MonoBehaviour, IPointerClickHandler
 {
     public GameObject cardPrefab;
-    public DeckBuilder deckBuilder;
+    public DeckBuilderUI deckBuilder;
     public TextMeshProUGUI cardCopiesText;
-
-    private int currentCopies = 0;
 
     private void Start() => UpdateVisuals();
 
@@ -18,25 +16,21 @@ public class UICard : MonoBehaviour, IPointerClickHandler
         {
             if (deckBuilder.AddCardToDeck(cardPrefab))
             {
-                currentCopies++;
                 UpdateVisuals();
             }
         }
 
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            if (currentCopies > 0)
-            {
-                deckBuilder.RemoveCard(cardPrefab);
-                currentCopies--;
-                UpdateVisuals();
-            }
+            deckBuilder.RemoveCard(cardPrefab);
+            UpdateVisuals();
         }
     }
 
-    private void UpdateVisuals()
+    public void UpdateVisuals()
     {
+        int count = deckBuilder.GetCardCount(cardPrefab);
         if (cardCopiesText != null)
-            cardCopiesText.text = currentCopies.ToString() + "/5";
+            cardCopiesText.text = count.ToString() + "/5";
     }
 }
