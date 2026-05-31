@@ -2326,7 +2326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeckManager
   characterDeck:
-  - {fileID: 0}
+  - {fileID: 947883961}
 --- !u!4 &808389104
 Transform:
   m_ObjectHideFlags: 0
