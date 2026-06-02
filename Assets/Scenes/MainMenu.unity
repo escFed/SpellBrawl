@@ -423,6 +423,9 @@ MonoBehaviour:
   cardPrefab: {fileID: 8020222836146473951, guid: 6f7f7eeec9ac338469710aac8d7f00b7, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 261603880}
+  deckTarget: {fileID: 819725480}
+  canvas: {fileID: 1765720814}
+  cardImage: {fileID: 188918770}
 --- !u!114 &188918770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -860,6 +863,9 @@ MonoBehaviour:
   cardPrefab: {fileID: 8626042553062594018, guid: a5ffda282a8266e41a26b5594762a5ab, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 681427549}
+  deckTarget: {fileID: 819725480}
+  canvas: {fileID: 1765720814}
+  cardImage: {fileID: 354078714}
 --- !u!114 &354078714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1906,6 +1912,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1583973966}
+  - {fileID: 819725480}
   - {fileID: 1672096117}
   - {fileID: 637335213}
   - {fileID: 947883962}
@@ -2129,7 +2137,134 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<< Updated upstream
   - component: {fileID: 741877658}
+=======
+  - component: {fileID: 808389104}
+  - component: {fileID: 808389103}
+  m_Layer: 0
+  m_Name: DeckManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &808389103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808389102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad5f4529f6dd36744b66b936354a6ed2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeckManager
+  characterDeck:
+  - {fileID: 0}
+--- !u!4 &808389104
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808389102}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &819725478
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 819725480}
+  - component: {fileID: 819725482}
+  - component: {fileID: 819725481}
+  m_Layer: 0
+  m_Name: Deck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &819725480
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819725478}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 15.67, y: 15.67, z: 15.67}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 729951383}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 36, y: -600}
+  m_SizeDelta: {x: 11.22, y: 14.02}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &819725481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819725478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -6094853826803202525, guid: 6bc4747a02949404a9a2ccf2bc5c0143, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &819725482
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819725478}
+  m_CullTransparentMesh: 1
+--- !u!1 &902290257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 902290258}
+  - component: {fileID: 902290260}
+  - component: {fileID: 902290259}
+>>>>>>> Stashed changes
   m_Layer: 5
   m_Name: SelectionPhase
   m_TagString: Untagged
@@ -2396,6 +2531,9 @@ MonoBehaviour:
   cardPrefab: {fileID: 8266632702581206144, guid: 836afddc1d8c95a43b7bd9099076fa8d, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 2067436159}
+  deckTarget: {fileID: 819725480}
+  canvas: {fileID: 1765720814}
+  cardImage: {fileID: 904610232}
 --- !u!114 &904610232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3117,6 +3255,9 @@ MonoBehaviour:
   cardPrefab: {fileID: 3111288841274506641, guid: e8047da05a8773842894874f21cb14a4, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 1668723710}
+  deckTarget: {fileID: 819725480}
+  canvas: {fileID: 1765720814}
+  cardImage: {fileID: 1133060743}
 --- !u!114 &1133060743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3478,6 +3619,9 @@ MonoBehaviour:
   cardPrefab: {fileID: 2077598287845426619, guid: 0a5c15f64f078634ca9f48541953e978, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 616855938}
+  deckTarget: {fileID: 819725480}
+  canvas: {fileID: 1765720814}
+  cardImage: {fileID: 1263366727}
 --- !u!114 &1263366727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3839,6 +3983,9 @@ MonoBehaviour:
   cardPrefab: {fileID: 2052908611097359236, guid: b65cb8e6896a3a0489b3906511503c53, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 1464907744}
+  deckTarget: {fileID: 819725480}
+  canvas: {fileID: 1765720814}
+  cardImage: {fileID: 1404193799}
 --- !u!114 &1404193799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4420,7 +4567,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1521272643}
   m_CullTransparentMesh: 1
+<<<<<<< Updated upstream
 --- !u!1 &1558893589
+=======
+--- !u!1 &1583973964
+>>>>>>> Stashed changes
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4428,6 +4579,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<< Updated upstream
   - component: {fileID: 1558893590}
   - component: {fileID: 1558893592}
   - component: {fileID: 1558893591}
@@ -4516,11 +4668,18 @@ GameObject:
   - component: {fileID: 1576684053}
   m_Layer: 5
   m_Name: CardShuffle
+=======
+  - component: {fileID: 1583973966}
+  - component: {fileID: 1583973965}
+  m_Layer: 0
+  m_Name: CardMenuIntro
+>>>>>>> Stashed changes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< Updated upstream
 --- !u!224 &1576684052
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4542,11 +4701,15 @@ RectTransform:
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1576684053
+=======
+--- !u!114 &1583973965
+>>>>>>> Stashed changes
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< Updated upstream
   m_GameObject: {fileID: 1576684051}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -4558,10 +4721,43 @@ MonoBehaviour:
   cardCopiesText: {fileID: 398291677}
 --- !u!114 &1576684054
 MonoBehaviour:
+=======
+  m_GameObject: {fileID: 1583973964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea4ff314043bbd64e9e3fb0943c2b1d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  deckRect: {fileID: 819725480}
+  deckStartPos: {x: 0, y: -700}
+  deckCenterPos: {x: 0, y: -500}
+  cards:
+  - {fileID: 1404193797}
+  - {fileID: 1133060741}
+  - {fileID: 1685708427}
+  - {fileID: 1263366725}
+  - {fileID: 188918768}
+  - {fileID: 904610230}
+  - {fileID: 354078712}
+  finalPositions:
+  - {x: -550, y: 125}
+  - {x: -150, y: 125}
+  - {x: 250, y: 125}
+  - {x: 650, y: 125}
+  - {x: -550, y: -225}
+  - {x: -150, y: -225}
+  - {x: 250, y: -225}
+  deckMoveDuration: 0.45
+  cardMoveDuration: 0.35
+  delayBetweenCards: 0.07
+--- !u!4 &1583973966
+Transform:
+>>>>>>> Stashed changes
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< Updated upstream
   m_GameObject: {fileID: 1576684051}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -4731,6 +4927,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1608493288}
   m_CullTransparentMesh: 1
+=======
+  m_GameObject: {fileID: 1583973964}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -101.82861, y: -28.73761, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 729951383}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+>>>>>>> Stashed changes
 --- !u!1 &1613589655
 GameObject:
   m_ObjectHideFlags: 0
@@ -5272,6 +5479,9 @@ MonoBehaviour:
   cardPrefab: {fileID: 7787666514362569338, guid: d52e531f554fb924da7faa414e98e18a, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 2054819835}
+  deckTarget: {fileID: 819725480}
+  canvas: {fileID: 1765720814}
+  cardImage: {fileID: 1685708429}
 --- !u!114 &1685708429
 MonoBehaviour:
   m_ObjectHideFlags: 0
