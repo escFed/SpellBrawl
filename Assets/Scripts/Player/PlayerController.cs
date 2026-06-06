@@ -10,6 +10,10 @@ public class PlayerController : MonoBehaviour
     public bool IsParrying { get; set; }
     public float stunTimer;
 
+    // Jump tracking
+    public int JumpsRemaining { get; private set; }
+    private bool wasGrounded;
+
     private IInputProvider input;
     private CharacterDeck deck;
     private CharacterParry parry;
@@ -18,6 +22,7 @@ public class PlayerController : MonoBehaviour
     public CharacterMovement Movement { get; private set; }
     public CharacterHealth Health { get; private set; }
     public StateMachine stateMachine { get; private set; }
+    public SpriteRenderer Sprite { get; private set; }
 
     public Vector2 MoveInput => input.CurrentDirection;
     public bool JumpPressed =>  input.HasBufferedJump;
@@ -32,11 +37,13 @@ public class PlayerController : MonoBehaviour
         Combat = GetComponent<CharacterCombat>();
         Movement = GetComponent<CharacterMovement>();
         Health = GetComponent<CharacterHealth>();
+        Sprite = GetComponentInChildren<SpriteRenderer>();
 
         stateMachine = new StateMachine();
         stateMachine.Idle = new IdleState(this, stateMachine);
         stateMachine.Move = new MoveState(this, stateMachine);
         stateMachine.Jump = new JumpState(this, stateMachine);
+        stateMachine.Crouch = new CrouchState(this, stateMachine);
         stateMachine.Jab = new JabState(this, stateMachine, stats.jabAttack);
         stateMachine.ForwardTilt = new ForwardTiltState(this, stateMachine, stats.fTiltAttack);
         stateMachine.UpTilt = new UpTiltState(this, stateMachine, stats.upTiltAttack);
@@ -49,6 +56,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         stateMachine.ChangeState(StateCharacter.Idle);
+        ResetJumps();
+        wasGrounded = IsGrounded;
 
         bool isAI = GetComponent<CharacterAI>() != null && GetComponent<CharacterAI>().enabled;
         PlayerIndex = isAI ? 1 : 0;
@@ -79,6 +88,12 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if (IsDead) return;
+
+        // Reset jumps on landing
+        bool isNowGrounded = IsGrounded;
+        if (isNowGrounded && !wasGrounded)
+            ResetJumps();
+        wasGrounded = isNowGrounded;
 
         if (stunTimer > 0)
         {
@@ -123,6 +138,13 @@ public class PlayerController : MonoBehaviour
         stateMachine.ChangeState(StateCharacter.Card);
     }
 
-    public void ConsumeJump() => input.ConsumeJump();
+    public void ConsumeJump()
+    {
+        input.ConsumeJump();
+        JumpsRemaining = Mathf.Max(0, JumpsRemaining - 1);
+    }
+
+    public void ResetJumps() => JumpsRemaining = stats != null ? stats.maxJumps : 1;
+
     public void EnterDieState() => stateMachine.ChangeState(StateCharacter.Die);
 }

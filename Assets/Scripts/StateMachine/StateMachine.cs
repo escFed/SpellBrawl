@@ -5,6 +5,7 @@ public class StateMachine
     public IdleState Idle { get; set; }
     public MoveState Move { get; set; }
     public JumpState Jump { get; set; }
+    public CrouchState Crouch { get; set; }
     public JabState Jab { get; set; }
     public ForwardTiltState ForwardTilt { get; set; }
     public UpTiltState UpTilt { get; set; }
@@ -20,6 +21,7 @@ public class StateMachine
             StateCharacter.Idle => Idle,
             StateCharacter.Move => Move,
             StateCharacter.Jump => Jump,
+            StateCharacter.Crouch => Crouch,
             StateCharacter.Jab => Jab,
             StateCharacter.ForwardTilt => ForwardTilt,
             StateCharacter.UpTilt => UpTilt,

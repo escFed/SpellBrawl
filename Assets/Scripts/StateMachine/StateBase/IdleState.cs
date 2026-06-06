@@ -27,7 +27,18 @@ public class IdleState : PlayerState
         }
 
         if (Mathf.Abs(character.MoveInput.x) > 0.01f)
+        {
             stateMachine.ChangeState(StateCharacter.Move);
+            return;
+        }
+
+        // Crouch: pure downward input on the ground (no horizontal component)
+        if (character.MoveInput.y < -character.stats.tiltThreshold &&
+            Mathf.Abs(character.MoveInput.x) < character.stats.tiltThreshold &&
+            character.IsGrounded)
+        {
+            stateMachine.ChangeState(StateCharacter.Crouch);
+        }
     }
 
     public override void FixedUpdate()

@@ -14,6 +14,7 @@ public class CharacterStats : ScriptableObject
     public int maxJumps = 2;
     public float weight = 100f;
     public float maxFallSpeed = -15f;
+    public float fastFallSpeed = -25f;
 
     [Header("Combat Stats")]
     public float tiltThreshold = 0.3f;
