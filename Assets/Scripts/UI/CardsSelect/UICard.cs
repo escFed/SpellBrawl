@@ -10,18 +10,11 @@ public class UICard : MonoBehaviour, IPointerClickHandler
     public DeckBuilderUI deckBuilder;
     public TextMeshProUGUI cardCopiesText;
 
-<<<<<<< Updated upstream:Assets/Scripts/UI/CardsSelect/UICard.cs
-=======
-
     [Header("Animation")]
     public RectTransform deckTarget;
     public Canvas canvas;
     public Image cardImage;
 
-
-    private int currentCopies = 0;
-
->>>>>>> Stashed changes:Assets/Scripts/UI/UICard.cs
     private void Start() => UpdateVisuals();
 
     public void OnPointerClick(PointerEventData eventData)
@@ -30,38 +23,23 @@ public class UICard : MonoBehaviour, IPointerClickHandler
         {
             if (deckBuilder.AddCardToDeck(cardPrefab))
             {
-<<<<<<< Updated upstream:Assets/Scripts/UI/CardsSelect/UICard.cs
-=======
                 AnimateCardToDeck();
-
-                currentCopies++;
->>>>>>> Stashed changes:Assets/Scripts/UI/UICard.cs
                 UpdateVisuals();
             }
         }
 
         else if (eventData.button == PointerEventData.InputButton.Right)
-        {
-<<<<<<< Updated upstream:Assets/Scripts/UI/CardsSelect/UICard.cs
+        {          
+            AnimateCardFromDeck();
             deckBuilder.RemoveCard(cardPrefab);
             UpdateVisuals();
-=======
-            if (currentCopies > 0)
-            {
-                AnimateCardFromDeck();
-                deckBuilder.RemoveCard(cardPrefab);
-                currentCopies--;
-                UpdateVisuals();
-            }
->>>>>>> Stashed changes:Assets/Scripts/UI/UICard.cs
         }
     }
 
     public void UpdateVisuals()
     {
         int count = deckBuilder.GetCardCount(cardPrefab);
-        if (cardCopiesText != null)
-            cardCopiesText.text = count.ToString() + "/5";
+        if (cardCopiesText != null) cardCopiesText.text = count.ToString() + "/5";
     }
     void AnimateCardToDeck()
     {
@@ -74,11 +52,9 @@ public class UICard : MonoBehaviour, IPointerClickHandler
         image.sprite = cardImage.sprite;
         image.preserveAspect = true;
 
-        RectTransform fakeRect =
-            fakeCard.GetComponent<RectTransform>();
+        RectTransform fakeRect = fakeCard.GetComponent<RectTransform>();
 
-        RectTransform originalRect =
-            GetComponent<RectTransform>();
+        RectTransform originalRect = GetComponent<RectTransform>();
 
         fakeRect.sizeDelta = originalRect.sizeDelta;
 
@@ -109,18 +85,13 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
             t = 1f - Mathf.Pow(1f - t, 3);
 
-            Vector3 pos =
-                Mathf.Pow(1 - t, 2) * start +
-                2 * (1 - t) * t * middle +
-                Mathf.Pow(t, 2) * end;
+            Vector3 pos = Mathf.Pow(1 - t, 2) * start + 2 * (1 - t) * t * middle + Mathf.Pow(t, 2) * end;
 
             card.position = pos;
 
-            card.localScale =
-                Vector3.Lerp(startScale, Vector3.zero, t);
+            card.localScale = Vector3.Lerp(startScale, Vector3.zero, t);
 
-            card.rotation =
-                Quaternion.Euler(0, 0, Mathf.Lerp(0, 25f, t));
+            card.rotation = Quaternion.Euler(0, 0, Mathf.Lerp(0, 25f, t));
 
             yield return null;
         }
@@ -139,15 +110,12 @@ public class UICard : MonoBehaviour, IPointerClickHandler
         image.sprite = cardImage.sprite;
         image.preserveAspect = true;
 
-        RectTransform fakeRect =
-            fakeCard.GetComponent<RectTransform>();
+        RectTransform fakeRect = fakeCard.GetComponent<RectTransform>();
 
-        RectTransform originalRect =
-            GetComponent<RectTransform>();
+        RectTransform originalRect = GetComponent<RectTransform>();
 
         fakeRect.sizeDelta = originalRect.sizeDelta;
 
-        // EMPIEZA EN EL DECK
         fakeRect.position = deckTarget.position;
 
         StartCoroutine(MoveFakeCardFromDeck(fakeRect, originalRect.position));
@@ -165,7 +133,6 @@ public class UICard : MonoBehaviour, IPointerClickHandler
         float duration = 0.35f;
         float elapsed = 0f;
 
-        // Empieza chica
         card.localScale = Vector3.zero;
 
         while (elapsed < duration)
@@ -176,19 +143,13 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
             t = 1f - Mathf.Pow(1f - t, 3);
 
-            Vector3 pos =
-                Mathf.Pow(1 - t, 2) * start +
-                2 * (1 - t) * t * middle +
-                Mathf.Pow(t, 2) * end;
+            Vector3 pos = Mathf.Pow(1 - t, 2) * start + 2 * (1 - t) * t * middle + Mathf.Pow(t, 2) * end;
 
             card.position = pos;
 
-            // Crece mientras viaja
-            card.localScale =
-                Vector3.Lerp(Vector3.zero, Vector3.one, t);
+            card.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, t);
 
-            card.rotation =
-                Quaternion.Euler(0, 0, Mathf.Lerp(-25f, 0, t));
+            card.rotation = Quaternion.Euler(0, 0, Mathf.Lerp(-25f, 0, t));
 
             yield return null;
         }
@@ -197,7 +158,6 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
         Destroy(card.gameObject);
 
-        // Bounce de la carta original
         StartCoroutine(BounceCard());
     }
 
@@ -216,8 +176,7 @@ public class UICard : MonoBehaviour, IPointerClickHandler
         {
             elapsed += Time.deltaTime;
 
-            rect.localScale =
-                Vector3.Lerp(original, big, elapsed / duration);
+            rect.localScale = Vector3.Lerp(original, big, elapsed / duration);
 
             yield return null;
         }
@@ -228,14 +187,12 @@ public class UICard : MonoBehaviour, IPointerClickHandler
         {
             elapsed += Time.deltaTime;
 
-            rect.localScale =
-                Vector3.Lerp(big, original, elapsed / duration);
+            rect.localScale = Vector3.Lerp(big, original, elapsed / duration);
 
             yield return null;
         }
 
         rect.localScale = original;
     }
-
 
 }
