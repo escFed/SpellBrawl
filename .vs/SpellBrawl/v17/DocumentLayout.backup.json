@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\ui\\characterselect\\characterselectui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\characterselect\\characterselectui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\ui\\cardsselect\\uicard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\cardsselect\\uicard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\assets\\scripts\\ui\\characterselect\\characterslotbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\characterselect\\characterslotbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\ui\\cardsselect\\deckbuilderui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\cardsselect\\deckbuilderui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,26 +23,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "CharacterSlotButton.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\CharacterSelect\\CharacterSlotButton.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\CharacterSelect\\CharacterSlotButton.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\CharacterSelect\\CharacterSlotButton.cs",
-              "RelativeToolTip": "Assets\\Scripts\\UI\\CharacterSelect\\CharacterSlotButton.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Title": "DeckBuilderUI.cs",
+              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\CardsSelect\\DeckBuilderUI.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\CardsSelect\\DeckBuilderUI.cs",
+              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\CardsSelect\\DeckBuilderUI.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\CardsSelect\\DeckBuilderUI.cs",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T23:40:17.976Z"
+              "WhenOpened": "2026-06-07T01:03:17.468Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CharacterSelectUI.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\CharacterSelect\\CharacterSelectUI.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\CharacterSelect\\CharacterSelectUI.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\CharacterSelect\\CharacterSelectUI.cs",
-              "RelativeToolTip": "Assets\\Scripts\\UI\\CharacterSelect\\CharacterSelectUI.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAAACMAAAA3AAAAAAAAAA==",
+              "Title": "UICard.cs",
+              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\CardsSelect\\UICard.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\CardsSelect\\UICard.cs",
+              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\CardsSelect\\UICard.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\CardsSelect\\UICard.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAAACUAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T22:19:48.015Z",
+              "WhenOpened": "2026-06-07T00:49:22.27Z",
               "EditorCaption": ""
             }
           ]
