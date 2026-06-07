@@ -28,7 +28,17 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
 
     public void ExecuteCard(PlayerController character)
     {
-       StartCoroutine(character.GetComponent<MirrorWorldLogic>().MirrorWorldActivated());
+        if (character != null && mirrorWorldPrefab != null)
+        {
+            GameObject mirrorWorldInstance = Instantiate(mirrorWorldPrefab, character.transform.position, Quaternion.identity);
+            MirrorWorldLogic mirrorWorldLogic = mirrorWorldInstance.GetComponent<MirrorWorldLogic>();
+            if (mirrorWorldLogic != null)
+            {
+                mirrorWorldLogic.Initialize(character);
+                StartCoroutine(mirrorWorldLogic.MirrorWorldActivated());
+
+            }
+        }
     }
 
 

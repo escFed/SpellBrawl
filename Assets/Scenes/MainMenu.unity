@@ -3796,7 +3796,7 @@ GameObject:
   - component: {fileID: 1404193797}
   - component: {fileID: 1404193800}
   - component: {fileID: 1404193799}
-  - component: {fileID: 1404193798}
+  - component: {fileID: 1404193801}
   m_Layer: 5
   m_Name: CardFire
   m_TagString: Untagged
@@ -3824,21 +3824,6 @@ RectTransform:
   m_AnchoredPosition: {x: -650, y: 125}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1404193798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1404193796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8d34c34d4e8a2c47b9b2d4e39ab937f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UICard
-  cardPrefab: {fileID: 2052908611097359236, guid: b65cb8e6896a3a0489b3906511503c53, type: 3}
-  deckBuilder: {fileID: 729951386}
-  cardCopiesText: {fileID: 1464907744}
 --- !u!114 &1404193799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3877,6 +3862,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1404193796}
   m_CullTransparentMesh: 1
+--- !u!114 &1404193801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404193796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8d34c34d4e8a2c47b9b2d4e39ab937f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UICard
+  cardPrefab: {fileID: 937544120979919926, guid: 2cb4ce14b30a70340840d757d407c6c5, type: 3}
+  deckBuilder: {fileID: 729951386}
+  cardCopiesText: {fileID: 1464907744}
 --- !u!1 &1444199572
 GameObject:
   m_ObjectHideFlags: 0
