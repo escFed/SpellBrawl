@@ -1,61 +1,67 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class CardMenuIntro : MonoBehaviour
+public class CardDrawAnimation : MonoBehaviour
 {
-    [Header("Deck")]
-    public RectTransform deckRect;
+    [Header("Referencias")]
+    public Transform deckTransform;
 
-    public Vector2 deckStartPos;
-    public Vector2 deckCenterPos;
+    // Targets de los 4 jugadores
+    public Transform[] playerTargets;
+
+    public Image cardPrefab;
+
+    [Header("Deck Movement")]
+    public Vector3 deckStartPosition;
+    public Vector3 deckCenterPosition;
 
     [Header("Cards")]
-    public List<RectTransform> cards;
-
-    public List<Vector2> finalPositions;
+    public int cardsPerPlayer = 3;
 
     [Header("Timing")]
-    public float deckMoveDuration = 0.45f;
-    public float cardMoveDuration = 0.35f;
-    public float delayBetweenCards = 0.07f;
+    public float deckMoveDuration = 0.5f;
+    public float delayBeforeCards = 0.2f;
+    public float delayBetweenCards = 0.08f;
+    public float cardTravelDuration = 0.5f;
 
     private void Start()
     {
-        StartCoroutine(PlayIntro());
+        StartCoroutine(StartRoundAnimation());
     }
 
-    IEnumerator PlayIntro()
+    IEnumerator StartRoundAnimation()
     {
-        DisableCards();
+        deckTransform.gameObject.SetActive(true);
 
-        deckRect.anchoredPosition = deckStartPos;
+        deckTransform.position = deckStartPosition;
 
-        yield return StartCoroutine(MoveDeck());
+        yield return StartCoroutine(MoveDeckToCenter());
 
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(delayBeforeCards);
 
-        for (int i = 0; i < cards.Count; i++)
+        int totalCards = cardsPerPlayer * playerTargets.Length;
+
+        for (int i = 0; i < totalCards; i++)
         {
-            cards[i].gameObject.SetActive(true);
+            Transform target = playerTargets[i % playerTargets.Length];
 
-            StartCoroutine(MoveCard(cards[i], finalPositions[i]));
+            SpawnCard(target);
 
             yield return new WaitForSeconds(delayBetweenCards);
         }
+
+        yield return new WaitForSeconds(0.5f);
+
+        deckTransform.gameObject.SetActive(false);
     }
 
-    void DisableCards()
+    IEnumerator MoveDeckToCenter()
     {
-        foreach (var card in cards)
-        {
-            card.gameObject.SetActive(false);
-        }
-    }
+        float elapsed = 0f;
 
-    IEnumerator MoveDeck()
-    {
-        float elapsed = 0;
+        Vector3 startPos = deckStartPosition;
+        Vector3 endPos = deckCenterPosition;
 
         while (elapsed < deckMoveDuration)
         {
@@ -63,88 +69,129 @@ public class CardMenuIntro : MonoBehaviour
 
             float t = elapsed / deckMoveDuration;
 
-            t = 1 - Mathf.Pow(1 - t, 3);
+            t = 1f - Mathf.Pow(1f - t, 3);
 
-            deckRect.anchoredPosition =
-                Vector2.Lerp(deckStartPos, deckCenterPos, t);
-
-            yield return null;
-        }
-
-        deckRect.anchoredPosition = deckCenterPos;
-    }
-
-    IEnumerator MoveCard(RectTransform card, Vector2 target)
-    {
-        card.anchoredPosition = deckCenterPos;
-
-        float elapsed = 0;
-
-        Vector2 start = deckCenterPos;
-
-        Vector2 middle = (start + target) / 2f;
-        middle.y += Random.Range(60f, 140f);
-
-        float startRot = Random.Range(-25f, 25f);
-
-        while (elapsed < cardMoveDuration)
-        {
-            elapsed += Time.deltaTime;
-
-            float t = elapsed / cardMoveDuration;
-
-            float curveT = 1 - Mathf.Pow(1 - t, 3);
-
-            Vector2 pos =
-                Mathf.Pow(1 - curveT, 2) * start +
-                2 * (1 - curveT) * curveT * middle +
-                Mathf.Pow(curveT, 2) * target;
-
-            card.anchoredPosition = pos;
-
-            float rot = Mathf.Lerp(startRot, 0, curveT);
-
-            card.localRotation = Quaternion.Euler(0, 0, rot);
+            deckTransform.position = Vector3.Lerp(startPos, endPos, t);
 
             yield return null;
         }
 
-        card.anchoredPosition = target;
-        card.localRotation = Quaternion.identity;
+        deckTransform.position = endPos;
 
-        StartCoroutine(Bounce(card));
+        yield return StartCoroutine(DeckBounce());
     }
 
-    IEnumerator Bounce(RectTransform card)
+    IEnumerator DeckBounce()
     {
-        Vector3 original = Vector3.one;
-        Vector3 big = Vector3.one * 1.08f;
+        Vector3 originalScale = deckTransform.localScale;
+
+        Vector3 squishScale = new Vector3(
+            originalScale.x * 1.1f,
+            originalScale.y * 0.9f,
+            originalScale.z
+        );
 
         float duration = 0.08f;
-        float elapsed = 0;
+        float elapsed = 0f;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
 
-            card.localScale =
-                Vector3.Lerp(original, big, elapsed / duration);
+            float t = elapsed / duration;
+
+            deckTransform.localScale =
+                Vector3.Lerp(originalScale, squishScale, t);
 
             yield return null;
         }
 
-        elapsed = 0;
+        elapsed = 0f;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
 
-            card.localScale =
-                Vector3.Lerp(big, original, elapsed / duration);
+            float t = elapsed / duration;
+
+            deckTransform.localScale =
+                Vector3.Lerp(squishScale, originalScale, t);
 
             yield return null;
         }
 
-        card.localScale = original;
+        deckTransform.localScale = originalScale;
+    }
+
+    void SpawnCard(Transform target)
+    {
+        Image card = Instantiate(cardPrefab, deckTransform.position, Quaternion.identity, deckTransform.parent);
+
+        StartCoroutine(MoveCard(card.transform, target));
+    }
+
+    IEnumerator MoveCard(Transform card, Transform target)
+    {
+        Vector3 start = deckTransform.position;
+
+        Vector3 end = target.position;
+
+        Vector3 middle = (start + end) / 2f;
+
+        middle.x += Random.Range(-1f, 1f);
+        middle.y += Random.Range(1.5f, 3f);
+
+        float elapsed = 0f;
+
+        float startRotation = Random.Range(-40f, 40f);
+
+        while (elapsed < cardTravelDuration)
+        {
+            elapsed += Time.deltaTime;
+
+            float t = elapsed / cardTravelDuration;
+
+            float curveT = 1f - Mathf.Pow(1f - t, 3);
+
+            Vector3 position =
+                Mathf.Pow(1 - curveT, 2) * start +
+                2 * (1 - curveT) * curveT * middle +
+                Mathf.Pow(curveT, 2) * end;
+
+            card.position = position;
+
+            float rotation = Mathf.Lerp(startRotation, 0f, curveT);
+
+            card.rotation = Quaternion.Euler(0, 0, rotation);
+
+            yield return null;
+        }
+
+        yield return StartCoroutine(CardAbsorb(card));
+    }
+
+    IEnumerator CardAbsorb(Transform card)
+    {
+        Vector3 startScale = card.localScale;
+
+        Vector3 endScale = Vector3.zero;
+
+        float duration = 0.12f;
+
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+
+            float t = elapsed / duration;
+
+            card.localScale =
+                Vector3.Lerp(startScale, endScale, t);
+
+            yield return null;
+        }
+
+        Destroy(card.gameObject);
     }
 }

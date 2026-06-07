@@ -4,7 +4,9 @@ using UnityEngine.UI;
 
 public class MirrorWorldCard : MonoBehaviour, ICardable
 {
-
+    [Header("Card Info")]
+    [SerializeField] private string cardName = "Sabotaje de Mano";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
 
     [Header("Settings Mirror World")]
     [SerializeField] private int energyCost = 30;
@@ -17,7 +19,8 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
 
     [SerializeField] private CardType cardType;
     public CardType Type => cardType;
-
+    public string CardName => cardName;
+    public string CardDescription => cardDescription;
 
     public void SetUI(Image uiImage)
     {

@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 10251897}
   - component: {fileID: 10251896}
   m_Layer: 0
-  m_Name: Image
+  m_Name: DeckImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6259,7 +6259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1793214026}
   m_Layer: 5
-  m_Name: EnemyTarget
+  m_Name: P2Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6327,7 +6327,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1839595650}
   m_Layer: 5
-  m_Name: PlayerTarget
+  m_Name: P1Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

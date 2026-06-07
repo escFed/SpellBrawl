@@ -44,7 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2559e30960327bd46a2818a63b446226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MirrorWorldCard
+  cardName: Sabotaje de Mano
+  cardDescription: Sabotea la mano del rival
   energyCost: 30
-  mirrorWorldPrefab: {fileID: 0}
-  cardIcon: {fileID: 0}
+  mirrorWorldPrefab: {fileID: 8518958410068127547, guid: 41b99edbd45012e4bb9ef8f082aa6ecf, type: 3}
+  cardIcon: {fileID: 6876101926305785287, guid: 216e9d45f8ec71142af1d8370816485c, type: 3}
   cardType: 0
