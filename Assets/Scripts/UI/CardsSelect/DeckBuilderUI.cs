@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -14,11 +13,6 @@ public class DeckBuilderUI : MonoBehaviour
     [Header("UI Settings")]
     public TextMeshProUGUI DeckSizeText;
     public Button startMatchButton;
-
-    [Header("Card Settings")]
-    public GameObject tooltipPanel;
-    public TextMeshProUGUI tooltipTitleText;
-    public TextMeshProUGUI tooltipDescText;
 
     [Header("Catalog")]
     public List<GameObject> allAvailableCards = new List<GameObject>();
@@ -66,13 +60,6 @@ public class DeckBuilderUI : MonoBehaviour
 
         if (startMatchButton != null)
             startMatchButton.interactable = (currentTotalCards == DeckSize);
-
-        if (tooltipPanel != null && tooltipPanel.activeSelf && Mouse.current != null)
-        {
-            Vector2 mousePos = Mouse.current.position.ReadValue();
-
-            tooltipPanel.transform.position = new Vector3(mousePos.x + 15f, mousePos.y - 15f, 0f);
-        }
     }
 
     public void ClearDeck()
@@ -110,18 +97,6 @@ public class DeckBuilderUI : MonoBehaviour
         }
     }
 
-    public void ShowCardDescription(string cardName, string description)
-    {
-        if (tooltipTitleText != null) tooltipTitleText.text = cardName;
-        if (tooltipDescText != null) tooltipDescText.text = description;
-        if (tooltipPanel != null) tooltipPanel.SetActive(true);
-    }
-
-    public void HideCardDescription()
-    {
-        if (tooltipPanel != null) tooltipPanel.SetActive(false);
-    }
-
     public void SaveDeck()
     {
         List<GameObject> finalDeck = new List<GameObject>();
@@ -146,4 +121,3 @@ public class DeckBuilderUI : MonoBehaviour
         SceneManager.LoadScene("Stage1");
     }
 }
-

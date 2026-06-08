@@ -4,10 +4,6 @@ using System.Collections;
 
 public class HasteCard : MonoBehaviour, ICardable
 {
-    [Header("Card Info")]
-    [SerializeField] private string cardName = "Sabotaje de Mano";
-    [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
-
     [Header("Haste Settings")]
     [SerializeField] private float speedMultiplier = 1.5f;
     [SerializeField] private float duration = 5f;
@@ -15,8 +11,6 @@ public class HasteCard : MonoBehaviour, ICardable
     [SerializeField] private Sprite cardIcon;
 
     public int EnergyCost => energyCost;
-    public string CardName => cardName;
-    public string CardDescription => cardDescription;
     public CardType Type => CardType.Utility;
 
     public void SetUI(Image img)

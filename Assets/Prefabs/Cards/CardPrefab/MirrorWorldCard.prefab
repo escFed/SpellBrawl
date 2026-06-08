@@ -45,6 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MirrorWorldCard
   energyCost: 30
-  mirrorWorldPrefab: {fileID: 8518958410068127547, guid: 41b99edbd45012e4bb9ef8f082aa6ecf, type: 3}
+  mirrorWorldPrefab: {fileID: 0}
   cardIcon: {fileID: 0}
   cardType: 0

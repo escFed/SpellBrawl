@@ -4,9 +4,7 @@ using UnityEngine.UI;
 
 public class MirrorWorldCard : MonoBehaviour, ICardable
 {
-    [Header("Card Info")]
-    [SerializeField] private string cardName = "Sabotaje de Mano";
-    [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
+
 
     [Header("Settings Mirror World")]
     [SerializeField] private int energyCost = 30;
@@ -19,8 +17,7 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
 
     [SerializeField] private CardType cardType;
     public CardType Type => cardType;
-    public string CardName => cardName;
-    public string CardDescription => cardDescription;
+
 
     public void SetUI(Image uiImage)
     {
@@ -31,17 +28,7 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
 
     public void ExecuteCard(PlayerController character)
     {
-        if (character != null && mirrorWorldPrefab != null)
-        {
-            GameObject mirrorWorldInstance = Instantiate(mirrorWorldPrefab, character.transform.position, Quaternion.identity);
-            MirrorWorldLogic mirrorWorldLogic = mirrorWorldInstance.GetComponent<MirrorWorldLogic>();
-            if (mirrorWorldLogic != null)
-            {
-                mirrorWorldLogic.Initialize(character);
-                StartCoroutine(mirrorWorldLogic.MirrorWorldActivated());
-
-            }
-        }
+       StartCoroutine(character.GetComponent<MirrorWorldLogic>().MirrorWorldActivated());
     }
 
 

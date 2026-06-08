@@ -6,9 +6,10 @@ public class MirrorWorldLogic : MonoBehaviour
     [SerializeField] private float effectDuration;
     private PlayerController playerController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public void Initialize(PlayerController player)
+    void Start()
     {
-        playerController = player;
+        playerController = GetComponent<PlayerController>();
+     
     }
 
     
