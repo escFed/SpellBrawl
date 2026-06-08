@@ -4,12 +4,18 @@ using UnityEngine.UI;
 
 public class ThunderStrikeCard : MonoBehaviour, ICardable
 {
+    [Header("Card Info")]
+    [SerializeField] private string cardName = "Sabotaje de Mano";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
+
     [Header("Settings")]
     [SerializeField] private GameObject tsPrefab;
     [SerializeField] private float cooldownTime = 8f;
     [SerializeField] private int energyCost = 20;
 
     public int EnergyCost => energyCost;
+    public string CardName => cardName;
+    public string CardDescription => cardDescription;
     public CardType Type => CardType.Offensive;
 
     [Header("Visual")]

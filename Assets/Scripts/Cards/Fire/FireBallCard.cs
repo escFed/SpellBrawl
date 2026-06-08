@@ -4,6 +4,10 @@ using UnityEngine.UI;
 
 public class FireBallCard : MonoBehaviour, ICardable
 {
+    [Header("Card Info")]
+    [SerializeField] private string cardName = "Sabotaje de Mano";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
+
     [Header("Settings")]
     [SerializeField] private GameObject fbPrefab;
     [SerializeField] private float cooldownBetweenShots = 0.5f;
@@ -17,6 +21,8 @@ public class FireBallCard : MonoBehaviour, ICardable
 
     public int EnergyCost => energyCost;
     public CardType Type => CardType.Offensive;
+    public string CardName => cardName;
+    public string CardDescription => cardDescription;
     private int currentShoots;
     private bool canShoot = true;
 

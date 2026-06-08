@@ -4,6 +4,10 @@ using UnityEngine.UI;
 
 public class StarThrowCard : MonoBehaviour, ICardable
 {
+    [Header("Card Info")]
+    [SerializeField] private string cardName = "Sabotaje de Mano";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
+
     [Header("Settings")]
     [SerializeField] private GameObject starPrefab;
     [SerializeField] private float cooldownTime = 6f;
@@ -17,6 +21,8 @@ public class StarThrowCard : MonoBehaviour, ICardable
     private bool canUse = true;
 
     public int EnergyCost => energyCost;
+    public string CardName => cardName;
+    public string CardDescription => cardDescription;
     public CardType Type => CardType.Offensive;
 
     public void SetUI(Image uiImage)
