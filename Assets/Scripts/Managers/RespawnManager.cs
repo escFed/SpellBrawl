@@ -25,27 +25,34 @@ public class RespawnManager : MonoBehaviour
 
     private void InitialSpawn()
     {
-        if (SelectionManager.Instance == null) return;
+        if (SelectionManager.Instance == null)
+        {
+            Debug.LogWarning("¡Inicia desde el MainMenu para que el SelectionManager exista!");
+            return;
+        }
 
         CharacterStats p1Stats = SelectionManager.Instance.characterDb.GetCharacter(SelectionManager.Instance.p1SelectedIndex);
         p1Instance = Instantiate(p1Stats.characterPrefab, p1SpawnPoint.position, Quaternion.identity);
 
+        if (p1Instance.TryGetComponent(out PlayerController p1Ctrl)) p1Ctrl.PlayerIndex = 0;
+
         if (p1Instance.TryGetComponent(out CharacterAI p1AI)) p1AI.enabled = false;
-        if (p1Instance.TryGetComponent(out CharacterBrain p1Brain)) p1Brain.enabled = true;
-
-        if (p1Instance.TryGetComponent(out PlayerInput p1Input)) p1Input.enabled = false;
-
-        CharacterStats aiStats = SelectionManager.Instance.characterDb.GetCharacter(SelectionManager.Instance.aiSelectedIndex);
-        p2Instance = Instantiate(aiStats.characterPrefab, p2SpawnPoint.position, Quaternion.identity);
-
-        if (p2Instance.TryGetComponent(out PlayerInput aiInput)) aiInput.enabled = false;
-        if (p2Instance.TryGetComponent(out CharacterBrain aiBrain)) aiBrain.enabled = false;
-
-        if (p2Instance.TryGetComponent(out CharacterAI aiAI)) aiAI.enabled = false;
+        if (p1Instance.TryGetComponent(out PlayerInput p1Input)) p1Input.enabled = true;
+        if (p1Instance.TryGetComponent(out CharacterBrain p1Brain)) p1Brain.enabled = false;
 
         Vector3 p1Scale = p1Instance.transform.localScale;
         p1Scale.x = Mathf.Abs(p1Scale.x);
         p1Instance.transform.localScale = p1Scale;
+
+        CharacterStats aiStats = SelectionManager.Instance.characterDb.GetCharacter(SelectionManager.Instance.aiSelectedIndex);
+        p2Instance = Instantiate(aiStats.characterPrefab, p2SpawnPoint.position, Quaternion.identity);
+
+        if (p2Instance.TryGetComponent(out PlayerController p2Ctrl)) p2Ctrl.PlayerIndex = 1;
+
+        if (p2Instance.TryGetComponent(out PlayerInput aiInput)) Destroy(aiInput);
+        if (p2Instance.TryGetComponent(out CharacterBrain aiBrain)) Destroy(aiBrain);
+
+        if (p2Instance.TryGetComponent(out CharacterAI aiAI)) aiAI.enabled = false;
 
         Vector3 aiScale = p2Instance.transform.localScale;
         aiScale.x = -Mathf.Abs(aiScale.x);
@@ -54,7 +61,7 @@ public class RespawnManager : MonoBehaviour
 
     public void RespawnPlayerAfterFall(CharacterHealth health, int playerIndex)
     {
-        Transform targetSpawn = (playerIndex == 0) ? p1SpawnPoint : p2SpawnPoint;
+        Transform targetSpawn = (health.gameObject == p1Instance) ? p1SpawnPoint : p2SpawnPoint;
         health.transform.position = targetSpawn.position;
         Rigidbody2D rb = health.GetComponent<Rigidbody2D>();
         if (rb != null) rb.linearVelocity = Vector2.zero;
@@ -66,7 +73,8 @@ public class RespawnManager : MonoBehaviour
         foreach (PlayerController p in allPlayers)
         {
             CharacterHealth pHealth = p.GetComponent<CharacterHealth>();
-            if (p.PlayerIndex == 0)
+
+            if (p.gameObject == p1Instance)
             {
                 if (p1SpawnPoint != null)
                 {
@@ -75,7 +83,7 @@ public class RespawnManager : MonoBehaviour
                     if (pHealth != null) pHealth.ResetHealth();
                 }
             }
-            else
+            else if (p.gameObject == p2Instance)
             {
                 if (p2SpawnPoint != null)
                 {

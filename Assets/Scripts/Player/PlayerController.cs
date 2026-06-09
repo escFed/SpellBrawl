@@ -6,14 +6,13 @@ public class PlayerController : MonoBehaviour
     [Header("Stats")]
     public CharacterStats stats;
     public bool IsDead { get; private set; }
-    public int PlayerIndex { get; private set; }
+    public int PlayerIndex { get; set; }
     public bool IsParrying { get; set; }
     public bool IsShielding { get; set; }
     public bool IsIntangible { get; set; }
     public bool HasUsedAirDodge { get; private set; }
     public float stunTimer;
 
-    // Jump tracking
     public int JumpsRemaining { get; private set; }
     private bool wasGrounded;
 
@@ -66,8 +65,7 @@ public class PlayerController : MonoBehaviour
         ResetJumps();
         wasGrounded = IsGrounded;
 
-        bool isAI = GetComponent<CharacterAI>() != null && GetComponent<CharacterAI>().enabled;
-        PlayerIndex = isAI ? 1 : 0;
+        bool isAI = (PlayerIndex == 1);
 
         if (isAI)
         {
@@ -106,6 +104,15 @@ public class PlayerController : MonoBehaviour
         {
             stunTimer -= Time.deltaTime;
             return;
+        }
+
+        if (MoveInput.x > 0.01f)
+        {
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+        else if (MoveInput.x < -0.01f)
+        {
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
 
         if (input.HasBufferedParry)
