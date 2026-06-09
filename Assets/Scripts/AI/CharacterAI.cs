@@ -36,6 +36,7 @@ public class CharacterAI : MonoBehaviour, IInputProvider
     public bool HasBufferedHand5 { get; private set; }
     public bool HasBufferedParry { get; private set; }
     public bool HasBufferedDrawCards { get; private set; }
+    public bool IsShieldHeld => false; 
 
     private void Awake()
     {
@@ -84,7 +85,7 @@ public class CharacterAI : MonoBehaviour, IInputProvider
 
             if (currentDecision != previousDecision)
             {
-                //Debug.Log($"[IA] State change: {previousDecision} {currentDecision}");
+                
                 previousDecision = currentDecision;
             }
         }

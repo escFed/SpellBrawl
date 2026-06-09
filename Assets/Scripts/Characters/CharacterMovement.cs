@@ -37,14 +37,32 @@ public class CharacterMovement : MonoBehaviour
     public void StopHorizontalMovement() => rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
     public void ApplyJumpForce() => rb.linearVelocity = new Vector2(rb.linearVelocity.x, controller.stats.jumpForce);
 
-    // Instantly reach fast-fall terminal velocity
+    
+    public void ApplyDodge(float directionSign, float speed)
+    {
+        rb.linearVelocity = new Vector2(directionSign * speed, rb.linearVelocity.y);
+    }
+
+    
+    public void ApplyDirectionalDash(Vector2 direction, float speed)
+    {
+        rb.linearVelocity = direction * speed;
+    }
+
+    
+    public void StopAllMovement()
+    {
+        rb.linearVelocity = Vector2.zero;
+    }
+
+    
     public void ApplyFastFall()
     {
         if (rb.linearVelocity.y > controller.stats.fastFallSpeed)
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, controller.stats.fastFallSpeed);
     }
 
-    // Cap normal fall speed every physics frame
+    
     public void ClampFallSpeed()
     {
         if (rb.linearVelocity.y < controller.stats.maxFallSpeed)

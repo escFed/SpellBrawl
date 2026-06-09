@@ -21,6 +21,10 @@ public class CharacterStats : ScriptableObject
     public float parryWindow = 0.2f;
     public float defenseMultiplier = 1f;
     public float knockbackMultiplier = 1.5f;
+    [Tooltip("Damage multiplier while shielding (0.4 = 60% reduction)")]
+    public float shieldDamageMultiplier = 0.4f;
+    [Tooltip("Horizontal speed of a dodge")]
+    public float dodgeSpeed = 14f;
 
 
     [Header("Energy Stats")]

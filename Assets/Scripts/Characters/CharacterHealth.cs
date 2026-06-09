@@ -25,13 +25,21 @@ public class CharacterHealth : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
-        int finalDamage = Mathf.RoundToInt(amount * controller.stats.defenseMultiplier * activeDefenseMultiplier);
+        
+        if (controller != null && controller.IsIntangible) return;
 
+        
         if (controller != null && controller.IsParrying)
         {
             GetComponent<CharacterParry>().OnSuccessfulParry();
             return;
         }
+
+        
+        float shieldMult = (controller != null && controller.IsShielding)
+            ? controller.stats.shieldDamageMultiplier : 1f;
+
+        int finalDamage = Mathf.RoundToInt(amount * controller.stats.defenseMultiplier * activeDefenseMultiplier * shieldMult);
 
         currentDamage += finalDamage;
         UpdateUI();

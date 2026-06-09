@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour
     public bool IsDead { get; private set; }
     public int PlayerIndex { get; private set; }
     public bool IsParrying { get; set; }
+    public bool IsShielding { get; set; }
+    public bool IsIntangible { get; set; }
+    public bool HasUsedAirDodge { get; private set; }
     public float stunTimer;
 
     // Jump tracking
@@ -28,6 +31,7 @@ public class PlayerController : MonoBehaviour
     public bool JumpPressed =>  input.HasBufferedJump;
     public bool IsGrounded => Movement.IsGrounded;
     public bool AttackInput => input.HasBufferedAttack;
+    public bool IsShieldHeld => input.IsShieldHeld;
 
     private void Awake()
     {
@@ -44,6 +48,9 @@ public class PlayerController : MonoBehaviour
         stateMachine.Move = new MoveState(this, stateMachine);
         stateMachine.Jump = new JumpState(this, stateMachine);
         stateMachine.Crouch = new CrouchState(this, stateMachine);
+        stateMachine.Shield = new ShieldState(this, stateMachine);
+        stateMachine.Dodge = new DodgeState(this, stateMachine);
+        stateMachine.AirDodge = new AirDodgeState(this, stateMachine);
         stateMachine.Jab = new JabState(this, stateMachine, stats.jabAttack);
         stateMachine.ForwardTilt = new ForwardTiltState(this, stateMachine, stats.fTiltAttack);
         stateMachine.UpTilt = new UpTiltState(this, stateMachine, stats.upTiltAttack);
@@ -89,7 +96,7 @@ public class PlayerController : MonoBehaviour
     {
         if (IsDead) return;
 
-        // Reset jumps on landing
+        
         bool isNowGrounded = IsGrounded;
         if (isNowGrounded && !wasGrounded)
             ResetJumps();
@@ -103,7 +110,12 @@ public class PlayerController : MonoBehaviour
 
         if (input.HasBufferedParry)
         {
-            parry.TryParry();
+            // Tap J in the air → air dodge (one use per flight)
+            if (!IsGrounded && !HasUsedAirDodge && stateMachine.CurrentState == stateMachine.Jump)
+                stateMachine.ChangeState(StateCharacter.AirDodge);
+            else
+                parry.TryParry();
+
             input.ConsumeParry();
         }
 
@@ -144,7 +156,13 @@ public class PlayerController : MonoBehaviour
         JumpsRemaining = Mathf.Max(0, JumpsRemaining - 1);
     }
 
-    public void ResetJumps() => JumpsRemaining = stats != null ? stats.maxJumps : 1;
+    public void ResetJumps()
+    {
+        JumpsRemaining = stats != null ? stats.maxJumps : 1;
+        HasUsedAirDodge = false;
+    }
+
+    public void UseAirDodge() => HasUsedAirDodge = true;
 
     public void EnterDieState() => stateMachine.ChangeState(StateCharacter.Die);
 }
