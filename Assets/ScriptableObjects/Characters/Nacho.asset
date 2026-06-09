@@ -20,12 +20,15 @@ MonoBehaviour:
   maxJumps: 2
   weight: 100
   maxFallSpeed: -15
+  fastFallSpeed: -25
   tiltThreshold: 0.3
   parryWindow: 0.2
   defenseMultiplier: 1
   knockbackMultiplier: 1.5
+  shieldDamageMultiplier: 0.4
+  dodgeSpeed: 14
   maxEnergy: 100
-  startingEnergy: 0
+  startingEnergy: 50
   jabAttack: {fileID: 11400000, guid: 6c0c086cebddbfa4db9bddd2ff3374a1, type: 2}
   fTiltAttack: {fileID: 11400000, guid: 376742cb7e3e2294b947633c444dc4f5, type: 2}
   upTiltAttack: {fileID: 11400000, guid: 53a20cbb049392c41b901c0ccd538c33, type: 2}

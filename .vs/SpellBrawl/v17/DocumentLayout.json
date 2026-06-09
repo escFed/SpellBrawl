@@ -1,13 +1,17 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\",
+  "WorkspaceRootPath": "C:\\Users\\Usuario\\Documents\\github\\SpellBrawl\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\characters\\iinputprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|c:\\users\\usuario\\documents\\github\\spellbrawl\\assets\\scripts\\statemachine\\attacks\\attackhitbox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\attackhitbox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|c:\\users\\usuario\\documents\\github\\spellbrawl\\assets\\scripts\\characters\\iinputprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\characters\\iinputprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\ai\\characterai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|C:\\Users\\Usuario\\Documents\\github\\SpellBrawl\\assets\\scripts\\ai\\characterai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ai\\characterai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -23,10 +27,23 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AttackHitBox.cs",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Documents\\github\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\AttackHitBox.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\AttackHitBox.cs",
+              "ToolTip": "C:\\Users\\Usuario\\Documents\\github\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\AttackHitBox.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\AttackHitBox.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAgwBwAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T21:24:08.755Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "IInputProvider.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\IInputProvider.cs",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Documents\\github\\SpellBrawl\\Assets\\Scripts\\Characters\\IInputProvider.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Characters\\IInputProvider.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\IInputProvider.cs",
+              "ToolTip": "C:\\Users\\Usuario\\Documents\\github\\SpellBrawl\\Assets\\Scripts\\Characters\\IInputProvider.cs",
               "RelativeToolTip": "Assets\\Scripts\\Characters\\IInputProvider.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -35,16 +52,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "CharacterAI.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\AI\\CharacterAI.cs",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Documents\\github\\SpellBrawl\\Assets\\Scripts\\AI\\CharacterAI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\AI\\CharacterAI.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\AI\\CharacterAI.cs",
+              "ToolTip": "C:\\Users\\Usuario\\Documents\\github\\SpellBrawl\\Assets\\Scripts\\AI\\CharacterAI.cs",
               "RelativeToolTip": "Assets\\Scripts\\AI\\CharacterAI.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-09T15:36:11.263Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-09T15:36:11.263Z"
             }
           ]
         }

@@ -980,6 +980,7 @@ MonoBehaviour:
   attackBufferTime: 0.15
   jumpBufferTime: 0.15
   cardBufferTime: 0.15
+  shieldHoldThreshold: 0.15
 --- !u!114 &249917653517031569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -994,13 +995,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAI
   attackRange: 1.2
   cardRange: 6
-  reactionTime: 0.15
+  idealSpacing: 1.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   lookAheadDistance: 1
   fallCheckDepth: 5
-  gapJumpDistance: 4
+  verticalJumpThreshold: 1.5
+  recoveryHeightThreshold: -3
   currentDecision: 0
 --- !u!114 &1238812524633315625
 MonoBehaviour:
