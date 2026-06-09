@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CrouchState : PlayerState
 {
-    // How much to squish the sprite vertically (0.55 = 55% of original height)
+    
     private const float CrouchScaleY = 0.55f;
 
     private Vector3 originalSpriteScale;
@@ -35,14 +35,14 @@ public class CrouchState : PlayerState
             return;
         }
 
-        // Jump from crouch
+        
         if (character.JumpPressed && character.IsGrounded)
         {
             stateMachine.ChangeState(StateCharacter.Jump);
             return;
         }
 
-        // Exit crouch when S released or no longer grounded
+        
         bool stillPressingDown = character.MoveInput.y < -character.stats.tiltThreshold;
         if (!stillPressingDown || !character.IsGrounded)
         {
