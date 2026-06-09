@@ -14,6 +14,12 @@ public class MoveState : PlayerState
             return;
         }
 
+        if (character.IsShieldHeld)
+        {
+            stateMachine.ChangeState(StateCharacter.Shield);
+            return;
+        }
+
         if (character.AttackInput)
         {
             stateMachine.ChangeState(character.Combat.ResolveAttackState());
@@ -27,7 +33,13 @@ public class MoveState : PlayerState
         }
 
         if (Mathf.Abs(character.MoveInput.x) < 0.01f)
-            stateMachine.ChangeState(StateCharacter.Idle);
+        {
+            // Crouch: stopped horizontally and pressing down
+            if (character.MoveInput.y < -character.stats.tiltThreshold && character.IsGrounded)
+                stateMachine.ChangeState(StateCharacter.Crouch);
+            else
+                stateMachine.ChangeState(StateCharacter.Idle);
+        }
     }
 
     public override void FixedUpdate()

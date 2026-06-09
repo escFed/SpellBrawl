@@ -1,6 +1,6 @@
 public enum AIDecision
 {
-    Search,
+    Idle,
     Chase,
     Flee,
     Attack,
@@ -8,5 +8,8 @@ public enum AIDecision
     UseDefensiveCard,
     UseUtilityCard,
     Parry,
-    DrawCards
+    DrawCards,
+    Jump,
+    Reposition,
+    Recover
 }

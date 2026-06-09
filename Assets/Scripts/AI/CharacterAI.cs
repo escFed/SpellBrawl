@@ -2,16 +2,20 @@ using UnityEngine;
 
 public class CharacterAI : MonoBehaviour, IInputProvider
 {
-    [Header("Settings")]
+    [Header("AI Profile")]
+    public AIProfile profile = new AIProfile();
+
+    [Header("Combat Settings")]
     public float attackRange = 1.2f;
     public float cardRange = 6f;
-    public float reactionTime = 0.15f;
+    public float idealSpacing = 1.5f;
 
-    [Header("Fall check")]
+    [Header("Navigation Settings")]
     public LayerMask groundLayer;
     public float lookAheadDistance = 1f;
     public float fallCheckDepth = 5f;
-    public float gapJumpDistance = 4f;
+    public float verticalJumpThreshold = 1.5f;
+    public float recoveryHeightThreshold = -3f;
 
     public PlayerController SelfController { get; private set; }
     public EnergyManager SelfEnergy { get; private set; }
@@ -19,12 +23,13 @@ public class CharacterAI : MonoBehaviour, IInputProvider
     public CharacterDeck SelfDeck { get; private set; }
     public Transform Target { get; private set; }
 
-    public AIDecision currentDecision = AIDecision.Search;
-    private AIDecision previousDecision;
+    public AIDecision currentDecision = AIDecision.Idle;
 
+    private PlayerController targetController;
+    private Vector3 perceivedTargetPosition;
     private float thinkTimer;
-    private int selectedCardIndex = -1;
     private float cardTimer;
+    private int selectedCardIndex = -1;
 
     public Vector2 CurrentDirection { get; private set; }
     public bool HasBufferedJump { get; private set; }
@@ -36,6 +41,7 @@ public class CharacterAI : MonoBehaviour, IInputProvider
     public bool HasBufferedHand5 { get; private set; }
     public bool HasBufferedParry { get; private set; }
     public bool HasBufferedDrawCards { get; private set; }
+    public bool IsShieldHeld { get; private set; }
 
     private void Awake()
     {
@@ -43,20 +49,7 @@ public class CharacterAI : MonoBehaviour, IInputProvider
         SelfEnergy = GetComponent<EnergyManager>();
         SelfHealth = GetComponent<CharacterHealth>();
         SelfDeck = GetComponent<CharacterDeck>();
-    }
-
-    private void Start()
-    {
-        Invoke(nameof(FindTarget), 0.5f);
-    }
-
-    private void FindTarget()
-    {
-        PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
-        foreach (PlayerController p in allPlayers)
-        {
-            if (p != SelfController) { Target = p.transform; break; }
-        }
+        perceivedTargetPosition = transform.position;
     }
 
     private void Update()
@@ -67,173 +60,482 @@ public class CharacterAI : MonoBehaviour, IInputProvider
             return;
         }
 
+        UpdateTargetTracker();
+
         if (Target == null)
         {
-            FindTarget();
-            if (Target == null) return;
+            ClearAllInputs();
+            return;
         }
 
-        if (cardTimer > 0) cardTimer -= Time.deltaTime;
+        if (cardTimer > 0f)
+            cardTimer -= Time.deltaTime;
 
         thinkTimer -= Time.deltaTime;
-        if (thinkTimer <= 0)
+
+        if (thinkTimer <= 0f)
         {
-            thinkTimer = reactionTime;
+            thinkTimer = profile.reactionTime;
+            perceivedTargetPosition = Target.position;
+
             EvaluateSituation();
             ExecuteDecision();
+        }
+    }
 
-            if (currentDecision != previousDecision)
+    private void UpdateTargetTracker()
+    {
+        if (targetController != null && !targetController.IsDead && targetController.gameObject.activeInHierarchy)
+            return;
+
+        PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+
+        targetController = null;
+        Target = null;
+
+        foreach (PlayerController player in allPlayers)
+        {
+            if (player != SelfController && !player.IsDead)
             {
-                //Debug.Log($"[IA] State change: {previousDecision} {currentDecision}");
-                previousDecision = currentDecision;
+                targetController = player;
+                Target = player.transform;
+                perceivedTargetPosition = Target.position;
+                return;
             }
         }
     }
+
+    private AIContext BuildContext()
+    {
+        float distanceX = Mathf.Abs(perceivedTargetPosition.x - transform.position.x);
+        float distanceY = perceivedTargetPosition.y - transform.position.y;
+
+        CharacterHealth targetHealth = Target != null ? Target.GetComponent<CharacterHealth>() : null;
+
+        bool nearEdge = IsNearEdge();
+        bool tooLow = transform.position.y < perceivedTargetPosition.y + recoveryHeightThreshold;
+
+        return new AIContext
+        {
+            distanceX = distanceX,
+            distanceY = distanceY,
+            selfDamage = SelfHealth != null ? SelfHealth.currentDamage : 0f,
+            targetDamage = targetHealth != null ? targetHealth.currentDamage : 0f,
+            energy = SelfEnergy != null ? SelfEnergy.currentEnergy : 0f,
+            targetInAttackRange = distanceX <= attackRange && Mathf.Abs(distanceY) < 1f,
+            targetInCardRange = distanceX <= cardRange,
+            targetAbove = distanceY > verticalJumpThreshold,
+            targetBelow = distanceY < -verticalJumpThreshold,
+            emptyHand = HasEmptyHand(),
+            inDanger = SelfHealth != null && SelfHealth.currentDamage >= 85f,
+            nearEdge = nearEdge,
+            shouldRecover = tooLow || (nearEdge && SelfHealth != null && SelfHealth.currentDamage >= 100f)
+        };
+    }
+
     private void EvaluateSituation()
     {
-        float distance = Vector2.Distance(transform.position, Target.position);
-        float damage = SelfHealth != null ? SelfHealth.currentDamage : 0f;
+        selectedCardIndex = -1;
 
-        if (HasEmptyHand() && SelfEnergy != null && SelfEnergy.currentEnergy >= 75)
+        AIContext ctx = BuildContext();
+
+        float bestScore = -999f;
+        AIDecision bestDecision = AIDecision.Idle;
+
+        Consider(AIDecision.Recover, ScoreRecover(ctx), ref bestScore, ref bestDecision);
+        Consider(AIDecision.UseDefensiveCard, ScoreDefensiveCard(ctx), ref bestScore, ref bestDecision);
+        Consider(AIDecision.UseOffensiveCard, ScoreOffensiveCard(ctx), ref bestScore, ref bestDecision);
+        Consider(AIDecision.UseUtilityCard, ScoreUtilityCard(ctx), ref bestScore, ref bestDecision);
+        Consider(AIDecision.DrawCards, ScoreDrawCards(ctx), ref bestScore, ref bestDecision);
+        Consider(AIDecision.Parry, ScoreParry(ctx), ref bestScore, ref bestDecision);
+        Consider(AIDecision.Attack, ScoreAttack(ctx), ref bestScore, ref bestDecision);
+        Consider(AIDecision.Jump, ScoreJump(ctx), ref bestScore, ref bestDecision);
+        Consider(AIDecision.Flee, ScoreFlee(ctx), ref bestScore, ref bestDecision);
+        Consider(AIDecision.Reposition, ScoreReposition(ctx), ref bestScore, ref bestDecision);
+        Consider(AIDecision.Chase, ScoreChase(ctx), ref bestScore, ref bestDecision);
+
+        if (Random.value < profile.mistakeChance)
+            bestDecision = AIDecision.Chase;
+
+        currentDecision = bestDecision;
+    }
+
+    private void Consider(AIDecision decision, float score, ref float bestScore, ref AIDecision bestDecision)
+    {
+        score += Random.Range(-profile.randomness, profile.randomness);
+
+        if (score > bestScore)
         {
-            currentDecision = AIDecision.DrawCards;
-            return;
+            bestScore = score;
+            bestDecision = decision;
         }
+    }
 
-        if (distance > 15f)
-        {
-            currentDecision = AIDecision.Search;
-            return;
-        }
+    private float ScoreRecover(AIContext context)
+    {
+        if (!context.shouldRecover)
+            return 0f;
 
-        if (damage > 80f)
-        {
-            if (TryFindCardType(CardType.Defensive)) { currentDecision = AIDecision.UseDefensiveCard; return; }
-            if (distance < attackRange * 2) { currentDecision = AIDecision.Flee; return; }
-        }
+        return 100f * profile.recoveryFocus;
+    }
 
-        if (SelfEnergy != null && SelfEnergy.currentEnergy >= 30 && cardTimer <= 0)
-        {
-            float probability = SelfEnergy.currentEnergy / 100f;
+    private float ScoreAttack(AIContext context)
+    {
+        if (!context.targetInAttackRange)
+            return 0f;
 
-            if (Random.value <= probability)
-            {
-                if (distance > attackRange && distance <= cardRange && TryFindCardType(CardType.Utility))
-                {
-                    currentDecision = AIDecision.UseUtilityCard; return;
-                }
+        float score = 55f;
 
-                if (distance > attackRange && TryFindCardType(CardType.Offensive))
-                {
-                    currentDecision = AIDecision.UseOffensiveCard; return;
-                }
-            }
-            else
-            {
-                cardTimer = 1.0f;
-            }
-        }
+        if (context.targetDamage >= 100f)
+            score += 20f;
 
-        if (distance <= attackRange)
-        {
-            if (Random.value < 0.25f && !SelfController.IsParrying)
-            {
-                currentDecision = AIDecision.Parry; return;
-            }
+        if (context.selfDamage >= 120f)
+            score -= 15f;
 
-            currentDecision = AIDecision.Attack; return;
-        }
+        return score * profile.aggression;
+    }
 
-        currentDecision = AIDecision.Chase;
+    private float ScoreChase(AIContext context)
+    {
+        if (context.distanceX <= idealSpacing)
+            return 0f;
+
+        if (context.inDanger && context.distanceX < attackRange * 2f)
+            return 10f;
+
+        return 35f * profile.aggression;
+    }
+
+    private float ScoreFlee(AIContext context)
+    {
+        float score = 0f;
+
+        if (context.inDanger)
+            score += 35f;
+
+        if (context.targetInAttackRange)
+            score += 30f;
+
+        if (context.nearEdge)
+            score += 20f;
+
+        return score * profile.defense;
+    }
+
+    private float ScoreJump(AIContext context)
+    {
+        if (context.targetAbove && context.distanceX < 4f)
+            return 50f;
+
+        return 0f;
+    }
+
+    private float ScoreReposition(AIContext context)
+    {
+        if (context.distanceX < attackRange && context.selfDamage > 70f)
+            return 35f;
+
+        if (context.distanceX < idealSpacing)
+            return 20f;
+
+        return 0f;
+    }
+
+    private float ScoreParry(AIContext context)
+    {
+        if (!context.targetInAttackRange)
+            return 0f;
+
+        if (SelfController.IsParrying)
+            return 0f;
+
+        float score = 25f;
+
+        if (context.inDanger)
+            score += 20f;
+
+        if (context.energy < 40f)
+            score += 15f;
+
+        return score * profile.parrySkill;
+    }
+
+    private float ScoreDrawCards(AIContext context)
+    {
+        if (SelfEnergy == null || SelfEnergy.currentEnergy < 75f)
+            return 0f;
+
+        if (context.emptyHand)
+            return 80f;
+
+        if (!HasUsefulCard(context) && context.energy >= 100f)
+            return 45f;
+
+        return 0f;
+    }
+
+    private float ScoreOffensiveCard(AIContext context)
+    {
+        if (SelfEnergy == null || cardTimer > 0f)
+            return 0f;
+
+        if (!context.targetInCardRange)
+            return 0f;
+
+        if (!TryFindCardType(CardType.Offensive))
+            return 0f;
+
+        float score = 45f;
+
+        if (context.distanceX > attackRange)
+            score += 15f;
+
+        if (context.targetDamage >= 80f)
+            score += 20f;
+
+        if (context.energy >= 80f)
+            score += 10f;
+
+        return score * profile.cardUsage;
+    }
+
+    private float ScoreDefensiveCard(AIContext context)
+    {
+        if (SelfEnergy == null || cardTimer > 0f)
+            return 0f;
+
+        if (!TryFindCardType(CardType.Defensive))
+            return 0f;
+
+        float score = 0f;
+
+        if (context.inDanger)
+            score += 60f;
+
+        if (context.targetInAttackRange)
+            score += 25f;
+
+        if (context.nearEdge)
+            score += 20f;
+
+        return score * profile.defense;
+    }
+
+    private float ScoreUtilityCard(AIContext context)
+    {
+        if (SelfEnergy == null || cardTimer > 0f)
+            return 0f;
+
+        if (!TryFindCardType(CardType.Utility))
+            return 0f;
+
+        float score = 20f;
+
+        if (context.targetAbove)
+            score += 25f;
+
+        if (context.shouldRecover)
+            score += 40f;
+
+        if (context.distanceX > attackRange && context.distanceX <= cardRange)
+            score += 15f;
+
+        return score * profile.cardUsage;
     }
 
     private void ExecuteDecision()
     {
         ClearAllInputs();
-        float dirX = Mathf.Sign(Target.position.x - transform.position.x);
+
+        float dirX = Mathf.Sign(perceivedTargetPosition.x - transform.position.x);
+        if (dirX == 0f)
+            dirX = transform.localScale.x >= 0f ? 1f : -1f;
 
         switch (currentDecision)
         {
-            case AIDecision.Search:
+            case AIDecision.Idle:
                 CurrentDirection = Vector2.zero;
                 break;
 
             case AIDecision.Chase:
-                bool jumpToChase = false;
-                if (IsSafeToMove(dirX, out jumpToChase))
-                {
-                    CurrentDirection = new Vector2(dirX, 0);
-                    if (jumpToChase) HasBufferedJump = true;
-                }
-                else
-                {
-                    CurrentDirection = Vector2.zero;
-                }
+                ExecuteMove(dirX, false);
                 break;
 
             case AIDecision.Flee:
-                bool jumpToFlee = false;
-                if (IsSafeToMove(-dirX, out jumpToFlee))
-                {
-                    CurrentDirection = new Vector2(-dirX, 0);
-                    if (jumpToFlee) HasBufferedJump = true;
-                }
-                else
-                {
-                    CurrentDirection = Vector2.zero;
-                }
+                ExecuteMove(-dirX, false);
+                break;
+
+            case AIDecision.Reposition:
+                ExecuteMove(-dirX, false);
+                break;
+
+            case AIDecision.Recover:
+                ExecuteMove(dirX, true);
+                break;
+
+            case AIDecision.Jump:
+                CurrentDirection = new Vector2(dirX * 0.5f, 0f);
+                HasBufferedJump = true;
                 break;
 
             case AIDecision.Attack:
-                CurrentDirection = new Vector2(dirX, 0);
+                CurrentDirection = new Vector2(dirX, 0f);
                 HasBufferedAttack = true;
                 break;
 
             case AIDecision.Parry:
-                CurrentDirection = Vector2.zero;
                 HasBufferedParry = true;
                 break;
 
             case AIDecision.DrawCards:
-                CurrentDirection = Vector2.zero;
                 HasBufferedDrawCards = true;
                 break;
 
             case AIDecision.UseOffensiveCard:
             case AIDecision.UseDefensiveCard:
             case AIDecision.UseUtilityCard:
-                CurrentDirection = Vector2.zero;
+                CurrentDirection = new Vector2(dirX, 0f);
                 PressCardButton(selectedCardIndex);
+                cardTimer = 0.7f;
                 break;
         }
     }
 
-    private bool TryFindCardType(CardType targetType)
+    private void ExecuteMove(float directionX, bool forceJump)
     {
+        if (Mathf.Abs(directionX) < 0.01f)
+        {
+            CurrentDirection = Vector2.zero;
+            return;
+        }
+
+        bool shouldJump;
+        bool safe = IsSafeToMove(directionX, out shouldJump);
+
+        if (!safe)
+        {
+            CurrentDirection = Vector2.zero;
+            return;
+        }
+
+        CurrentDirection = new Vector2(directionX, 0f);
+
+        if (forceJump || shouldJump)
+            HasBufferedJump = true;
+    }
+
+    private bool IsSafeToMove(float directionX, out bool shouldJump)
+    {
+        shouldJump = false;
+
+        if (!SelfController.IsGrounded)
+            return true;
+
+        Vector2 edgeCheck = new Vector2(transform.position.x + directionX * lookAheadDistance, transform.position.y);
+
+        RaycastHit2D edgeHit = Physics2D.Raycast(edgeCheck, Vector2.down, fallCheckDepth, groundLayer);
+
+        if (edgeHit.collider == null)
+        {
+            shouldJump = true;
+            return true;
+        }
+
+        return true;
+    }
+
+    private bool IsNearEdge()
+    {
+        if (!SelfController.IsGrounded)
+            return false;
+
+        Vector2 leftCheck = new Vector2(transform.position.x - lookAheadDistance, transform.position.y);
+        Vector2 rightCheck = new Vector2(transform.position.x + lookAheadDistance, transform.position.y);
+
+        bool hasLeftGround = Physics2D.Raycast(leftCheck, Vector2.down, fallCheckDepth, groundLayer).collider != null;
+        bool hasRightGround = Physics2D.Raycast(rightCheck, Vector2.down, fallCheckDepth, groundLayer).collider != null;
+
+        return !hasLeftGround || !hasRightGround;
+    }
+
+    private bool HasUsefulCard(AIContext ctx)
+    {
+        if (SelfDeck == null || SelfEnergy == null)
+            return false;
+
         ICardable[] hand = SelfDeck.GetCurrentHand();
 
         for (int i = 0; i < hand.Length; i++)
         {
-            if (hand[i] == null) continue;
-            if (SelfEnergy.currentEnergy < hand[i].EnergyCost) continue;
-            if (!hand[i].CanBeUsed(SelfController)) continue;
+            ICardable card = hand[i];
 
-            if (hand[i].Type == targetType)
+            if (card == null)
+                continue;
+
+            if (SelfEnergy.currentEnergy < card.EnergyCost)
+                continue;
+
+            if (!card.CanBeUsed(SelfController))
+                continue;
+
+            if (card.Type == CardType.Defensive && ctx.inDanger)
+                return true;
+
+            if (card.Type == CardType.Offensive && ctx.targetInCardRange)
+                return true;
+
+            if (card.Type == CardType.Utility)
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool TryFindCardType(CardType targetType)
+    {
+        selectedCardIndex = -1;
+
+        if (SelfDeck == null || SelfEnergy == null)
+            return false;
+
+        ICardable[] hand = SelfDeck.GetCurrentHand();
+
+        for (int i = 0; i < hand.Length; i++)
+        {
+            ICardable card = hand[i];
+
+            if (card == null)
+                continue;
+
+            if (SelfEnergy.currentEnergy < card.EnergyCost)
+                continue;
+
+            if (!card.CanBeUsed(SelfController))
+                continue;
+
+            if (card.Type == targetType)
             {
                 selectedCardIndex = i;
                 return true;
             }
         }
+
         return false;
     }
 
     private bool HasEmptyHand()
     {
+        if (SelfDeck == null)
+            return true;
+
         ICardable[] hand = SelfDeck.GetCurrentHand();
+
         for (int i = 0; i < hand.Length; i++)
         {
-            if (hand[i] != null) return false;
+            if (hand[i] != null)
+                return false;
         }
+
         return true;
     }
 
@@ -244,29 +546,6 @@ public class CharacterAI : MonoBehaviour, IInputProvider
         else if (index == 2) HasBufferedHand3 = true;
         else if (index == 3) HasBufferedHand4 = true;
         else if (index == 4) HasBufferedHand5 = true;
-    }
-
-    public bool IsSafeToMove(float directionX, out bool shouldJump)
-    {
-        shouldJump = false;
-
-        if (!SelfController.IsGrounded) return true;
-
-        Vector2 edgeCheck = new Vector2(transform.position.x + (directionX * lookAheadDistance), transform.position.y);
-        RaycastHit2D edgeHit = Physics2D.Raycast(edgeCheck, Vector2.down, fallCheckDepth, groundLayer);
-
-        if (edgeHit.collider != null) return true;
-
-        Vector2 gapCheck = new Vector2(transform.position.x + (directionX * gapJumpDistance), transform.position.y);
-        RaycastHit2D gapHit = Physics2D.Raycast(gapCheck, Vector2.down, fallCheckDepth, groundLayer);
-
-        if (gapHit.collider != null)
-        {
-            shouldJump = true;
-            return true;
-        }
-
-        return false;
     }
 
     public void ConsumeJump() => HasBufferedJump = false;
@@ -281,11 +560,16 @@ public class CharacterAI : MonoBehaviour, IInputProvider
 
     public void ClearAllInputs()
     {
-        ConsumeJump(); 
-        ConsumeAttack(); 
-        ConsumeParry(); 
+        ConsumeJump();
+        ConsumeAttack();
+        ConsumeParry();
         ConsumeDrawCards();
-        ConsumeHand1(); ConsumeHand2(); ConsumeHand3(); ConsumeHand4(); ConsumeHand5();
+        ConsumeHand1();
+        ConsumeHand2();
+        ConsumeHand3();
+        ConsumeHand4();
+        ConsumeHand5();
+
         CurrentDirection = Vector2.zero;
     }
 }

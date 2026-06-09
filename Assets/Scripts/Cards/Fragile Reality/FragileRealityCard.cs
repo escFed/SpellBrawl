@@ -5,14 +5,16 @@ using UnityEngine.UI;
 
 public class FragileRealityCard : MonoBehaviour, ICardable
 {
-
     [Header("Visual")]
     [SerializeField] private GameObject fragileRealityPrefab;
     [SerializeField] private Sprite cardIcon;
+    [SerializeField] private string cardName = "Sabotaje de Mano";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
     public int EnergyCost => 15;
 
     public CardType Type => CardType.Utility;
-
+    public string CardName => cardName;
+    public string CardDescription => cardDescription;
 
     public void SetUI(Image uiImage)
     {

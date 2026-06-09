@@ -25,25 +25,27 @@ public class RespawnManager : MonoBehaviour
 
     private void InitialSpawn()
     {
-        if (SelectionManager.Instance == null)
-        {
-            Debug.LogWarning("No hay SelectionManager. Inicia el juego desde el Menú Principal.");
-            return;
-        }
+        if (SelectionManager.Instance == null) return;
 
         CharacterStats p1Stats = SelectionManager.Instance.characterDb.GetCharacter(SelectionManager.Instance.p1SelectedIndex);
         p1Instance = Instantiate(p1Stats.characterPrefab, p1SpawnPoint.position, Quaternion.identity);
 
         if (p1Instance.TryGetComponent(out CharacterAI p1AI)) p1AI.enabled = false;
-        if (p1Instance.TryGetComponent(out PlayerInput p1Input)) p1Input.enabled = true;
         if (p1Instance.TryGetComponent(out CharacterBrain p1Brain)) p1Brain.enabled = true;
+
+        if (p1Instance.TryGetComponent(out PlayerInput p1Input)) p1Input.enabled = false;
 
         CharacterStats aiStats = SelectionManager.Instance.characterDb.GetCharacter(SelectionManager.Instance.aiSelectedIndex);
         p2Instance = Instantiate(aiStats.characterPrefab, p2SpawnPoint.position, Quaternion.identity);
 
         if (p2Instance.TryGetComponent(out PlayerInput aiInput)) aiInput.enabled = false;
         if (p2Instance.TryGetComponent(out CharacterBrain aiBrain)) aiBrain.enabled = false;
-        if (p2Instance.TryGetComponent(out CharacterAI aiAI)) aiAI.enabled = true;
+
+        if (p2Instance.TryGetComponent(out CharacterAI aiAI)) aiAI.enabled = false;
+
+        Vector3 p1Scale = p1Instance.transform.localScale;
+        p1Scale.x = Mathf.Abs(p1Scale.x);
+        p1Instance.transform.localScale = p1Scale;
 
         Vector3 aiScale = p2Instance.transform.localScale;
         aiScale.x = -Mathf.Abs(aiScale.x);
@@ -69,6 +71,7 @@ public class RespawnManager : MonoBehaviour
                 if (p1SpawnPoint != null)
                 {
                     p.transform.position = p1SpawnPoint.position;
+                    p.transform.localScale = new Vector3(Mathf.Abs(p.transform.localScale.x), p.transform.localScale.y, p.transform.localScale.z);
                     if (pHealth != null) pHealth.ResetHealth();
                 }
             }
@@ -77,6 +80,7 @@ public class RespawnManager : MonoBehaviour
                 if (p2SpawnPoint != null)
                 {
                     p.transform.position = p2SpawnPoint.position;
+                    p.transform.localScale = new Vector3(-Mathf.Abs(p.transform.localScale.x), p.transform.localScale.y, p.transform.localScale.z);
                     if (pHealth != null) pHealth.ResetHealth();
                 }
             }

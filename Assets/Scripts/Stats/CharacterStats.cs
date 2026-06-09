@@ -14,12 +14,17 @@ public class CharacterStats : ScriptableObject
     public int maxJumps = 2;
     public float weight = 100f;
     public float maxFallSpeed = -15f;
+    public float fastFallSpeed = -25f;
 
     [Header("Combat Stats")]
     public float tiltThreshold = 0.3f;
     public float parryWindow = 0.2f;
     public float defenseMultiplier = 1f;
     public float knockbackMultiplier = 1.5f;
+    [Tooltip("Damage multiplier while shielding (0.4 = 60% reduction)")]
+    public float shieldDamageMultiplier = 0.4f;
+    [Tooltip("Horizontal speed of a dodge")]
+    public float dodgeSpeed = 14f;
 
 
     [Header("Energy Stats")]
