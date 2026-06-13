@@ -2,22 +2,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
 public class CharacterSelectUI : MonoBehaviour
 {
     [SerializeField] private GameObject gridContainer;
-    [SerializeField] private GameObject confirmGroup;
     [SerializeField] private Image selectImage;
     [SerializeField] private TextMeshProUGUI selectText;
     [SerializeField] private Transform selectGrid;
     [SerializeField] private GameObject characterButtonPrefab;
-    [SerializeField] private Button nextButton;
+    [SerializeField] private GameObject cardsPanel; // 👈 si usás panel en la misma escena
 
     private void Start()
     {
         if (gridContainer != null) gridContainer.SetActive(true);
-        if (confirmGroup != null) confirmGroup.SetActive(false);
-
-        if (nextButton != null) nextButton.interactable = false;
 
         CharacterDatabase db = SelectionManager.Instance.characterDb;
 
@@ -30,28 +27,32 @@ public class CharacterSelectUI : MonoBehaviour
         }
     }
 
-    public void ShowCharacterPreview(Sprite icon, string name)
+    public void ShowCharacterPreview(Sprite icon, string name, int index)
     {
         if (selectImage != null) selectImage.sprite = icon;
         if (selectText != null) selectText.text = name;
 
-        if (gridContainer != null) gridContainer.SetActive(false);
-        if (confirmGroup != null) confirmGroup.SetActive(true);
+        // Guardar el índice real del personaje
+        SelectionManager.Instance.p1SelectedIndex = index;
 
-        EnableNextButton();
+        // Opción 1: cambiar de panel dentro de la misma escena
+        if (cardsPanel != null)
+        {
+            gridContainer.SetActive(false);
+            cardsPanel.SetActive(true);
+        }
+
+   
     }
 
-    public void UndoSelection()
+    public void ResetSelection()
     {
-        if (gridContainer != null) gridContainer.SetActive(true);
-        if (confirmGroup != null) confirmGroup.SetActive(false); 
+        // Limpia la imagen y el texto
+        if (selectImage != null) selectImage.sprite = null;
+        if (selectText != null) selectText.text = "";
 
+        // Resetea el índice en el SelectionManager
         SelectionManager.Instance.p1SelectedIndex = -1;
-        if (nextButton != null) nextButton.interactable = false;
     }
 
-    public void EnableNextButton()
-    {
-        if (nextButton != null) nextButton.interactable = true;
-    }
 }
