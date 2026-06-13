@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 314147895154a5b47b77f510274d3264, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealCard
+  cardName: Heal
+  cardDescription: 'Reduces your own knockback '
   healAmount: 25
   energyCost: 20
   cardIcon: {fileID: -9155219071720790082, guid: 665ad15aeddc4764eae13148e548bc6f, type: 3}

@@ -1,5 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Runtime.CompilerServices;
 
 public class MenuManager : MonoBehaviour
 {
@@ -8,6 +10,8 @@ public class MenuManager : MonoBehaviour
     public GameObject characterSelectPanel;
     public GameObject cardsSelectPanel;
     public GameObject controlsPanel;
+
+    public ControlsTextScript textController;
 
     private void Start()
     {
@@ -46,13 +50,15 @@ public class MenuManager : MonoBehaviour
     }
     public void ShowControls()
     {
-        if (controlsPanel != null) controlsPanel.SetActive(true);
+        if (controlsPanel != null) controlsPanel.SetActive(true); textController.StartTypeWriter();
     }
 
     public void HideControls()
     {
         if (controlsPanel != null) controlsPanel.SetActive(false);
     }
+
+
 
     public void QuitGame()
     {

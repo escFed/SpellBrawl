@@ -44,5 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7d6b28cd1f9694419f601ccac37f2cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeckShuffleCard
+  cardName: Deck Shuffle
+  cardDescription: Steal opponent actual cards
   cardIcon: {fileID: 1449084966097542987, guid: 30734c2a3044fc04ea0c54fd387e8875, type: 3}
   energyCost: 20

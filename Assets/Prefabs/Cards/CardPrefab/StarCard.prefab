@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783a822f67f72774d85df43e647b4a42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StarThrowCard
+  cardName: Star Throw
+  cardDescription: Cast a delayed star from the sky
   starPrefab: {fileID: 2942788602873880493, guid: 1e325a311c0cb7d49a27f9eb1d3038c2, type: 3}
   cooldownTime: 6
   spawnHeight: 12

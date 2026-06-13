@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3111288841274506641
+--- !u!1 &6365722441880189939
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 9105030359599656535}
-  - component: {fileID: 7706115612045840563}
-  m_Layer: 7
-  m_Name: ThunderCard
+  - component: {fileID: 674886074418223568}
+  - component: {fileID: -5904340515461385677}
+  m_Layer: 0
+  m_Name: FragileRealityPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &9105030359599656535
+--- !u!4 &674886074418223568
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3111288841274506641}
+  m_GameObject: {fileID: 6365722441880189939}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,22 +32,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7706115612045840563
+--- !u!114 &-5904340515461385677
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3111288841274506641}
+  m_GameObject: {fileID: 6365722441880189939}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a656217eda053c342b5afb142b411ac3, type: 3}
+  m_Script: {fileID: 11500000, guid: 4151b2f6af532db4494ce3c7c3b7fe5a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ThunderStrikeCard
-  cardName: Thunder Strike
-  cardDescription: Cast a ThunderStrike from the sky
-  tsPrefab: {fileID: 7062071539232757206, guid: 36b700d52f911bf42bbad3ddd8180354, type: 3}
-  cooldownTime: 8
-  energyCost: 20
-  cardSprite: {fileID: -5031075911619066452, guid: 7c4d4c03f4b75894fbb8c89cadb23ef3, type: 3}
-  cardUI: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::FragileRealityCard
+  fragileRealityPrefab: {fileID: 6365722441880189939}
+  cardIcon: {fileID: 7365165571240732966, guid: a10e39dc6fce63945a5abb9b52ee99f1, type: 3}
+  cardName: Fragile Reality
+  cardDescription: 'Generates platforms where you use this card
+
+'
