@@ -140,7 +140,6 @@ public class PlayerController : MonoBehaviour
             else if (input.HasBufferedHand2) { deck.TryUseCardFromHand(1); input.ConsumeHand2(); }
             else if (input.HasBufferedHand3) { deck.TryUseCardFromHand(2); input.ConsumeHand3(); }
             else if (input.HasBufferedHand4) { deck.TryUseCardFromHand(3); input.ConsumeHand4(); }
-            else if (input.HasBufferedHand5) { deck.TryUseCardFromHand(4); input.ConsumeHand5(); }
         }
 
         stateMachine.Update();

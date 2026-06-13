@@ -20,7 +20,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
 
     
     private float attackTimer, jumpTimer;
-    private float hand1Timer, hand2Timer, hand3Timer, hand4Timer, hand5Timer;
+    private float hand1Timer, hand2Timer, hand3Timer, hand4Timer;
     private float drawCardsTimer;
     private float parryTimer;        
 
@@ -32,7 +32,6 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     public bool HasBufferedHand2     => hand2Timer     > 0;
     public bool HasBufferedHand3     => hand3Timer     > 0;
     public bool HasBufferedHand4     => hand4Timer     > 0;
-    public bool HasBufferedHand5     => hand5Timer     > 0;
     public bool HasBufferedParry     => parryTimer     > 0;
     public bool HasBufferedDrawCards => drawCardsTimer > 0;
 
@@ -45,8 +44,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     
 
     private void Awake()
-    {
-        
+    {   
         var pi = GetComponent<PlayerInput>();
         if (pi != null) parryAction = pi.actions["Parry"];
     }
@@ -83,7 +81,6 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
         if (hand2Timer     > 0) hand2Timer     -= Time.deltaTime;
         if (hand3Timer     > 0) hand3Timer     -= Time.deltaTime;
         if (hand4Timer     > 0) hand4Timer     -= Time.deltaTime;
-        if (hand5Timer     > 0) hand5Timer     -= Time.deltaTime;
         if (drawCardsTimer > 0) drawCardsTimer -= Time.deltaTime;
         if (parryTimer     > 0) parryTimer     -= Time.deltaTime;
     }
@@ -97,7 +94,6 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     public void OnHand2(InputValue value)     { if (value.isPressed) hand2Timer  = cardBufferTime; }
     public void OnHand3(InputValue value)     { if (value.isPressed) hand3Timer  = cardBufferTime; }
     public void OnHand4(InputValue value)     { if (value.isPressed) hand4Timer  = cardBufferTime; }
-    public void OnHand5(InputValue value)     { if (value.isPressed) hand5Timer  = cardBufferTime; }
    
     public void OnParry(InputValue value)     { }
 
@@ -108,7 +104,6 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     public void ConsumeHand2()     => hand2Timer     = 0;
     public void ConsumeHand3()     => hand3Timer     = 0;
     public void ConsumeHand4()     => hand4Timer     = 0;
-    public void ConsumeHand5()     => hand5Timer     = 0;
     public void ConsumeParry()     => parryTimer     = 0;
     public void ConsumeDrawCards() => drawCardsTimer = 0;
 
@@ -116,7 +111,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     {
         CurrentDirection = Vector2.zero;
         ConsumeJump(); ConsumeAttack();
-        ConsumeHand1(); ConsumeHand2(); ConsumeHand3(); ConsumeHand4(); ConsumeHand5();
+        ConsumeHand1(); ConsumeHand2(); ConsumeHand3(); ConsumeHand4();
         ConsumeParry(); ConsumeDrawCards();
         parryHoldTimer  = 0f;
         parryPrevPressed = false;

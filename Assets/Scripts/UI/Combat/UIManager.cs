@@ -15,10 +15,10 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI p2_damageText;
 
     [Header("Cards P1")]
-    public Image[] p1_cards = new Image[5];
+    public Image[] p1_cards = new Image[4];
 
     [Header("Cards P2")]
-    public Image[] p2_cards = new Image[5];
+    public Image[] p2_cards = new Image[4];
 
     [Header("Life")]
     public GameObject[] p1_life = new GameObject[3];
