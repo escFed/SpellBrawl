@@ -8,7 +8,7 @@ public class CharacterDeck : MonoBehaviour
     public int totalDeckSize = 20;
 
     private List<ICardable> reserveDeck = new List<ICardable>();
-    private ICardable[] currentHand = new ICardable[5];
+    private ICardable[] currentHand = new ICardable[4];
 
     private PlayerController controller;
     private EnergyManager energy;
@@ -102,7 +102,7 @@ public class CharacterDeck : MonoBehaviour
 
     private void DrawCardsToFillHand()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 4; i++)
         {
             if (reserveDeck.Count > 0)
             {

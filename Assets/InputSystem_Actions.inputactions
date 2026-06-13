@@ -79,15 +79,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Hand5",
-                    "type": "Button",
-                    "id": "23165268-b457-4ce5-9da6-c5d3ae572f36",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "DrawCards",
                     "type": "Button",
                     "id": "2c4e4708-3750-425e-bacf-8b2db842d3d3",
@@ -434,17 +425,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Hand4",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5da678c7-fc80-4147-aea2-cb6226f9cd6d",
-                    "path": "<Keyboard>/5",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Hand5",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

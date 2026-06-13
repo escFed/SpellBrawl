@@ -9,7 +9,6 @@ public interface IInputProvider
     bool HasBufferedHand2 { get; }
     bool HasBufferedHand3 { get; }
     bool HasBufferedHand4 { get; }
-    bool HasBufferedHand5 { get; }
     bool HasBufferedDrawCards { get; }
     bool HasBufferedParry { get; }
     bool IsShieldHeld { get; }
@@ -20,7 +19,6 @@ public interface IInputProvider
     void ConsumeHand2();
     void ConsumeHand3();
     void ConsumeHand4();
-    void ConsumeHand5();
     void ConsumeDrawCards();
     void ConsumeParry();
     void ClearAllInputs();

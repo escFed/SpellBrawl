@@ -38,7 +38,6 @@ public class CharacterAI : MonoBehaviour, IInputProvider
     public bool HasBufferedHand2 { get; private set; }
     public bool HasBufferedHand3 { get; private set; }
     public bool HasBufferedHand4 { get; private set; }
-    public bool HasBufferedHand5 { get; private set; }
     public bool HasBufferedParry { get; private set; }
     public bool HasBufferedDrawCards { get; private set; }
     public bool IsShieldHeld { get; private set; }
@@ -545,7 +544,6 @@ public class CharacterAI : MonoBehaviour, IInputProvider
         else if (index == 1) HasBufferedHand2 = true;
         else if (index == 2) HasBufferedHand3 = true;
         else if (index == 3) HasBufferedHand4 = true;
-        else if (index == 4) HasBufferedHand5 = true;
     }
 
     public void ConsumeJump() => HasBufferedJump = false;
@@ -556,7 +554,6 @@ public class CharacterAI : MonoBehaviour, IInputProvider
     public void ConsumeHand2() => HasBufferedHand2 = false;
     public void ConsumeHand3() => HasBufferedHand3 = false;
     public void ConsumeHand4() => HasBufferedHand4 = false;
-    public void ConsumeHand5() => HasBufferedHand5 = false;
 
     public void ClearAllInputs()
     {
@@ -568,7 +565,6 @@ public class CharacterAI : MonoBehaviour, IInputProvider
         ConsumeHand2();
         ConsumeHand3();
         ConsumeHand4();
-        ConsumeHand5();
 
         CurrentDirection = Vector2.zero;
     }
