@@ -31,8 +31,34 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
 
     public void ExecuteCard(PlayerController character)
     {
-       StartCoroutine(character.GetComponent<MirrorWorldLogic>().MirrorWorldActivated());
+        if (character == null)
+        {
+            Debug.LogError("❌ Character es null en MirrorWorldCard.ExecuteCard");
+            return;
+        }
+
+        if (mirrorWorldPrefab == null)
+        {
+            Debug.LogError("❌ Prefab no asignado en MirrorWorldCard");
+            return;
+        }
+
+        // Instanciás el prefab en la posición del jugador
+        GameObject instance = Instantiate(mirrorWorldPrefab, character.transform.position, Quaternion.identity);
+
+        // Buscás el MirrorWorldLogic en el prefab instanciado
+        MirrorWorldLogic logic = instance.GetComponent<MirrorWorldLogic>();
+
+        if (logic == null)
+        {
+            Debug.LogError("❌ El prefab no tiene MirrorWorldLogic adjunto.");
+            return;
+        }
+
+        // Iniciás la corrutina en el componente correcto
+        StartCoroutine(logic.MirrorWorldActivated());
     }
+
 
 
 
