@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public abstract class AttackState : PlayerState
 {
@@ -6,10 +7,12 @@ public abstract class AttackState : PlayerState
     private float timer;
     private bool hitboxOpen;
     private bool hitboxClose;
-
+    private PlayerController controller;
+    private float lockedX = 0f;
     public AttackState(PlayerController character, StateMachine sm, AttackStats attackStats): base(character, sm)
     {
         stats = attackStats;
+        controller = character;
     }
 
     public override void Enter()

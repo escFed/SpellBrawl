@@ -23,6 +23,8 @@ public class CharacterHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(int amount, Vector2 baseKnockback)
     {
+        float characterRotation = gameObject.transform.rotation.z;
+        float side = (characterRotation > 0) ? 1f : -1f;
         if (isDead) return;
 
         
@@ -52,7 +54,7 @@ public class CharacterHealth : MonoBehaviour, IDamageable
         }
 
         float weightFactor = controller.stats.weight / 100f;
-        Vector2 finalKnockback = (baseKnockback / weightFactor) * damageScale;
+        Vector2 finalKnockback = (baseKnockback / weightFactor) * damageScale * side;
 
         rb.linearVelocity = Vector2.zero;
         rb.AddForce(finalKnockback * rb.mass, ForceMode2D.Impulse);
