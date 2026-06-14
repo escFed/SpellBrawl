@@ -45,7 +45,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealCard
   cardName: Heal
-  cardDescription: 'Reduces your own knockback '
+  cardDescription: '
+
+
+    Reduces your own knockback
+
+
+'
+  cost: 20
+  cardType: Utility
+  damageOrNot: NON DAMAGEABLE
   healAmount: 25
   energyCost: 20
   cardIcon: {fileID: -9155219071720790082, guid: 665ad15aeddc4764eae13148e548bc6f, type: 3}

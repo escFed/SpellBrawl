@@ -1,21 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class FragileRealityCard : MonoBehaviour, ICardable
+
 {
-    [Header("Visual")]
-    [SerializeField] private GameObject fragileRealityPrefab;
-    [SerializeField] private Sprite cardIcon;
+
+    [Header("Card Info")]
     [SerializeField] private string cardName = "Sabotaje de Mano";
     [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
+    [SerializeField] private string cost = "////";
+    [SerializeField] private string cardType = "";
+    [SerializeField] private string damageOrNot = "////";
     public int EnergyCost => 15;
 
+    [SerializeField] private GameObject fragileRealityPrefab;
     public CardType Type => CardType.Utility;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
-
+    public string DamageableOrNot => damageOrNot;
+    [Header("UI Settings")]
+    public Sprite cardIcon;
     public void SetUI(Image uiImage)
     {
         if(uiImage != null && cardIcon != null)

@@ -44,9 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4151b2f6af532db4494ce3c7c3b7fe5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FragileRealityCard
-  fragileRealityPrefab: {fileID: 6365722441880189939}
-  cardIcon: {fileID: 7365165571240732966, guid: a10e39dc6fce63945a5abb9b52ee99f1, type: 3}
   cardName: Fragile Reality
-  cardDescription: 'Generates platforms where you use this card
+  cardDescription: '
+
+
+    Generates platforms where you use this card
 
 '
+  cost: 15
+  cardType: Utility
+  damageOrNot: NON DAMAGEABLE
+  fragileRealityPrefab: {fileID: 6365722441880189939}
+  cardIcon: {fileID: 7365165571240732966, guid: a10e39dc6fce63945a5abb9b52ee99f1, type: 3}

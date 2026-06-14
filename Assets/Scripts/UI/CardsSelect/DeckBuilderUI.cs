@@ -19,6 +19,9 @@ public class DeckBuilderUI : MonoBehaviour
     public GameObject tooltipPanel;
     public TextMeshProUGUI tooltipTitleText;
     public TextMeshProUGUI tooltipDescText;
+    public TextMeshProUGUI costText;
+    public TextMeshProUGUI damageInfo;
+    public TextMeshProUGUI cardTypeText;
 
     [Header("Catalog")]
     public List<GameObject> allAvailableCards = new List<GameObject>();
@@ -71,7 +74,7 @@ public class DeckBuilderUI : MonoBehaviour
         {
             Vector2 mousePos = Mouse.current.position.ReadValue();
 
-            tooltipPanel.transform.position = new Vector3(mousePos.x + 15f, mousePos.y - 15f, 0f);
+            tooltipPanel.transform.position = new Vector3(mousePos.x, mousePos.y, 0f);
         }
     }
 
@@ -110,10 +113,13 @@ public class DeckBuilderUI : MonoBehaviour
         }
     }
 
-    public void ShowCardDescription(string cardName, string description)
+    public void ShowCardDescription(string cardName, string description, int cost, string damage, CardType type)
     {
         if (tooltipTitleText != null) tooltipTitleText.text = cardName;
         if (tooltipDescText != null) tooltipDescText.text = description;
+        if (cost > 0 && costText != null) costText.text = cost.ToString();
+        if(damageInfo != null) damageInfo.text = damage;
+        if(cardTypeText != null) cardTypeText.text = type.ToString();
         if (tooltipPanel != null) tooltipPanel.SetActive(true);
     }
 

@@ -45,6 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeckShuffleCard
   cardName: Deck Shuffle
-  cardDescription: Steal opponent actual cards
+  cardDescription: '
+
+
+    Steal opponent actual cards'
+  cost: 20
+  cardType: Utility
+  damageOrNot: NON DAMAGEABLE
   cardIcon: {fileID: 1449084966097542987, guid: 30734c2a3044fc04ea0c54fd387e8875, type: 3}
   energyCost: 20

@@ -4,9 +4,13 @@ using System.Collections;
 
 public class ShadowSpikeCard : MonoBehaviour, ICardable
 {
+
     [Header("Card Info")]
     [SerializeField] private string cardName = "Sabotaje de Mano";
     [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
+    [SerializeField] private string cost = "////";
+    [SerializeField] private string cardType = "";
+    [SerializeField] private string damageOrNot = "////";
 
     [Header("Settings Shadow Spike")]
     [SerializeField] private int damage = 8;
@@ -21,6 +25,8 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
     public int EnergyCost => energyCost;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
+
+    public string DamageableOrNot => damageOrNot;
     public CardType Type => CardType.Utility;
 
     public void SetUI(Image img)

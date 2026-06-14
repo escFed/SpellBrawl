@@ -6,6 +6,8 @@ public interface ICardable
     string CardDescription { get; }
     int EnergyCost { get; }
     CardType Type { get; }
+
+    string DamageableOrNot { get; }
     bool CanBeUsed(PlayerController user);
     void ExecuteCard(PlayerController character);
     void SetUI(Image uiImage);

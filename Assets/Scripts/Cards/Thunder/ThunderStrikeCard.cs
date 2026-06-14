@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,9 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
     [Header("Card Info")]
     [SerializeField] private string cardName = "Sabotaje de Mano";
     [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
+    [SerializeField] private string cost = "////";
+    [SerializeField] private string cardType = "";
+    [SerializeField] private string damageOrNot = "////";
 
     [Header("Settings")]
     [SerializeField] private GameObject tsPrefab;
@@ -17,7 +21,7 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
     public string CardName => cardName;
     public string CardDescription => cardDescription;
     public CardType Type => CardType.Offensive;
-
+    public string DamageableOrNot => damageOrNot;
     [Header("Visual")]
     [SerializeField] public Sprite cardSprite;
     [SerializeField] private Image cardUI;

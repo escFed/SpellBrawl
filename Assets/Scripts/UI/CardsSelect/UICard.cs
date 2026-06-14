@@ -30,12 +30,12 @@ public class UICard : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
     public void OnPointerEnter(PointerEventData eventData)
     {
         ICardable cardData = cardPrefab.GetComponent<ICardable>();
-        if (cardData != null) deckBuilder.ShowCardDescription(cardData.CardName, cardData.CardDescription);
+        if (cardData != null) deckBuilder.ShowCardDescription(cardData.CardName, cardData.CardDescription, cardData.EnergyCost, cardData.DamageableOrNot, cardData.Type);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        deckBuilder.HideCardDescription();
+        //deckBuilder.HideCardDescription();
     }
 
     public void UpdateVisuals()

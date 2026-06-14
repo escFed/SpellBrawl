@@ -45,7 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HasteCard
   cardName: Haste
-  cardDescription: Increase your attack and movement speed simultaneously
+  cardDescription: '
+
+
+    Increase your attack and movement speed simultaneously'
+  cost: 20
+  cardType: Utility
+  damageOrNot: NON DAMAGEABLE
   speedMultiplier: 1.5
   duration: 5
   energyCost: 20

@@ -4,9 +4,14 @@ using System.Collections;
 
 public class DefenseCard : MonoBehaviour, ICardable
 {
+
+
     [Header("Card Info")]
     [SerializeField] private string cardName = "Sabotaje de Mano";
     [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
+    [SerializeField] private string cost = "////";
+    [SerializeField] private string cardType = "";
+    [SerializeField] private string damageOrNot = "////";
 
     [Header("Defense Settings")]
     public float damageMultiplier = 0.5f;
@@ -20,7 +25,7 @@ public class DefenseCard : MonoBehaviour, ICardable
     public string CardName => cardName;
     public string CardDescription => cardDescription;
     public CardType Type => CardType.Utility;
-
+    public string DamageableOrNot => damageOrNot;
     public void SetUI(Image img)
     {
         if (img != null && cardIcon != null)

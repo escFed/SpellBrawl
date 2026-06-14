@@ -45,7 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThunderStrikeCard
   cardName: Thunder Strike
-  cardDescription: Cast a ThunderStrike from the sky
+  cardDescription: '
+
+
+    Cast a ThunderStrike from the sky'
+  cost: 20
+  cardType: Offensive
+  damageOrNot: DAMAGEABLE
   tsPrefab: {fileID: 7062071539232757206, guid: 36b700d52f911bf42bbad3ddd8180354, type: 3}
   cooldownTime: 8
   energyCost: 20

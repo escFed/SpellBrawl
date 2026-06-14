@@ -3,9 +3,13 @@ using UnityEngine.UI;
 
 public class DeckShuffleCard : MonoBehaviour, ICardable
 {
+
     [Header("Card Info")]
     [SerializeField] private string cardName = "Sabotaje de Mano";
     [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
+    [SerializeField] private string cost = "////";
+    [SerializeField] private string cardType = "";
+    [SerializeField] private string damageOrNot = "////";
 
     [SerializeField] private Sprite cardIcon;
     [SerializeField] private int energyCost = 20;
@@ -13,7 +17,7 @@ public class DeckShuffleCard : MonoBehaviour, ICardable
     public int EnergyCost => energyCost;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
-
+    public string DamageableOrNot => damageOrNot;
     public void SetUI(Image img)
     {
         if (img != null && cardIcon != null) img.sprite = cardIcon;

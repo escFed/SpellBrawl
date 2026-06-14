@@ -45,7 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShadowSpikeCard
   cardName: Shadow Spike
-  cardDescription: 'Generate toxic thorns on top of the platform '
+  cardDescription: '
+
+
+    Generate toxic thorns on top of the platform '
+  cost: 20
+  cardType: Utility
+  damageOrNot: DAMAGEABLE
   damage: 8
   slowAmount: 0.4
   duration: 2
