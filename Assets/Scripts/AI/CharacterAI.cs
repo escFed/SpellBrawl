@@ -200,9 +200,9 @@ public class CharacterAI : MonoBehaviour, IInputProvider
             return 0f;
 
         if (context.inDanger && context.distanceX < attackRange * 2f)
-            return 10f;
+            return 8f;
 
-        return 35f * profile.aggression;
+        return 28f * profile.aggression;
     }
 
     private float ScoreFlee(AIContext context)
@@ -431,13 +431,21 @@ public class CharacterAI : MonoBehaviour, IInputProvider
             return true;
 
         Vector2 edgeCheck = new Vector2(transform.position.x + directionX * lookAheadDistance, transform.position.y);
-
         RaycastHit2D edgeHit = Physics2D.Raycast(edgeCheck, Vector2.down, fallCheckDepth, groundLayer);
 
         if (edgeHit.collider == null)
         {
-            shouldJump = true;
-            return true;
+            // Hay un borde: solo avanzar si el objetivo está al otro lado Y hay distancia suficiente para saltar
+            float targetDist = perceivedTargetPosition.x - transform.position.x;
+            bool targetBeyondEdge = Mathf.Sign(targetDist) == directionX && Mathf.Abs(targetDist) > lookAheadDistance * 2f;
+
+            if (targetBeyondEdge)
+            {
+                shouldJump = true;
+                return true;
+            }
+
+            return false; // Borde sin destino claro: no avanzar
         }
 
         return true;

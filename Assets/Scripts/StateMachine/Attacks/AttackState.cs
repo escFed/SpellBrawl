@@ -45,6 +45,12 @@ public abstract class AttackState : PlayerState
         }
     }
 
+    public override void Exit()
+    {
+        if (hitboxOpen && !hitboxClose)
+            CloseHitbox();
+    }
+
     protected abstract void ReadyHitbox();
     protected abstract void OpenHitbox();
     protected abstract void CloseHitbox();

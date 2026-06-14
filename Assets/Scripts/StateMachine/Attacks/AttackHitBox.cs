@@ -25,7 +25,10 @@ public class AttackHitbox : MonoBehaviour
 
         if (other.TryGetComponent(out IDamageable target))
         {
-            target.TakeDamage(currentStats.damage, currentStats.knockback);
+            float attackerDir = Mathf.Sign(transform.root.localScale.x);
+            if (attackerDir == 0f) attackerDir = 1f;
+            Vector2 directedKnockback = new Vector2(currentStats.knockback.x * attackerDir, currentStats.knockback.y);
+            target.TakeDamage(currentStats.damage, directedKnockback);
             transform.root.GetComponent<EnergyManager>()?.AddEnergy(currentStats.energyGain);
             hasHit = true;
         }

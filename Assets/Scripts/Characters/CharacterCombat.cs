@@ -8,30 +8,30 @@ public class CharacterCombat : MonoBehaviour
 
     private PlayerController controller;
     private CharacterHitBox hitBox;
-    private IInputProvider input;
 
     private void Awake()
     {
         controller = GetComponent<PlayerController>();
         hitBox = GetComponent<CharacterHitBox>();
-        input = GetComponent<IInputProvider>();
     }
+
+    private IInputProvider Input => controller.ActiveInput;
 
     public void TakeHit(float stunDuration)
     {
         controller.stunTimer = stunDuration;
-        input.ClearAllInputs();
+        Input?.ClearAllInputs();
         controller.ChangeState(StateCharacter.Idle);
     }
 
     public StateCharacter ResolveAttackState()
     {
-        Vector2 dir = input.CurrentDirection;
+        Vector2 dir = Input != null ? Input.CurrentDirection : Vector2.zero;
         bool hasHorizontal = Mathf.Abs(dir.x) >= controller.stats.tiltThreshold;
         bool hasUp = dir.y >= controller.stats.tiltThreshold;
         bool hasDown = dir.y <= -controller.stats.tiltThreshold;
 
-        input.ConsumeAttack();
+        Input?.ConsumeAttack();
 
         if (hasUp && (!hasHorizontal || dir.y >= Mathf.Abs(dir.x))) return StateCharacter.UpTilt;
         if (hasDown && (!hasHorizontal || Mathf.Abs(dir.y) >= Mathf.Abs(dir.x))) return StateCharacter.DownTilt;

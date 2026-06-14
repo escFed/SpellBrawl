@@ -37,15 +37,36 @@ public class CharacterHitBox : MonoBehaviour
         transform.localScale = localScale;
     }
 
-    public void SetupJab(AttackStats stats) => jabHitbox?.Setup(stats);
-    public void SetupFTilt(AttackStats stats) => fTiltHitbox?.Setup(stats);
-    public void SetupUTilt(AttackStats stats) => upTiltHitbox?.Setup(stats);
-    public void SetupDTilt(AttackStats stats) => dTiltHitbox?.Setup(stats);
+    public void SetupJab(AttackStats stats)
+    {
+        if (jabHitbox == null) { Debug.LogError($"[CharacterHitBox] jabHitbox no está asignado en el Inspector del objeto '{gameObject.name}'"); return; }
+        if (stats == null) { Debug.LogError($"[CharacterHitBox] jabAttack stats es null en CharacterStats de '{gameObject.name}'"); return; }
+        jabHitbox.Setup(stats);
+    }
+    public void SetupFTilt(AttackStats stats)
+    {
+        if (fTiltHitbox == null) { Debug.LogError($"[CharacterHitBox] fTiltHitbox no está asignado en el Inspector de '{gameObject.name}'"); return; }
+        if (stats == null) { Debug.LogError($"[CharacterHitBox] fTiltAttack stats es null en CharacterStats de '{gameObject.name}'"); return; }
+        fTiltHitbox.Setup(stats);
+    }
+    public void SetupUTilt(AttackStats stats)
+    {
+        if (upTiltHitbox == null) { Debug.LogError($"[CharacterHitBox] upTiltHitbox no está asignado en el Inspector de '{gameObject.name}'"); return; }
+        if (stats == null) { Debug.LogError($"[CharacterHitBox] upTiltAttack stats es null en CharacterStats de '{gameObject.name}'"); return; }
+        upTiltHitbox.Setup(stats);
+    }
+    public void SetupDTilt(AttackStats stats)
+    {
+        if (dTiltHitbox == null) { Debug.LogError($"[CharacterHitBox] dTiltHitbox no está asignado en el Inspector de '{gameObject.name}'"); return; }
+        if (stats == null) { Debug.LogError($"[CharacterHitBox] dTiltAttack stats es null en CharacterStats de '{gameObject.name}'"); return; }
+        dTiltHitbox.Setup(stats);
+    }
 
-    public void SetJabHitbox(bool active) 
-    { 
-        if (active) jabHitbox?.BeginSwing(); 
-        else jabHitbox?.EndSwing();
+    public void SetJabHitbox(bool active)
+    {
+        if (jabHitbox == null) return;
+        if (active) jabHitbox.BeginSwing();
+        else jabHitbox.EndSwing();
     }
     public void SetFTiltHitbox(bool active) 
     { 

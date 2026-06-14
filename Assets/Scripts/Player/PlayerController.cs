@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public StateMachine stateMachine { get; private set; }
     public SpriteRenderer Sprite { get; private set; }
 
+    public IInputProvider ActiveInput => input;
     public Vector2 MoveInput => input.CurrentDirection;
     public bool JumpPressed =>  input.HasBufferedJump;
     public bool IsGrounded => Movement.IsGrounded;
