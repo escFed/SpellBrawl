@@ -5,14 +5,15 @@ public class MirrorWorldLogic : MonoBehaviour
 {
     [SerializeField] private float effectDuration;
     private PlayerController playerController;
-    void Start()
-    {
-        playerController = GetComponent<PlayerController>();
-     
-    }
+
 
     public IEnumerator MirrorWorldActivated()
     {
+
+        if(playerController == null)
+        {
+            playerController = GetComponent<PlayerController>();
+        }
         float elapsed = 0f;
         while (elapsed < effectDuration)
         {
