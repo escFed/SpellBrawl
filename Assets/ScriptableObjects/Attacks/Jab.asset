@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f89a66c957471a469c86280ab71b2c2, type: 3}
   m_Name: Jab
   m_EditorClassIdentifier: Assembly-CSharp::AttackStats
-  startup: 0.05
+  startup: 0.1
   active: 0.05
-  recovery: 0.15
-  cooldown: 0
+  recovery: 0.25
   damage: 8
-  knockback: {x: 2, y: 1}
+  knockback: {x: 4, y: 3}
   energyGain: 10

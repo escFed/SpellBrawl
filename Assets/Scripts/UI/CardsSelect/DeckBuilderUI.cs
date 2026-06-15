@@ -74,7 +74,7 @@ public class DeckBuilderUI : MonoBehaviour
         {
             Vector2 mousePos = Mouse.current.position.ReadValue();
 
-            tooltipPanel.transform.position = new Vector3(mousePos.x, mousePos.y, 0f);
+            //tooltipPanel.transform.position = new Vector3(mousePos.x, mousePos.y, 0f);
         }
     }
 

@@ -15,7 +15,6 @@ MonoBehaviour:
   startup: 0.05
   active: 0.05
   recovery: 0.15
-  cooldown: 0
   damage: 10
-  knockback: {x: 1, y: 4}
+  knockback: {x: 2, y: 5}
   energyGain: 10
