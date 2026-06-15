@@ -16,6 +16,9 @@ public class JumpState : PlayerState
 
     public override void Enter()
     {
+        base.Enter();
+        character.Anim.Play("Jump");
+
         airTimer = 0f;
         isFastFalling = false;
 

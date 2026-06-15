@@ -376,7 +376,7 @@
                 {
                     "name": "",
                     "id": "47498470-1978-4035-9273-01c813a1d35e",
-                    "path": "<Gamepad>/leftShoulder",
+                    "path": "<Gamepad>/rightStick/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -398,7 +398,7 @@
                 {
                     "name": "",
                     "id": "598ba497-45a7-44e3-a56a-a24c2021e313",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/rightStick/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -419,8 +419,30 @@
                 },
                 {
                     "name": "",
+                    "id": "5c524648-e1e2-4272-92ef-f67ac6ac78de",
+                    "path": "<Gamepad>/rightStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hand3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "7c524332-b004-4910-9c27-a720ead8b968",
                     "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hand4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7b7fc0e5-534f-4e4b-8a0d-2b16ff854cfa",
+                    "path": "<Gamepad>/rightStick/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -441,8 +463,30 @@
                 },
                 {
                     "name": "",
+                    "id": "cbc7534d-11ac-4715-9d68-d0ddaa69b026",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DrawCards",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "78fdc0bc-e107-4608-989d-33791ec033b2",
                     "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Parry",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "be931cfa-9a36-4e00-a543-f46a2727e6f6",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

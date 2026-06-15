@@ -4,7 +4,11 @@ public class IdleState : PlayerState
 {
     public IdleState(PlayerController character, StateMachine sm) : base(character, sm) { }
 
-    public override void Enter() { }
+    public override void Enter() 
+    {
+        base.Enter();
+        character.Anim.Play("Idle");
+    }
 
     public override void Update()
     {

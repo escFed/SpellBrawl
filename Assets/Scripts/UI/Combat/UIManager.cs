@@ -28,6 +28,10 @@ public class UIManager : MonoBehaviour
     public Slider p1_energySlider;
     public Slider p2_energySlider;
 
+    [Header("Energy UI")]
+    public TextMeshProUGUI p1EnergyText;
+    public TextMeshProUGUI p2EnergyText;
+
     [Header("Deck UI")]
     public TMPro.TextMeshProUGUI p1_deckCountText;
     public TMPro.TextMeshProUGUI p2_deckCountText;
@@ -85,6 +89,9 @@ public class UIManager : MonoBehaviour
     {
         Slider slider = (playerIndex == 0) ? p1_energySlider : p2_energySlider;
         if (slider != null) slider.value = energy;
+
+        TextMeshProUGUI text = (playerIndex == 0) ? p1EnergyText : p2EnergyText;
+        if (text != null) text.text = energy.ToString();
     }
 
     private void UpdateDeckCountUI(int playerIndex, int count)

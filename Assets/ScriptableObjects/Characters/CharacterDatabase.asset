@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: CharacterDatabase
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDatabase
   Characters:
-  - {fileID: 11400000, guid: c523f9d6f062a1244adea83c96e74de4, type: 2}
   - {fileID: 11400000, guid: c12b405c60199f5488a9578fa7e1460d, type: 2}

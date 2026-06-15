@@ -38,7 +38,7 @@ public class RespawnManager : MonoBehaviour
 
         if (p1Instance.TryGetComponent(out CharacterAI p1AI)) p1AI.enabled = false;
         if (p1Instance.TryGetComponent(out PlayerInput p1Input)) p1Input.enabled = true;
-        if (p1Instance.TryGetComponent(out CharacterBrain p1Brain)) p1Brain.enabled = true;
+        if (p1Instance.TryGetComponent(out CharacterBrain p1Brain)) p1Brain.enabled = false;
 
         Vector3 p1Scale = p1Instance.transform.localScale;
         p1Scale.x = Mathf.Abs(p1Scale.x);
@@ -52,7 +52,7 @@ public class RespawnManager : MonoBehaviour
         if (p2Instance.TryGetComponent(out PlayerInput aiInput)) Destroy(aiInput);
         if (p2Instance.TryGetComponent(out CharacterBrain aiBrain)) Destroy(aiBrain);
 
-        if (p2Instance.TryGetComponent(out CharacterAI aiAI)) aiAI.enabled = true;
+        if (p2Instance.TryGetComponent(out CharacterAI aiAI)) aiAI.enabled = false;
 
         Vector3 aiScale = p2Instance.transform.localScale;
         aiScale.x = -Mathf.Abs(aiScale.x);
@@ -61,7 +61,12 @@ public class RespawnManager : MonoBehaviour
 
     public void RespawnPlayerAfterFall(CharacterHealth health, int playerIndex)
     {
+        if (health == null || health.gameObject == null) return;
+
         Transform targetSpawn = (health.gameObject == p1Instance) ? p1SpawnPoint : p2SpawnPoint;
+
+        if (targetSpawn == null) return;
+
         health.transform.position = targetSpawn.position;
         Rigidbody2D rb = health.GetComponent<Rigidbody2D>();
         if (rb != null) rb.linearVelocity = Vector2.zero;

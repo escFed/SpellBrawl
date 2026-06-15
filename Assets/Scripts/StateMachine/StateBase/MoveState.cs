@@ -4,7 +4,11 @@ public class MoveState : PlayerState
 {
     public MoveState(PlayerController character, StateMachine sm) : base(character, sm) { }
 
-    public override void Enter() { }
+    public override void Enter() 
+    {
+        base.Enter();
+        character.Anim.Play("Move");
+    }
 
     public override void Update()
     {

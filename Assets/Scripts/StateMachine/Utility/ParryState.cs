@@ -14,6 +14,9 @@ public class ParryState : PlayerState
 
     public override void Enter()
     {
+        base.Enter();
+        character.Anim.Play("Parry");
+
         _timer = 0f;
         _phase = Phase.Startup;
         character.IsParrying = false;

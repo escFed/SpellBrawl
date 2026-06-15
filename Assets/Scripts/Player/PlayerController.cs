@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private CharacterDeck deck;
     private CharacterParry parry;
 
+    public Animator Anim { get; private set; }
     public CharacterCombat Combat { get; private set; }
     public CharacterMovement Movement { get; private set; }
     public CharacterHealth Health { get; private set; }
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
         Movement = GetComponent<CharacterMovement>();
         Health = GetComponent<CharacterHealth>();
         Sprite = GetComponentInChildren<SpriteRenderer>();
+        Anim = GetComponentInChildren<Animator>();
 
         stateMachine = new StateMachine();
         stateMachine.Idle = new IdleState(this, stateMachine);
