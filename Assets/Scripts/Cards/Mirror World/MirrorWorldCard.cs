@@ -58,6 +58,7 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
             return;
         }
 
+        logic.Initialize(character);
         // Iniciás la corrutina en el componente correcto
         StartCoroutine(logic.MirrorWorldActivated());
     }

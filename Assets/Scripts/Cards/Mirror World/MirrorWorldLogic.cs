@@ -7,13 +7,14 @@ public class MirrorWorldLogic : MonoBehaviour
     private PlayerController playerController;
 
 
+    public void Initialize(PlayerController ctrl)
+    {
+        playerController = ctrl;
+    }
     public IEnumerator MirrorWorldActivated()
     {
 
-        if(playerController == null)
-        {
-            playerController = GetComponent<PlayerController>();
-        }
+    
         float elapsed = 0f;
         while (elapsed < effectDuration)
         {
@@ -22,5 +23,8 @@ public class MirrorWorldLogic : MonoBehaviour
             yield return null;
         }
         playerController.Movement.moveSpeedMultiplier = 1f;
+
+
+        Destroy(gameObject, 0.5f);
     }
 }

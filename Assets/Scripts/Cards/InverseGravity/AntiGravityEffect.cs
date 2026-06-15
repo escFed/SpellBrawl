@@ -28,15 +28,15 @@ public class AntiGravityEffect : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
 
-        if (rb != null)
-        {
-            if (rb.bodyType != RigidbodyType2D.Static)
+       
+            if (rb != null && rb.bodyType != RigidbodyType2D.Static)
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+                rb.gravityScale = originalGravity;
             }
 
-            rb.gravityScale = originalGravity;
-        }
+           
+        
 
         Destroy(this);
     }
