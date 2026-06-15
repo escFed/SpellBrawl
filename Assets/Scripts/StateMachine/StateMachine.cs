@@ -6,7 +6,7 @@ public class StateMachine
     public MoveState Move { get; set; }
     public JumpState Jump { get; set; }
     public CrouchState Crouch { get; set; }
-    public ShieldState Shield { get; set; }
+    //public ShieldState Shield { get; set; }
     public DodgeState Dodge { get; set; }
     public AirDodgeState AirDodge { get; set; }
     public JabState Jab { get; set; }
@@ -25,7 +25,7 @@ public class StateMachine
             StateCharacter.Move => Move,
             StateCharacter.Jump => Jump,
             StateCharacter.Crouch => Crouch,
-            StateCharacter.Shield => Shield,
+            //StateCharacter.Shield => Shield,
             StateCharacter.Dodge => Dodge,
             StateCharacter.AirDodge => AirDodge,
             StateCharacter.Jab => Jab,

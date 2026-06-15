@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
     public bool JumpPressed =>  input.HasBufferedJump;
     public bool IsGrounded => Movement.IsGrounded;
     public bool AttackInput => input.HasBufferedAttack;
-    public bool IsShieldHeld => input.IsShieldHeld;
 
     private void Awake()
     {
@@ -50,7 +49,7 @@ public class PlayerController : MonoBehaviour
         stateMachine.Move = new MoveState(this, stateMachine);
         stateMachine.Jump = new JumpState(this, stateMachine);
         stateMachine.Crouch = new CrouchState(this, stateMachine);
-        stateMachine.Shield = new ShieldState(this, stateMachine);
+        //stateMachine.Shield = new ShieldState(this, stateMachine);
         stateMachine.Dodge = new DodgeState(this, stateMachine);
         stateMachine.AirDodge = new AirDodgeState(this, stateMachine);
         stateMachine.Jab = new JabState(this, stateMachine, stats.jabAttack);
