@@ -32,36 +32,47 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
     public bool CanBeUsed(PlayerController user) => true;
 
 
-    public void ExecuteCard(PlayerController character)
+    public void ExecuteCard(PlayerController caster)
     {
-        if (character == null)
+        if (caster == null || mirrorWorldPrefab == null)
         {
-            Debug.LogError("❌ Character es null en MirrorWorldCard.ExecuteCard");
+            Debug.LogError("❌ Datos inválidos en MirrorWorldCard.ExecuteCard");
             return;
         }
 
-        if (mirrorWorldPrefab == null)
+        // Buscar enemigo distinto del caster
+        PlayerController target = FindEnemy(caster);
+        if (target == null)
         {
-            Debug.LogError("❌ Prefab no asignado en MirrorWorldCard");
+            Debug.LogWarning("⚠️ No se encontró enemigo para MirrorWorldCard");
             return;
         }
 
-        // Instanciás el prefab en la posición del jugador
-        GameObject instance = Instantiate(mirrorWorldPrefab, character.transform.position, Quaternion.identity);
+        GameObject instance = Instantiate(mirrorWorldPrefab, caster.transform.position, Quaternion.identity);
 
-        // Buscás el MirrorWorldLogic en el prefab instanciado
         MirrorWorldLogic logic = instance.GetComponent<MirrorWorldLogic>();
-
         if (logic == null)
         {
             Debug.LogError("❌ El prefab no tiene MirrorWorldLogic adjunto.");
             return;
         }
 
-        logic.Initialize(character);
-        // Iniciás la corrutina en el componente correcto
+        logic.Initialize(caster, target);
         StartCoroutine(logic.MirrorWorldActivated());
     }
+
+    private PlayerController FindEnemy(PlayerController caster)
+    {
+        PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+
+        foreach (PlayerController player in allPlayers)
+        {
+            if (player != caster && !player.IsDead)
+                return player;
+        }
+        return null;
+    }
+
 
 
 

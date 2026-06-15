@@ -5,26 +5,33 @@ public class MirrorWorldLogic : MonoBehaviour
 {
     [SerializeField] private float effectDuration;
     private PlayerController playerController;
+    private PlayerController targetController;
 
 
-    public void Initialize(PlayerController ctrl)
+    public void Initialize(PlayerController ctrl, PlayerController target)
     {
         playerController = ctrl;
-    }
-    public IEnumerator MirrorWorldActivated()
-    {
 
-    
-        float elapsed = 0f;
-        while (elapsed < effectDuration)
+        targetController = target;
+    }
+
+
+        public IEnumerator MirrorWorldActivated()
         {
-            playerController.Movement.moveSpeedMultiplier = -1f;
-            elapsed += Time.deltaTime;
-            yield return null;
+            if (targetController == null)
+            {
+                Debug.LogError("❌ Target es null en MirrorWorldLogic");
+                yield break;
+            }
+
+            Debug.Log($"MirrorWorld afecta al jugador {targetController.PlayerIndex}, lanzado por {playerController.PlayerIndex}");
+
+           
+
+            yield return new WaitForSeconds(3f);
+
+
         }
-        playerController.Movement.moveSpeedMultiplier = 1f;
-
-
-        Destroy(gameObject, 0.5f);
     }
-}
+
+
