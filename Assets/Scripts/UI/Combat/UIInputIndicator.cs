@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Image))]
 public class UIInputIndicator : MonoBehaviour
 {
-    [Header("Iconos del Botón")]
+    [Header("BottonIcon")]
     public Sprite keyboardSprite;
     public Sprite gamepadSprite;
 

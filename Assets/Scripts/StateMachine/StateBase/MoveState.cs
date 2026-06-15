@@ -18,11 +18,11 @@ public class MoveState : PlayerState
             return;
         }
 
-        if (character.IsShieldHeld)
-        {
-            stateMachine.ChangeState(StateCharacter.Shield);
-            return;
-        }
+        //if (character.IsShieldHeld)
+        //{
+        //    stateMachine.ChangeState(StateCharacter.Shield);
+        //    return;
+        //}
 
         if (character.AttackInput)
         {

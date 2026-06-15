@@ -42,7 +42,7 @@ public class CharacterSelectUI : MonoBehaviour
             cardsPanel.SetActive(true);
         }
 
-   
+
     }
 
     public void ResetSelection()

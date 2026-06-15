@@ -7,11 +7,10 @@ public class MenuManager : MonoBehaviour
 {
     [Header("Panels")]
     public GameObject mainMenuPanel;
+    public GameObject howToPlayPanel;
+    public GameObject controlsPanel;
     public GameObject characterSelectPanel;
     public GameObject cardsSelectPanel;
-    public GameObject controlsPanel;
-
-    public ControlsTextScript textController;
 
     private void Start()
     {
@@ -23,12 +22,21 @@ public class MenuManager : MonoBehaviour
         mainMenuPanel.SetActive(true);
         characterSelectPanel.SetActive(false);
         cardsSelectPanel.SetActive(false);
+        howToPlayPanel.SetActive(false);
         if (controlsPanel != null) controlsPanel.SetActive(false);
+    }
+
+    public void ShowHowToPlay()
+    {
+        mainMenuPanel.SetActive(false);
+        controlsPanel.SetActive(false);
+        howToPlayPanel.SetActive(true);
     }
 
     public void CharacterSelect()
     {
         mainMenuPanel.SetActive(false);
+        controlsPanel.SetActive(false);
         characterSelectPanel.SetActive(true);
     }
 
@@ -50,15 +58,15 @@ public class MenuManager : MonoBehaviour
     }
     public void ShowControls()
     {
-        if (controlsPanel != null) controlsPanel.SetActive(true); textController.StartTypeWriter();
+        if (controlsPanel != null) controlsPanel.SetActive(true);
+        howToPlayPanel.SetActive(false);
     }
 
     public void HideControls()
     {
         if (controlsPanel != null) controlsPanel.SetActive(false);
+        howToPlayPanel.SetActive(true);
     }
-
-
 
     public void QuitGame()
     {

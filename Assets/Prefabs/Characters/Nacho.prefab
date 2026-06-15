@@ -663,7 +663,7 @@ Transform:
   m_GameObject: {fileID: 7345901011278583841}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: -0.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -862,15 +862,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 186886847525282773, guid: ca9e569c259024644a124f325a2abe75, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 0.94, y: 1.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!50 &3497981266603642460
 Rigidbody2D:
@@ -933,7 +933,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.25, y: 0}
+  m_Offset: {x: -0.05, y: 0}
   m_Size: {x: 0.6, y: 1.2}
   m_Direction: 0
 --- !u!114 &8597003566808776856
@@ -1097,9 +1097,13 @@ MonoBehaviour:
   cardPrefabsPool:
   - {fileID: 2052908611097359236, guid: b65cb8e6896a3a0489b3906511503c53, type: 3}
   - {fileID: 8626042553062594018, guid: a5ffda282a8266e41a26b5594762a5ab, type: 3}
+  - {fileID: 6365722441880189939, guid: 4267f36a48be6a841802ce964ce58eb3, type: 3}
+  - {fileID: 8020222836146473951, guid: a1e23b8fc63d99a44b5dd66e83c8d8c3, type: 3}
   - {fileID: 8266632702581206144, guid: 836afddc1d8c95a43b7bd9099076fa8d, type: 3}
   - {fileID: 8020222836146473951, guid: 6f7f7eeec9ac338469710aac8d7f00b7, type: 3}
+  - {fileID: 4282770336491579012, guid: 28f803e4034c9cb438d95ea5b925f4d6, type: 3}
   - {fileID: 2077598287845426619, guid: 0a5c15f64f078634ca9f48541953e978, type: 3}
+  - {fileID: 8020222836146473951, guid: 8e91243fc5ff7774b9224e9c6ef3831b, type: 3}
   - {fileID: 7787666514362569338, guid: d52e531f554fb924da7faa414e98e18a, type: 3}
   - {fileID: 3111288841274506641, guid: e8047da05a8773842894874f21cb14a4, type: 3}
   totalDeckSize: 20

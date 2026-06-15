@@ -11,7 +11,6 @@ public interface IInputProvider
     bool HasBufferedHand4 { get; }
     bool HasBufferedDrawCards { get; }
     bool HasBufferedParry { get; }
-    bool IsShieldHeld { get; }
 
     void ConsumeJump();
     void ConsumeAttack();

@@ -40,7 +40,6 @@ public class CharacterAI : MonoBehaviour, IInputProvider
     public bool HasBufferedHand4 { get; private set; }
     public bool HasBufferedParry { get; private set; }
     public bool HasBufferedDrawCards { get; private set; }
-    public bool IsShieldHeld { get; private set; }
 
     private void Awake()
     {
