@@ -94,6 +94,8 @@ public class GameManager : MonoBehaviour
         }
 
         isRoundTransitioning = false;
+
+        CountdownManager.Instance.StartNextRound();
     }
 
     private void ShowVictoryScreen(string message)
@@ -106,12 +108,14 @@ public class GameManager : MonoBehaviour
     public void Rematch()
     {
         Time.timeScale = 1f;
+        AudioListener.pause = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void GoToMainMenu()
     {
         Time.timeScale = 1f;
+        AudioListener.pause = false;
         SceneManager.LoadScene("MainMenu");
     }
 }

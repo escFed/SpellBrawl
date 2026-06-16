@@ -4,13 +4,10 @@ using System.Collections;
 
 public class HealCard : MonoBehaviour, ICardable
 {
-
     [Header("Card Info")]
-    [SerializeField] private string cardName = "Sabotaje de Mano";
-    [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
-    [SerializeField] private string cost = "////";
-    [SerializeField] private string cardType = "";
-    [SerializeField] private string damageOrNot = "////";
+    [SerializeField] private string cardName = "HealCard";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Reduce damage received";
+    [SerializeField] private string damageOrNot = "no";
 
     [Header("Heal Settings")]
     [SerializeField] private int healAmount = 25;

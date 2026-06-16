@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class CharacterParry : MonoBehaviour
 {
+    [Header("Audio")]
+    public AudioClip parrySuccessSound;
+    private AudioSource audioSource;
+
     private PlayerController controller;
     private EnergyManager energy;
 
@@ -11,6 +15,7 @@ public class CharacterParry : MonoBehaviour
     {
         controller = GetComponent<PlayerController>();
         energy = GetComponent<EnergyManager>();
+        audioSource = GetComponent<AudioSource>();
     }
     public void TryParry()
     {
@@ -32,6 +37,11 @@ public class CharacterParry : MonoBehaviour
         if (energy != null)
         {
             energy.AddEnergy(50);
+        }
+
+        if (audioSource != null && parrySuccessSound != null)
+        {
+            audioSource.PlayOneShot(parrySuccessSound);
         }
 
         hasParriedThisHit = true;

@@ -6,11 +6,9 @@ using UnityEngine.UI;
 public class ThunderStrikeCard : MonoBehaviour, ICardable
 {
     [Header("Card Info")]
-    [SerializeField] private string cardName = "Sabotaje de Mano";
-    [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
-    [SerializeField] private string cost = "////";
-    [SerializeField] private string cardType = "";
-    [SerializeField] private string damageOrNot = "////";
+    [SerializeField] private string cardName = "ThunderStrike Card";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Unleashes a powerful thunder strike.";
+    [SerializeField] private string damageOrNot = "8";
 
     [Header("Settings")]
     [SerializeField] private GameObject tsPrefab;

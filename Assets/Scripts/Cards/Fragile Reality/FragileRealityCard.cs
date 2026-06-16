@@ -5,15 +5,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class FragileRealityCard : MonoBehaviour, ICardable
-
 {
-
     [Header("Card Info")]
-    [SerializeField] private string cardName = "Sabotaje de Mano";
-    [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
-    [SerializeField] private string cost = "////";
-    [SerializeField] private string cardType = "";
-    [SerializeField] private string damageOrNot = "////";
+    [SerializeField] private string cardName = "FragileReality Card";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Creates random platforms";
+    [SerializeField] private string damageOrNot = "no";
     public int EnergyCost => 15;
 
     [SerializeField] private GameObject fragileRealityPrefab;
@@ -30,9 +26,7 @@ public class FragileRealityCard : MonoBehaviour, ICardable
             uiImage.sprite = cardIcon;
         }
     }
-    public bool CanBeUsed(PlayerController user) => true; // No specific conditions for using this card, always returns true.
-    
-      
+    public bool CanBeUsed(PlayerController user) => true; 
 
     public void ExecuteCard(PlayerController character)
     {

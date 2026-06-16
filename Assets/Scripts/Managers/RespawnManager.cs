@@ -34,7 +34,11 @@ public class RespawnManager : MonoBehaviour
         CharacterStats p1Stats = SelectionManager.Instance.characterDb.GetCharacter(SelectionManager.Instance.p1SelectedIndex);
         p1Instance = Instantiate(p1Stats.characterPrefab, p1SpawnPoint.position, Quaternion.identity);
 
-        if (p1Instance.TryGetComponent(out PlayerController p1Ctrl)) p1Ctrl.PlayerIndex = 0;
+        if (p1Instance.TryGetComponent(out PlayerController p1Ctrl))
+        {
+            p1Ctrl.PlayerIndex = 0;
+            p1Ctrl.controlsEnabled = false;
+        }
 
         if (p1Instance.TryGetComponent(out CharacterAI p1AI)) p1AI.enabled = false;
         if (p1Instance.TryGetComponent(out PlayerInput p1Input)) p1Input.enabled = true;
@@ -47,7 +51,11 @@ public class RespawnManager : MonoBehaviour
         CharacterStats aiStats = SelectionManager.Instance.characterDb.GetCharacter(SelectionManager.Instance.aiSelectedIndex);
         p2Instance = Instantiate(aiStats.characterPrefab, p2SpawnPoint.position, Quaternion.identity);
 
-        if (p2Instance.TryGetComponent(out PlayerController p2Ctrl)) p2Ctrl.PlayerIndex = 1;
+        if (p2Instance.TryGetComponent(out PlayerController p2Ctrl))
+        {
+            p2Ctrl.PlayerIndex = 1;
+            p2Ctrl.controlsEnabled = false;
+        }
 
         if (p2Instance.TryGetComponent(out PlayerInput aiInput)) Destroy(aiInput);
         if (p2Instance.TryGetComponent(out CharacterBrain aiBrain)) Destroy(aiBrain);

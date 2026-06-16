@@ -5,10 +5,8 @@ using UnityEngine.UI;
 public class FireBallCard : MonoBehaviour, ICardable
 {
     [Header("Card Info")]
-    [SerializeField] private string cardName = "Bola de Fuego";
-    [SerializeField, TextArea(3, 5)] private string cardDescription = "Lanza una bola de fuego al enemigo";
-    [SerializeField] private string cost = "20";
-    [SerializeField] private string cardType = "Offensive";
+    [SerializeField] private string cardName = "FireBall Card";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Throws a fireball";
     [SerializeField] private string damageOrNot = "10";
     [Header("Settings")]
     [SerializeField] private GameObject fbPrefab;

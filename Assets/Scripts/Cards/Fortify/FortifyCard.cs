@@ -2,16 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class DefenseCard : MonoBehaviour, ICardable
+public class FortifyCard : MonoBehaviour, ICardable
 {
-
-
     [Header("Card Info")]
-    [SerializeField] private string cardName = "Sabotaje de Mano";
-    [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
-    [SerializeField] private string cost = "////";
-    [SerializeField] private string cardType = "";
-    [SerializeField] private string damageOrNot = "////";
+    [SerializeField] private string cardName = "FortifyCard";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Reduce damage taken";
+    [SerializeField] private string damageOrNot = "no";
 
     [Header("Defense Settings")]
     public float damageMultiplier = 0.5f;

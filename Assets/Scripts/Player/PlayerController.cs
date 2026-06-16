@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     public int JumpsRemaining { get; private set; }
     private bool wasGrounded;
+    public bool controlsEnabled = true;
 
     private IInputProvider input;
     private CharacterDeck deck;
@@ -96,7 +97,8 @@ public class PlayerController : MonoBehaviour
     {
         if (IsDead) return;
 
-        
+        if (!controlsEnabled) return;
+
         bool isNowGrounded = IsGrounded;
         if (isNowGrounded && !wasGrounded)
             ResetJumps();
@@ -150,6 +152,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         if (IsDead || stunTimer > 0) return;
+        if (!controlsEnabled) return;
         stateMachine.FixedUpdate();
     }
     public void ExecuteCardState(ICardable cardToUse)

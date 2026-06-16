@@ -35,6 +35,7 @@ public class PauseMenu : MonoBehaviour
         pausePanel.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
+        AudioListener.pause = true;
     }
 
     public void ResumeGame()
@@ -42,5 +43,6 @@ public class PauseMenu : MonoBehaviour
         pausePanel.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
+        AudioListener.pause = false;
     }
 }

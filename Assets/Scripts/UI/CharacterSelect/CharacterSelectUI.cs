@@ -10,7 +10,7 @@ public class CharacterSelectUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI selectText;
     [SerializeField] private Transform selectGrid;
     [SerializeField] private GameObject characterButtonPrefab;
-    [SerializeField] private GameObject cardsPanel; // 👈 si usás panel en la misma escena
+    [SerializeField] private GameObject cardsPanel;
 
     private void Start()
     {

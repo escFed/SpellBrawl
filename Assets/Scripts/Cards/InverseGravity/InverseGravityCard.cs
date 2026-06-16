@@ -3,13 +3,10 @@ using UnityEngine.UI;
 
 public class InverseGravityCard : MonoBehaviour, ICardable
 {
-
     [Header("Card Info")]
-    [SerializeField] private string cardName = "Sabotaje de Mano";
-    [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotea la mano del rival";
-    [SerializeField] private string cost = "////";
-    [SerializeField] private string cardType = "";
-    [SerializeField] private string damageOrNot = "////";
+    [SerializeField] private string cardName = "InverseGravity Card";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Inversely affects gravity for a short duration.";
+    [SerializeField] private string damageOrNot = "no";
 
     [SerializeField] private Sprite cardIcon;
     [SerializeField] private int energyCost = 20;
