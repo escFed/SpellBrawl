@@ -1098,7 +1098,6 @@ MonoBehaviour:
   cardPrefabsPool:
   - {fileID: 2052908611097359236, guid: b65cb8e6896a3a0489b3906511503c53, type: 3}
   - {fileID: 8626042553062594018, guid: a5ffda282a8266e41a26b5594762a5ab, type: 3}
-  - {fileID: 6365722441880189939, guid: 4267f36a48be6a841802ce964ce58eb3, type: 3}
   - {fileID: 8020222836146473951, guid: a1e23b8fc63d99a44b5dd66e83c8d8c3, type: 3}
   - {fileID: 8266632702581206144, guid: 836afddc1d8c95a43b7bd9099076fa8d, type: 3}
   - {fileID: 8020222836146473951, guid: 6f7f7eeec9ac338469710aac8d7f00b7, type: 3}

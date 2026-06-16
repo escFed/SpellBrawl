@@ -45,13 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MirrorWorldCard
   cardName: Mirror World
-  cardDescription: '
-
-
-    Reverse horizontal input during a couple of seconds'
-  cost: 30
-  cardType: Utility
+  cardDescription: Reverse horizontal input during a couple of seconds
   damageOrNot: NON DAMAGEABLE
-  energyCost: 30
+  energyCost: 20
   mirrorWorldPrefab: {fileID: 8518958410068127547, guid: 41b99edbd45012e4bb9ef8f082aa6ecf, type: 3}
-  cardIcon: {fileID: 6876101926305785287, guid: 216e9d45f8ec71142af1d8370816485c, type: 3}
+  cardIcon: {fileID: -5260706477386446363, guid: e9dad3f99f9ea8949a819841e5074128, type: 3}

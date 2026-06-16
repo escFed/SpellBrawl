@@ -15,7 +15,7 @@ public abstract class AttackState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        character.Anim.Play("Jab");
+        character.Movement.StopHorizontalMovement();
 
         timer = 0;
         hitboxOpen = false;

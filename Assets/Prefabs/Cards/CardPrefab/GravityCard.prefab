@@ -45,14 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InverseGravityCard
   cardName: Inverse Gravity
-  cardDescription: '
-
-
-    Reverse the scenario gravity during a couple of seconds'
-  cost: 20
-  cardType: Utility
+  cardDescription: Reverse the scenario gravity during a couple of seconds
   damageOrNot: NON DAMAGEABLE
-  cardIcon: {fileID: 5553680666440826567, guid: 71aaf95b45d00654a99d3867571713b2, type: 3}
+  cardIcon: {fileID: 5167368838633182998, guid: de9b5c7786885ba46abbbd3f93125358, type: 3}
   energyCost: 20
   effectDuration: 4
   floatGravity: -0.3

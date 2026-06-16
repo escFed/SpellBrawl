@@ -45,14 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefenseCard
   cardName: Fortify
-  cardDescription: '
-
-
-    Reduces the damage you will receive from the opponent
+  cardDescription: 'Reduces the damage you will receive from the opponent
 
 '
-  cost: 20
-  cardType: Utility
   damageOrNot: NON DAMAGEABLE
   damageMultiplier: 0.5
   duration: 3

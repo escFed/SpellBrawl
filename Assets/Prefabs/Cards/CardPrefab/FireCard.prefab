@@ -45,12 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FireBallCard
   cardName: Fire Ball
-  cardDescription: '
-
-
-    Cast a fireball'
-  cost: 20
-  cardType: Offensive
+  cardDescription: Cast a fireball
   damageOrNot: DAMAGEABLE
   fbPrefab: {fileID: 2221465273619720722, guid: f0973e9c22a6a32458aa00c1a5d8d237, type: 3}
   cooldownBetweenShots: 0.5

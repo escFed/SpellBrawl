@@ -45,15 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealCard
   cardName: Heal
-  cardDescription: '
-
-
-    Reduces your own knockback
+  cardDescription: 'Reduces your damage
 
 
 '
-  cost: 20
-  cardType: Utility
   damageOrNot: NON DAMAGEABLE
   healAmount: 25
   energyCost: 20

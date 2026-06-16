@@ -2,6 +2,11 @@ public class JabState : AttackState
 {
     public JabState(PlayerController character, StateMachine sm, AttackStats attackStats): base(character, sm, attackStats) { }
 
+    public override void Enter()
+    {
+        base.Enter();
+        character.Anim.Play("Jab");
+    }
     protected override void ReadyHitbox()
     {
         character.Combat.SetupJab(stats);
