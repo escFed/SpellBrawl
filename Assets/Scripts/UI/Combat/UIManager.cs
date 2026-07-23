@@ -11,8 +11,8 @@ public class UIManager : MonoBehaviour
     public Image p2_icon;
 
     [Header("Damage")]
-    public TextMeshProUGUI p1_damageText;
-    public TextMeshProUGUI p2_damageText;
+    public Image p1_damageBar;
+    public Image p2_damageBar;
 
     [Header("Cards P1")]
     public Image[] p1_cards = new Image[4];
@@ -68,12 +68,42 @@ public class UIManager : MonoBehaviour
 
     private void UpdateDamageUI(int playerIndex, int damage)
     {
-        TextMeshProUGUI text = (playerIndex == 0) ? p1_damageText : p2_damageText;
-        if (text != null)
+       Image bar = (playerIndex == 0) ? p1_damageBar : p2_damageBar;
+        if (bar != null)
         {
-            text.text = damage + "%";
-            text.color = damage >= 100 ? Color.red : Color.white;
+            
+
+ 
+            if(damage < 25)
+            {
+                bar.GetComponent<Image>().color = Color.green;
+            }
+
+            else if(damage <= 50)
+            {
+                bar.GetComponent <Image>().color = Color.yellow;
+            }
+
+            else if(damage <= 75)
+            {
+                bar.GetComponent<Image>().color = Color.orange;
+            }
+
+            else if(damage <= 100)
+            {
+                bar.GetComponent<Image>().color = Color.red;
+            }
+
+            else
+            {
+                bar.GetComponent<Image>().color = Color.darkRed;
+            }
+
+           
+
         }
+
+
     }
 
     private void UpdateLivesUI(int playerIndex, int lives)

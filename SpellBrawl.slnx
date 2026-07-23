@@ -1,5 +1,6 @@
 ﻿<Solution>
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="IngameDebugConsole.Runtime.csproj" />
+  <Project Path="DOTween.Modules.csproj" />
   <Project Path="IngameDebugConsole.Editor.csproj" />
 </Solution>
