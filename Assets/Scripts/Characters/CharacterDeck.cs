@@ -12,6 +12,9 @@ public class CharacterDeck : MonoBehaviour
 
     private PlayerController controller;
     private EnergyManager energy;
+    public static event System.Action<int> OnCardUsed;
+
+
 
     private void Awake()
     {
@@ -79,6 +82,8 @@ public class CharacterDeck : MonoBehaviour
 
             currentHand[handIndex] = null;
             UpdateHandUI();
+
+            OnCardUsed?.Invoke(handIndex);
         }
     }
 

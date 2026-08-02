@@ -6,6 +6,10 @@ public class CharacterSlotButton : MonoBehaviour
 {
     [SerializeField] private Image characterIcon;
     [SerializeField] private TextMeshProUGUI characterName;
+
+    [SerializeField] private AudioClip selectedClip;
+
+    private AudioSource audioSource;
     private int characterIndex;
     private CharacterSelectUI uiManager;
 
@@ -29,7 +33,15 @@ public class CharacterSlotButton : MonoBehaviour
         int totalCharacters = SelectionManager.Instance.characterDb.CharacterCount;
         SelectionManager.Instance.aiSelectedIndex = Random.Range(0, totalCharacters);
 
+       
         // Mostrar preview y saltar al panel de cartas
         uiManager.ShowCharacterPreview(characterIcon.sprite, characterName.text, characterIndex);
+    }
+
+
+    public void PlaySelectedSound()
+    {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.PlayOneShot(selectedClip);
     }
 }

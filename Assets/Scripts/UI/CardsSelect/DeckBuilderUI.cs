@@ -29,6 +29,10 @@ public class DeckBuilderUI : MonoBehaviour
     private Dictionary<GameObject, int> deckCounts = new Dictionary<GameObject, int>();
     private int currentTotalCards = 0;
 
+    [Header("UI Audio")]
+
+    private AudioSource source;
+    [SerializeField]private AudioClip aCardSelectedClip;
     public void Start()
     {
         UpdateUI();
@@ -42,6 +46,8 @@ public class DeckBuilderUI : MonoBehaviour
 
         deckCounts[cardPrefab]++;
         currentTotalCards++;
+        source = GetComponent<AudioSource>();
+        source.PlayOneShot(aCardSelectedClip);
         UpdateUI();
         return true;
     }

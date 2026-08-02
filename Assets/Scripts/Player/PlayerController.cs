@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     public bool JumpPressed =>  input.HasBufferedJump;
     public bool IsGrounded => Movement.IsGrounded;
     public bool AttackInput => input.HasBufferedAttack;
-
+    private CardAnimationsUI cardUI;
     private void Awake()
     {
         input = GetComponent<IInputProvider>();
@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
         Health = GetComponent<CharacterHealth>();
         Sprite = GetComponentInChildren<SpriteRenderer>();
         Anim = GetComponentInChildren<Animator>();
-
+        
         stateMachine = new StateMachine();
         stateMachine.Idle = new IdleState(this, stateMachine);
         stateMachine.Move = new MoveState(this, stateMachine);
@@ -88,6 +88,8 @@ public class PlayerController : MonoBehaviour
         GetComponent<EnergyManager>().UpdateUI();
         deck.UpdateHandUI();
         deck.UpdateDeckCountUI();
+
+        cardUI = FindFirstObjectByType<CardAnimationsUI>();
     }
 
     public IState GetCurrentState() => stateMachine.CurrentState;
@@ -140,10 +142,10 @@ public class PlayerController : MonoBehaviour
 
         if (canUseCards)
         {
-            if (input.HasBufferedHand1) { deck.TryUseCardFromHand(0); input.ConsumeHand1(); }
-            else if (input.HasBufferedHand2) { deck.TryUseCardFromHand(1); input.ConsumeHand2(); }
-            else if (input.HasBufferedHand3) { deck.TryUseCardFromHand(2); input.ConsumeHand3(); }
-            else if (input.HasBufferedHand4) { deck.TryUseCardFromHand(3); input.ConsumeHand4(); }
+            if (input.HasBufferedHand1) { deck.TryUseCardFromHand(0); cardUI.OnCardInteraction(0); input.ConsumeHand1(); }
+            else if (input.HasBufferedHand2) { deck.TryUseCardFromHand(1); cardUI.OnCardInteraction(1); input.ConsumeHand2(); }
+            else if (input.HasBufferedHand3) { deck.TryUseCardFromHand(2); cardUI.OnCardInteraction(2); input.ConsumeHand3(); }
+            else if (input.HasBufferedHand4) { deck.TryUseCardFromHand(3); cardUI.OnCardInteraction(3);  input.ConsumeHand4(); }
         }
 
         stateMachine.Update();

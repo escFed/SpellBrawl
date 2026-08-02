@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 
 public class MenuManager : MonoBehaviour
 {
@@ -11,6 +12,11 @@ public class MenuManager : MonoBehaviour
     public GameObject controlsPanel;
     public GameObject characterSelectPanel;
     public GameObject cardsSelectPanel;
+
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip aMenuButtonClickClip;
+    private AudioSource source;
 
     private void Start()
     {
@@ -66,6 +72,13 @@ public class MenuManager : MonoBehaviour
     {
         if (controlsPanel != null) controlsPanel.SetActive(false);
         howToPlayPanel.SetActive(true);
+    }
+
+
+    public void OnButtonPressed()
+    {
+        source = GetComponent<AudioSource>();
+        source.PlayOneShot(aMenuButtonClickClip);
     }
 
     public void QuitGame()
