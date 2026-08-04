@@ -1,59 +1,42 @@
-//using UnityEngine;
+using UnityEngine;
 
-//public class ShieldState : PlayerState
-//{
-//    private static readonly Color ShieldColor = new Color(0.3f, 0.6f, 1f, 1f);
+public class ShieldState : PlayerState
+{
+    private static readonly int ShieldAnimation = Animator.StringToHash("Base Layer.Shield");
 
-//    public ShieldState(PlayerController character, StateMachine sm) : base(character, sm) { }
+    public ShieldState(PlayerController character, StateMachine sm) : base(character, sm) { }
 
-//    public override void Enter()
-//    {
-//        character.IsShielding = true;
-//        if (character.Sprite != null)
-//            character.Sprite.color = ShieldColor;
-//    }
+    public override void Enter()
+    {
+        if (!character.Shield.TryActivate())
+        {
+            stateMachine.ChangeState(StateCharacter.Idle);
+            return;
+        }
 
-//    public override void Exit()
-//    {
-//        character.IsShielding = false;
-//        if (character.Sprite != null)
-//            character.Sprite.color = Color.white;
-//    }
+        character.TryPlayAnimation(ShieldAnimation);
+        character.Movement.StopAllMovement();
+    }
 
-//    public override void Update()
-//    {
-//        if (character.IsDead)
-//        {
-//            stateMachine.ChangeState(StateCharacter.Die);
-//            return;
-//        }
+    public override void Update()
+    {
+        if (character.IsDead)
+        {
+            stateMachine.ChangeState(StateCharacter.Die);
+            return;
+        }
 
-//        // Jump out of shield
-//        if (character.JumpPressed)
-//        {
-//            stateMachine.ChangeState(StateCharacter.Jump);
-//            return;
-//        }
+        if (!character.Shield.IsActive || !character.ActiveInput.IsShieldHeld || !character.IsGrounded)
+            stateMachine.ChangeState(StateCharacter.Idle);
+    }
 
-//        // Exit shield when J is released
-//        if (!character.IsShieldHeld)
-//        {
-//            stateMachine.ChangeState(Mathf.Abs(character.MoveInput.x) > 0.01f
-//                ? StateCharacter.Move
-//                : StateCharacter.Idle);
-//            return;
-//        }
+    public override void FixedUpdate()
+    {
+        character.Movement.StopHorizontalMovement();
+    }
 
-//        // Dodge: A or D while shielding
-//        if (Mathf.Abs(character.MoveInput.x) > 0.01f)
-//        {
-//            stateMachine.ChangeState(StateCharacter.Dodge);
-//            return;
-//        }
-//    }
-
-//    public override void FixedUpdate()
-//    {
-//        character.Movement.StopHorizontalMovement();
-//    }
-//}
+    public override void Exit()
+    {
+        character.Shield.Deactivate();
+    }
+}

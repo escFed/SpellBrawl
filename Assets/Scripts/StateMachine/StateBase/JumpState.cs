@@ -8,10 +8,6 @@ public class JumpState : PlayerState
 
     public JumpState(PlayerController character, StateMachine sm) : base(character, sm) { }
 
-    /// <summary>
-    /// Call this before ChangeState(Jump) when re-entering from the air (e.g. after AirDodge)
-    /// so that Enter() doesn't re-apply jump force.
-    /// </summary>
     public void PrepareReentry() => skipForceOnEnter = true;
 
     public override void Enter()
@@ -24,7 +20,7 @@ public class JumpState : PlayerState
 
         if (skipForceOnEnter)
         {
-            skipForceOnEnter = false; // reset for next normal jump
+            skipForceOnEnter = false;
         }
         else
         {
@@ -43,17 +39,18 @@ public class JumpState : PlayerState
 
         airTimer += Time.deltaTime;
 
-        // Landing
-        if (airTimer > 0.1f && character.IsGrounded)
+        if (character.AttackInput)
         {
-            stateMachine.ChangeState(Mathf.Abs(character.MoveInput.x) > 0.01f
-                ? StateCharacter.Move
-                : StateCharacter.Idle);
+            stateMachine.ChangeState(character.Combat.ResolveAttackState());
             return;
         }
 
-        // Double jump (and beyond, up to maxJumps)
-        // Note: air dodge is handled in PlayerController.Update() via tap-J detection
+        if (airTimer > 0.1f && character.IsGrounded)
+        {
+            stateMachine.ChangeState(Mathf.Abs(character.MoveInput.x) > 0.01f ? StateCharacter.Move : StateCharacter.Idle);
+            return;
+        }
+
         if (character.JumpPressed && character.JumpsRemaining > 0 && !character.IsGrounded)
         {
             airTimer = 0f;
@@ -63,7 +60,6 @@ public class JumpState : PlayerState
             return;
         }
 
-        // Fast fall: S pressed in the air while not already fast falling
         if (!isFastFalling && character.MoveInput.y < -0.5f && !character.IsGrounded)
         {
             isFastFalling = true;

@@ -5,6 +5,7 @@ public class AIInput
     public Vector2 CurrentDirection { get; private set; }
     public bool HasBufferedJump { get; private set; }
     public bool HasBufferedAttack { get; private set; }
+    public bool HasBufferedGrab { get; private set; }
     public bool HasBufferedHand1 { get; private set; }
     public bool HasBufferedHand2 { get; private set; }
     public bool HasBufferedHand3 { get; private set; }
@@ -16,6 +17,7 @@ public class AIInput
     public void SetDirection(Vector2 direction) => CurrentDirection = direction;
     public void PressJump() => HasBufferedJump = true;
     public void PressAttack() => HasBufferedAttack = true;
+    public void PressGrab() => HasBufferedGrab = true;
     public void PressParry() => HasBufferedParry = true;
     public void PressDrawCards() => HasBufferedDrawCards = true;
 
@@ -30,6 +32,7 @@ public class AIInput
 
     public void ConsumeJump() => HasBufferedJump = false;
     public void ConsumeAttack() => HasBufferedAttack = false;
+    public void ConsumeGrab() => HasBufferedGrab = false;
     public void ConsumeParry() => HasBufferedParry = false;
     public void ConsumeDrawCards() => HasBufferedDrawCards = false;
     public void ConsumeHand1() => HasBufferedHand1 = false;
@@ -42,6 +45,7 @@ public class AIInput
     {
         ConsumeJump();
         ConsumeAttack();
+        ConsumeGrab();
         ConsumeParry();
         ConsumeDrawCards();
         ConsumeHand1();

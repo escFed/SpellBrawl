@@ -2,29 +2,29 @@ using UnityEngine;
 
 public class CrouchState : PlayerState
 {
-    // How much to squish the sprite vertically (0.55 = 55% of original height)
-    private const float CrouchScaleY = 0.55f;
-
-    private Vector3 originalSpriteScale;
+    private static readonly int CrouchAnimation = Animator.StringToHash("Base Layer.Crouch");
 
     public CrouchState(PlayerController character, StateMachine sm) : base(character, sm) { }
 
     public override void Enter()
     {
-        if (character.Sprite != null)
+        character.Movement.SetCrouching(true);
+
+        if (character.Anim == null)
+            return;
+
+        if (character.Anim.HasState(0, CrouchAnimation))
         {
-            originalSpriteScale = character.Sprite.transform.localScale;
-            character.Sprite.transform.localScale = new Vector3(
-                originalSpriteScale.x,
-                originalSpriteScale.y * CrouchScaleY,
-                originalSpriteScale.z);
+            character.Anim.Play(CrouchAnimation, 0, 0f);
+            return;
         }
+
+        character.Anim.Play("Idle", 0, 0f);
     }
 
     public override void Exit()
     {
-        if (character.Sprite != null)
-            character.Sprite.transform.localScale = originalSpriteScale;
+        character.Movement.SetCrouching(false);
     }
 
     public override void Update()

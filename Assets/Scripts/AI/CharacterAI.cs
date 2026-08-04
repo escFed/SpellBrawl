@@ -34,11 +34,16 @@ public class CharacterAI : MonoBehaviour, IInputProvider
     public Vector2 CurrentDirection { get; private set; }
     public bool HasBufferedJump { get; private set; }
     public bool HasBufferedAttack { get; private set; }
+    public bool HasBufferedGrab { get; private set; }
     public bool HasBufferedHand1 { get; private set; }
     public bool HasBufferedHand2 { get; private set; }
     public bool HasBufferedHand3 { get; private set; }
     public bool HasBufferedHand4 { get; private set; }
     public bool HasBufferedParry { get; private set; }
+    public bool HasBufferedShield { get; private set; }
+    public bool HasBufferedEvade { get; private set; }
+    public bool HasBufferedDash { get; private set; }
+    public bool IsShieldHeld { get; private set; }
     public bool HasBufferedDrawCards { get; private set; }
 
     private void Awake()
@@ -555,7 +560,11 @@ public class CharacterAI : MonoBehaviour, IInputProvider
 
     public void ConsumeJump() => HasBufferedJump = false;
     public void ConsumeAttack() => HasBufferedAttack = false;
+    public void ConsumeGrab() => HasBufferedGrab = false;
     public void ConsumeParry() => HasBufferedParry = false;
+    public void ConsumeShield() => HasBufferedShield = false;
+    public void ConsumeEvade() => HasBufferedEvade = false;
+    public void ConsumeDash() => HasBufferedDash = false;
     public void ConsumeDrawCards() => HasBufferedDrawCards = false;
     public void ConsumeHand1() => HasBufferedHand1 = false;
     public void ConsumeHand2() => HasBufferedHand2 = false;
@@ -566,7 +575,12 @@ public class CharacterAI : MonoBehaviour, IInputProvider
     {
         ConsumeJump();
         ConsumeAttack();
+        ConsumeGrab();
         ConsumeParry();
+        ConsumeShield();
+        ConsumeEvade();
+        ConsumeDash();
+        IsShieldHeld = false;
         ConsumeDrawCards();
         ConsumeHand1();
         ConsumeHand2();
@@ -576,3 +590,4 @@ public class CharacterAI : MonoBehaviour, IInputProvider
         CurrentDirection = Vector2.zero;
     }
 }
+

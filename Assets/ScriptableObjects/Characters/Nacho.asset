@@ -29,7 +29,17 @@ MonoBehaviour:
   dodgeSpeed: 14
   maxEnergy: 100
   startingEnergy: 50
-  jabAttack: {fileID: 11400000, guid: 6c0c086cebddbfa4db9bddd2ff3374a1, type: 2}
-  fTiltAttack: {fileID: 11400000, guid: 376742cb7e3e2294b947633c444dc4f5, type: 2}
-  upTiltAttack: {fileID: 11400000, guid: 53a20cbb049392c41b901c0ccd538c33, type: 2}
-  dTiltAttack: {fileID: 11400000, guid: df93bbed5071fa44cae51a47cd8f89fd, type: 2}
+  jabAttack: {fileID: 11400000, guid: f66d9bc76f790d44fa3393564874a077, type: 2}
+  fTiltAttack: {fileID: 11400000, guid: 0006f137956121d4ea0a1cebb0fe3e87, type: 2}
+  upTiltAttack: {fileID: 11400000, guid: 3d852c567de90cb4283b3948694f51c3, type: 2}
+  dTiltAttack: {fileID: 11400000, guid: 459af3d2ecfefeb4c89424f4d024390e, type: 2}
+  neutralAirAttack: {fileID: 11400000, guid: 37f1316cb1813134b8116bd3023b8d1a, type: 2}
+  forwardAirAttack: {fileID: 11400000, guid: 3d323fc6aed5e4e4b88a0191fa6e5224, type: 2}
+  upAirAttack: {fileID: 11400000, guid: 0e7bb0953bbfa564f894e453f81e2434, type: 2}
+  downAirAttack: {fileID: 11400000, guid: 23a34978a1eb4ce4a873b6fbcded86d2, type: 2}
+  grabStats: {fileID: 11400000, guid: 2c5e655208a85164a8637480d2cbf9e3, type: 2}
+  pivotGrabStats: {fileID: 11400000, guid: af0b95d6c8369fc47b8da8fcb13de93d, type: 2}
+  forwardThrow: {fileID: 11400000, guid: cfa05a88377d4054dbb1053e6cb6a9f8, type: 2}
+  backThrow: {fileID: 11400000, guid: 28b1030c3afea904eae396aa361994ac, type: 2}
+  upThrow: {fileID: 11400000, guid: 69262e4f9b8ba12499adaca6056fd4b9, type: 2}
+  downThrow: {fileID: 11400000, guid: 34d5b2d53ea24f24e85b385e35be8301, type: 2}

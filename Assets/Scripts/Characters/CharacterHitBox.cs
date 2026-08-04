@@ -7,6 +7,12 @@ public class CharacterHitBox : MonoBehaviour
     [SerializeField] private AttackHitbox fTiltHitbox;
     [SerializeField] private AttackHitbox upTiltHitbox;
     [SerializeField] private AttackHitbox dTiltHitbox;
+    [SerializeField] private AttackHitbox neutralAirHitbox;
+    [SerializeField] private AttackHitbox forwardAirHitbox;
+    [SerializeField] private AttackHitbox upAirHitbox;
+    [SerializeField] private AttackHitbox downAirHitbox;
+    [SerializeField] private GrabHitbox grabHitbox;
+    [SerializeField] private GrabHitbox pivotGrabHitbox;
 
     [SerializeField] private bool originalSpriteFacesRight = true;
     public bool IsFacingRight { get; private set; }
@@ -27,6 +33,17 @@ public class CharacterHitBox : MonoBehaviour
             Flip();
         else if (directionX < 0 && IsFacingRight)
             Flip();
+    }
+
+    public void FaceDirection(float directionX)
+    {
+        if (Mathf.Abs(directionX) < 0.01f)
+            return;
+
+        IsFacingRight = directionX > 0f;
+        Vector3 localScale = transform.localScale;
+        localScale.x = Mathf.Abs(localScale.x) * (IsFacingRight ? 1f : -1f);
+        transform.localScale = localScale;
     }
 
     private void Flip()
@@ -61,6 +78,12 @@ public class CharacterHitBox : MonoBehaviour
         if (stats == null) { Debug.LogError($"[CharacterHitBox] dTiltAttack stats es null en CharacterStats de '{gameObject.name}'"); return; }
         dTiltHitbox.Setup(stats);
     }
+    public void SetupNeutralAir(AttackStats stats) => SetupHitbox(GetNeutralAirHitbox(), stats, "neutralAirHitbox", "neutralAirAttack");
+    public void SetupForwardAir(AttackStats stats) => SetupHitbox(GetForwardAirHitbox(), stats, "forwardAirHitbox", "forwardAirAttack");
+    public void SetupUpAir(AttackStats stats) => SetupHitbox(GetUpAirHitbox(), stats, "upAirHitbox", "upAirAttack");
+    public void SetupDownAir(AttackStats stats) => SetupHitbox(GetDownAirHitbox(), stats, "downAirHitbox", "downAirAttack");
+    public void SetupGrabbox(CharacterGrab grab) => SetupGrabbox(GetGrabbox(), grab, "grabHitbox");
+    public void SetupPivotGrabbox(CharacterGrab grab) => SetupGrabbox(GetPivotGrabbox(), grab, "pivotGrabHitbox");
 
     public void SetJabHitbox(bool active)
     {
@@ -68,19 +91,57 @@ public class CharacterHitBox : MonoBehaviour
         if (active) jabHitbox.BeginSwing();
         else jabHitbox.EndSwing();
     }
-    public void SetFTiltHitbox(bool active) 
-    { 
-        if (active) fTiltHitbox?.BeginSwing(); 
-        else fTiltHitbox?.EndSwing(); 
+    public void SetFTiltHitbox(bool active)
+    {
+        if (active) fTiltHitbox?.BeginSwing();
+        else fTiltHitbox?.EndSwing();
     }
-    public void SetUTiltHitbox(bool active) 
-    { 
-        if (active) upTiltHitbox?.BeginSwing(); 
-        else upTiltHitbox?.EndSwing(); 
+    public void SetUTiltHitbox(bool active)
+    {
+        if (active) upTiltHitbox?.BeginSwing();
+        else upTiltHitbox?.EndSwing();
     }
     public void SetDTiltHitbox(bool active)
     {
         if (active) dTiltHitbox?.BeginSwing();
         else dTiltHitbox?.EndSwing();
+    }
+    public void SetNeutralAirHitbox(bool active) => SetHitboxActive(GetNeutralAirHitbox(), active);
+    public void SetForwardAirHitbox(bool active) => SetHitboxActive(GetForwardAirHitbox(), active);
+    public void SetUpAirHitbox(bool active) => SetHitboxActive(GetUpAirHitbox(), active);
+    public void SetDownAirHitbox(bool active) => SetHitboxActive(GetDownAirHitbox(), active);
+    public void SetGrabbox(bool active) => SetGrabboxActive(GetGrabbox(), active);
+    public void SetPivotGrabbox(bool active) => SetGrabboxActive(GetPivotGrabbox(), active);
+
+    private AttackHitbox GetNeutralAirHitbox() => neutralAirHitbox != null ? neutralAirHitbox : fTiltHitbox;
+    private AttackHitbox GetForwardAirHitbox() => forwardAirHitbox != null ? forwardAirHitbox : fTiltHitbox;
+    private AttackHitbox GetUpAirHitbox() => upAirHitbox != null ? upAirHitbox : upTiltHitbox;
+    private AttackHitbox GetDownAirHitbox() => downAirHitbox != null ? downAirHitbox : dTiltHitbox;
+    private GrabHitbox GetGrabbox() => grabHitbox;
+    private GrabHitbox GetPivotGrabbox() => pivotGrabHitbox != null ? pivotGrabHitbox : grabHitbox;
+
+    private void SetupHitbox(AttackHitbox attackHitbox, AttackStats stats, string hitboxName, string statsName)
+    {
+        if (attackHitbox == null) { Debug.LogError($"[CharacterHitBox] {hitboxName} no esta asignado en el Inspector de '{gameObject.name}'"); return; }
+        if (stats == null) { Debug.LogError($"[CharacterHitBox] {statsName} stats es null en CharacterStats de '{gameObject.name}'"); return; }
+        attackHitbox.Setup(stats);
+    }
+
+    private void SetHitboxActive(AttackHitbox attackHitbox, bool active)
+    {
+        if (active) attackHitbox?.BeginSwing();
+        else attackHitbox?.EndSwing();
+    }
+
+    private void SetupGrabbox(GrabHitbox grabbox, CharacterGrab grab, string grabboxName)
+    {
+        if (grabbox == null) { Debug.LogError($"[CharacterHitBox] {grabboxName} no esta asignado en el Inspector de '{gameObject.name}'"); return; }
+        grabbox.Setup(grab);
+    }
+
+    private void SetGrabboxActive(GrabHitbox grabbox, bool active)
+    {
+        if (active) grabbox?.BeginGrab();
+        else grabbox?.EndGrab();
     }
 }

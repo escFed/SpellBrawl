@@ -1,8 +1,5 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 
 public class MenuManager : MonoBehaviour
 {
@@ -12,11 +9,6 @@ public class MenuManager : MonoBehaviour
     public GameObject controlsPanel;
     public GameObject characterSelectPanel;
     public GameObject cardsSelectPanel;
-
-
-    [Header("Audio")]
-    [SerializeField] private AudioClip aMenuButtonClickClip;
-    private AudioSource source;
 
     private void Start()
     {
@@ -41,12 +33,32 @@ public class MenuManager : MonoBehaviour
 
     public void CharacterSelect()
     {
+        if (SelectionManager.Instance != null)
+            SelectionManager.Instance.isTrainingMode = false;
+
         mainMenuPanel.SetActive(false);
-        controlsPanel.SetActive(false);
+        if (controlsPanel != null) controlsPanel.SetActive(false);
         characterSelectPanel.SetActive(true);
     }
 
-    public void ShowCardsSelect() 
+    public void TrainingRoom()
+    {
+        if (SelectionManager.Instance != null)
+            SelectionManager.Instance.isTrainingMode = true;
+
+        mainMenuPanel.SetActive(false);
+        if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
+        if (controlsPanel != null) controlsPanel.SetActive(false);
+        if (cardsSelectPanel != null) cardsSelectPanel.SetActive(false);
+        characterSelectPanel.SetActive(true);
+    }
+
+    public void GoToTrainingRoom()
+    {
+        SceneManager.LoadScene("TrainingRoom");
+    }
+
+    public void ShowCardsSelect()
     {
         characterSelectPanel.SetActive(false);
         cardsSelectPanel.SetActive(true);
@@ -58,7 +70,7 @@ public class MenuManager : MonoBehaviour
         characterSelectPanel.SetActive(true);
     }
 
-    public void GoToStage1() 
+    public void GoToStage1()
     {
         SceneManager.LoadScene("Stage1");
     }
@@ -72,13 +84,6 @@ public class MenuManager : MonoBehaviour
     {
         if (controlsPanel != null) controlsPanel.SetActive(false);
         howToPlayPanel.SetActive(true);
-    }
-
-
-    public void OnButtonPressed()
-    {
-        source = GetComponent<AudioSource>();
-        source.PlayOneShot(aMenuButtonClickClip);
     }
 
     public void QuitGame()

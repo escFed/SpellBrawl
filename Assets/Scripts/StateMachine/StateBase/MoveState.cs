@@ -4,7 +4,7 @@ public class MoveState : PlayerState
 {
     public MoveState(PlayerController character, StateMachine sm) : base(character, sm) { }
 
-    public override void Enter() 
+    public override void Enter()
     {
         base.Enter();
         character.Anim.Play("Move");
@@ -18,11 +18,11 @@ public class MoveState : PlayerState
             return;
         }
 
-        //if (character.IsShieldHeld)
-        //{
-        //    stateMachine.ChangeState(StateCharacter.Shield);
-        //    return;
-        //}
+        if (character.GrabInput)
+        {
+            stateMachine.ChangeState(character.Grab.ResolveGrabState());
+            return;
+        }
 
         if (character.AttackInput)
         {

@@ -25,21 +25,22 @@ public class CharacterHealth : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
-        
+
         if (controller != null && controller.IsIntangible) return;
 
-        
         if (controller != null && controller.IsParrying)
         {
             GetComponent<CharacterParry>().OnSuccessfulParry();
             return;
         }
 
-        
-        float shieldMult = (controller != null && controller.IsShielding)
-            ? controller.stats.shieldDamageMultiplier : 1f;
+        int finalDamage = Mathf.RoundToInt(amount * controller.stats.defenseMultiplier * activeDefenseMultiplier);
 
-        int finalDamage = Mathf.RoundToInt(amount * controller.stats.defenseMultiplier * activeDefenseMultiplier * shieldMult);
+        if (controller != null && controller.Shield != null)
+            finalDamage = controller.Shield.AbsorbDamage(finalDamage);
+
+        if (finalDamage <= 0)
+            return;
 
         currentDamage += finalDamage;
         UpdateUI();
@@ -60,6 +61,18 @@ public class CharacterHealth : MonoBehaviour, IDamageable
         if (controller != null) controller.Combat.TakeHit(0.4f);
     }
 
+    public void TakePummelDamage(int amount)
+    {
+        if (isDead || amount <= 0)
+            return;
+
+        float defenseMultiplier = controller != null && controller.stats != null ? controller.stats.defenseMultiplier : 1f;
+
+        int finalDamage = Mathf.Max(0, Mathf.RoundToInt(amount * defenseMultiplier * activeDefenseMultiplier));
+        currentDamage += finalDamage;
+        UpdateUI();
+    }
+
     public void HealDamage(int amount)
     {
         if (isDead) return;
@@ -76,6 +89,7 @@ public class CharacterHealth : MonoBehaviour, IDamageable
 
     public void FallPenalty()
     {
+
         if (isDead) return;
 
         if (Time.time - lastFallTime < 1f) return;
@@ -119,6 +133,10 @@ public class CharacterHealth : MonoBehaviour, IDamageable
         PlayerController controller = GetComponent<PlayerController>();
         if (controller != null)
         {
+            controller.Shield?.ResetShield();
+            controller.Roll?.ResetRolls();
+            controller.Dodge?.ResetDodges();
+            controller.Dash?.ResetDash();
             Respawn(transform.position);
             GetComponent<CharacterDeck>().ResetDeckForNewRound();
         }
@@ -180,6 +198,10 @@ public class CharacterHealth : MonoBehaviour, IDamageable
 
         if (controller != null)
         {
+            controller.Shield?.ResetShield();
+            controller.Roll?.ResetRolls();
+            controller.Dodge?.ResetDodges();
+            controller.Dash?.ResetDash();
             GetComponent<IInputProvider>()?.ClearAllInputs();
             controller.ChangeState(StateCharacter.Idle);
 

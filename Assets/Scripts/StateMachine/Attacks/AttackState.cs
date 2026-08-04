@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public abstract class AttackState : PlayerState
 {
@@ -7,7 +6,7 @@ public abstract class AttackState : PlayerState
     private float timer;
     private bool hitboxOpen;
     private bool hitboxClose;
-    public AttackState(PlayerController character, StateMachine sm, AttackStats attackStats): base(character, sm)
+    public AttackState(PlayerController character, StateMachine sm, AttackStats attackStats) : base(character, sm)
     {
         stats = attackStats;
     }
@@ -15,7 +14,8 @@ public abstract class AttackState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        character.Movement.StopHorizontalMovement();
+        if (StopsHorizontalMovement)
+            character.Movement.StopHorizontalMovement();
 
         timer = 0;
         hitboxOpen = false;
@@ -41,7 +41,20 @@ public abstract class AttackState : PlayerState
 
         if (timer >= stats.startup + stats.active + stats.recovery)
         {
-            stateMachine.ChangeState(StateCharacter.Idle);
+            StateCharacter nextState = GetRecoveryState();
+            if (nextState == StateCharacter.Jump)
+                stateMachine.Jump.PrepareReentry();
+
+            stateMachine.ChangeState(nextState);
+        }
+    }
+
+    public override void FixedUpdate()
+    {
+        if (AllowsAirDrift)
+        {
+            character.Movement.ApplyHorizontalMovement();
+            character.Movement.ClampFallSpeed();
         }
     }
 
@@ -54,4 +67,17 @@ public abstract class AttackState : PlayerState
     protected abstract void ReadyHitbox();
     protected abstract void OpenHitbox();
     protected abstract void CloseHitbox();
+
+    protected virtual bool StopsHorizontalMovement => true;
+    protected virtual bool AllowsAirDrift => false;
+
+    protected virtual StateCharacter GetRecoveryState()
+    {
+        if (!character.IsGrounded)
+            return StateCharacter.Jump;
+
+        return Mathf.Abs(character.MoveInput.x) > 0.01f
+            ? StateCharacter.Move
+            : StateCharacter.Idle;
+    }
 }

@@ -42,7 +42,7 @@ public class RespawnManager : MonoBehaviour
 
         if (p1Instance.TryGetComponent(out CharacterAI p1AI)) p1AI.enabled = false;
         if (p1Instance.TryGetComponent(out PlayerInput p1Input)) p1Input.enabled = true;
-        if (p1Instance.TryGetComponent(out CharacterBrain p1Brain)) p1Brain.enabled = false;
+        if (p1Instance.TryGetComponent(out CharacterBrain p1Brain)) p1Brain.enabled = true;
 
         Vector3 p1Scale = p1Instance.transform.localScale;
         p1Scale.x = Mathf.Abs(p1Scale.x);

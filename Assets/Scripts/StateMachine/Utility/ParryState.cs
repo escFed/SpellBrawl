@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class ParryState : PlayerState
 {
+    private static readonly int ParryAnimation = Animator.StringToHash("Base Layer.Parry");
+
     private float startup = 0.05f;
     private float activeWindow = 0.2f;
     private float recovery = 0.3f;
@@ -9,13 +11,17 @@ public class ParryState : PlayerState
     private enum Phase { Startup, Active, Recovery }
     private Phase _phase;
     private float _timer;
+    private Color originalSpriteColor;
 
     public ParryState(PlayerController character, StateMachine sm) : base(character, sm) { }
 
     public override void Enter()
     {
         base.Enter();
-        character.Anim.Play("Parry");
+        character.TryPlayAnimation(ParryAnimation);
+
+        if (character.Sprite != null)
+            originalSpriteColor = character.Sprite.color;
 
         _timer = 0f;
         _phase = Phase.Startup;
@@ -37,7 +43,8 @@ public class ParryState : PlayerState
                     _timer = 0f;
                     character.IsParrying = true;
 
-                    character.GetComponent<SpriteRenderer>().color = Color.cyan;
+                    if (character.Sprite != null)
+                        character.Sprite.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, originalSpriteColor.a);
                 }
                 break;
 
@@ -48,7 +55,7 @@ public class ParryState : PlayerState
                     _timer = 0f;
                     character.IsParrying = false;
 
-                    character.GetComponent<SpriteRenderer>().color = Color.white;
+                    RestoreSpriteColor();
                 }
                 break;
 
@@ -64,6 +71,12 @@ public class ParryState : PlayerState
     public override void Exit()
     {
         character.IsParrying = false;
-        character.GetComponent<SpriteRenderer>().color = Color.white;
+        RestoreSpriteColor();
+    }
+
+    private void RestoreSpriteColor()
+    {
+        if (character.Sprite != null)
+            character.Sprite.color = originalSpriteColor;
     }
 }

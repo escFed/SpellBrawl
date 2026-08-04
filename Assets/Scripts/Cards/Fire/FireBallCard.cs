@@ -52,7 +52,9 @@ public class FireBallCard : MonoBehaviour, ICardable
 
         canShoot = false;
 
-        GameObject fireball = Instantiate(fbPrefab, character.Combat.throwPoint.position, Quaternion.identity);
+        Transform spawnPoint = character.Grab != null && character.Grab.throwPoint != null? character.Grab.throwPoint: character.transform;
+
+        GameObject fireball = Instantiate(fbPrefab, spawnPoint.position, Quaternion.identity);
 
         Vector2 direction = character.transform.localScale.x > 0 ? Vector2.right : Vector2.left;
         if (fireball.TryGetComponent(out FireProjectile script))

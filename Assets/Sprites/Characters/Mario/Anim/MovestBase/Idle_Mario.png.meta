@@ -1,0 +1,806 @@
+fileFormatVersion: 2
+guid: 1dc5e540e511f7d47aef8e7a870164df
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4022274516509996507
+    second: Idle_Mario_0
+  - first:
+      213: 8951990604393248143
+    second: Idle_Mario_1
+  - first:
+      213: -2080729176682422718
+    second: Idle_Mario_2
+  - first:
+      213: -2802812451209992265
+    second: Idle_Mario_3
+  - first:
+      213: -4889582936230765104
+    second: Idle_Mario_4
+  - first:
+      213: -5757686986418629272
+    second: Idle_Mario_5
+  - first:
+      213: -4430509312131833972
+    second: Idle_Mario_6
+  - first:
+      213: -6599418200890721111
+    second: Idle_Mario_7
+  - first:
+      213: -4388537263628837738
+    second: Idle_Mario_8
+  - first:
+      213: -930063913427583989
+    second: Idle_Mario_9
+  - first:
+      213: 2288280476582785050
+    second: Idle_Mario_10
+  - first:
+      213: -2895084917142820850
+    second: Idle_Mario_11
+  - first:
+      213: -8899737133627267751
+    second: Idle_Mario_12
+  - first:
+      213: 4439435497041012757
+    second: Idle_Mario_13
+  - first:
+      213: 2264983429283995921
+    second: Idle_Mario_14
+  - first:
+      213: -7306003459973149520
+    second: Idle_Mario_15
+  - first:
+      213: -7037253417976315818
+    second: Idle_Mario_16
+  - first:
+      213: -251313660353612446
+    second: Idle_Mario_17
+  - first:
+      213: 1777380859441367847
+    second: Idle_Mario_18
+  - first:
+      213: -5665161418074219401
+    second: Idle_Mario_19
+  - first:
+      213: 6729627701617978742
+    second: Idle_Mario_20
+  - first:
+      213: 225767515897030821
+    second: Idle_Mario_21
+  - first:
+      213: 2035168142345305323
+    second: Idle_Mario_22
+  - first:
+      213: -9169202932648035512
+    second: Idle_Mario_23
+  - first:
+      213: 9086215270736038574
+    second: Idle_Mario_24
+  - first:
+      213: 5998521122934145379
+    second: Idle_Mario_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Idle_Mario_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 25
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd53fa1ac5df1d730800000000000000
+      internalID: 4022274516509996507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_1
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 1
+        width: 24
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f857e77660cdb3c70800000000000000
+      internalID: 8951990604393248143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_2
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 1
+        width: 23
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24e9d0686d3cf13e0800000000000000
+      internalID: -2080729176682422718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_3
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 1
+        width: 24
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b72691fce86a19d0800000000000000
+      internalID: -2802812451209992265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_4
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 1
+        width: 25
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0dd5722c936b42cb0800000000000000
+      internalID: -4889582936230765104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_5
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 1
+        width: 25
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 865d0aef0369810b0800000000000000
+      internalID: -5757686986418629272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_6
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 1
+        width: 24
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8f5254214ba382c0800000000000000
+      internalID: -4430509312131833972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_7
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 1
+        width: 25
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ac39ab8c182a64a0800000000000000
+      internalID: -6599418200890721111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_8
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 1
+        width: 24
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69c96d53c98c813c0800000000000000
+      internalID: -4388537263628837738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_9
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 1
+        width: 25
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0c3db56ccfb713f0800000000000000
+      internalID: -930063913427583989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_10
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 1
+        width: 23
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a10bd2938fa91cf10800000000000000
+      internalID: 2288280476582785050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_11
+      rect:
+        serializedVersion: 2
+        x: 284
+        y: 1
+        width: 22
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e086c1f4b9792d7d0800000000000000
+      internalID: -2895084917142820850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_12
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 1
+        width: 24
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9552bc3da38cd7480800000000000000
+      internalID: -8899737133627267751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_13
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 1
+        width: 26
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 518a36c301b0c9d30800000000000000
+      internalID: 4439435497041012757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_14
+      rect:
+        serializedVersion: 2
+        x: 361
+        y: 1
+        width: 24
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1116e94bd66de6f10800000000000000
+      internalID: 2264983429283995921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_15
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 1
+        width: 26
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0bc8680ef8cdb9a90800000000000000
+      internalID: -7306003459973149520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_16
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 1
+        width: 24
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6504e132d47a65e90800000000000000
+      internalID: -7037253417976315818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_17
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 1
+        width: 26
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2657b63be87238cf0800000000000000
+      internalID: -251313660353612446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_18
+      rect:
+        serializedVersion: 2
+        x: 465
+        y: 1
+        width: 24
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72bc49589768aa810800000000000000
+      internalID: 1777380859441367847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_19
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 1
+        width: 22
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77c1070a4bd4161b0800000000000000
+      internalID: -5665161418074219401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_20
+      rect:
+        serializedVersion: 2
+        x: 515
+        y: 1
+        width: 23
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67d61915db0746d50800000000000000
+      internalID: 6729627701617978742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_21
+      rect:
+        serializedVersion: 2
+        x: 541
+        y: 1
+        width: 25
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a86dda0c56122300800000000000000
+      internalID: 225767515897030821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_22
+      rect:
+        serializedVersion: 2
+        x: 567
+        y: 1
+        width: 25
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: becfea684ae5e3c10800000000000000
+      internalID: 2035168142345305323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_23
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 1
+        width: 24
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84b3b06638270c080800000000000000
+      internalID: -9169202932648035512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_24
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 1
+        width: 25
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eaa83fcd5a8b81e70800000000000000
+      internalID: 9086215270736038574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Mario_25
+      rect:
+        serializedVersion: 2
+        x: 645
+        y: 1
+        width: 25
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 361ca260e270f3350800000000000000
+      internalID: 5998521122934145379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Idle_Mario_0: 4022274516509996507
+      Idle_Mario_1: 8951990604393248143
+      Idle_Mario_10: 2288280476582785050
+      Idle_Mario_11: -2895084917142820850
+      Idle_Mario_12: -8899737133627267751
+      Idle_Mario_13: 4439435497041012757
+      Idle_Mario_14: 2264983429283995921
+      Idle_Mario_15: -7306003459973149520
+      Idle_Mario_16: -7037253417976315818
+      Idle_Mario_17: -251313660353612446
+      Idle_Mario_18: 1777380859441367847
+      Idle_Mario_19: -5665161418074219401
+      Idle_Mario_2: -2080729176682422718
+      Idle_Mario_20: 6729627701617978742
+      Idle_Mario_21: 225767515897030821
+      Idle_Mario_22: 2035168142345305323
+      Idle_Mario_23: -9169202932648035512
+      Idle_Mario_24: 9086215270736038574
+      Idle_Mario_25: 5998521122934145379
+      Idle_Mario_3: -2802812451209992265
+      Idle_Mario_4: -4889582936230765104
+      Idle_Mario_5: -5757686986418629272
+      Idle_Mario_6: -4430509312131833972
+      Idle_Mario_7: -6599418200890721111
+      Idle_Mario_8: -4388537263628837738
+      Idle_Mario_9: -930063913427583989
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

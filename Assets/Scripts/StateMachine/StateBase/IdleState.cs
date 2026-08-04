@@ -4,7 +4,7 @@ public class IdleState : PlayerState
 {
     public IdleState(PlayerController character, StateMachine sm) : base(character, sm) { }
 
-    public override void Enter() 
+    public override void Enter()
     {
         base.Enter();
         character.Anim.Play("Idle");
@@ -18,11 +18,11 @@ public class IdleState : PlayerState
             return;
         }
 
-        //if (character.IsShieldHeld)
-        //{
-        //    stateMachine.ChangeState(StateCharacter.Shield);
-        //    return;
-        //}
+        if (character.GrabInput)
+        {
+            stateMachine.ChangeState(character.Grab.ResolveGrabState());
+            return;
+        }
 
         if (character.AttackInput)
         {

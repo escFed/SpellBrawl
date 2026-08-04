@@ -6,6 +6,7 @@ public class DieState : PlayerState
 
     public override void Enter()
     {
+        character.Grab?.ReleaseGrabbedTarget();
         character.Health.OnDeath();
     }
 }

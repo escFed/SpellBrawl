@@ -21,9 +21,7 @@ public class CharacterParry : MonoBehaviour
     {
         IState currentState = controller.GetCurrentState();
 
-        if (currentState == controller.stateMachine.Idle ||
-            currentState == controller.stateMachine.Move)
-            //currentState == controller.stateMachine.Shield)
+        if (currentState == controller.stateMachine.Idle || currentState == controller.stateMachine.Move)
         {
             hasParriedThisHit = false;
             controller.ChangeState(StateCharacter.Parry);

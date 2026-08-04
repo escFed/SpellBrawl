@@ -7,6 +7,7 @@ public class SelectionManager : MonoBehaviour
     public int p1SelectedIndex;
     public int aiSelectedIndex;
     public bool isVsAI = true;
+    public bool isTrainingMode;
 
     public CharacterDatabase characterDb;
 

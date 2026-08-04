@@ -21,11 +21,17 @@ public class CharacterStats : ScriptableObject
     public float parryWindow = 0.2f;
     public float defenseMultiplier = 1f;
     public float knockbackMultiplier = 1.5f;
-    [Tooltip("Damage multiplier while shielding (0.4 = 60% reduction)")]
-    public float shieldDamageMultiplier = 0.4f;
     [Tooltip("Horizontal speed of a dodge")]
     public float dodgeSpeed = 14f;
 
+    [Header("Dash Stats")]
+    public float dashSpeed = 15f;
+    public float dashDuration = 0.18f;
+     public float dashRecovery = 0.12f;
+    public float dashCooldown = 3f;
+    public float dashAttackSpeed = 12f;
+    public float dashGrabSpeed = 9f;
+    public float dashGrabSlideDuration = 0.16f;
 
     [Header("Energy Stats")]
     public int maxEnergy = 100;
@@ -36,4 +42,22 @@ public class CharacterStats : ScriptableObject
     public AttackStats fTiltAttack;
     public AttackStats upTiltAttack;
     public AttackStats dTiltAttack;
+    public AttackStats neutralAirAttack;
+    public AttackStats forwardAirAttack;
+    public AttackStats upAirAttack;
+    public AttackStats downAirAttack;
+    [Tooltip("Optional. Falls back to Forward Tilt when empty.")]
+    public AttackStats dashAttack;
+
+    [Header("Grabs")]
+    public GrabStats grabStats;
+    public GrabStats pivotGrabStats;
+    [Tooltip("Optional. Falls back to the normal grab when empty.")]
+    public GrabStats dashGrabStats;
+
+    [Header("Throws")]
+    public ThrowStats forwardThrow;
+    public ThrowStats backThrow;
+    public ThrowStats upThrow;
+    public ThrowStats downThrow;
 }
