@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterGrab : MonoBehaviour
@@ -9,7 +8,7 @@ public class CharacterGrab : MonoBehaviour
     private PlayerController controller;
     private CharacterHitBox hitBox;
     private IGrabbable grabbedTarget;
-    private List<CollisionPair> ignoredCollisionPairs = new List<CollisionPair>();
+    private CollisionIgnoreScope ignoredTargetCollisions = new CollisionIgnoreScope();
 
     public bool HasGrabbedTarget => grabbedTarget != null;
 
@@ -143,25 +142,17 @@ public class CharacterGrab : MonoBehaviour
 
             foreach (Collider2D targetCollider in targetColliders)
             {
-                if (targetCollider == null || targetCollider.isTrigger ||
-                    Physics2D.GetIgnoreCollision(ownerCollider, targetCollider))
+                if (targetCollider == null || targetCollider.isTrigger)
                     continue;
 
-                Physics2D.IgnoreCollision(ownerCollider, targetCollider, true);
-                ignoredCollisionPairs.Add(new CollisionPair(ownerCollider, targetCollider));
+                ignoredTargetCollisions.Ignore(ownerCollider, targetCollider);
             }
         }
     }
 
     private void RestoreTargetCollisions()
     {
-        foreach (CollisionPair pair in ignoredCollisionPairs)
-        {
-            if (pair.OwnerCollider != null && pair.TargetCollider != null)
-                Physics2D.IgnoreCollision(pair.OwnerCollider, pair.TargetCollider, false);
-        }
-
-        ignoredCollisionPairs.Clear();
+        ignoredTargetCollisions.RestoreAll();
     }
 
     private Vector2 GetDirectedThrowKnockback(ThrowDirection direction, Vector2 baseKnockback)
@@ -177,16 +168,5 @@ public class CharacterGrab : MonoBehaviour
         };
     }
 
-    private struct CollisionPair
-    {
-        public Collider2D OwnerCollider { get; }
-        public Collider2D TargetCollider { get; }
-
-        public CollisionPair(Collider2D ownerCollider, Collider2D targetCollider)
-        {
-            OwnerCollider = ownerCollider;
-            TargetCollider = targetCollider;
-        }
-    }
 }
 

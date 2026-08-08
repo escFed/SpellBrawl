@@ -1,6 +1,6 @@
-public class JabState : AttackState
+public class JabState : GroundAttackState
 {
-    public JabState(PlayerController character, StateMachine sm, AttackStats attackStats): base(character, sm, attackStats) { }
+    public JabState(PlayerController character, StateMachine sm, GroundAttackStats attackStats) : base(character, sm, attackStats) { }
 
     public override void Enter()
     {
@@ -9,7 +9,7 @@ public class JabState : AttackState
     }
     protected override void ReadyHitbox()
     {
-        character.Combat.SetupJab(stats);
+        character.Combat.SetupJab(GroundStats);
     }
 
     protected override void OpenHitbox() => character.Combat.OpenJabHitbox();

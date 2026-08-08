@@ -16,6 +16,9 @@ public interface IInputProvider
     bool HasBufferedEvade { get; }
     bool HasBufferedDash { get; }
     bool IsShieldHeld { get; }
+    bool HasBufferedHeavyAttack { get; }
+    bool IsHeavyAttackHeld { get; }
+    bool WasHeavyAttackReleased { get; }
 
     void ConsumeJump();
     void ConsumeAttack();
@@ -29,5 +32,7 @@ public interface IInputProvider
     void ConsumeShield();
     void ConsumeEvade();
     void ConsumeDash();
+    void ConsumeHeavyAttack();
+    void ConsumeHeavyAttackRelease();
     void ClearAllInputs();
 }

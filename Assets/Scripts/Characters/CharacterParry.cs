@@ -16,6 +16,7 @@ public class CharacterParry : MonoBehaviour
         controller = GetComponent<PlayerController>();
         energy = GetComponent<EnergyManager>();
         audioSource = GetComponent<AudioSource>();
+        GameSettings.RegisterSource(audioSource, GameSound.SoundEffects);
     }
     public void TryParry()
     {

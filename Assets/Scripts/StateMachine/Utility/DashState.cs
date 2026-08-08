@@ -22,6 +22,20 @@ public class DashState : PlayerState
 
         timer += Time.deltaTime;
 
+        if (character.AttackInput)
+        {
+            character.ActiveInput?.ConsumeAttack();
+            stateMachine.ChangeState(StateCharacter.DashAttack);
+            return;
+        }
+
+        if (character.GrabInput)
+        {
+            character.ActiveInput?.ConsumeGrab();
+            stateMachine.ChangeState(StateCharacter.DashGrab);
+            return;
+        }
+
         if (timer >= character.stats.dashDuration + character.stats.dashRecovery)
             ReturnToLocomotion();
     }

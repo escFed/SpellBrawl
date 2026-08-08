@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e1f85a1ab84258438c932218d3b0e5d, type: 3}
+  m_Name: DownHeavy
+  m_EditorClassIdentifier: Assembly-CSharp::HeavyAttackStats
+  startup: 0.25
+  active: 0.08
+  recovery: 0.45
+  hitStun: 0.4
+  energyGain: 10
+  maxChargeTime: 2
+  minDamage: 9
+  maxDamage: 20
+  minKnockback: 4
+  maxKnockback: 12
+  knockbackDirection: {x: 0.65, y: 0.35}
+  chargeAnimationState: DownHeavyCharge
+  executionAnimationState: DownHeavy

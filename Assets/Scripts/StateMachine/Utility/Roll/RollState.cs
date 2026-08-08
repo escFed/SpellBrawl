@@ -30,6 +30,7 @@ public class RollState : PlayerState
 
     public override void Exit()
     {
+        character.Roll.EndCharacterCollisionPassThrough();
         SetIntangible(false);
         character.Roll.CompleteRoll();
     }
@@ -51,6 +52,7 @@ public class RollState : PlayerState
                 {
                     phase = Phase.Active;
                     timer = 0f;
+                    character.Roll.BeginCharacterCollisionPassThrough();
                     SetIntangible(true);
                 }
                 break;
@@ -60,6 +62,7 @@ public class RollState : PlayerState
                 {
                     phase = Phase.Recovery;
                     timer = 0f;
+                    character.Roll.EndCharacterCollisionPassThrough();
                     SetIntangible(false);
                 }
                 break;
@@ -82,7 +85,10 @@ public class RollState : PlayerState
     public override void FixedUpdate()
     {
         if (phase == Phase.Active)
+        {
+            character.Roll.TrackSafeCollisionPosition();
             character.Movement.ApplyRoll(rollDirection, character.stats.dodgeSpeed);
+        }
         else
             character.Movement.StopHorizontalMovement();
     }

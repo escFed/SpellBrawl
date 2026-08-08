@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BlackHoleLogic : MonoBehaviour
 {
-    [SerializeField] public float effectDuration = 5.0f;
+    [SerializeField] public float effectDuration = 1.0f;
 
     private PlayerController playerController;
 
@@ -15,9 +15,6 @@ public class BlackHoleLogic : MonoBehaviour
         playerController = ctrl;
         targetController = trgt;
     }
-
-
-
 
     public IEnumerator HoleRoutine()
     {

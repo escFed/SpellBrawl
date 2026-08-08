@@ -33,7 +33,7 @@ public class CharacterSlotButton : MonoBehaviour
         int totalCharacters = SelectionManager.Instance.characterDb.CharacterCount;
         SelectionManager.Instance.aiSelectedIndex = Random.Range(0, totalCharacters);
 
-       
+
         // Mostrar preview y saltar al panel de cartas
         uiManager.ShowCharacterPreview(characterIcon.sprite, characterName.text, characterIndex);
     }
@@ -42,6 +42,7 @@ public class CharacterSlotButton : MonoBehaviour
     public void PlaySelectedSound()
     {
         audioSource = GetComponent<AudioSource>();
+        GameSettings.RegisterSource(audioSource, GameSound.SoundEffects);
         audioSource.PlayOneShot(selectedClip);
     }
 }

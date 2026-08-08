@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class BlackHoleCard : MonoBehaviour, ICardable
 {
-
     [Header("Card Info")]
     [SerializeField] private string cardName = "Black Hole Card";
     [SerializeField, TextArea(3, 5)] private string cardDescription = "Keeps the opponent sticked with you in a 5-Seconds lapse";
@@ -16,8 +15,8 @@ public class BlackHoleCard : MonoBehaviour, ICardable
     [Header("Black Hole Settings")]
 
 
-    [SerializeField] private int damage = 60;
-    [SerializeField] private int energyCost = 25;
+    [SerializeField] private int damage = 25;
+    [SerializeField] private int energyCost = 20;
 
     [Header("Visual")]
 
@@ -94,13 +93,10 @@ public class BlackHoleCard : MonoBehaviour, ICardable
                     Debug.LogError("No prefab in BlackHoleLogic");
                 }
 
-
-
                 if (opponent.TryGetComponent(out CharacterHealth opponentHealth))
                 {
                     opponentHealth.TakeDamage(damage, new Vector2(0, 1f));
                 }
-
 
                 opponent.Movement.moveSpeedMultiplier = 0.2f;
                 opponent.Combat.attackSpeedMultiplier = 0.2f;
@@ -115,15 +111,8 @@ public class BlackHoleCard : MonoBehaviour, ICardable
                     opponent.Movement.moveSpeedMultiplier = 1f;
                     opponent.Combat.attackSpeedMultiplier = 1f;
                 }
-                
-
-               
+                        
             }
-
-
-         
-
-
         }
 
         Destroy(gameObject);

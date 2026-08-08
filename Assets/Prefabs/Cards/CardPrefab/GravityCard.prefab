@@ -50,4 +50,4 @@ MonoBehaviour:
   cardIcon: {fileID: 5167368838633182998, guid: de9b5c7786885ba46abbbd3f93125358, type: 3}
   energyCost: 20
   effectDuration: 4
-  floatGravity: -0.3
+  floatGravity: -0.05

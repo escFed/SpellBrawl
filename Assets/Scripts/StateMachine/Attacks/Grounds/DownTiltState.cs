@@ -1,6 +1,6 @@
-public class DownTiltState : AttackState
+public class DownTiltState : GroundAttackState
 {
-    public DownTiltState(PlayerController character, StateMachine sm, AttackStats attackStats) : base(character, sm, attackStats) { }
+    public DownTiltState(PlayerController character, StateMachine sm, GroundAttackStats attackStats) : base(character, sm, attackStats) { }
 
     public override void Enter()
     {
@@ -10,7 +10,7 @@ public class DownTiltState : AttackState
 
     protected override void ReadyHitbox()
     {
-        character.Combat.SetupDTilt(stats);
+        character.Combat.SetupDTilt(GroundStats);
     }
 
     protected override void OpenHitbox() => character.Combat.OpenDTiltHitbox();

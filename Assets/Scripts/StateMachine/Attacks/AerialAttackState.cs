@@ -1,6 +1,8 @@
 public abstract class AerialAttackState : AttackState
 {
-    protected AerialAttackState(PlayerController character, StateMachine sm, AttackStats attackStats): base(character, sm, attackStats) { }
+    protected AerialAttackState(PlayerController character, StateMachine sm, AerialAttackStats attackStats) : base(character, sm, attackStats) { }
+
+    protected AerialAttackStats AerialStats => (AerialAttackStats)stats;
 
     public override void Enter()
     {

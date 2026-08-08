@@ -1,6 +1,6 @@
-public class UpTiltState : AttackState
+public class UpTiltState : GroundAttackState
 {
-    public UpTiltState(PlayerController character, StateMachine sm, AttackStats attackStats) : base(character, sm, attackStats) { }
+    public UpTiltState(PlayerController character, StateMachine sm, GroundAttackStats attackStats) : base(character, sm, attackStats) { }
 
     public override void Enter()
     {
@@ -10,7 +10,7 @@ public class UpTiltState : AttackState
 
     protected override void ReadyHitbox()
     {
-        character.Combat.SetupUTilt(stats);
+        character.Combat.SetupUTilt(GroundStats);
     }
 
     protected override void OpenHitbox() => character.Combat.OpenUTiltHitbox();

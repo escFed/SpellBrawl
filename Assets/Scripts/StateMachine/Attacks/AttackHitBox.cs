@@ -3,14 +3,25 @@ using UnityEngine;
 public class AttackHitbox : MonoBehaviour
 {
     private AttackStats currentStats;
+    private int currentDamage;
+    private Vector2 currentKnockback;
+    private float currentHitStun;
     private Collider2D hitCollider;
     private bool hasHit;
 
     private void Awake() => hitCollider = GetComponent<Collider2D>();
 
-    public void Setup(AttackStats stats)
+    public void Setup(NormalAttackStats stats)
+    {
+        Setup(stats, stats != null ? stats.damage : 0, stats != null ? stats.knockback : Vector2.zero);
+    }
+
+    public void Setup(AttackStats stats, int damage, Vector2 knockback)
     {
         currentStats = stats;
+        currentDamage = Mathf.Max(0, damage);
+        currentKnockback = knockback;
+        currentHitStun = stats != null ? Mathf.Max(0f, stats.hitStun) : 0f;
         hasHit = false;
     }
 
@@ -33,9 +44,12 @@ public class AttackHitbox : MonoBehaviour
         if (attackerDirection == 0f)
             attackerDirection = 1f;
 
-        Vector2 directedKnockback = new Vector2(currentStats.knockback.x * attackerDirection, currentStats.knockback.y);
+        Vector2 directedKnockback = new Vector2(currentKnockback.x * attackerDirection, currentKnockback.y);
 
-        target.TakeDamage(currentStats.damage, directedKnockback);
+        if (target is IHitStunned hitStunTarget)
+            hitStunTarget.TakeDamage(currentDamage, directedKnockback, currentHitStun);
+        else
+            target.TakeDamage(currentDamage, directedKnockback);
         transform.root.GetComponent<EnergyManager>()?.AddEnergy(currentStats.energyGain);
         hasHit = true;
     }

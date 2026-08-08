@@ -1,10 +1,10 @@
 public class NeutralAirState : AerialAttackState
 {
-    public NeutralAirState(PlayerController character, StateMachine sm, AttackStats attackStats): base(character, sm, attackStats) { }
+    public NeutralAirState(PlayerController character, StateMachine sm, AerialAttackStats attackStats) : base(character, sm, attackStats) { }
 
     protected override void ReadyHitbox()
     {
-        character.Combat.SetupNeutralAir(stats);
+        character.Combat.SetupNeutralAir(AerialStats);
     }
 
     protected override void OpenHitbox() => character.Combat.OpenNeutralAirHitbox();

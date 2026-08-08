@@ -2,17 +2,16 @@ using UnityEngine;
 
 public class DodgeState : PlayerState
 {
-    private static readonly int AirDodgeAnimation = Animator.StringToHash("Base Layer.AirDodge");
+    private static int AirDodgeAnimation = Animator.StringToHash("Base Layer.AirDodge");
 
     private enum Phase { Startup, Active, Recovery }
 
-    private const float Startup = 0.04f;
-    private const float Active = 0.22f;
-    private const float Recovery = 0.18f;
-    private const float ChainWindow = 0.08f;
-    private const float DirectionDeadzone = 0.2f;
-    private const float DashSpeed = 11f;
-
+    private float Startup = 0.04f;
+    private float Active = 0.22f;
+    private float Recovery = 0.18f;
+    private float ChainWindow = 0.08f;
+    private float DirectionDeadzone = 0.2f;
+    private float DashSpeed = 11f;
     private Phase phase;
     private float timer;
     private Vector2 dodgeDirection;

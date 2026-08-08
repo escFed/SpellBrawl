@@ -18,6 +18,8 @@ public class StateMachine
     public ForwardAirState ForwardAir { get; set; }
     public UpAirState UpAir { get; set; }
     public DownAirState DownAir { get; set; }
+    public HeavyChargeState HeavyCharge { get; set; }
+    public HeavyAttackState HeavyAttack { get; set; }
     public DashAttackState DashAttack { get; set; }
     public NormalGrabState Grab { get; set; }
     public PivotGrabState PivotGrab { get; set; }
@@ -49,6 +51,8 @@ public class StateMachine
             StateCharacter.ForwardAir => ForwardAir,
             StateCharacter.UpAir => UpAir,
             StateCharacter.DownAir => DownAir,
+            StateCharacter.HeavyCharge => HeavyCharge,
+            StateCharacter.HeavyAttack => HeavyAttack,
             StateCharacter.DashAttack => DashAttack,
             StateCharacter.Grab => Grab,
             StateCharacter.PivotGrab => PivotGrab,

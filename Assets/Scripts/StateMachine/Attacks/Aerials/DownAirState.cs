@@ -1,10 +1,10 @@
 public class DownAirState : AerialAttackState
 {
-    public DownAirState(PlayerController character, StateMachine sm, AttackStats attackStats): base(character, sm, attackStats) { }
+    public DownAirState(PlayerController character, StateMachine sm, AerialAttackStats attackStats) : base(character, sm, attackStats) { }
 
     protected override void ReadyHitbox()
     {
-        character.Combat.SetupDownAir(stats);
+        character.Combat.SetupDownAir(AerialStats);
     }
 
     protected override void OpenHitbox() => character.Combat.OpenDownAirHitbox();

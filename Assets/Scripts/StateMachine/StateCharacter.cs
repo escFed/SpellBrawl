@@ -16,6 +16,8 @@ public enum StateCharacter
     ForwardAir,
     UpAir,
     DownAir,
+    HeavyCharge,
+    HeavyAttack,
     DashAttack,
     Grab,
     PivotGrab,

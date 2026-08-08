@@ -1,10 +1,10 @@
 public class ForwardAirState : AerialAttackState
 {
-    public ForwardAirState(PlayerController character, StateMachine sm, AttackStats attackStats): base(character, sm, attackStats) { }
+    public ForwardAirState(PlayerController character, StateMachine sm, AerialAttackStats attackStats) : base(character, sm, attackStats) { }
 
     protected override void ReadyHitbox()
     {
-        character.Combat.SetupForwardAir(stats);
+        character.Combat.SetupForwardAir(AerialStats);
     }
 
     protected override void OpenHitbox() => character.Combat.OpenForwardAirHitbox();

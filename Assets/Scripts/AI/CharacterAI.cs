@@ -45,6 +45,9 @@ public class CharacterAI : MonoBehaviour, IInputProvider
     public bool HasBufferedDash { get; private set; }
     public bool IsShieldHeld { get; private set; }
     public bool HasBufferedDrawCards { get; private set; }
+    public bool HasBufferedHeavyAttack { get; private set; }
+    public bool IsHeavyAttackHeld { get; private set; }
+    public bool WasHeavyAttackReleased { get; private set; }
 
     private void Awake()
     {
@@ -565,11 +568,30 @@ public class CharacterAI : MonoBehaviour, IInputProvider
     public void ConsumeShield() => HasBufferedShield = false;
     public void ConsumeEvade() => HasBufferedEvade = false;
     public void ConsumeDash() => HasBufferedDash = false;
+    public void ConsumeHeavyAttack() => HasBufferedHeavyAttack = false;
+    public void ConsumeHeavyAttackRelease() => WasHeavyAttackReleased = false;
     public void ConsumeDrawCards() => HasBufferedDrawCards = false;
     public void ConsumeHand1() => HasBufferedHand1 = false;
     public void ConsumeHand2() => HasBufferedHand2 = false;
     public void ConsumeHand3() => HasBufferedHand3 = false;
     public void ConsumeHand4() => HasBufferedHand4 = false;
+
+    public void SetHeavyAttackHeld(bool held)
+    {
+        if (held == IsHeavyAttackHeld)
+            return;
+
+        IsHeavyAttackHeld = held;
+        if (held)
+        {
+            HasBufferedHeavyAttack = true;
+            WasHeavyAttackReleased = false;
+        }
+        else
+        {
+            WasHeavyAttackReleased = true;
+        }
+    }
 
     public void ClearAllInputs()
     {
@@ -580,7 +602,10 @@ public class CharacterAI : MonoBehaviour, IInputProvider
         ConsumeShield();
         ConsumeEvade();
         ConsumeDash();
+        ConsumeHeavyAttack();
+        ConsumeHeavyAttackRelease();
         IsShieldHeld = false;
+        IsHeavyAttackHeld = false;
         ConsumeDrawCards();
         ConsumeHand1();
         ConsumeHand2();

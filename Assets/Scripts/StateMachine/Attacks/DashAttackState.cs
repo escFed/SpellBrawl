@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public class DashAttackState : AttackState
+public class DashAttackState : GroundAttackState
 {
     private float dashTimer;
 
-    public DashAttackState(PlayerController character, StateMachine sm, AttackStats attackStats): base(character, sm, attackStats) { }
+    public DashAttackState(PlayerController character, StateMachine sm, GroundAttackStats attackStats) : base(character, sm, attackStats) { }
 
     public override void Enter()
     {
         dashTimer = 0f;
         base.Enter();
-        character.Anim.Play("DashAttack");
+        character.TryPlayAnimation("DashAttack", "FTilt");
     }
 
     public override void Update()
@@ -33,7 +33,7 @@ public class DashAttackState : AttackState
         character.Movement.StopHorizontalMovement();
     }
 
-    protected override void ReadyHitbox() => character.Combat.SetupFTilt(stats);
+    protected override void ReadyHitbox() => character.Combat.SetupFTilt(GroundStats);
     protected override void OpenHitbox() => character.Combat.OpenFTiltHitbox();
     protected override void CloseHitbox() => character.Combat.CloseFTiltHitbox();
     protected override bool StopsHorizontalMovement => false;

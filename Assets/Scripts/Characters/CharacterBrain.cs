@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class CharacterBrain : MonoBehaviour, IInputProvider
 {
     private const string ShieldActionName = "Shield";
+    private const string HeavyAttackActionName = "HeavyAttack";
 
     [Header("Input Buffer Settings")]
     [SerializeField] private float attackBufferTime = 0.15f;
@@ -12,6 +13,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     [SerializeField] private float cardBufferTime = 0.15f;
     [SerializeField] private float evadeBufferTime = 0.15f;
     [SerializeField] private float dashBufferTime = 0.15f;
+    [SerializeField] private float heavyAttackBufferTime = 0.15f;
 
     public Vector2 CurrentDirection { get; private set; }
     public bool HasBufferedJump => jumpTimer > 0;
@@ -27,6 +29,9 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     public bool HasBufferedDash => dashTimer > 0;
     public bool IsShieldHeld { get; private set; }
     public bool HasBufferedDrawCards => drawCardsTimer > 0;
+    public bool HasBufferedHeavyAttack => heavyAttackTimer > 0f;
+    public bool IsHeavyAttackHeld { get; private set; }
+    public bool WasHeavyAttackReleased => heavyAttackReleaseTimer > 0f;
 
     private float attackTimer, grabTimer, jumpTimer;
     private float hand1Timer, hand2Timer, hand3Timer, hand4Timer;
@@ -35,29 +40,45 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     private float shieldTimer;
     private float evadeTimer;
     private float dashTimer;
+    private float heavyAttackTimer;
+    private float heavyAttackReleaseTimer;
     private PlayerInput playerInput;
     private InputAction shieldAction;
+    private InputAction heavyAttackAction;
+    private bool heavyAttackRequiresRelease;
 
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
-        CacheShieldAction();
+        CacheInputActions();
     }
 
     private void OnEnable()
     {
-        CacheShieldAction();
+        CacheInputActions();
+
+        bool isHeavyAttackPressed = heavyAttackAction != null && heavyAttackAction.IsPressed();
+        IsHeavyAttackHeld = isHeavyAttackPressed;
+        heavyAttackRequiresRelease = isHeavyAttackPressed;
     }
 
     private void OnDisable()
     {
         IsShieldHeld = false;
+        IsHeavyAttackHeld = false;
+        ConsumeParry();
+        ConsumeShield();
+        ConsumeHeavyAttack();
+        ConsumeHeavyAttackRelease();
     }
 
     private void Update()
     {
         if (shieldAction != null)
             IsShieldHeld = shieldAction.IsPressed();
+
+        if (heavyAttackAction != null)
+            UpdateHeavyAttackState(heavyAttackAction.IsPressed());
 
         if (jumpTimer > 0) jumpTimer -= Time.deltaTime;
         if (attackTimer > 0) attackTimer -= Time.deltaTime;
@@ -71,6 +92,8 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
         if (shieldTimer > 0) shieldTimer -= Time.deltaTime;
         if (evadeTimer > 0) evadeTimer -= Time.deltaTime;
         if (dashTimer > 0) dashTimer -= Time.deltaTime;
+        if (heavyAttackTimer > 0) heavyAttackTimer -= Time.deltaTime;
+        if (heavyAttackReleaseTimer > 0) heavyAttackReleaseTimer -= Time.deltaTime;
     }
 
     public void OnMove(InputValue value) => CurrentDirection = value.Get<Vector2>();
@@ -85,6 +108,10 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     public void OnParry(InputValue value) { if (value.isPressed) parryTimer = cardBufferTime; }
     public void OnEvade(InputValue value) => BufferEvade(value);
     public void OnDash(InputValue value) { if (value.isPressed) dashTimer = dashBufferTime; }
+    public void OnHeavyAttack(InputValue value)
+    {
+        UpdateHeavyAttackState(value.isPressed);
+    }
 
     // Compatibility with the current Input Actions asset while it still exposes
     // separate Roll and Dodge actions bound to the same button.
@@ -109,10 +136,15 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     public void ConsumeShield() => shieldTimer = 0;
     public void ConsumeEvade() => evadeTimer = 0;
     public void ConsumeDash() => dashTimer = 0;
+    public void ConsumeHeavyAttack() => heavyAttackTimer = 0f;
+    public void ConsumeHeavyAttackRelease() => heavyAttackReleaseTimer = 0f;
     public void ConsumeDrawCards() => drawCardsTimer = 0;
 
     public void ClearAllInputs()
     {
+        heavyAttackRequiresRelease = IsHeavyAttackHeld ||
+            (heavyAttackAction != null && heavyAttackAction.IsPressed());
+
         CurrentDirection = Vector2.zero;
         ConsumeJump();
         ConsumeAttack();
@@ -125,7 +157,10 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
         ConsumeShield();
         ConsumeEvade();
         ConsumeDash();
+        ConsumeHeavyAttack();
+        ConsumeHeavyAttackRelease();
         IsShieldHeld = false;
+        IsHeavyAttackHeld = false;
         ConsumeDrawCards();
     }
 
@@ -135,13 +170,46 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
             evadeTimer = evadeBufferTime;
     }
 
-    private void CacheShieldAction()
+    private void UpdateHeavyAttackState(bool isPressed)
+    {
+        if (heavyAttackRequiresRelease)
+        {
+            IsHeavyAttackHeld = isPressed;
+
+            if (!isPressed)
+            {
+                heavyAttackRequiresRelease = false;
+                ConsumeHeavyAttackRelease();
+            }
+
+            return;
+        }
+
+        bool wasHeld = IsHeavyAttackHeld;
+        IsHeavyAttackHeld = isPressed;
+
+        if (isPressed && !wasHeld)
+        {
+            heavyAttackTimer = heavyAttackBufferTime;
+            heavyAttackReleaseTimer = 0f;
+        }
+        else if (!isPressed && wasHeld)
+        {
+            heavyAttackReleaseTimer = heavyAttackBufferTime;
+        }
+    }
+
+    private void CacheInputActions()
     {
         if (playerInput == null)
             playerInput = GetComponent<PlayerInput>();
 
         shieldAction = playerInput != null
             ? playerInput.actions?.FindAction(ShieldActionName, false)
+            : null;
+
+        heavyAttackAction = playerInput != null
+            ? playerInput.actions?.FindAction(HeavyAttackActionName, false)
             : null;
     }
 }

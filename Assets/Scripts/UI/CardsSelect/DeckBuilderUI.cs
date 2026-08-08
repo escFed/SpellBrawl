@@ -32,7 +32,7 @@ public class DeckBuilderUI : MonoBehaviour
     [Header("UI Audio")]
 
     private AudioSource source;
-    [SerializeField]private AudioClip aCardSelectedClip;
+    [SerializeField] private AudioClip aCardSelectedClip;
     public void Start()
     {
         UpdateUI();
@@ -47,6 +47,7 @@ public class DeckBuilderUI : MonoBehaviour
         deckCounts[cardPrefab]++;
         currentTotalCards++;
         source = GetComponent<AudioSource>();
+        GameSettings.RegisterSource(source, GameSound.SoundEffects);
         source.PlayOneShot(aCardSelectedClip);
         UpdateUI();
         return true;
@@ -124,8 +125,8 @@ public class DeckBuilderUI : MonoBehaviour
         if (tooltipTitleText != null) tooltipTitleText.text = cardName;
         if (tooltipDescText != null) tooltipDescText.text = description;
         if (cost > 0 && costText != null) costText.text = cost.ToString();
-        if(damageInfo != null) damageInfo.text = damage;
-        if(cardTypeText != null) cardTypeText.text = type.ToString();
+        if (damageInfo != null) damageInfo.text = damage;
+        if (cardTypeText != null) cardTypeText.text = type.ToString();
         if (tooltipPanel != null) tooltipPanel.SetActive(true);
     }
 

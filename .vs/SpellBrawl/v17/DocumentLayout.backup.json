@@ -1,38 +1,282 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\",
+  "WorkspaceRootPath": "D:\\RepoGit\\SpellBrawl\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\statemachine\\attacks\\downtiltstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\downtiltstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|d:\\repogit\\spellbrawl\\assets\\scripts\\managers\\menumanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\managers\\menumanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\statemachine\\attacks\\forwardtiltstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\forwardtiltstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|d:\\repogit\\spellbrawl\\assets\\scripts\\ui\\settings\\settingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\settings\\settingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\statemachine\\attacks\\uptiltstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\uptiltstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\ui\\settings\\audiocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\settings\\audiocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\statemachine\\attacks\\jabstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\jabstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|d:\\repogit\\spellbrawl\\assets\\scripts\\ui\\settings\\gamesettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\settings\\gamesettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\statemachine\\attacks\\attackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|d:\\repogit\\spellbrawl\\assets\\scripts\\ui\\characterselect\\characterslotbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\characterselect\\characterslotbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\ui\\cardsselect\\deckbuilderui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\cardsselect\\deckbuilderui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|d:\\repogit\\spellbrawl\\assets\\scripts\\characters\\characterparry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\characters\\characterparry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|d:\\repogit\\spellbrawl\\assets\\scripts\\ui\\combat\\pausemenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\combat\\pausemenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\ui\\settings\\gamesound.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\settings\\gamesound.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\characters\\characterbrain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\characters\\characterbrain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\assetstore\\leantween\\examples\\scripts\\testingunittests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\assetstore\\leantween\\examples\\scripts\\testingunittests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\attackhitbox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\attackhitbox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\characters\\characterhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\characters\\characterhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\idamageable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\idamageable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\ihitstunned.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\ihitstunned.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\characters\\characterhitbox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\characters\\characterhitbox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\characters\\charactercombat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\characters\\charactercombat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\heavy\\heavychargestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\heavy\\heavychargestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\heavy\\heavyattackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\heavy\\heavyattackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\grounds\\uptiltstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\grounds\\uptiltstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\grounds\\jabstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\grounds\\jabstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\grounds\\forwardtiltstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\grounds\\forwardtiltstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\grounds\\downtiltstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\grounds\\downtiltstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\groundattackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\groundattackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\dashattackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\dashattackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\attackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\attackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\managers\\countdownmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\aerials\\downairstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\aerials\\downairstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\aerials\\forwardairstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\aerials\\forwardairstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\aerials\\neutralairstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\aerials\\neutralairstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\aerials\\upairstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\aerials\\upairstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\aerialattackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\aerialattackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\stats\\attackstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stats\\attackstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\stats\\characterstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stats\\characterstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\stats\\attacks\\normalattackstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stats\\attacks\\normalattackstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\stats\\attacks\\aerialattackstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stats\\attacks\\aerialattackstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\stats\\attacks\\groundattackstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stats\\attacks\\groundattackstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\stats\\attacks\\heavyattackstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stats\\attacks\\heavyattackstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\utility\\roll\\rollstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\utility\\roll\\rollstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\characters\\characterroll.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\characters\\characterroll.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\characters\\charactergrab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\characters\\charactergrab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\heavy\\heavyattackcharge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\heavy\\heavyattackcharge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\utility\\dashstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\utility\\dashstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\characters\\charactermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\characters\\charactermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\ParryShield\\DefenseInputResolver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\StateMachine\\Utility\\ParryShield\\DefenseInputResolver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\ParryShield\\DefenseInputReleaseResult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\StateMachine\\Utility\\ParryShield\\DefenseInputReleaseResult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\utility\\parryshield\\parrystate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\utility\\parryshield\\parrystate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\attacks\\heavy\\heavyattacktype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\heavy\\heavyattacktype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\statemachine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\statemachine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\statecharacter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\statecharacter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\ai\\characterai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ai\\characterai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\characters\\iinputprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\characters\\iinputprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\cards\\fragile reality\\fragilerealitycard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cards\\fragile reality\\fragilerealitycard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\managers\\deckmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\managers\\deckmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\cards\\black hole\\blackholelogic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cards\\black hole\\blackholelogic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\cards\\black hole\\blackholecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cards\\black hole\\blackholecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\cards\\shadow\\shadowspikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cards\\shadow\\shadowspikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\characters\\characterdash.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\characters\\characterdash.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\utility\\roll\\dodgestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\utility\\roll\\dodgestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\training\\trainingmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\training\\trainingmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\characters\\charactershield.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\characters\\charactershield.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\utility\\pummelstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\utility\\pummelstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\statemachine\\utility\\throw\\throwstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\utility\\throw\\throwstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\UpTiltState.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\managers\\countdownmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\managers\\countdownmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\animation\\carddrawanimation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\animation\\carddrawanimation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\animation\\carddrawanimation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|a:\\fedee\\documents\\repogit\\spellbrawl\\assets\\scripts\\managers\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\managers\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\managers\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\DownTiltState.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\ForwardTiltState.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\JabState.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,111 +286,845 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DownTiltState.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\DownTiltState.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\DownTiltState.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\DownTiltState.cs",
-              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\DownTiltState.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-16T03:13:22.347Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ForwardTiltState.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\ForwardTiltState.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\ForwardTiltState.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\ForwardTiltState.cs",
-              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\ForwardTiltState.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-16T03:13:16.172Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UpTiltState.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\UpTiltState.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\UpTiltState.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\UpTiltState.cs",
-              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\UpTiltState.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-16T03:13:02.347Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "JabState.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\JabState.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\JabState.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\JabState.cs",
-              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\JabState.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-16T03:01:35.487Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "AttackState.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\AttackState.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\AttackState.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\AttackState.cs",
-              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\AttackState.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAWAAAAAAAAAA==",
+              "Title": "CharacterSlotButton.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\CharacterSelect\\CharacterSlotButton.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\CharacterSelect\\CharacterSlotButton.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\CharacterSelect\\CharacterSlotButton.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\CharacterSelect\\CharacterSlotButton.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAAACwAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-16T03:00:58.213Z",
+              "WhenOpened": "2026-08-08T06:01:24.698Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "CardDrawAnimation.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Animation\\CardDrawAnimation.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Animation\\CardDrawAnimation.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Animation\\CardDrawAnimation.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Animation\\CardDrawAnimation.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAFAAAAAAAAAA==",
+              "Title": "CharacterParry.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterParry.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Characters\\CharacterParry.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterParry.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Characters\\CharacterParry.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-16T02:14:59.307Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CountdownManager.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Managers\\CountdownManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Managers\\CountdownManager.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Managers\\CountdownManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Managers\\CountdownManager.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAACYAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-16T01:21:19.938Z",
+              "WhenOpened": "2026-08-08T05:59:26.584Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
+              "Title": "PauseMenu.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\Combat\\PauseMenu.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Combat\\PauseMenu.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\Combat\\PauseMenu.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\Combat\\PauseMenu.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T05:52:53.66Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MenuManager.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Managers\\MenuManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Managers\\MenuManager.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Managers\\MenuManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Managers\\MenuManager.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAABkAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T05:51:54.958Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SettingsController.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\Settings\\SettingsController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Settings\\SettingsController.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\Settings\\SettingsController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\Settings\\SettingsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHMAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T05:47:16.381Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GameSettings.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\Settings\\GameSettings.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Settings\\GameSettings.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\Settings\\GameSettings.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\Settings\\GameSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T05:34:30.99Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AudioController.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\Settings\\AudioController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Settings\\AudioController.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\Settings\\AudioController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\Settings\\AudioController.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAAEYAAABgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T05:32:21.432Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "JabState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Grounds\\JabState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\Grounds\\JabState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Grounds\\JabState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\Grounds\\JabState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T01:35:18.18Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "ForwardTiltState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Grounds\\ForwardTiltState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\Grounds\\ForwardTiltState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Grounds\\ForwardTiltState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\Grounds\\ForwardTiltState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T01:35:10.611Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "DownTiltState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Grounds\\DownTiltState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\Grounds\\DownTiltState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Grounds\\DownTiltState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\Grounds\\DownTiltState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T01:34:43.981Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DeckBuilderUI.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\CardsSelect\\DeckBuilderUI.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\CardsSelect\\DeckBuilderUI.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\CardsSelect\\DeckBuilderUI.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\CardsSelect\\DeckBuilderUI.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-04T22:25:51.673Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "GameSound.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\Settings\\GameSound.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Settings\\GameSound.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\Settings\\GameSound.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\Settings\\GameSound.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T05:34:04.882Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "HeavyAttackState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Heavy\\HeavyAttackState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\Heavy\\HeavyAttackState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Heavy\\HeavyAttackState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\Heavy\\HeavyAttackState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T19:10:15.101Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "HeavyChargeState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Heavy\\HeavyChargeState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\Heavy\\HeavyChargeState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Heavy\\HeavyChargeState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\Heavy\\HeavyChargeState.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAAAF0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T19:11:53.229Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "CharacterCombat.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterCombat.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Characters\\CharacterCombat.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterCombat.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Characters\\CharacterCombat.cs",
+              "ViewState": "AgIAAFMAAAAAAAAAAAAAAHkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T19:03:50.856Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AttackHitBox.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\AttackHitBox.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\AttackHitBox.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\AttackHitBox.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\AttackHitBox.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAAADAAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T19:07:01.045Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "UpTiltState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Grounds\\UpTiltState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\Grounds\\UpTiltState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Grounds\\UpTiltState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\Grounds\\UpTiltState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T01:35:27.347Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "CharacterHitBox.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterHitBox.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Characters\\CharacterHitBox.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterHitBox.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Characters\\CharacterHitBox.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAALEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T19:06:26.771Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CharacterBrain.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterBrain.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Characters\\CharacterBrain.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterBrain.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Characters\\CharacterBrain.cs",
+              "ViewState": "AgIAAK4AAAAAAAAAAIBJwNcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T18:31:34.106Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "CharacterHealth.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterHealth.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Characters\\CharacterHealth.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterHealth.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Characters\\CharacterHealth.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T01:53:34.001Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "IDamageable.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\IDamageable.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\IDamageable.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\IDamageable.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\IDamageable.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T01:54:02.285Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "IHitStunned.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\IHitStunned.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\IHitStunned.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\IHitStunned.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\IHitStunned.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T01:56:19.655Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "TestingUnitTests.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\AssetStore\\LeanTween\\Examples\\Scripts\\TestingUnitTests.cs",
+              "RelativeDocumentMoniker": "Assets\\AssetStore\\LeanTween\\Examples\\Scripts\\TestingUnitTests.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\AssetStore\\LeanTween\\Examples\\Scripts\\TestingUnitTests.cs",
+              "RelativeToolTip": "Assets\\AssetStore\\LeanTween\\Examples\\Scripts\\TestingUnitTests.cs",
+              "ViewState": "AgIAAPcBAAAAAAAAAIBJwA0CAABYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T01:57:38.574Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "PlayerController.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Player\\PlayerController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerController.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Player\\PlayerController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerController.cs",
+              "ViewState": "AgIAAHQBAAAAAAAAAAAAAJoBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T19:14:31.596Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "GroundAttackState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\GroundAttackState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\GroundAttackState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\GroundAttackState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\GroundAttackState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAQAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T01:31:41.47Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "CharacterStats.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Stats\\CharacterStats.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\CharacterStats.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Stats\\CharacterStats.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Stats\\CharacterStats.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAAAwAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T19:01:38.711Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "NormalAttackStats.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Stats\\Attacks\\NormalAttackStats.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\Attacks\\NormalAttackStats.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Stats\\Attacks\\NormalAttackStats.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Stats\\Attacks\\NormalAttackStats.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T23:51:05.008Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "AerialAttackState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\AerialAttackState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\AerialAttackState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\AerialAttackState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\AerialAttackState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-04T17:18:12.86Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "AttackState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\AttackState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\AttackState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\AttackState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\AttackState.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAAAwFQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-16T03:00:58.213Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "AttackStats.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Stats\\AttackStats.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\AttackStats.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Stats\\AttackStats.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Stats\\AttackStats.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T18:59:00.705Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "DownAirState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Aerials\\DownAirState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\Aerials\\DownAirState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Aerials\\DownAirState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\Aerials\\DownAirState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T23:54:54.376Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "ForwardAirState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Aerials\\ForwardAirState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\Aerials\\ForwardAirState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Aerials\\ForwardAirState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\Aerials\\ForwardAirState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T23:55:29.911Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "NeutralAirState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Aerials\\NeutralAirState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\Aerials\\NeutralAirState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Aerials\\NeutralAirState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\Aerials\\NeutralAirState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T23:55:48.503Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "UpAirState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Aerials\\UpAirState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\Aerials\\UpAirState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Aerials\\UpAirState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\Aerials\\UpAirState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T23:58:23.302Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "DashAttackState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\DashAttackState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\DashAttackState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\DashAttackState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\DashAttackState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-04T17:18:14.592Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "HeavyAttackType.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Heavy\\HeavyAttackType.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\Heavy\\HeavyAttackType.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Heavy\\HeavyAttackType.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\Heavy\\HeavyAttackType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T18:58:36.408Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "AerialAttackStats.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Stats\\Attacks\\AerialAttackStats.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\Attacks\\AerialAttackStats.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Stats\\Attacks\\AerialAttackStats.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Stats\\Attacks\\AerialAttackStats.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T23:48:03.563Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "GroundAttackStats.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Stats\\Attacks\\GroundAttackStats.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\Attacks\\GroundAttackStats.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Stats\\Attacks\\GroundAttackStats.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Stats\\Attacks\\GroundAttackStats.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T23:49:26.445Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "HeavyAttackStats.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Stats\\Attacks\\HeavyAttackStats.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Stats\\Attacks\\HeavyAttackStats.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Stats\\Attacks\\HeavyAttackStats.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Stats\\Attacks\\HeavyAttackStats.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T23:50:16.961Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "HeavyAttackCharge.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Heavy\\HeavyAttackCharge.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\Heavy\\HeavyAttackCharge.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\Heavy\\HeavyAttackCharge.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\Heavy\\HeavyAttackCharge.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T18:56:59.707Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "CharacterRoll.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterRoll.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Characters\\CharacterRoll.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterRoll.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Characters\\CharacterRoll.cs",
+              "ViewState": "AgIAAMoAAAAAAAAAAAAAAPAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T21:19:33.686Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "CharacterMovement.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterMovement.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Characters\\CharacterMovement.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterMovement.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Characters\\CharacterMovement.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-06T13:11:47.632Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "RollState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\Roll\\RollState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Utility\\Roll\\RollState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\Roll\\RollState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Utility\\Roll\\RollState.cs",
+              "ViewState": "AgIAAGUAAAAAAAAAAIBJwI4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T21:32:27.404Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "CharacterGrab.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterGrab.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Characters\\CharacterGrab.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterGrab.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Characters\\CharacterGrab.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-04T16:26:13.87Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "StateCharacter.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\StateCharacter.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\StateCharacter.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\StateCharacter.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\StateCharacter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T19:13:45.951Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "DashState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\DashState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Utility\\DashState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\DashState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Utility\\DashState.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAAAEUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-06T20:47:05.092Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "StateMachine.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\StateMachine.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\StateMachine.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\StateMachine.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\StateMachine.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAAAE8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T19:14:07.958Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "DefenseInputReleaseResult.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\ParryShield\\DefenseInputReleaseResult.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Utility\\ParryShield\\DefenseInputReleaseResult.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\ParryShield\\DefenseInputReleaseResult.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Utility\\ParryShield\\DefenseInputReleaseResult.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-06T15:02:16.274Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "DefenseInputResolver.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\ParryShield\\DefenseInputResolver.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Utility\\ParryShield\\DefenseInputResolver.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\ParryShield\\DefenseInputResolver.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Utility\\ParryShield\\DefenseInputResolver.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-06T15:03:14.393Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "ParryState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\ParryShield\\ParryState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Utility\\ParryShield\\ParryState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\ParryShield\\ParryState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Utility\\ParryShield\\ParryState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-06T01:07:30.249Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "CharacterAI.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\AI\\CharacterAI.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\AI\\CharacterAI.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\AI\\CharacterAI.cs",
+              "RelativeToolTip": "Assets\\Scripts\\AI\\CharacterAI.cs",
+              "ViewState": "AgIAAEQCAAAAAAAAAAAAAGoCAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T19:03:21.466Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "IInputProvider.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\IInputProvider.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Characters\\IInputProvider.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\IInputProvider.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Characters\\IInputProvider.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T18:40:43.203Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "FragileRealityCard.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Cards\\Fragile Reality\\FragileRealityCard.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Cards\\Fragile Reality\\FragileRealityCard.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Cards\\Fragile Reality\\FragileRealityCard.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Cards\\Fragile Reality\\FragileRealityCard.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-04T22:28:05.552Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "DeckManager.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Managers\\DeckManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Managers\\DeckManager.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Managers\\DeckManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Managers\\DeckManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-04T22:25:37.252Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "BlackHoleLogic.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Cards\\Black Hole\\BlackHoleLogic.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Cards\\Black Hole\\BlackHoleLogic.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Cards\\Black Hole\\BlackHoleLogic.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Cards\\Black Hole\\BlackHoleLogic.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-04T21:58:59.014Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 56,
+              "Title": "ShadowSpikeCard.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Cards\\Shadow\\ShadowSpikeCard.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Cards\\Shadow\\ShadowSpikeCard.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Cards\\Shadow\\ShadowSpikeCard.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Cards\\Shadow\\ShadowSpikeCard.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-04T21:57:30.588Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "BlackHoleCard.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Cards\\Black Hole\\BlackHoleCard.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Cards\\Black Hole\\BlackHoleCard.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Cards\\Black Hole\\BlackHoleCard.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Cards\\Black Hole\\BlackHoleCard.cs",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAAAHIAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-04T21:56:35.551Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 57,
+              "Title": "CharacterDash.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterDash.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Characters\\CharacterDash.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterDash.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Characters\\CharacterDash.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-04T17:14:23.083Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 58,
+              "Title": "DodgeState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\Roll\\DodgeState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Utility\\Roll\\DodgeState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\Roll\\DodgeState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Utility\\Roll\\DodgeState.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAAAAAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-04T17:12:29.282Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 59,
+              "Title": "TrainingManager.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Training\\TrainingManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Training\\TrainingManager.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Training\\TrainingManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Training\\TrainingManager.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-04T17:05:40.835Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 60,
+              "Title": "CharacterShield.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterShield.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Characters\\CharacterShield.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Characters\\CharacterShield.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Characters\\CharacterShield.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-04T17:03:37.306Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 61,
+              "Title": "PummelState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\PummelState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Utility\\PummelState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\PummelState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Utility\\PummelState.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-04T17:00:25.109Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 62,
+              "Title": "ThrowState.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\Throw\\ThrowState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Utility\\Throw\\ThrowState.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\Throw\\ThrowState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Utility\\Throw\\ThrowState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-04T16:30:17.337Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 67,
+              "Title": "DownTiltState.cs",
+              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\DownTiltState.cs",
+              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\DownTiltState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAA6wAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-16T03:13:22.347Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 68,
+              "Title": "ForwardTiltState.cs",
+              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\ForwardTiltState.cs",
+              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\ForwardTiltState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAA6wAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-16T03:13:16.172Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 63,
+              "Title": "UpTiltState.cs",
+              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\UpTiltState.cs",
+              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\UpTiltState.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-16T03:13:02.347Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 69,
+              "Title": "JabState.cs",
+              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\JabState.cs",
+              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\JabState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-16T03:01:35.487Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 65,
+              "Title": "CardDrawAnimation.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Animation\\CardDrawAnimation.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Animation\\CardDrawAnimation.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Animation\\CardDrawAnimation.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Animation\\CardDrawAnimation.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-16T02:14:59.307Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 64,
+              "Title": "CountdownManager.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Managers\\CountdownManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Managers\\CountdownManager.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Managers\\CountdownManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Managers\\CountdownManager.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAACYAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-16T01:21:19.938Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 66,
               "Title": "GameManager.cs",
-              "DocumentMoniker": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Managers\\GameManager.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Managers\\GameManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Managers\\GameManager.cs",
-              "ToolTip": "A:\\Fedee\\Documents\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Managers\\GameManager.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Managers\\GameManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Managers\\GameManager.cs",
               "ViewState": "AgIAAEUAAAAAAAAAAAAAAGEAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-16T02:07:38.546Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-16T02:07:38.546Z"
             }
           ]
         }

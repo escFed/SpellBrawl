@@ -1,6 +1,6 @@
-public class ForwardTiltState : AttackState
+public class ForwardTiltState : GroundAttackState
 {
-    public ForwardTiltState(PlayerController character, StateMachine sm, AttackStats attackStats) : base(character, sm, attackStats) { }
+    public ForwardTiltState(PlayerController character, StateMachine sm, GroundAttackStats attackStats) : base(character, sm, attackStats) { }
 
     public override void Enter()
     {
@@ -10,7 +10,7 @@ public class ForwardTiltState : AttackState
 
     protected override void ReadyHitbox()
     {
-        character.Combat.SetupFTilt(stats);
+        character.Combat.SetupFTilt(GroundStats);
     }
 
     protected override void OpenHitbox() => character.Combat.OpenFTiltHitbox();

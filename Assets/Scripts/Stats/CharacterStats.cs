@@ -11,6 +11,7 @@ public class CharacterStats : ScriptableObject
     [Header("Movement Stats")]
     public float moveSpeed = 5f;
     public float jumpForce = 12f;
+    public float jumpSpeedMultiplier = 1f;
     public int maxJumps = 2;
     public float weight = 100f;
     public float maxFallSpeed = -15f;
@@ -21,13 +22,12 @@ public class CharacterStats : ScriptableObject
     public float parryWindow = 0.2f;
     public float defenseMultiplier = 1f;
     public float knockbackMultiplier = 1.5f;
-    [Tooltip("Horizontal speed of a dodge")]
     public float dodgeSpeed = 14f;
 
     [Header("Dash Stats")]
     public float dashSpeed = 15f;
     public float dashDuration = 0.18f;
-     public float dashRecovery = 0.12f;
+    public float dashRecovery = 0.12f;
     public float dashCooldown = 3f;
     public float dashAttackSpeed = 12f;
     public float dashGrabSpeed = 9f;
@@ -37,22 +37,27 @@ public class CharacterStats : ScriptableObject
     public int maxEnergy = 100;
     public int startingEnergy = 50;
 
-    [Header("Attacks")]
-    public AttackStats jabAttack;
-    public AttackStats fTiltAttack;
-    public AttackStats upTiltAttack;
-    public AttackStats dTiltAttack;
-    public AttackStats neutralAirAttack;
-    public AttackStats forwardAirAttack;
-    public AttackStats upAirAttack;
-    public AttackStats downAirAttack;
-    [Tooltip("Optional. Falls back to Forward Tilt when empty.")]
-    public AttackStats dashAttack;
+    [Header("Ground Normal Attacks")]
+    public GroundAttackStats jabAttack;
+    public GroundAttackStats fTiltAttack;
+    public GroundAttackStats upTiltAttack;
+    public GroundAttackStats dTiltAttack;
+    public GroundAttackStats dashAttack;
+
+    [Header("Aerial Normal Attacks")]
+    public AerialAttackStats neutralAirAttack;
+    public AerialAttackStats forwardAirAttack;
+    public AerialAttackStats upAirAttack;
+    public AerialAttackStats downAirAttack;
+
+    [Header("Heavy Attacks")]
+    public HeavyAttackStats forwardHeavyAttack;
+    public HeavyAttackStats upHeavyAttack;
+    public HeavyAttackStats downHeavyAttack;
 
     [Header("Grabs")]
     public GrabStats grabStats;
     public GrabStats pivotGrabStats;
-    [Tooltip("Optional. Falls back to the normal grab when empty.")]
     public GrabStats dashGrabStats;
 
     [Header("Throws")]

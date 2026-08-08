@@ -11,6 +11,9 @@ public class CharacterHitBox : MonoBehaviour
     [SerializeField] private AttackHitbox forwardAirHitbox;
     [SerializeField] private AttackHitbox upAirHitbox;
     [SerializeField] private AttackHitbox downAirHitbox;
+    [SerializeField] private AttackHitbox forwardHeavyHitbox;
+    [SerializeField] private AttackHitbox upHeavyHitbox;
+    [SerializeField] private AttackHitbox downHeavyHitbox;
     [SerializeField] private GrabHitbox grabHitbox;
     [SerializeField] private GrabHitbox pivotGrabHitbox;
 
@@ -54,34 +57,45 @@ public class CharacterHitBox : MonoBehaviour
         transform.localScale = localScale;
     }
 
-    public void SetupJab(AttackStats stats)
+    public void SetupJab(GroundAttackStats stats)
     {
         if (jabHitbox == null) { Debug.LogError($"[CharacterHitBox] jabHitbox no está asignado en el Inspector del objeto '{gameObject.name}'"); return; }
         if (stats == null) { Debug.LogError($"[CharacterHitBox] jabAttack stats es null en CharacterStats de '{gameObject.name}'"); return; }
         jabHitbox.Setup(stats);
     }
-    public void SetupFTilt(AttackStats stats)
+    public void SetupFTilt(GroundAttackStats stats)
     {
         if (fTiltHitbox == null) { Debug.LogError($"[CharacterHitBox] fTiltHitbox no está asignado en el Inspector de '{gameObject.name}'"); return; }
         if (stats == null) { Debug.LogError($"[CharacterHitBox] fTiltAttack stats es null en CharacterStats de '{gameObject.name}'"); return; }
         fTiltHitbox.Setup(stats);
     }
-    public void SetupUTilt(AttackStats stats)
+    public void SetupUTilt(GroundAttackStats stats)
     {
         if (upTiltHitbox == null) { Debug.LogError($"[CharacterHitBox] upTiltHitbox no está asignado en el Inspector de '{gameObject.name}'"); return; }
         if (stats == null) { Debug.LogError($"[CharacterHitBox] upTiltAttack stats es null en CharacterStats de '{gameObject.name}'"); return; }
         upTiltHitbox.Setup(stats);
     }
-    public void SetupDTilt(AttackStats stats)
+    public void SetupDTilt(GroundAttackStats stats)
     {
         if (dTiltHitbox == null) { Debug.LogError($"[CharacterHitBox] dTiltHitbox no está asignado en el Inspector de '{gameObject.name}'"); return; }
         if (stats == null) { Debug.LogError($"[CharacterHitBox] dTiltAttack stats es null en CharacterStats de '{gameObject.name}'"); return; }
         dTiltHitbox.Setup(stats);
     }
-    public void SetupNeutralAir(AttackStats stats) => SetupHitbox(GetNeutralAirHitbox(), stats, "neutralAirHitbox", "neutralAirAttack");
-    public void SetupForwardAir(AttackStats stats) => SetupHitbox(GetForwardAirHitbox(), stats, "forwardAirHitbox", "forwardAirAttack");
-    public void SetupUpAir(AttackStats stats) => SetupHitbox(GetUpAirHitbox(), stats, "upAirHitbox", "upAirAttack");
-    public void SetupDownAir(AttackStats stats) => SetupHitbox(GetDownAirHitbox(), stats, "downAirHitbox", "downAirAttack");
+    public void SetupNeutralAir(AerialAttackStats stats) => SetupHitbox(GetNeutralAirHitbox(), stats, "neutralAirHitbox", "neutralAirAttack");
+    public void SetupForwardAir(AerialAttackStats stats) => SetupHitbox(GetForwardAirHitbox(), stats, "forwardAirHitbox", "forwardAirAttack");
+    public void SetupUpAir(AerialAttackStats stats) => SetupHitbox(GetUpAirHitbox(), stats, "upAirHitbox", "upAirAttack");
+    public void SetupDownAir(AerialAttackStats stats) => SetupHitbox(GetDownAirHitbox(), stats, "downAirHitbox", "downAirAttack");
+    public void SetupHeavyAttack(HeavyAttackType type, HeavyAttackStats stats, int damage, Vector2 knockback)
+    {
+        AttackHitbox attackHitbox = GetHeavyHitbox(type);
+        if (attackHitbox == null)
+        {
+            Debug.LogError($"[CharacterHitBox] {type} Heavy hitbox no esta asignado en el Inspector de '{gameObject.name}'");
+            return;
+        }
+
+        attackHitbox.Setup(stats, damage, knockback);
+    }
     public void SetupGrabbox(CharacterGrab grab) => SetupGrabbox(GetGrabbox(), grab, "grabHitbox");
     public void SetupPivotGrabbox(CharacterGrab grab) => SetupGrabbox(GetPivotGrabbox(), grab, "pivotGrabHitbox");
 
@@ -110,6 +124,13 @@ public class CharacterHitBox : MonoBehaviour
     public void SetForwardAirHitbox(bool active) => SetHitboxActive(GetForwardAirHitbox(), active);
     public void SetUpAirHitbox(bool active) => SetHitboxActive(GetUpAirHitbox(), active);
     public void SetDownAirHitbox(bool active) => SetHitboxActive(GetDownAirHitbox(), active);
+    public void SetHeavyHitbox(HeavyAttackType type, bool active) => SetHitboxActive(GetHeavyHitbox(type), active);
+    public void CloseAllHeavyHitboxes()
+    {
+        SetHitboxActive(GetHeavyHitbox(HeavyAttackType.Forward), false);
+        SetHitboxActive(GetHeavyHitbox(HeavyAttackType.Up), false);
+        SetHitboxActive(GetHeavyHitbox(HeavyAttackType.Down), false);
+    }
     public void SetGrabbox(bool active) => SetGrabboxActive(GetGrabbox(), active);
     public void SetPivotGrabbox(bool active) => SetGrabboxActive(GetPivotGrabbox(), active);
 
@@ -117,10 +138,19 @@ public class CharacterHitBox : MonoBehaviour
     private AttackHitbox GetForwardAirHitbox() => forwardAirHitbox != null ? forwardAirHitbox : fTiltHitbox;
     private AttackHitbox GetUpAirHitbox() => upAirHitbox != null ? upAirHitbox : upTiltHitbox;
     private AttackHitbox GetDownAirHitbox() => downAirHitbox != null ? downAirHitbox : dTiltHitbox;
+    private AttackHitbox GetHeavyHitbox(HeavyAttackType type)
+    {
+        return type switch
+        {
+            HeavyAttackType.Up => upHeavyHitbox != null ? upHeavyHitbox : upTiltHitbox,
+            HeavyAttackType.Down => downHeavyHitbox != null ? downHeavyHitbox : dTiltHitbox,
+            _ => forwardHeavyHitbox != null ? forwardHeavyHitbox : fTiltHitbox
+        };
+    }
     private GrabHitbox GetGrabbox() => grabHitbox;
     private GrabHitbox GetPivotGrabbox() => pivotGrabHitbox != null ? pivotGrabHitbox : grabHitbox;
 
-    private void SetupHitbox(AttackHitbox attackHitbox, AttackStats stats, string hitboxName, string statsName)
+    private void SetupHitbox(AttackHitbox attackHitbox, NormalAttackStats stats, string hitboxName, string statsName)
     {
         if (attackHitbox == null) { Debug.LogError($"[CharacterHitBox] {hitboxName} no esta asignado en el Inspector de '{gameObject.name}'"); return; }
         if (stats == null) { Debug.LogError($"[CharacterHitBox] {statsName} stats es null en CharacterStats de '{gameObject.name}'"); return; }

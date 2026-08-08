@@ -19,6 +19,7 @@ public class CharacterMovement : MonoBehaviour
     private CapsuleCollider2D bodyCollider;
     private Vector2 standingColliderSize;
     private Vector2 standingColliderOffset;
+    private float activeJumpGravityMultiplier = 1f;
 
     public bool IsCrouching { get; private set; }
 
@@ -40,6 +41,24 @@ public class CharacterMovement : MonoBehaviour
     private void Update()
     {
         IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        if (IsGrounded && rb.linearVelocity.y <= 0.01f)
+            activeJumpGravityMultiplier = 1f;
+    }
+
+    private void FixedUpdate()
+    {
+        if (activeJumpGravityMultiplier == 1f)
+            return;
+
+        if (IsGrounded && rb.linearVelocity.y <= 0.01f)
+        {
+            activeJumpGravityMultiplier = 1f;
+            return;
+        }
+
+        Vector2 extraGravity = Physics2D.gravity * rb.gravityScale * (activeJumpGravityMultiplier - 1f);
+        rb.linearVelocity += extraGravity * Time.fixedDeltaTime;
     }
 
     public void ApplyHorizontalMovement()
@@ -51,7 +70,12 @@ public class CharacterMovement : MonoBehaviour
     }
 
     public void StopHorizontalMovement() => rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
-    public void ApplyJumpForce() => rb.linearVelocity = new Vector2(rb.linearVelocity.x, controller.stats.jumpForce);
+    public void ApplyJumpForce()
+    {
+        float speedMultiplier = Mathf.Max(0.01f, controller.stats.jumpSpeedMultiplier);
+        activeJumpGravityMultiplier = speedMultiplier * speedMultiplier;
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, controller.stats.jumpForce * speedMultiplier);
+    }
 
     public void SetCrouching(bool crouching)
     {

@@ -70,6 +70,7 @@ public abstract class AttackState : PlayerState
 
     protected virtual bool StopsHorizontalMovement => true;
     protected virtual bool AllowsAirDrift => false;
+    protected float ElapsedTime => timer;
 
     protected virtual StateCharacter GetRecoveryState()
     {

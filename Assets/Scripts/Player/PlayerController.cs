@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     private IInputProvider input;
     private CharacterDeck deck;
     private CharacterParry parry;
+    private readonly System.Collections.Generic.Dictionary<int, AnimatorControllerParameterType> animatorParameterTypes =
+        new System.Collections.Generic.Dictionary<int, AnimatorControllerParameterType>();
 
     public Animator Anim { get; private set; }
     public CharacterCombat Combat { get; private set; }
@@ -40,6 +42,7 @@ public class PlayerController : MonoBehaviour
     public bool GrabInput => input.HasBufferedGrab;
     public bool EvadePressed => input.HasBufferedEvade;
     public bool DashPressed => input.HasBufferedDash;
+    public bool HeavyAttackPressed => input.HasBufferedHeavyAttack;
 
     private void Awake()
     {
@@ -52,6 +55,7 @@ public class PlayerController : MonoBehaviour
         Health = GetComponent<CharacterHealth>();
         Sprite = GetComponentInChildren<SpriteRenderer>();
         Anim = GetComponentInChildren<Animator>();
+        CacheAnimatorParameters();
         Shield = GetComponent<CharacterShield>();
         Roll = GetComponent<CharacterRoll>();
         Dodge = GetComponent<CharacterDodge>();
@@ -88,6 +92,8 @@ public class PlayerController : MonoBehaviour
         stateMachine.ForwardAir = new ForwardAirState(this, stateMachine, stats.forwardAirAttack);
         stateMachine.UpAir = new UpAirState(this, stateMachine, stats.upAirAttack);
         stateMachine.DownAir = new DownAirState(this, stateMachine, stats.downAirAttack);
+        stateMachine.HeavyCharge = new HeavyChargeState(this, stateMachine);
+        stateMachine.HeavyAttack = new HeavyAttackState(this, stateMachine);
         stateMachine.DashAttack = new DashAttackState(this, stateMachine, stats.dashAttack != null ? stats.dashAttack : stats.fTiltAttack);
         stateMachine.Grab = new NormalGrabState(this, stateMachine, stats.grabStats);
         stateMachine.PivotGrab = new PivotGrabState(this, stateMachine, stats.pivotGrabStats);
@@ -168,14 +174,9 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (MoveInput.x > 0.01f)
-        {
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
-        else if (MoveInput.x < -0.01f)
-        {
-            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
+        bool canTurnFromInput = stateMachine.CurrentState != stateMachine.HeavyAttack;
+        if (canTurnFromInput)
+            Combat.FaceDirection(MoveInput.x);
 
         if (TryHandleDashInput())
             return;
@@ -189,6 +190,7 @@ public class PlayerController : MonoBehaviour
                 (stateMachine.CurrentState == stateMachine.Idle ||
                  stateMachine.CurrentState == stateMachine.Move ||
                  stateMachine.CurrentState == stateMachine.Crouch ||
+                 stateMachine.CurrentState == stateMachine.HeavyCharge ||
                  stateMachine.CurrentState == stateMachine.Jump);
 
             bool canStartDodge = Dodge.CanDodge && !IsGrounded &&
@@ -208,6 +210,9 @@ public class PlayerController : MonoBehaviour
                 return;
             }
         }
+
+        if (TryHandleHeavyAttackInput())
+            return;
 
         if (input.HasBufferedParry)
         {
@@ -270,14 +275,60 @@ public class PlayerController : MonoBehaviour
         return true;
     }
 
+    public bool TryPlayAnimation(string stateName, string fallbackStateName)
+    {
+        if (TryPlayAnimationStateName(stateName))
+            return true;
+
+        return TryPlayAnimationStateName(fallbackStateName);
+    }
+
+    public bool TrySetAnimatorFloat(int parameterHash, float value)
+    {
+        if (!HasAnimatorParameter(parameterHash, AnimatorControllerParameterType.Float))
+            return false;
+
+        Anim.SetFloat(parameterHash, value);
+        return true;
+    }
+
+    public bool TrySetAnimatorInt(int parameterHash, int value)
+    {
+        if (!HasAnimatorParameter(parameterHash, AnimatorControllerParameterType.Int))
+            return false;
+
+        Anim.SetInteger(parameterHash, value);
+        return true;
+    }
+
+    public bool TrySetAnimatorBool(int parameterHash, bool value)
+    {
+        if (!HasAnimatorParameter(parameterHash, AnimatorControllerParameterType.Bool))
+            return false;
+
+        Anim.SetBool(parameterHash, value);
+        return true;
+    }
+
+    public bool TrySetAnimatorTrigger(int parameterHash)
+    {
+        if (!HasAnimatorParameter(parameterHash, AnimatorControllerParameterType.Trigger))
+            return false;
+
+        Anim.SetTrigger(parameterHash);
+        return true;
+    }
+
     private bool TryHandleDashInput()
     {
         if (!input.HasBufferedDash)
             return false;
 
+        bool isCancellingHeavyCharge = stateMachine.CurrentState == stateMachine.HeavyCharge;
         bool canStartFromCurrentState = stateMachine.CurrentState == stateMachine.Idle ||
             stateMachine.CurrentState == stateMachine.Move ||
-            stateMachine.CurrentState == stateMachine.Crouch;
+            stateMachine.CurrentState == stateMachine.Crouch ||
+            isCancellingHeavyCharge;
         bool hasHorizontalDirection = Mathf.Abs(MoveInput.x) >= stats.tiltThreshold;
 
         input.ConsumeDash();
@@ -286,14 +337,14 @@ public class PlayerController : MonoBehaviour
             !Dash.TryStartDash(MoveInput.x))
             return false;
 
-        if (input.HasBufferedAttack)
+        if (!isCancellingHeavyCharge && input.HasBufferedAttack)
         {
             input.ConsumeAttack();
             stateMachine.ChangeState(StateCharacter.DashAttack);
             return true;
         }
 
-        if (input.HasBufferedGrab)
+        if (!isCancellingHeavyCharge && input.HasBufferedGrab)
         {
             input.ConsumeGrab();
             stateMachine.ChangeState(StateCharacter.DashGrab);
@@ -302,6 +353,57 @@ public class PlayerController : MonoBehaviour
 
         stateMachine.ChangeState(StateCharacter.Dash);
         return true;
+    }
+
+    private bool TryHandleHeavyAttackInput()
+    {
+        if (!input.HasBufferedHeavyAttack)
+            return false;
+
+        input.ConsumeHeavyAttack();
+
+        bool canStartFromCurrentState = stateMachine.CurrentState == stateMachine.Idle ||
+            stateMachine.CurrentState == stateMachine.Move ||
+            stateMachine.CurrentState == stateMachine.Crouch;
+
+        if (!IsGrounded || !canStartFromCurrentState)
+            return false;
+
+        HeavyAttackType attackType = Combat.ResolveHeavyAttackType();
+        HeavyAttackStats heavyStats = Combat.GetHeavyAttackStats(attackType);
+        if (heavyStats == null)
+        {
+            Debug.LogError($"[PlayerController] Missing {attackType} Heavy Attack stats on '{gameObject.name}'.");
+            return false;
+        }
+
+        stateMachine.HeavyCharge.Prepare(attackType, heavyStats);
+        stateMachine.ChangeState(StateCharacter.HeavyCharge);
+        return true;
+    }
+
+    private void CacheAnimatorParameters()
+    {
+        animatorParameterTypes.Clear();
+        if (Anim == null)
+            return;
+
+        foreach (AnimatorControllerParameter parameter in Anim.parameters)
+            animatorParameterTypes[parameter.nameHash] = parameter.type;
+    }
+
+    private bool HasAnimatorParameter(int parameterHash, AnimatorControllerParameterType parameterType)
+    {
+        return Anim != null && animatorParameterTypes.TryGetValue(parameterHash, out AnimatorControllerParameterType actualType) &&
+            actualType == parameterType;
+    }
+
+    private bool TryPlayAnimationStateName(string stateName)
+    {
+        if (Anim == null || string.IsNullOrWhiteSpace(stateName))
+            return false;
+
+        return TryPlayAnimation(Animator.StringToHash($"Base Layer.{stateName}"));
     }
 
     public void EnterDieState() => stateMachine.ChangeState(StateCharacter.Die);
