@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1fb4888198189d43a1281120a6d859f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlackHoleCard
-  cardName: Black Hole Card
-  cardDescription: Keeps the opponent sticked with you in a 5-Seconds lapse
+  cardName: BLACK HOLE
+  cardDescription: 'KEEPS THE OPPONENT STICKED WITH YOU IN A 5-SECONDS LAPSE '
   damageOrNot: DAMAGEABLE
   damage: 60
   energyCost: 25

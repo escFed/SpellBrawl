@@ -11,6 +11,7 @@ public class MenuManager : MonoBehaviour
     public GameObject cardsSelectPanel;
     public GameObject settingsPanel;
 
+
     private void Start()
     {
         ShowMainMenu();
@@ -29,10 +30,14 @@ public class MenuManager : MonoBehaviour
 
     public void ShowHowToPlay()
     {
+
         CloseSettings();
+
+
         mainMenuPanel.SetActive(false);
         controlsPanel.SetActive(false);
         howToPlayPanel.SetActive(true);
+        
     }
 
     public void CharacterSelect()

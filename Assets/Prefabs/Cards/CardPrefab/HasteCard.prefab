@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4842cb7d75ffc064cb5df42e223b3219, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HasteCard
-  cardName: Haste
-  cardDescription: Increase your attack and movement speed simultaneously
+  cardName: HASTE
+  cardDescription: INCREASE YOUR ATTACK AND MOVEMENT SPEED SIMULTANEOUSLY
   damageOrNot: NON DAMAGEABLE
   speedMultiplier: 1.5
   duration: 5

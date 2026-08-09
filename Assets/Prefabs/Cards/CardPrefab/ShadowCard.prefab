@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d80958af50259a49845046e9f1861e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShadowSpikeCard
-  cardName: Shadow Spike
-  cardDescription: 'Generate toxic thorns on top of the platform '
+  cardName: SHADOW SPIKE
+  cardDescription: GENERATE TOXIC THORNS ON TOP OF THE PLATFORM
   damageOrNot: DAMAGEABLE
   damage: 8
   slowAmount: 0.4

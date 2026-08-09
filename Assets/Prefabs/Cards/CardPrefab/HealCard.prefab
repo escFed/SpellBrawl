@@ -44,11 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 314147895154a5b47b77f510274d3264, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealCard
-  cardName: Heal
-  cardDescription: 'Reduces your damage
-
-
-'
+  cardName: HEAL
+  cardDescription: REDUCES YOUR DAMAGE
   damageOrNot: NON DAMAGEABLE
   healAmount: 25
   energyCost: 20

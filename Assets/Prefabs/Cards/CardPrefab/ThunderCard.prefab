@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a656217eda053c342b5afb142b411ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThunderStrikeCard
-  cardName: Thunder Strike
-  cardDescription: Cast a ThunderStrike from the sky
+  cardName: THUNDERSTRIKE
+  cardDescription: CAST A THUNDERSTRIKE FROM THE SKY
   damageOrNot: DAMAGEABLE
   tsPrefab: {fileID: 7062071539232757206, guid: 36b700d52f911bf42bbad3ddd8180354, type: 3}
   cooldownTime: 8
