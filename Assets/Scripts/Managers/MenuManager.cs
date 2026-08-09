@@ -4,12 +4,18 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     [Header("Panels")]
-    public GameObject mainMenuPanel;
-    public GameObject howToPlayPanel;
-    public GameObject controlsPanel;
-    public GameObject characterSelectPanel;
-    public GameObject cardsSelectPanel;
-    public GameObject settingsPanel;
+    [SerializeField]
+    private GameObject mainMenuPanel;
+    [SerializeField]
+    private GameObject howToPlayPanel;
+    [SerializeField]
+    private GameObject controlsPanel;
+    [SerializeField]
+    private GameObject characterSelectPanel;
+    [SerializeField]
+    private GameObject cardsSelectPanel;
+    [SerializeField]
+    private GameObject settingsPanel;
 
 
     private void Start()
@@ -20,11 +26,11 @@ public class MenuManager : MonoBehaviour
     public void ShowMainMenu()
     {
         CloseSettings();
-        mainMenuPanel.SetActive(true);
-        characterSelectPanel.SetActive(false);
-        cardsSelectPanel.SetActive(false);
-        howToPlayPanel.SetActive(false);
-        settingsPanel.SetActive(false);
+        if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
+        if (characterSelectPanel != null) characterSelectPanel.SetActive(false);
+        if (cardsSelectPanel != null) cardsSelectPanel.SetActive(false);
+        if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
+        if (settingsPanel != null) settingsPanel.SetActive(false);
         if (controlsPanel != null) controlsPanel.SetActive(false);
     }
 
@@ -107,7 +113,7 @@ public class MenuManager : MonoBehaviour
 
     public void ShowSettings()
     {
-        mainMenuPanel.SetActive(false);
+        if(mainMenuPanel != null) mainMenuPanel.SetActive(false);
         if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
         if (controlsPanel != null) controlsPanel.SetActive(false);
         if (characterSelectPanel != null) characterSelectPanel.SetActive(false);

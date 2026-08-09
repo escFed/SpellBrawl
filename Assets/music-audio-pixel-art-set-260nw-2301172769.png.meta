@@ -1,0 +1,503 @@
+fileFormatVersion: 2
+guid: c0d0c928971e2a244b10b22d20eb83a4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3685824094934860789
+    second: music-audio-pixel-art-set-260nw-2301172769_0
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: music-audio-pixel-art-set-260nw-2301172769_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 208
+        width: 61
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0cf4d4938259dcc0800000000000000
+      internalID: -3685824094934860789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: music-audio-pixel-art-set-260nw-2301172769_1
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 208
+        width: 61
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9d579fda26a2c64780a8e0141510a98
+      internalID: 925285358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: music-audio-pixel-art-set-260nw-2301172769_2
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 208
+        width: 61
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21d157ddf66436f4ca03d472999b0905
+      internalID: 47722000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: music-audio-pixel-art-set-260nw-2301172769_3
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 208
+        width: 61
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f128b4c894330ab4697694fe56b50578
+      internalID: 1058286161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: music-audio-pixel-art-set-260nw-2301172769_4
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 146
+        width: 61
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30d7896e39cb4354e801a898eda268d0
+      internalID: 284926204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: music-audio-pixel-art-set-260nw-2301172769_5
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 146
+        width: 61
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c037dc7b8dab124f9f49675ad696178
+      internalID: -737631552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: music-audio-pixel-art-set-260nw-2301172769_6
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 146
+        width: 61
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ca5f2111dfb0de45a77355a1bc2d31e
+      internalID: 275383500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: music-audio-pixel-art-set-260nw-2301172769_7
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 146
+        width: 61
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41c6dc2faa8dc8947b43204753883d1b
+      internalID: 1490804312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: music-audio-pixel-art-set-260nw-2301172769_8
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 84
+        width: 61
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99159379da1560f469179bc82feb0d5f
+      internalID: -395533772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: music-audio-pixel-art-set-260nw-2301172769_9
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 84
+        width: 61
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26f2747047d3e5a46b0efcf83686d70d
+      internalID: -1778771485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: music-audio-pixel-art-set-260nw-2301172769_10
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 84
+        width: 61
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0321260ead1f1fe45bf89929a835807d
+      internalID: 308718881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: music-audio-pixel-art-set-260nw-2301172769_11
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 84
+        width: 61
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d33e5e38ef31e994bbb58e3dc36fd130
+      internalID: -1175390148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: music-audio-pixel-art-set-260nw-2301172769_12
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 22
+        width: 61
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7be1710800956a74c8a58fe9eda6257e
+      internalID: -984210119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: music-audio-pixel-art-set-260nw-2301172769_13
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 22
+        width: 61
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9871d2bf321f07a4da836c10e0a20d81
+      internalID: -887900711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: music-audio-pixel-art-set-260nw-2301172769_14
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 22
+        width: 61
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be7bb2784eb468f4d8622d5733511f25
+      internalID: -866791127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: music-audio-pixel-art-set-260nw-2301172769_15
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 22
+        width: 61
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1678dee409527824f853e33cedbc8947
+      internalID: 1993161472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 85eae3460bc0dd441851a05077e9b4a8
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":4.0},"gridSpriteSize":{"x":61.0,"y":62.0},"gridSpriteOffset":{"x":4.0,"y":10.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      music-audio-pixel-art-set-260nw-2301172769_0: -3685824094934860789
+      music-audio-pixel-art-set-260nw-2301172769_1: 925285358
+      music-audio-pixel-art-set-260nw-2301172769_10: 308718881
+      music-audio-pixel-art-set-260nw-2301172769_11: -1175390148
+      music-audio-pixel-art-set-260nw-2301172769_12: -984210119
+      music-audio-pixel-art-set-260nw-2301172769_13: -887900711
+      music-audio-pixel-art-set-260nw-2301172769_14: -866791127
+      music-audio-pixel-art-set-260nw-2301172769_15: 1993161472
+      music-audio-pixel-art-set-260nw-2301172769_2: 47722000
+      music-audio-pixel-art-set-260nw-2301172769_3: 1058286161
+      music-audio-pixel-art-set-260nw-2301172769_4: 284926204
+      music-audio-pixel-art-set-260nw-2301172769_5: -737631552
+      music-audio-pixel-art-set-260nw-2301172769_6: 275383500
+      music-audio-pixel-art-set-260nw-2301172769_7: 1490804312
+      music-audio-pixel-art-set-260nw-2301172769_8: -395533772
+      music-audio-pixel-art-set-260nw-2301172769_9: -1778771485
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
