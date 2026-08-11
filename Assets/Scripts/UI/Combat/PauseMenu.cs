@@ -62,7 +62,15 @@ public class PauseMenu : MonoBehaviour
     public void ShowSettings()
     {
         pausePanel.SetActive(false);
-        if (settingsPanel != null) settingsPanel.SetActive(true);
+        if (settingsPanel != null)
+        {
+            settingsPanel.SetActive(true);
+
+            if (settingsPanel.TryGetComponent(out SettingsController settingsController))
+            {
+                settingsController.ShowSettingsHome();
+            }
+        }
     }
 
     public void HideSettings()

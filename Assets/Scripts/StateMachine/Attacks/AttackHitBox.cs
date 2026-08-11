@@ -6,6 +6,7 @@ public class AttackHitbox : MonoBehaviour
     private int currentDamage;
     private Vector2 currentKnockback;
     private float currentHitStun;
+    private HitReaction currentHitReaction;
     private Collider2D hitCollider;
     private bool hasHit;
 
@@ -18,10 +19,16 @@ public class AttackHitbox : MonoBehaviour
 
     public void Setup(AttackStats stats, int damage, Vector2 knockback)
     {
+        Setup(stats, damage, knockback, stats != null ? stats.hitStun : 0f);
+    }
+
+    public void Setup(AttackStats stats, int damage, Vector2 knockback, float hitStun)
+    {
         currentStats = stats;
         currentDamage = Mathf.Max(0, damage);
         currentKnockback = knockback;
-        currentHitStun = stats != null ? Mathf.Max(0f, stats.hitStun) : 0f;
+        currentHitStun = Mathf.Max(0f, hitStun);
+        currentHitReaction = stats != null ? stats.hitReaction : HitReaction.Hit;
         hasHit = false;
     }
 
@@ -47,7 +54,10 @@ public class AttackHitbox : MonoBehaviour
         Vector2 directedKnockback = new Vector2(currentKnockback.x * attackerDirection, currentKnockback.y);
 
         if (target is IHitStunned hitStunTarget)
-            hitStunTarget.TakeDamage(currentDamage, directedKnockback, currentHitStun);
+        {
+            Vector2 hitPoint = other.ClosestPoint(hitCollider.bounds.center);
+            hitStunTarget.TakeDamage(currentDamage, directedKnockback, currentHitStun, currentHitReaction, hitPoint);
+        }
         else
             target.TakeDamage(currentDamage, directedKnockback);
         transform.root.GetComponent<EnergyManager>()?.AddEnergy(currentStats.energyGain);

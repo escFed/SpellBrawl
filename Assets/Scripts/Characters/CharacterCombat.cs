@@ -16,13 +16,12 @@ public class CharacterCombat : MonoBehaviour
 
     private IInputProvider Input => controller.ActiveInput;
 
-    public void TakeHit(float stunDuration)
+    public void TakeHit(float stunDuration, HitReaction reaction)
     {
         controller.Grab?.ReleaseGrabbedTarget();
         hitBox.CloseAllHeavyHitboxes();
-        controller.stunTimer = stunDuration;
         Input?.ClearAllInputs();
-        controller.ChangeState(StateCharacter.Idle);
+        controller.stateMachine.HitStun.Apply(stunDuration, reaction);
     }
 
     public StateCharacter ResolveAttackState()
@@ -80,11 +79,10 @@ public class CharacterCombat : MonoBehaviour
     {
         float damage = HeavyAttackCharge.CalculateDamage(stats.minDamage, stats.maxDamage, chargeRatio);
         float knockbackMagnitude = HeavyAttackCharge.CalculateKnockback(stats.minKnockback, stats.maxKnockback, chargeRatio);
-        Vector2 direction = stats.knockbackDirection.sqrMagnitude > 0.0001f
-            ? stats.knockbackDirection.normalized
-            : Vector2.right;
+        float hitStun = HeavyAttackCharge.CalculateHitStun(stats.hitStun, stats.maxHitStun, chargeRatio);
+        Vector2 direction = stats.knockbackDirection.sqrMagnitude > 0.0001f ? stats.knockbackDirection.normalized : Vector2.right;
 
-        hitBox.SetupHeavyAttack(type, stats, Mathf.RoundToInt(damage), direction * knockbackMagnitude);
+        hitBox.SetupHeavyAttack(type, stats, Mathf.RoundToInt(damage), direction * knockbackMagnitude, hitStun);
     }
 
     public void OpenHeavyHitbox(HeavyAttackType type) => hitBox.SetHeavyHitbox(type, true);

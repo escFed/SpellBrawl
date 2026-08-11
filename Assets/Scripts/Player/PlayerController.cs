@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public int PlayerIndex { get; set; }
     public bool IsParrying { get; set; }
     public bool IsIntangible { get; set; }
-    public float stunTimer;
+    public bool IsHitStunned => stateMachine != null && stateMachine.CurrentState == stateMachine.HitStun;
 
     public int JumpsRemaining { get; private set; }
     private bool wasGrounded;
@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     public CharacterRoll Roll { get; private set; }
     public CharacterDodge Dodge { get; private set; }
     public CharacterDash Dash { get; private set; }
+    public CharacterHitFeedback HitFeedback { get; private set; }
     public StateMachine stateMachine { get; private set; }
     public SpriteRenderer Sprite { get; private set; }
 
@@ -60,6 +61,7 @@ public class PlayerController : MonoBehaviour
         Roll = GetComponent<CharacterRoll>();
         Dodge = GetComponent<CharacterDodge>();
         Dash = GetComponent<CharacterDash>();
+        HitFeedback = GetComponent<CharacterHitFeedback>();
 
         if (Shield == null)
             Shield = gameObject.AddComponent<CharacterShield>();
@@ -73,7 +75,11 @@ public class PlayerController : MonoBehaviour
         if (Dash == null)
             Dash = gameObject.AddComponent<CharacterDash>();
 
+        if (HitFeedback == null)
+            HitFeedback = gameObject.AddComponent<CharacterHitFeedback>();
+
         Shield.Initialize(Sprite);
+        HitFeedback.Initialize(Sprite);
 
         stateMachine = new StateMachine();
         stateMachine.Idle = new IdleState(this, stateMachine);
@@ -104,6 +110,7 @@ public class PlayerController : MonoBehaviour
         stateMachine.Card = new CardState(this, stateMachine);
         stateMachine.Die = new DieState(this, stateMachine);
         stateMachine.Parry = new ParryState(this, stateMachine);
+        stateMachine.HitStun = new HitStunState(this, stateMachine);
 
         if (GetComponent<IGrabbable>() == null)
             gameObject.AddComponent<CharacterGrabbable>();
@@ -151,9 +158,9 @@ public class PlayerController : MonoBehaviour
             ResetJumps();
         wasGrounded = isNowGrounded;
 
-        if (stunTimer > 0)
+        if (IsHitStunned)
         {
-            stunTimer -= Time.deltaTime;
+            stateMachine.Update();
             return;
         }
 
@@ -241,7 +248,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (IsDead || stunTimer > 0) return;
+        if (IsDead) return;
         if (!controlsEnabled) return;
         stateMachine.FixedUpdate();
     }

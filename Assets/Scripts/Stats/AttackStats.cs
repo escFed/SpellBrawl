@@ -9,6 +9,7 @@ public abstract class AttackStats : ScriptableObject
 
     [Header("Hit Result")]
     public float hitStun = 0.4f;
+    public HitReaction hitReaction = HitReaction.Hit;
 
     public int energyGain = 10;
 }

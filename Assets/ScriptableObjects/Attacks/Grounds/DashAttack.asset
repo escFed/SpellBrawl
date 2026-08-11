@@ -15,7 +15,7 @@ MonoBehaviour:
   startup: 0.15
   active: 0.05
   recovery: 0.35
-  hitStun: 0.4
+  hitStun: 0.35
   energyGain: 10
   damage: 14
   knockback: {x: 8, y: 4}

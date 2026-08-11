@@ -24,17 +24,17 @@ public class SettingsController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI soundEffectsVolumeText;
 
     [Header("Optional Initial Selection")]
+    [SerializeField] private Selectable settingsInitialSelection;
     [SerializeField] private Selectable audioInitialSelection;
+    [SerializeField] private Selectable controlsInitialSelection;
     [SerializeField] private Selectable keyboardInitialSelection;
     [SerializeField] private Selectable gamepadInitialSelection;
-
-    private bool gamepadControlsSelected;
 
     private void OnEnable()
     {
         RefreshAudioControls();
         SubscribeToSliders();
-        ShowAudio();
+        ShowSettingsHome();
     }
 
     private void OnDisable()
@@ -43,10 +43,21 @@ public class SettingsController : MonoBehaviour
         GameSettings.Save();
     }
 
+    public void ShowSettingsHome()
+    {
+        SetActive(audioPanel, false);
+        SetActive(controlsPanel, false);
+        SetActive(keyboardControlsPanel, false);
+        SetActive(gamepadControlsPanel, false);
+        Select(settingsInitialSelection);
+    }
+
     public void ShowAudio()
     {
         SetActive(audioPanel, true);
         SetActive(controlsPanel, false);
+        SetActive(keyboardControlsPanel, false);
+        SetActive(gamepadControlsPanel, false);
         Select(audioInitialSelection);
     }
 
@@ -54,20 +65,15 @@ public class SettingsController : MonoBehaviour
     {
         SetActive(audioPanel, false);
         SetActive(controlsPanel, true);
-
-        if (gamepadControlsSelected)
-        {
-            ShowGamepadControls();
-        }
-        else
-        {
-            ShowKeyboardControls();
-        }
+        SetActive(keyboardControlsPanel, false);
+        SetActive(gamepadControlsPanel, false);
+        Select(controlsInitialSelection);
     }
 
     public void ShowKeyboardControls()
     {
-        gamepadControlsSelected = false;
+        SetActive(audioPanel, false);
+        SetActive(controlsPanel, false);
         SetActive(keyboardControlsPanel, true);
         SetActive(gamepadControlsPanel, false);
         Select(keyboardInitialSelection);
@@ -75,7 +81,8 @@ public class SettingsController : MonoBehaviour
 
     public void ShowGamepadControls()
     {
-        gamepadControlsSelected = true;
+        SetActive(audioPanel, false);
+        SetActive(controlsPanel, false);
         SetActive(keyboardControlsPanel, false);
         SetActive(gamepadControlsPanel, true);
         Select(gamepadInitialSelection);
