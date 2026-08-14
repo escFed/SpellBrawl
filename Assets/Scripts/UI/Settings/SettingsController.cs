@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SettingsController : MonoBehaviour
@@ -45,47 +44,52 @@ public class SettingsController : MonoBehaviour
 
     public void ShowSettingsHome()
     {
+        SetSettingsHomeContentActive(true);
         SetActive(audioPanel, false);
         SetActive(controlsPanel, false);
         SetActive(keyboardControlsPanel, false);
         SetActive(gamepadControlsPanel, false);
-        Select(settingsInitialSelection);
+        Select(settingsInitialSelection, gameObject);
     }
 
     public void ShowAudio()
     {
+        SetSettingsHomeContentActive(false);
         SetActive(audioPanel, true);
         SetActive(controlsPanel, false);
         SetActive(keyboardControlsPanel, false);
         SetActive(gamepadControlsPanel, false);
-        Select(audioInitialSelection);
+        Select(audioInitialSelection, audioPanel);
     }
 
     public void ShowControls()
     {
+        SetSettingsHomeContentActive(false);
         SetActive(audioPanel, false);
         SetActive(controlsPanel, true);
         SetActive(keyboardControlsPanel, false);
         SetActive(gamepadControlsPanel, false);
-        Select(controlsInitialSelection);
+        Select(controlsInitialSelection, controlsPanel);
     }
 
     public void ShowKeyboardControls()
     {
+        SetSettingsHomeContentActive(false);
         SetActive(audioPanel, false);
         SetActive(controlsPanel, false);
         SetActive(keyboardControlsPanel, true);
         SetActive(gamepadControlsPanel, false);
-        Select(keyboardInitialSelection);
+        Select(keyboardInitialSelection, keyboardControlsPanel);
     }
 
     public void ShowGamepadControls()
     {
+        SetSettingsHomeContentActive(false);
         SetActive(audioPanel, false);
         SetActive(controlsPanel, false);
         SetActive(keyboardControlsPanel, false);
         SetActive(gamepadControlsPanel, true);
-        Select(gamepadInitialSelection);
+        Select(gamepadInitialSelection, gamepadControlsPanel);
     }
 
     public void SetMasterVolume(float value)
@@ -183,11 +187,22 @@ public class SettingsController : MonoBehaviour
         }
     }
 
-    private static void Select(Selectable selectable)
+    private void SetSettingsHomeContentActive(bool active)
     {
-        if (selectable != null && EventSystem.current != null)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            EventSystem.current.SetSelectedGameObject(selectable.gameObject);
+            SetActive(transform.GetChild(i).gameObject, active);
         }
+    }
+
+    private static void Select(Selectable selectable, GameObject fallbackRoot)
+    {
+        if (selectable != null && selectable.IsActive() && selectable.IsInteractable())
+        {
+            selectable.Select();
+            return;
+        }
+
+        UIFocus.SelectFirst(fallbackRoot);
     }
 }

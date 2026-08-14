@@ -25,6 +25,7 @@ public class MenuManager : MonoBehaviour
         howToPlayPanel.SetActive(false);
         settingsPanel.SetActive(false);
         if (controlsPanel != null) controlsPanel.SetActive(false);
+        Focus(mainMenuPanel);
     }
 
     public void ShowHowToPlay()
@@ -33,6 +34,7 @@ public class MenuManager : MonoBehaviour
         mainMenuPanel.SetActive(false);
         controlsPanel.SetActive(false);
         howToPlayPanel.SetActive(true);
+        Focus(howToPlayPanel);
     }
 
     public void CharacterSelect()
@@ -45,6 +47,7 @@ public class MenuManager : MonoBehaviour
         if (controlsPanel != null) controlsPanel.SetActive(false);
         characterSelectPanel.SetActive(true);
         howToPlayPanel.SetActive(false);
+        Focus(characterSelectPanel);
     }
 
     public void TrainingRoom()
@@ -58,6 +61,7 @@ public class MenuManager : MonoBehaviour
         if (controlsPanel != null) controlsPanel.SetActive(false);
         if (cardsSelectPanel != null) cardsSelectPanel.SetActive(false);
         characterSelectPanel.SetActive(true);
+        Focus(characterSelectPanel);
     }
 
     public void GoToTrainingRoom()
@@ -71,6 +75,7 @@ public class MenuManager : MonoBehaviour
         characterSelectPanel.SetActive(false);
         howToPlayPanel.SetActive(false);
         cardsSelectPanel.SetActive(true);
+        Focus(cardsSelectPanel);
     }
 
     public void BackToCharacterSelect()
@@ -78,6 +83,7 @@ public class MenuManager : MonoBehaviour
         CloseSettings();
         cardsSelectPanel.SetActive(false);
         characterSelectPanel.SetActive(true);
+        Focus(characterSelectPanel);
     }
 
     public void GoToStage1()
@@ -89,12 +95,14 @@ public class MenuManager : MonoBehaviour
     {
         if (controlsPanel != null) controlsPanel.SetActive(true);
         howToPlayPanel.SetActive(false);
+        Focus(controlsPanel);
     }
 
     public void HideControls()
     {
         if (controlsPanel != null) controlsPanel.SetActive(false);
         howToPlayPanel.SetActive(true);
+        Focus(howToPlayPanel);
     }
 
     public void QuitGame()
@@ -117,6 +125,8 @@ public class MenuManager : MonoBehaviour
             {
                 settingsController.ShowSettingsHome();
             }
+
+            Focus(settingsPanel);
         }
     }
 
@@ -129,4 +139,11 @@ public class MenuManager : MonoBehaviour
     {
         if (settingsPanel != null) settingsPanel.SetActive(false);
     }
+
+    private void Focus(GameObject panel)
+    {
+        if (panel != null)
+            StartCoroutine(UIFocus.SelectFirstNextFrame(panel));
+    }
+
 }

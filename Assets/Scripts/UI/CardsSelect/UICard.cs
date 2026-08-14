@@ -1,46 +1,72 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class UICard : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+[RequireComponent(typeof(Graphic))]
+public class UICard : Selectable, ISubmitHandler, ICancelHandler
 {
     [Header("References")]
     public GameObject cardPrefab;
     public DeckBuilderUI deckBuilder;
     public TextMeshProUGUI cardCopiesText;
 
-    private void Start() => UpdateVisuals();
-
-    public void OnPointerClick(PointerEventData eventData)
+    protected override void Awake()
     {
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            if (deckBuilder.AddCardToDeck(cardPrefab))
-            {
-                UpdateVisuals();
-            }
-        }
-        else if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            deckBuilder.RemoveCard(cardPrefab);
+        base.Awake();
+
+        if (targetGraphic == null)
+            targetGraphic = GetComponent<Graphic>();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        UpdateVisuals();
+    }
+
+    public void OnSubmit(BaseEventData eventData)
+    {
+        if (deckBuilder != null && deckBuilder.AddCardToDeck(cardPrefab))
             UpdateVisuals();
-        }
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void OnCancel(BaseEventData eventData)
     {
-        ICardable cardData = cardPrefab.GetComponent<ICardable>();
-        if (cardData != null) deckBuilder.ShowCardDescription(cardData.CardName, cardData.CardDescription, cardData.EnergyCost, cardData.DamageableOrNot, cardData.Type);
+        if (deckBuilder != null && deckBuilder.TryRemoveCard(cardPrefab))
+            UpdateVisuals();
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public override void OnSelect(BaseEventData eventData)
     {
-        //deckBuilder.HideCardDescription();
+        base.OnSelect(eventData);
+
+        ShowDescription();
+    }
+
+    public override void OnDeselect(BaseEventData eventData)
+    {
+        base.OnDeselect(eventData);
+
+        if (deckBuilder != null)
+            deckBuilder.HideCardDescription();
     }
 
     public void UpdateVisuals()
     {
         int count = deckBuilder.GetCardCount(cardPrefab);
         if (cardCopiesText != null) cardCopiesText.text = count.ToString() + "/5";
+    }
+
+    private void ShowDescription()
+    {
+        if (deckBuilder == null || cardPrefab == null)
+            return;
+
+        ICardable cardData = cardPrefab.GetComponent<ICardable>();
+        if (cardData != null)
+        {
+            deckBuilder.ShowCardDescription(cardData.CardName, cardData.CardDescription, cardData.EnergyCost, cardData.DamageableOrNot, cardData.Type);
+        }
     }
 }

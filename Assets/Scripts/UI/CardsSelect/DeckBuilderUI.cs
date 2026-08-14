@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -55,12 +54,20 @@ public class DeckBuilderUI : MonoBehaviour
 
     public void RemoveCard(GameObject cardPrefab)
     {
+        TryRemoveCard(cardPrefab);
+    }
+
+    public bool TryRemoveCard(GameObject cardPrefab)
+    {
         if (deckCounts.ContainsKey(cardPrefab) && deckCounts[cardPrefab] > 0)
         {
             deckCounts[cardPrefab]--;
             currentTotalCards--;
             UpdateUI();
+            return true;
         }
+
+        return false;
     }
 
     public int GetCardCount(GameObject cardPrefab)
@@ -77,12 +84,6 @@ public class DeckBuilderUI : MonoBehaviour
         if (startMatchButton != null)
             startMatchButton.interactable = (currentTotalCards == DeckSize);
 
-        if (tooltipPanel != null && tooltipPanel.activeSelf && Mouse.current != null)
-        {
-            Vector2 mousePos = Mouse.current.position.ReadValue();
-
-            //tooltipPanel.transform.position = new Vector3(mousePos.x, mousePos.y, 0f);
-        }
     }
 
     public void ClearDeck()

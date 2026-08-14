@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class HitStunState : PlayerState
 {
-    private static readonly int HitAnimation = Animator.StringToHash("Base Layer.Hit");
-    private static readonly int StrongHitAnimation = Animator.StringToHash("Base Layer.StrongHit");
-    private static readonly int StunnedAnimation = Animator.StringToHash("Base Layer.Stunned");
+    private static int HitAnimation = Animator.StringToHash("Base Layer.Hit");
+    private static int StrongHitAnimation = Animator.StringToHash("Base Layer.StrongHit");
+    private static int StunnedAnimation = Animator.StringToHash("Base Layer.Stunned");
 
     private float pendingDuration;
     private HitReaction pendingReaction;

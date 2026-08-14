@@ -13,6 +13,7 @@ public class PauseMenu : MonoBehaviour
     {
         pausePanel.SetActive(false);
         if (settingsPanel != null) settingsPanel.SetActive(false);
+        UIFocus.Clear();
         isPaused = false;
         Time.timeScale = 1f;
     }
@@ -48,6 +49,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
         isPaused = true;
         AudioListener.pause = true;
+        UIFocus.SelectFirst(pausePanel);
     }
 
     public void ResumeGame()
@@ -57,6 +59,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         isPaused = false;
         AudioListener.pause = false;
+        UIFocus.Clear();
     }
 
     public void ShowSettings()
@@ -70,6 +73,8 @@ public class PauseMenu : MonoBehaviour
             {
                 settingsController.ShowSettingsHome();
             }
+
+            UIFocus.SelectFirst(settingsPanel);
         }
     }
 
@@ -77,5 +82,6 @@ public class PauseMenu : MonoBehaviour
     {
         if (settingsPanel != null) settingsPanel.SetActive(false);
         pausePanel.SetActive(true);
+        UIFocus.SelectFirst(pausePanel);
     }
 }
