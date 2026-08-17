@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SettingsController : MonoBehaviour
@@ -24,17 +23,17 @@ public class SettingsController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI soundEffectsVolumeText;
 
     [Header("Optional Initial Selection")]
+    [SerializeField] private Selectable settingsInitialSelection;
     [SerializeField] private Selectable audioInitialSelection;
+    [SerializeField] private Selectable controlsInitialSelection;
     [SerializeField] private Selectable keyboardInitialSelection;
     [SerializeField] private Selectable gamepadInitialSelection;
-
-    private bool gamepadControlsSelected;
 
     private void OnEnable()
     {
         RefreshAudioControls();
         SubscribeToSliders();
-        ShowAudio();
+        ShowSettingsHome();
     }
 
     private void OnDisable()
@@ -43,42 +42,54 @@ public class SettingsController : MonoBehaviour
         GameSettings.Save();
     }
 
+    public void ShowSettingsHome()
+    {
+        SetSettingsHomeContentActive(true);
+        SetActive(audioPanel, false);
+        SetActive(controlsPanel, false);
+        SetActive(keyboardControlsPanel, false);
+        SetActive(gamepadControlsPanel, false);
+        Select(settingsInitialSelection, gameObject);
+    }
+
     public void ShowAudio()
     {
+        SetSettingsHomeContentActive(false);
         SetActive(audioPanel, true);
         SetActive(controlsPanel, false);
-        Select(audioInitialSelection);
+        SetActive(keyboardControlsPanel, false);
+        SetActive(gamepadControlsPanel, false);
+        Select(audioInitialSelection, audioPanel);
     }
 
     public void ShowControls()
     {
+        SetSettingsHomeContentActive(false);
         SetActive(audioPanel, false);
         SetActive(controlsPanel, true);
-
-        if (gamepadControlsSelected)
-        {
-            ShowGamepadControls();
-        }
-        else
-        {
-            ShowKeyboardControls();
-        }
+        SetActive(keyboardControlsPanel, false);
+        SetActive(gamepadControlsPanel, false);
+        Select(controlsInitialSelection, controlsPanel);
     }
 
     public void ShowKeyboardControls()
     {
-        gamepadControlsSelected = false;
+        SetSettingsHomeContentActive(false);
+        SetActive(audioPanel, false);
+        SetActive(controlsPanel, false);
         SetActive(keyboardControlsPanel, true);
         SetActive(gamepadControlsPanel, false);
-        Select(keyboardInitialSelection);
+        Select(keyboardInitialSelection, keyboardControlsPanel);
     }
 
     public void ShowGamepadControls()
     {
-        gamepadControlsSelected = true;
+        SetSettingsHomeContentActive(false);
+        SetActive(audioPanel, false);
+        SetActive(controlsPanel, false);
         SetActive(keyboardControlsPanel, false);
         SetActive(gamepadControlsPanel, true);
-        Select(gamepadInitialSelection);
+        Select(gamepadInitialSelection, gamepadControlsPanel);
     }
 
     public void SetMasterVolume(float value)
@@ -176,11 +187,22 @@ public class SettingsController : MonoBehaviour
         }
     }
 
-    private static void Select(Selectable selectable)
+    private void SetSettingsHomeContentActive(bool active)
     {
-        if (selectable != null && EventSystem.current != null)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            EventSystem.current.SetSelectedGameObject(selectable.gameObject);
+            SetActive(transform.GetChild(i).gameObject, active);
         }
+    }
+
+    private static void Select(Selectable selectable, GameObject fallbackRoot)
+    {
+        if (selectable != null && selectable.IsActive() && selectable.IsInteractable())
+        {
+            selectable.Select();
+            return;
+        }
+
+        UIFocus.SelectFirst(fallbackRoot);
     }
 }

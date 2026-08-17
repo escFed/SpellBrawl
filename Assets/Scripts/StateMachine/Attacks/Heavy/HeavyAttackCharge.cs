@@ -43,4 +43,9 @@ public class HeavyAttackCharge
     {
         return Mathf.Lerp(minKnockback, maxKnockback, Mathf.Clamp01(chargeRatio));
     }
+
+    public static float CalculateHitStun(float minHitStun, float maxHitStun, float chargeRatio)
+    {
+        return Mathf.Lerp(minHitStun, maxHitStun, Mathf.Clamp01(chargeRatio));
+    }
 }

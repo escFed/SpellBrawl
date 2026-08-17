@@ -101,7 +101,11 @@ public class GameManager : MonoBehaviour
     private void ShowVictoryScreen(string message)
     {
         if (winnerText != null) winnerText.text = message;
-        if (victoryPanel != null) victoryPanel.SetActive(true);
+        if (victoryPanel != null)
+        {
+            victoryPanel.SetActive(true);
+            UIFocus.SelectFirst(victoryPanel);
+        }
         Time.timeScale = 0f;
     }
 

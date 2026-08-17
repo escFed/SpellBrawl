@@ -40,6 +40,7 @@ public class CharacterSelectUI : MonoBehaviour
         {
             gridContainer.SetActive(false);
             cardsPanel.SetActive(true);
+            UIFocus.SelectFirst(cardsPanel);
         }
 
 

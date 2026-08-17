@@ -60,7 +60,7 @@ public class CharacterAI : MonoBehaviour, IInputProvider
 
     private void Update()
     {
-        if (SelfController.IsDead || SelfController.stunTimer > 0)
+        if (SelfController.IsDead || SelfController.IsHitStunned)
         {
             ClearAllInputs();
             return;

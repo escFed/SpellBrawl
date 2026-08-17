@@ -23,10 +23,10 @@ public class CharacterHealth : MonoBehaviour, IHitStunned
 
     public void TakeDamage(int amount, Vector2 baseKnockback)
     {
-        TakeDamage(amount, baseKnockback, 0.4f);
+        TakeDamage(amount, baseKnockback, 0.3f, HitReaction.Hit, transform.position);
     }
 
-    public void TakeDamage(int amount, Vector2 baseKnockback, float hitStun)
+    public void TakeDamage(int amount, Vector2 baseKnockback, float hitStun, HitReaction reaction, Vector2 hitPoint)
     {
         if (isDead) return;
 
@@ -63,7 +63,13 @@ public class CharacterHealth : MonoBehaviour, IHitStunned
         rb.linearVelocity = Vector2.zero;
         rb.AddForce(finalKnockback * rb.mass, ForceMode2D.Impulse);
 
-        if (controller != null) controller.Combat.TakeHit(Mathf.Max(0f, hitStun));
+        if (controller != null)
+        {
+            controller.Combat.TakeHit(Mathf.Max(0f, hitStun), reaction);
+            controller.HitFeedback?.Flash(reaction);
+        }
+
+        CombatFeedback.PlayImpact(hitPoint, finalKnockback, reaction);
     }
 
     public void TakePummelDamage(int amount)

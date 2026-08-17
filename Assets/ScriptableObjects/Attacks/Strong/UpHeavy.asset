@@ -15,7 +15,7 @@ MonoBehaviour:
   startup: 0.2
   active: 0.08
   recovery: 0.4
-  hitStun: 0.4
+  hitStun: 0.7
   energyGain: 10
   maxChargeTime: 2
   minDamage: 10

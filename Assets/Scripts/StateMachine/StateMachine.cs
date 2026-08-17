@@ -30,6 +30,7 @@ public class StateMachine
     public CardState Card { get; set; }
     public DieState Die { get; set; }
     public ParryState Parry { get; set; }
+    public HitStunState HitStun { get; set; }
 
     public void ChangeState(StateCharacter character)
     {
@@ -63,6 +64,7 @@ public class StateMachine
             StateCharacter.Card => Card,
             StateCharacter.Die => Die,
             StateCharacter.Parry => Parry,
+            StateCharacter.HitStun => HitStun,
             _ => null
         };
 

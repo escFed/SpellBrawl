@@ -27,5 +27,6 @@ public enum StateCharacter
     Throw,
     Card,
     Die,
-    Parry
+    Parry,
+    HitStun
 }
