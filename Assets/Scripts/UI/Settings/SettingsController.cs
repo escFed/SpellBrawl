@@ -42,6 +42,8 @@ public class SettingsController : MonoBehaviour
         GameSettings.Save();
     }
 
+
+
     public void ShowSettingsHome()
     {
         SetSettingsHomeContentActive(true);

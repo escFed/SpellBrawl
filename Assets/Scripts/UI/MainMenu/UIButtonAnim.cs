@@ -1,53 +1,49 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIButtonAnim : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-   
+    private RectTransform rt;
+    private int tweenId = -1;
+
+    private void Awake()
+    {
+        rt = GetComponent<RectTransform>();
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
-        Button clickedButton = eventData.pointerPress?.GetComponent<Button>();
-        if (clickedButton != null)
-        {
-            RectTransform rt = clickedButton.GetComponent<RectTransform>();
+        if (!rt.gameObject.activeInHierarchy) return;
 
-            LeanTween.cancel(rt);
-            LeanTween.scale(rt, Vector3.one * 0.9f, 0.1f)
-                     .setEaseInQuad()
-                     .setOnComplete(() =>
-                     {
-                         LeanTween.scale(rt, Vector3.one, 0.1f).setEaseOutQuad();
-                     });
+        LeanTween.cancel(rt);
+        tweenId = LeanTween.scale(rt, Vector3.one * 0.9f, 0.1f)
+            .setEaseInQuad()
+            .setOnComplete(() =>
+            {
+                LeanTween.scale(rt, Vector3.one, 0.1f).setEaseOutQuad();
+            }).id;
 
-           
-        }
+        Debug.Log("Click en " + gameObject.name);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Button hoveredButton = eventData.pointerEnter?.GetComponent<Button>();
-        if (hoveredButton != null)
-        {
+        if (!rt.gameObject.activeInHierarchy) return;
 
-            RectTransform rt = hoveredButton.GetComponent<RectTransform>();
+        LeanTween.cancel(rt);
+        tweenId = LeanTween.scale(rt, Vector3.one * 1.1f, 0.15f).setEaseOutQuad().id;
 
-            // Animar el clicker (aparece con un pequeño zoom)
-            LeanTween.cancel(rt);
-            LeanTween.scale(rt, Vector3.one * 1.1f, 0.15f).setEaseOutQuad();
-        }
+        Debug.Log("Hover en " + gameObject.name);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Button exitedButton = eventData.pointerEnter?.GetComponent<Button>();
-        if (exitedButton != null)
-        {
-            RectTransform rt = exitedButton.GetComponent<RectTransform>();
-            LeanTween.cancel(rt);
-            LeanTween.scale(rt, Vector3.one, 0.15f).setEaseOutQuad();
-        }
+        if (!rt.gameObject.activeInHierarchy) return;
 
+        LeanTween.cancel(rt);
+        tweenId = LeanTween.scale(rt, Vector3.one, 0.15f).setEaseOutQuad().id;
+
+        Debug.Log("Exit en " + gameObject.name);
     }
 }
