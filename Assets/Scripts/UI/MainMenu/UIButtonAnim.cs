@@ -1,10 +1,11 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIButtonAnim : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-
+   
     public void OnPointerClick(PointerEventData eventData)
     {
         Button clickedButton = eventData.pointerPress?.GetComponent<Button>();
@@ -12,16 +13,15 @@ public class UIButtonAnim : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         {
             RectTransform rt = clickedButton.GetComponent<RectTransform>();
 
-            // Cancelar tweens previos
             LeanTween.cancel(rt);
-
-            // Bounce sutil
             LeanTween.scale(rt, Vector3.one * 0.9f, 0.1f)
                      .setEaseInQuad()
                      .setOnComplete(() =>
                      {
                          LeanTween.scale(rt, Vector3.one, 0.1f).setEaseOutQuad();
                      });
+
+           
         }
     }
 
@@ -30,8 +30,10 @@ public class UIButtonAnim : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         Button hoveredButton = eventData.pointerEnter?.GetComponent<Button>();
         if (hoveredButton != null)
         {
+
             RectTransform rt = hoveredButton.GetComponent<RectTransform>();
 
+            // Animar el clicker (aparece con un pequeño zoom)
             LeanTween.cancel(rt);
             LeanTween.scale(rt, Vector3.one * 1.1f, 0.15f).setEaseOutQuad();
         }
@@ -43,9 +45,9 @@ public class UIButtonAnim : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         if (exitedButton != null)
         {
             RectTransform rt = exitedButton.GetComponent<RectTransform>();
-
             LeanTween.cancel(rt);
             LeanTween.scale(rt, Vector3.one, 0.15f).setEaseOutQuad();
         }
+
     }
 }
