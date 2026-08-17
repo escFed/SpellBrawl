@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 public class MenuManager : MonoBehaviour
 {
     [Header("Panels")]
     [SerializeField]
     private GameObject mainMenuPanel;
-    [SerializeField]
-    private GameObject howToPlayPanel;
+  
+   // private GameObject howToPlayPanel;
     [SerializeField]
     private GameObject controlsPanel;
     [SerializeField]
@@ -16,6 +17,11 @@ public class MenuManager : MonoBehaviour
     private GameObject cardsSelectPanel;
     [SerializeField]
     private GameObject settingsPanel;
+
+    [SerializeField]
+    private GameObject soundPanel;
+
+    private Button button;
 
 
     private void Start()
@@ -29,22 +35,23 @@ public class MenuManager : MonoBehaviour
         if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
         if (characterSelectPanel != null) characterSelectPanel.SetActive(false);
         if (cardsSelectPanel != null) cardsSelectPanel.SetActive(false);
-        if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
+     //   if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
         if (settingsPanel != null) settingsPanel.SetActive(false);
         if (controlsPanel != null) controlsPanel.SetActive(false);
+        if(soundPanel != null) soundPanel.SetActive(false);
     }
 
-    public void ShowHowToPlay()
-    {
+    //public void ShowHowToPlay()
+    //{
 
-        CloseSettings();
+    //    CloseSettings();
 
 
-        mainMenuPanel.SetActive(false);
-        controlsPanel.SetActive(false);
-        howToPlayPanel.SetActive(true);
-        
-    }
+    //    mainMenuPanel.SetActive(false);
+    //    controlsPanel.SetActive(false);
+    //    howToPlayPanel.SetActive(true);
+
+    //}
 
     public void CharacterSelect()
     {
@@ -64,7 +71,7 @@ public class MenuManager : MonoBehaviour
             SelectionManager.Instance.isTrainingMode = true;
 
         mainMenuPanel.SetActive(false);
-        if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
+      //  if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
         if (controlsPanel != null) controlsPanel.SetActive(false);
         if (cardsSelectPanel != null) cardsSelectPanel.SetActive(false);
         characterSelectPanel.SetActive(true);
@@ -97,13 +104,13 @@ public class MenuManager : MonoBehaviour
     public void ShowControls()
     {
         if (controlsPanel != null) controlsPanel.SetActive(true);
-        howToPlayPanel.SetActive(false);
+        //howToPlayPanel.SetActive(false);
     }
 
     public void HideControls()
     {
         if (controlsPanel != null) controlsPanel.SetActive(false);
-        howToPlayPanel.SetActive(true);
+        //howToPlayPanel.SetActive(true);
     }
 
     public void QuitGame()
@@ -113,12 +120,11 @@ public class MenuManager : MonoBehaviour
 
     public void ShowSettings()
     {
-        if(mainMenuPanel != null) mainMenuPanel.SetActive(false);
-        if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
+        if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
         if (controlsPanel != null) controlsPanel.SetActive(false);
         if (characterSelectPanel != null) characterSelectPanel.SetActive(false);
         if (cardsSelectPanel != null) cardsSelectPanel.SetActive(false);
-        if (settingsPanel != null) settingsPanel.SetActive(true);
+        settingsPanel.SetActive(true);
     }
 
     public void HideSettings()
@@ -130,4 +136,7 @@ public class MenuManager : MonoBehaviour
     {
         if (settingsPanel != null) settingsPanel.SetActive(false);
     }
+
+
+
 }

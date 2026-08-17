@@ -9,6 +9,18 @@ public class UICard : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
     public DeckBuilderUI deckBuilder;
     public TextMeshProUGUI cardCopiesText;
 
+    private ICardable cardData;
+    private RectTransform rectTransform;
+
+
+    private void Awake()
+    {
+        cardData = cardPrefab.GetComponent<ICardable>();
+        rectTransform = GetComponent<RectTransform>();
+
+        if (deckBuilder == null)
+            deckBuilder = FindAnyObjectByType<DeckBuilderUI>();
+    }
     private void Start() => UpdateVisuals();
 
     public void OnPointerClick(PointerEventData eventData)
@@ -30,12 +42,17 @@ public class UICard : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
     public void OnPointerEnter(PointerEventData eventData)
     {
         ICardable cardData = cardPrefab.GetComponent<ICardable>();
+        
         if (cardData != null) deckBuilder.ShowCardDescription(cardData.CardName, cardData.CardDescription, cardData.EnergyCost, cardData.DamageableOrNot, cardData.Type);
+        // Animación de hover
+        LeanTween.scale(rectTransform, Vector3.one * 2f, 0.05f).setEaseOutQuad();
+
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         //deckBuilder.HideCardDescription();
+        LeanTween.scale(rectTransform, Vector3.one, 0.1f).setEaseOutQuad();
     }
 
     public void UpdateVisuals()

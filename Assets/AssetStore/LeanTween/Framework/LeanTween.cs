@@ -144,6 +144,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public enum TweenAction{
     MOVE_X,
@@ -2885,7 +2886,10 @@ public class LeanTween : MonoBehaviour {
         }
     }
 
-
+    internal static void color(Image bar, Color targetColor, float v)
+    {
+        throw new NotImplementedException();
+    }
 } // End LeanTween class
 
 public class LTUtility {
