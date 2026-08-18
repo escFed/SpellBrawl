@@ -12,8 +12,18 @@ public class UIManager : MonoBehaviour
     public Image p2_icon;
 
     [Header("Damage")]
-    public Image p1_damageBar;
-    public Image p2_damageBar;
+    public TextMeshProUGUI p1_damage;
+    public TextMeshProUGUI p2_damage;
+
+
+    [Space(5)]
+    [Header("LeanTween Settings")]
+    [Tooltip("Color del flash instantáneo al recibir un golpe")]
+    [SerializeField] private Color colorFlashGolpe = Color.white;
+    [Tooltip("Color del texto cuando el daño es 0%")]
+    [SerializeField] private Color colorDañoBajo = Color.white;
+    [Tooltip("Color del texto cuando el daño es muy alto (ej. 150%+)")]
+    [SerializeField] private Color colorDañoAlto = new Color(0.9f, 0.1f, 0.1f); // Rojo intenso
 
     [Header("Cards P1")]
     public Image[] p1_cards = new Image[4];
@@ -48,41 +58,7 @@ public class UIManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
-        // Auto-asignar barras de daño si no están asignadas
-        if (p1_damageBar == null)
-        {
-            p1_damageBar = GameObject.Find("P1_damage Bar")?.GetComponent<Image>();
-            if (p1_damageBar == null)
-                p1_damageBar = GameObject.Find("P1DamageBar")?.GetComponent<Image>();
-            if (p1_damageBar == null)
-                p1_damageBar = FindImageByName("P1_damage");
-        }
-
-        if (p2_damageBar == null)
-        {
-            p2_damageBar = GameObject.Find("P2_damage Bar")?.GetComponent<Image>();
-            if (p2_damageBar == null)
-                p2_damageBar = GameObject.Find("P2DamageBar")?.GetComponent<Image>();
-            if (p2_damageBar == null)
-                p2_damageBar = FindImageByName("P2_damage");
-        }
-
-        // Asegurar que las barras sean visibles con un color inicial
-        if (p1_damageBar != null)
-        {
-            p1_damageBar.color = Color.green;
-            Debug.Log($"✓ P1 damage bar encontrada: {p1_damageBar.name}");
-        }
-        else
-            Debug.LogError("✗ P1 damage bar NO encontrada!");
-
-        if (p2_damageBar != null)
-        {
-            p2_damageBar.color = Color.green;
-            Debug.Log($"✓ P2 damage bar encontrada: {p2_damageBar.name}");
-        }
-        else
-            Debug.LogError("✗ P2 damage bar NO encontrada!");
+        
     }
 
     private Image FindImageByName(string searchTerm)
@@ -118,46 +94,35 @@ public class UIManager : MonoBehaviour
 
     private void UpdateDamageUI(int playerIndex, int damage)
     {
-        Image bar = (playerIndex == 0) ? p1_damageBar : p2_damageBar;
-        if (bar == null) return;
+        TextMeshProUGUI damageText = (playerIndex == 0) ? p1_damage : p2_damage;
+        if (damageText == null) return;
 
-        Color targetColor = GetDamageColor(damage);
+        
+        LeanTween.cancel(damageText.gameObject);
 
-        // Cancelar animaciones previas
-        if (animateColorCoroutine != null)
-            StopCoroutine(animateColorCoroutine);
+       
+        damageText.text = damage + "%";
 
-        // Animar solo el color, la barra ya está completa
-        animateColorCoroutine = AnimateBarColor(bar, targetColor, 0.5f);
-        StartCoroutine(animateColorCoroutine);
+        
+        float tColor = Mathf.Clamp01((float)damage / 150f);
+        Color colorBaseActual = Color.Lerp(colorDañoBajo, colorDañoAlto, tColor);
+
+        
+        damageText.transform.localScale = Vector3.one;
+
+       
+        LeanTween.scale(damageText.gameObject, new Vector3(1.35f, 1.35f, 1f), 0.25f)
+            .setEasePunch();
+
+       
+        LeanTween.value(damageText.gameObject, 0f, 1f, 0.25f)
+            .setOnUpdate((float t) =>
+            {
+                damageText.color = Color.Lerp(colorFlashGolpe, colorBaseActual, t);
+            });
     }
 
-    private IEnumerator AnimateBarColor(Image bar, Color targetColor, float duration)
-    {
-        if (bar == null) yield break;
 
-        Color startColor = bar.color;
-        float elapsed = 0f;
-
-        while (elapsed < duration && bar != null)
-        {
-            elapsed += Time.deltaTime;
-            bar.color = Color.Lerp(startColor, targetColor, elapsed / duration);
-            yield return null;
-        }
-
-        if (bar != null)
-            bar.color = targetColor;
-    }
-
-    private Color GetDamageColor(int damage)
-    {
-        if (damage < 25) return Color.green;
-        if (damage <= 50) return Color.yellow;
-        if (damage <= 75) return Color.red;
-        if (damage <= 100) return new Color(1f, 0.5f, 0f);  // Orange
-        return new Color(0.4f, 0f, 0f);  // Dark red
-    }
 
     private void UpdateLivesUI(int playerIndex, int lives)
     {
