@@ -32,6 +32,8 @@ public class DeckBuilderUI : MonoBehaviour
 
     private AudioSource source;
     [SerializeField] private AudioClip aCardSelectedClip;
+
+    [SerializeField] private AudioClip anUnselectedCardClip;
     public void Start()
     {
         UpdateUI();
@@ -63,6 +65,9 @@ public class DeckBuilderUI : MonoBehaviour
         {
             deckCounts[cardPrefab]--;
             currentTotalCards--;
+            source = GetComponent<AudioSource>();
+            GameSettings.RegisterSource(source, GameSound.SoundEffects);
+            source.PlayOneShot(anUnselectedCardClip);
             UpdateUI();
             return true;
         }
