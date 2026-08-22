@@ -1093,9 +1093,177 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
+<<<<<<< Updated upstream:Assets/Prefabs/Characters/PlayerAI.prefab
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
+=======
+    m_Bits: 64
+  groundCheckRadius: 0.2
+  moveSpeedMultiplier: 1
+--- !u!114 &158549324596254434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8413723424367857399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44ac979ff93691841b17c3a9e89be3ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  stats: {fileID: 11400000, guid: 9e61a409cc107824292296bf90f56bba, type: 2}
+  controlsEnabled: 1
+  cardsEnabled: 1
+--- !u!114 &9208369854405864837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8413723424367857399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294a219f7e9ff4443b0c5dcae4a7aff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHitBox
+  jabHitbox: {fileID: 929378163260083067}
+  fTiltHitbox: {fileID: 3356354871029855129}
+  upTiltHitbox: {fileID: 7306960972718543922}
+  dTiltHitbox: {fileID: 5261446718028661164}
+  neutralAirHitbox: {fileID: 929378163260083067}
+  forwardAirHitbox: {fileID: 3356354871029855129}
+  upAirHitbox: {fileID: 7306960972718543922}
+  downAirHitbox: {fileID: 5261446718028661164}
+  forwardHeavyHitbox: {fileID: 4986419030148906328}
+  upHeavyHitbox: {fileID: 475442577971590203}
+  downHeavyHitbox: {fileID: 4354201399094529470}
+  grabHitbox: {fileID: 5370799566395882934}
+  pivotGrabHitbox: {fileID: 4302392321065018777}
+  originalSpriteFacesRight: 1
+--- !u!114 &579046217688888013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8413723424367857399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2271e5527c100274aa53a61eb097ef34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterGrab
+  throwPoint: {fileID: 2699452329992907090}
+--- !u!114 &4907414666020560748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8413723424367857399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e80b4c48c079aca46a087dbec982350d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  currentDamage: 0
+  fallLives: 3
+  activeDefenseMultiplier: 1
+--- !u!114 &1580126540270080604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8413723424367857399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb129c2505d1329478de6fe892690a26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnergyManager
+  currentEnergy: 0
+--- !u!114 &2516625732806329253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8413723424367857399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb5d3792621129b4bae3f2a17e7bc90f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterDeck
+  rules: {fileID: 11400000, guid: 4880708621f1ac2429c5841ef6426bb8, type: 2}
+  catalog: {fileID: 11400000, guid: 9e0aae7e94d167447bcf86203586d8b0, type: 2}
+  cardPrefabsPool:
+  - {fileID: 2052908611097359236, guid: b65cb8e6896a3a0489b3906511503c53, type: 3}
+  - {fileID: 8626042553062594018, guid: a5ffda282a8266e41a26b5594762a5ab, type: 3}
+  - {fileID: 8020222836146473951, guid: a1e23b8fc63d99a44b5dd66e83c8d8c3, type: 3}
+  - {fileID: 8266632702581206144, guid: 836afddc1d8c95a43b7bd9099076fa8d, type: 3}
+  - {fileID: 8020222836146473951, guid: 6f7f7eeec9ac338469710aac8d7f00b7, type: 3}
+  - {fileID: 4282770336491579012, guid: 28f803e4034c9cb438d95ea5b925f4d6, type: 3}
+  - {fileID: 2077598287845426619, guid: 0a5c15f64f078634ca9f48541953e978, type: 3}
+  - {fileID: 8020222836146473951, guid: 8e91243fc5ff7774b9224e9c6ef3831b, type: 3}
+  - {fileID: 7787666514362569338, guid: d52e531f554fb924da7faa414e98e18a, type: 3}
+  - {fileID: 3111288841274506641, guid: e8047da05a8773842894874f21cb14a4, type: 3}
+--- !u!114 &-871204519518787205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8413723424367857399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec30e8c2b4a823428d6fcac54a3c579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterParry
+  parrySuccessSound: {fileID: 8300000, guid: 7a1ed6c999fc1ed4b93714856673b0ab, type: 3}
+--- !u!114 &1686761356173621001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8413723424367857399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b1635a5f30bb0b49a214baf4dd5ee68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterCombat
+  attackSpeedMultiplier: 1
+--- !u!82 &-640666829969912022
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8413723424367857399}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+>>>>>>> Stashed changes:Assets/Prefabs/Characters/Mario.prefab
     serializedVersion: 2
     m_Bits: 4294967295
   m_ForceReceiveLayers:

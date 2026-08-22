@@ -93,12 +93,17 @@ public class PlayerController : MonoBehaviour
             energy.SetUIElements(energySlider);
         }
 
+<<<<<<< Updated upstream
         if (UIManager.Instance != null)
         {
             deckCountText = (PlayerIndex == 0) ? UIManager.Instance.p1_deckCountText : UIManager.Instance.p2_deckCountText;
         }
 
         ResetDeckForNewRound();
+=======
+        Health.UpdateUI();
+        GetComponent<EnergyManager>().UpdateUI();
+>>>>>>> Stashed changes
     }
 
     private void Update()

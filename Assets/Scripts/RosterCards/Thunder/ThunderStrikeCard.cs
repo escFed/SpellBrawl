@@ -1,4 +1,7 @@
+<<<<<<< Updated upstream:Assets/Scripts/Cards/Thunder/ThunderStrikeCard.cs
 using System.Collections;
+=======
+>>>>>>> Stashed changes:Assets/Scripts/RosterCards/Thunder/ThunderStrikeCard.cs
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +9,7 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
 {
     [Header("Settings")]
     [SerializeField] private GameObject tsPrefab;
+<<<<<<< Updated upstream:Assets/Scripts/Cards/Thunder/ThunderStrikeCard.cs
     [SerializeField] private float cooldownTime = 8f;
     public int EnergyCost => 40;
 
@@ -13,6 +17,18 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
 
     private Image cardUI;
     private bool canUse = true;
+=======
+    [SerializeField] private int energyCost = 20;
+
+    public int EnergyCost => energyCost;
+    public string CardName => cardName;
+    public string CardDescription => cardDescription;
+    public CardType Type => CardType.Offensive;
+    public string DamageableOrNot => damageOrNot;
+    [Header("Visual")]
+    [SerializeField] public Sprite cardSprite;
+    [SerializeField] private Image cardUI;
+>>>>>>> Stashed changes:Assets/Scripts/RosterCards/Thunder/ThunderStrikeCard.cs
 
     public void SetUI(Image uiImage)
     {
@@ -28,6 +44,7 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
 
     public void ExecuteCard(PlayerController player)
     {
+<<<<<<< Updated upstream:Assets/Scripts/Cards/Thunder/ThunderStrikeCard.cs
         if (!canUse) return;
 
         StartCoroutine(ThunderRoutine(player));
@@ -39,6 +56,8 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
 
         if (cardUI != null) cardUI.enabled = false;
 
+=======
+>>>>>>> Stashed changes:Assets/Scripts/RosterCards/Thunder/ThunderStrikeCard.cs
         PlayerController target = null;
 
         PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
@@ -62,10 +81,6 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
             }
         }
 
-        yield return new WaitForSeconds(cooldownTime);
-
-        canUse = true;
-
-        if (cardUI != null) cardUI.enabled = true;
+        Destroy(gameObject);
     }
 }

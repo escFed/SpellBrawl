@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,14 +5,25 @@ public class StarThrowCard : MonoBehaviour, ICardable
 {
     [Header("Settings")]
     [SerializeField] private GameObject starPrefab;
-    [SerializeField] private float cooldownTime = 6f;
     [SerializeField] private float spawnHeight = 12f;
     public int EnergyCost => 40;
 
+<<<<<<< Updated upstream:Assets/Scripts/Cards/Star/StarThrowCard.cs
     public Sprite cardSprite;
 
     private Image cardUI;
     private bool canUse = true;
+=======
+    [Header("Visual")]
+    [SerializeField] private Sprite cardSprite;
+    [SerializeField] private Image cardUI;
+
+    public string DamageableOrNot => damageOrNot;
+    public int EnergyCost => energyCost;
+    public string CardName => cardName;
+    public string CardDescription => cardDescription;
+    public CardType Type => CardType.Offensive;
+>>>>>>> Stashed changes:Assets/Scripts/RosterCards/Star/StarThrowCard.cs
 
     public void SetUI(Image uiImage)
     {
@@ -29,6 +39,7 @@ public class StarThrowCard : MonoBehaviour, ICardable
 
     public void ExecuteCard(PlayerController player)
     {
+<<<<<<< Updated upstream:Assets/Scripts/Cards/Star/StarThrowCard.cs
         if (!canUse) return;
         StartCoroutine(StarRoutine(player));
     }
@@ -38,6 +49,8 @@ public class StarThrowCard : MonoBehaviour, ICardable
         canUse = false;
         if (cardUI != null) cardUI.enabled = false;
 
+=======
+>>>>>>> Stashed changes:Assets/Scripts/RosterCards/Star/StarThrowCard.cs
         PlayerController target = null;
         PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
 
@@ -62,9 +75,6 @@ public class StarThrowCard : MonoBehaviour, ICardable
             }
         }
 
-        yield return new WaitForSeconds(cooldownTime);
-
-        canUse = true;
-        if (cardUI != null) cardUI.enabled = true;
+        Destroy(gameObject);
     }
 }
