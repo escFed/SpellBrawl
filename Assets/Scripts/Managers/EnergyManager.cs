@@ -1,35 +1,22 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EnergyManager : MonoBehaviour
 {
-    [Header("Energy Settings")]
-    public int maxEnergy = 100;
-    public int startingEnergy = 50;
     public int currentEnergy;
-
-    private Slider energySlider;
+    private PlayerController Controller;
 
     private void Awake()
     {
-        currentEnergy = startingEnergy;
+        Controller = GetComponent<PlayerController>();
     }
 
-    public void SetUIElements(Slider slider)
+    private void Start()
     {
-        energySlider = slider;
-
-        if (energySlider != null)
-        {
-            energySlider.minValue = 0;
-            energySlider.maxValue = maxEnergy;
-            energySlider.value = currentEnergy;
-        }
-        UpdateUI();
+        currentEnergy = Controller.stats.startingEnergy;
     }
     public void AddEnergy(int amount)
     {
-        currentEnergy = Mathf.Clamp(currentEnergy + amount, 0, maxEnergy);
+        currentEnergy = Mathf.Clamp(currentEnergy + amount, 0, Controller.stats.maxEnergy);
         UpdateUI();
     }
 
@@ -46,12 +33,13 @@ public class EnergyManager : MonoBehaviour
 
     public void ResetEnergy()
     {
-        currentEnergy = startingEnergy;
+        currentEnergy = Controller.stats.startingEnergy;
         UpdateUI();
     }
 
     public void UpdateUI()
     {
-        if (energySlider != null) energySlider.value = currentEnergy;
+        if (Controller != null)
+            UIEvents.OnEnergyChanged?.Invoke(Controller.PlayerIndex, currentEnergy);
     }
 }

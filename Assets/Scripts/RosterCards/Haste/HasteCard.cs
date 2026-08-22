@@ -4,39 +4,48 @@ using System.Collections;
 
 public class HasteCard : MonoBehaviour, ICardable
 {
+    [Header("Card Info")]
+    [SerializeField] private string cardName = "Haste Card";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Increases attack and movement speed";
+    [SerializeField] private string damageOrNot = "no";
+
     [Header("Haste Settings")]
-    public float speedMultiplier = 1.5f;
-    public float duration = 5f;
-    public int energyCost = 45;
-
-    public Sprite cardIcon;
-
+    [SerializeField] private float speedMultiplier = 1.5f;
+    [SerializeField] private float duration = 5f;
+    [SerializeField] private int energyCost = 20;
+    [SerializeField] private Sprite cardIcon;
+    public string DamageableOrNot => damageOrNot;
     public int EnergyCost => energyCost;
+    public string CardName => cardName;
+    public string CardDescription => cardDescription;
+    public CardType Type => CardType.Utility;
 
     public void SetUI(Image img)
     {
         if (img != null && cardIcon != null) img.sprite = cardIcon;
     }
 
-    public void ExecuteCard(PlayerController player)
+    public bool CanBeUsed(PlayerController user) => true;
+
+    public void ExecuteCard(PlayerController character)
     {
-        StartCoroutine(HasteRoutine(player));
+        StartCoroutine(HasteRoutine(character));
     }
 
-    private IEnumerator HasteRoutine(PlayerController player)
+    private IEnumerator HasteRoutine(PlayerController character)
     {
-        player.moveSpeedMultiplier = speedMultiplier;
-        player.attackSpeedMultiplier = speedMultiplier;
+        character.Movement.moveSpeedMultiplier = speedMultiplier;
+        character.Combat.attackSpeedMultiplier = speedMultiplier;
 
-        player.GetComponent<SpriteRenderer>().color = Color.yellow;
+        character.GetComponent<SpriteRenderer>().color = Color.yellow;
 
         yield return new WaitForSeconds(duration);
 
-        if (player != null)
+        if (character != null)
         {
-            player.moveSpeedMultiplier = 1f;
-            player.attackSpeedMultiplier = 1f;
-            player.GetComponent<SpriteRenderer>().color = Color.white;
+            character.Movement.moveSpeedMultiplier = 1f;
+            character.Combat.attackSpeedMultiplier = 1f;
+            character.GetComponent<SpriteRenderer>().color = Color.white;
         }
 
         Destroy(gameObject);

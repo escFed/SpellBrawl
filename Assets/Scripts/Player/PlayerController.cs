@@ -1,328 +1,415 @@
-﻿using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Stats")]
-    [SerializeField] private PlayerStats stats;
-    public bool IsGrounded { get; private set; }
+    public CharacterStats stats;
+
     public bool IsDead { get; private set; }
-    public int PlayerIndex { get; private set; }
-    public float stunTimer;
+    public int PlayerIndex { get; set; }
+    public bool IsParrying { get; set; }
+    public bool IsIntangible { get; set; }
+    public bool IsHitStunned => stateMachine != null && stateMachine.CurrentState == stateMachine.HitStun;
 
-    [Header("Cards")]
-    public GameObject[] cardPrefabsPool;
-    public int totalDeckSize = 20;
-    private List<ICardable> reserveDeck = new List<ICardable>();
-    private ICardable[] currentHand = new ICardable[5];
+    public int JumpsRemaining { get; private set; }
+    private bool wasGrounded;
+    public bool controlsEnabled = true;
+    public bool cardsEnabled = true;
 
-    [Header("Ground Check")]
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float groundCheckRadius = 0.2f;
-
-    [Header("Buff Multipliers")]
-    public float moveSpeedMultiplier = 1f;
-    public float attackSpeedMultiplier = 1f;
-
-    public Transform throwPoint;
     private IInputProvider input;
-    private Rigidbody2D rb;
-    private PlayerHitBox HitBox;
-    private EnergyManager energy;
-    private TextMeshProUGUI deckCountText;
+    private CharacterDeck deck;
+    private CharacterParry parry;
+    private readonly System.Collections.Generic.Dictionary<int, AnimatorControllerParameterType> animatorParameterTypes =
+        new System.Collections.Generic.Dictionary<int, AnimatorControllerParameterType>();
 
-    private StateMachine stateMachine;
-    public IdleState IdleState { get; private set; }
-    public MoveState MoveState { get; private set; }
-    public JumpState JumpState { get; private set; }
-    public JabState JabState { get; private set; }
-    public ForwardTiltState ForwardTiltState { get; private set; }
-    public DownTiltState DownTiltState { get; private set; }
-    public UpTiltState UpTiltState { get; private set; }
-    public CardState CardState { get; private set; }
-    public DieState DieState { get; private set; }
+    public Animator Anim { get; private set; }
+    public CharacterCombat Combat { get; private set; }
+    public CharacterGrab Grab { get; private set; }
+    public CharacterMovement Movement { get; private set; }
+    public CharacterHealth Health { get; private set; }
+    public CharacterShield Shield { get; private set; }
+    public CharacterRoll Roll { get; private set; }
+    public CharacterDodge Dodge { get; private set; }
+    public CharacterDash Dash { get; private set; }
+    public CharacterHitFeedback HitFeedback { get; private set; }
+    public StateMachine stateMachine { get; private set; }
+    public SpriteRenderer Sprite { get; private set; }
 
+    public IInputProvider ActiveInput => input;
     public Vector2 MoveInput => input.CurrentDirection;
-    public bool JumpPressed =>  input.HasBufferedJump;
+    public bool JumpPressed => input.HasBufferedJump;
+    public bool IsGrounded => Movement.IsGrounded;
     public bool AttackInput => input.HasBufferedAttack;
+    public bool GrabInput => input.HasBufferedGrab;
+    public bool EvadePressed => input.HasBufferedEvade;
+    public bool DashPressed => input.HasBufferedDash;
+    public bool HeavyAttackPressed => input.HasBufferedHeavyAttack;
 
     private void Awake()
     {
         input = GetComponent<IInputProvider>();
-        HitBox = GetComponent<PlayerHitBox>();
-        rb = GetComponent<Rigidbody2D>();
-        energy = GetComponent<EnergyManager>();
+        deck = GetComponent<CharacterDeck>();
+        parry = GetComponent<CharacterParry>();
+        Combat = GetComponent<CharacterCombat>();
+        Grab = GetComponent<CharacterGrab>();
+        Movement = GetComponent<CharacterMovement>();
+        Health = GetComponent<CharacterHealth>();
+        Sprite = GetComponentInChildren<SpriteRenderer>();
+        Anim = GetComponentInChildren<Animator>();
+        CacheAnimatorParameters();
+        Shield = GetComponent<CharacterShield>();
+        Roll = GetComponent<CharacterRoll>();
+        Dodge = GetComponent<CharacterDodge>();
+        Dash = GetComponent<CharacterDash>();
+        HitFeedback = GetComponent<CharacterHitFeedback>();
+
+        if (Shield == null)
+            Shield = gameObject.AddComponent<CharacterShield>();
+
+        if (Roll == null)
+            Roll = gameObject.AddComponent<CharacterRoll>();
+
+        if (Dodge == null)
+            Dodge = gameObject.AddComponent<CharacterDodge>();
+
+        if (Dash == null)
+            Dash = gameObject.AddComponent<CharacterDash>();
+
+        if (HitFeedback == null)
+            HitFeedback = gameObject.AddComponent<CharacterHitFeedback>();
+
+        Shield.Initialize(Sprite);
+        HitFeedback.Initialize(Sprite);
 
         stateMachine = new StateMachine();
-        IdleState = new IdleState(this, stateMachine);
-        MoveState = new MoveState(this, stateMachine);
-        JumpState = new JumpState(this, stateMachine);
-        JabState = new JabState(this, stateMachine);
-        ForwardTiltState = new ForwardTiltState(this, stateMachine);
-        UpTiltState = new UpTiltState(this, stateMachine);
-        DownTiltState = new DownTiltState(this, stateMachine);
-        DieState = new DieState(this, stateMachine);
-        CardState = new CardState(this, stateMachine);
+        stateMachine.Idle = new IdleState(this, stateMachine);
+        stateMachine.Move = new MoveState(this, stateMachine);
+        stateMachine.Jump = new JumpState(this, stateMachine);
+        stateMachine.Crouch = new CrouchState(this, stateMachine);
+        stateMachine.Shield = new ShieldState(this, stateMachine);
+        stateMachine.Roll = new RollState(this, stateMachine);
+        stateMachine.Dodge = new DodgeState(this, stateMachine);
+        stateMachine.Dash = new DashState(this, stateMachine);
+        stateMachine.Jab = new JabState(this, stateMachine, stats.jabAttack);
+        stateMachine.ForwardTilt = new ForwardTiltState(this, stateMachine, stats.fTiltAttack);
+        stateMachine.UpTilt = new UpTiltState(this, stateMachine, stats.upTiltAttack);
+        stateMachine.DownTilt = new DownTiltState(this, stateMachine, stats.dTiltAttack);
+        stateMachine.NeutralAir = new NeutralAirState(this, stateMachine, stats.neutralAirAttack);
+        stateMachine.ForwardAir = new ForwardAirState(this, stateMachine, stats.forwardAirAttack);
+        stateMachine.UpAir = new UpAirState(this, stateMachine, stats.upAirAttack);
+        stateMachine.DownAir = new DownAirState(this, stateMachine, stats.downAirAttack);
+        stateMachine.HeavyCharge = new HeavyChargeState(this, stateMachine);
+        stateMachine.HeavyAttack = new HeavyAttackState(this, stateMachine);
+        stateMachine.DashAttack = new DashAttackState(this, stateMachine, stats.dashAttack != null ? stats.dashAttack : stats.fTiltAttack);
+        stateMachine.Grab = new NormalGrabState(this, stateMachine, stats.grabStats);
+        stateMachine.PivotGrab = new PivotGrabState(this, stateMachine, stats.pivotGrabStats);
+        stateMachine.DashGrab = new DashGrabState(this, stateMachine, stats.dashGrabStats != null ? stats.dashGrabStats : stats.grabStats);
+        stateMachine.GrabHold = new GrabHoldState(this, stateMachine);
+        stateMachine.Pummel = new PummelState(this, stateMachine);
+        stateMachine.Throw = new ThrowState(this, stateMachine);
+        stateMachine.Card = new CardState(this, stateMachine);
+        stateMachine.Die = new DieState(this, stateMachine);
+        stateMachine.Parry = new ParryState(this, stateMachine);
+        stateMachine.HitStun = new HitStunState(this, stateMachine);
+
+        if (GetComponent<IGrabbable>() == null)
+            gameObject.AddComponent<CharacterGrabbable>();
     }
 
     private void Start()
     {
-        stateMachine.Initialize(IdleState);
+        stateMachine.ChangeState(StateCharacter.Idle);
+        ResetJumps();
+        wasGrounded = IsGrounded;
 
-        PlayerInput playerInput = GetComponent<PlayerInput>();
-        PlayerIndex = playerInput != null ? playerInput.playerIndex : 1;
+        bool isAI = (PlayerIndex == 1);
 
-        PlayerHealth health = GetComponent<PlayerHealth>();
-        if (health != null && UIManager.Instance != null)
+        if (isAI)
         {
-            TextMeshProUGUI myText = (PlayerIndex == 0) ? UIManager.Instance.p1_damageText : UIManager.Instance.p2_damageText;
-            GameObject[] myLines = (PlayerIndex == 0) ? UIManager.Instance.p1_life : UIManager.Instance.p2_life;
-            health.SetUIElements(myText, myLines);
+            input = GetComponent<CharacterAI>();
+        }
+        else
+        {
+            input = GetComponent<CharacterBrain>();
         }
 
-        EnergyManager energy = GetComponent<EnergyManager>();
-        if (energy != null && UIManager.Instance != null)
+        if (stats != null && stats.characterIcon != null)
         {
-            Slider energySlider = (PlayerIndex == 0) ? UIManager.Instance.p1_energySlider : UIManager.Instance.p2_energySlider;
-
-            energy.SetUIElements(energySlider);
+            UIEvents.OnIconSet?.Invoke(PlayerIndex, stats.characterIcon);
         }
 
-<<<<<<< Updated upstream
-        if (UIManager.Instance != null)
-        {
-            deckCountText = (PlayerIndex == 0) ? UIManager.Instance.p1_deckCountText : UIManager.Instance.p2_deckCountText;
-        }
-
-        ResetDeckForNewRound();
-=======
         Health.UpdateUI();
         GetComponent<EnergyManager>().UpdateUI();
->>>>>>> Stashed changes
     }
+
+    public IState GetCurrentState() => stateMachine.CurrentState;
+    public void ChangeState(StateCharacter newState) => stateMachine.ChangeState(newState);
 
     private void Update()
     {
         if (IsDead) return;
-        IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
-        if (stunTimer > 0)
+        if (!controlsEnabled) return;
+
+        bool isNowGrounded = IsGrounded;
+        if (isNowGrounded && !wasGrounded)
+            ResetJumps();
+        wasGrounded = isNowGrounded;
+
+        if (IsHitStunned)
         {
-            stunTimer -= Time.deltaTime;
+            stateMachine.Update();
             return;
         }
 
+        if (input.HasBufferedShield)
+            input.ConsumeShield();
+
+        if (input.IsShieldHeld)
+        {
+            bool canStartShield = Shield.CanActivate && IsGrounded &&
+                (stateMachine.CurrentState == stateMachine.Idle ||
+                 stateMachine.CurrentState == stateMachine.Move ||
+                 stateMachine.CurrentState == stateMachine.Crouch);
+
+            if (canStartShield)
+            {
+                stateMachine.ChangeState(StateCharacter.Shield);
+                return;
+            }
+        }
+
+        bool canTurnFromInput = stateMachine.CurrentState != stateMachine.HeavyAttack;
+        if (canTurnFromInput)
+            Combat.FaceDirection(MoveInput.x);
+
+        if (TryHandleDashInput())
+            return;
+
+        bool isEvading = stateMachine.CurrentState == stateMachine.Roll ||
+            stateMachine.CurrentState == stateMachine.Dodge;
+
+        if (!isEvading && input.HasBufferedEvade)
+        {
+            bool canStartRoll = Roll.CanRoll && IsGrounded &&
+                (stateMachine.CurrentState == stateMachine.Idle ||
+                 stateMachine.CurrentState == stateMachine.Move ||
+                 stateMachine.CurrentState == stateMachine.Crouch ||
+                 stateMachine.CurrentState == stateMachine.HeavyCharge ||
+                 stateMachine.CurrentState == stateMachine.Jump);
+
+            bool canStartDodge = Dodge.CanDodge && !IsGrounded &&
+                stateMachine.CurrentState == stateMachine.Jump;
+
+            if (canStartRoll)
+            {
+                input.ConsumeEvade();
+                stateMachine.ChangeState(StateCharacter.Roll);
+                return;
+            }
+
+            if (canStartDodge)
+            {
+                input.ConsumeEvade();
+                stateMachine.ChangeState(StateCharacter.Dodge);
+                return;
+            }
+        }
+
+        if (TryHandleHeavyAttackInput())
+            return;
+
+        if (input.HasBufferedParry)
+        {
+            parry.TryParry();
+            input.ConsumeParry();
+        }
+
+        bool canUseCards = cardsEnabled && (stateMachine.CurrentState == stateMachine.Idle || stateMachine.CurrentState == stateMachine.Move);
+
         if (input.HasBufferedDrawCards)
         {
-            TryDrawNewHand();
+            if (canUseCards) deck.TryDrawNewHand();
             input.ConsumeDrawCards();
         }
 
-        if (input.HasBufferedHand1) { TryUseCardFromHand(0); input.ConsumeHand1(); }
-        else if (input.HasBufferedHand2) { TryUseCardFromHand(1); input.ConsumeHand2(); }
-        else if (input.HasBufferedHand3) { TryUseCardFromHand(2); input.ConsumeHand3(); }
-        else if (input.HasBufferedHand4) { TryUseCardFromHand(3); input.ConsumeHand4(); }
-        else if (input.HasBufferedHand5) { TryUseCardFromHand(4); input.ConsumeHand5(); }
+        if (canUseCards)
+        {
+            if (input.HasBufferedHand1) { deck.TryUseCardFromHand(0); input.ConsumeHand1(); }
+            else if (input.HasBufferedHand2) { deck.TryUseCardFromHand(1); input.ConsumeHand2(); }
+            else if (input.HasBufferedHand3) { deck.TryUseCardFromHand(2); input.ConsumeHand3(); }
+            else if (input.HasBufferedHand4) { deck.TryUseCardFromHand(3); input.ConsumeHand4(); }
+        }
 
         stateMachine.Update();
     }
 
     private void FixedUpdate()
     {
-        if (IsDead || stunTimer > 0) return;
+        if (IsDead) return;
+        if (!controlsEnabled) return;
         stateMachine.FixedUpdate();
     }
-
-    public void ResetDeckForNewRound()
+    public void ExecuteCardState(ICardable cardToUse)
     {
-        foreach (var card in currentHand) { if (card != null && card is MonoBehaviour mb) Destroy(mb.gameObject); }
-        foreach (var card in reserveDeck) { if (card != null && card is MonoBehaviour mb) Destroy(mb.gameObject); }
-
-        reserveDeck.Clear();
-        for (int i = 0; i < currentHand.Length; i++) currentHand[i] = null;
-
-        if (cardPrefabsPool != null && cardPrefabsPool.Length > 0)
-        {
-            for (int i = 0; i < totalDeckSize; i++)
-            {
-                GameObject randomPrefab = cardPrefabsPool[Random.Range(0, cardPrefabsPool.Length)];
-                GameObject newCard = Instantiate(randomPrefab, transform.position, Quaternion.identity, transform);
-                newCard.SetActive(false);
-                reserveDeck.Add(newCard.GetComponent<ICardable>());
-            }
-        }
-
-        for (int i = 0; i < 5; i++)
-        {
-            if (reserveDeck.Count > 0)
-            {
-                currentHand[i] = reserveDeck[0];
-                reserveDeck.RemoveAt(0);
-            }
-        }
-
-        UpdateHandUI();
-        UpdateDeckCountUI();
+        stateMachine.Card.SetCard(cardToUse, 0.5f);
+        stateMachine.ChangeState(StateCharacter.Card);
     }
 
-    public void TryUseCardFromHand(int handIndex)
+    public void ConsumeJump()
     {
-        if (stateMachine.CurrentState != IdleState && stateMachine.CurrentState != MoveState) return;
-        if (handIndex < currentHand.Length && currentHand[handIndex] != null)
-        {
-            ICardable cardToUse = currentHand[handIndex];
-
-            if (energy != null && !energy.TrySpendEnergy(cardToUse.EnergyCost))
-            {
-                return;
-            }
-            if (cardToUse is MonoBehaviour mb)
-            {
-                mb.gameObject.SetActive(true);
-            }
-
-            CardState.SetCard(cardToUse, 0.5f);
-            stateMachine.ChangeState(CardState);
-            currentHand[handIndex] = null;
-            UpdateHandUI();
-        }
+        input.ConsumeJump();
+        JumpsRemaining = Mathf.Max(0, JumpsRemaining - 1);
     }
 
-    public void TryDrawNewHand()
+    public void ResetJumps()
     {
-        if (stateMachine.CurrentState != IdleState && stateMachine.CurrentState != MoveState) return;
+        JumpsRemaining = stats != null ? stats.maxJumps : 1;
+    }
 
-        EnergyManager energy = GetComponent<EnergyManager>();
-        if (energy == null || !energy.TrySpendEnergy(75))
+    public void ConsumeEvadeInput() => input.ConsumeEvade();
+
+    public bool TryPlayAnimation(int stateHash)
+    {
+        const int baseLayer = 0;
+
+        if (Anim == null || Anim.layerCount <= baseLayer || !Anim.HasState(baseLayer, stateHash))
+            return false;
+
+        Anim.Play(stateHash, baseLayer, 0f);
+        return true;
+    }
+
+    public bool TryPlayAnimation(string stateName, string fallbackStateName)
+    {
+        if (TryPlayAnimationStateName(stateName))
+            return true;
+
+        return TryPlayAnimationStateName(fallbackStateName);
+    }
+
+    public bool TrySetAnimatorFloat(int parameterHash, float value)
+    {
+        if (!HasAnimatorParameter(parameterHash, AnimatorControllerParameterType.Float))
+            return false;
+
+        Anim.SetFloat(parameterHash, value);
+        return true;
+    }
+
+    public bool TrySetAnimatorInt(int parameterHash, int value)
+    {
+        if (!HasAnimatorParameter(parameterHash, AnimatorControllerParameterType.Int))
+            return false;
+
+        Anim.SetInteger(parameterHash, value);
+        return true;
+    }
+
+    public bool TrySetAnimatorBool(int parameterHash, bool value)
+    {
+        if (!HasAnimatorParameter(parameterHash, AnimatorControllerParameterType.Bool))
+            return false;
+
+        Anim.SetBool(parameterHash, value);
+        return true;
+    }
+
+    public bool TrySetAnimatorTrigger(int parameterHash)
+    {
+        if (!HasAnimatorParameter(parameterHash, AnimatorControllerParameterType.Trigger))
+            return false;
+
+        Anim.SetTrigger(parameterHash);
+        return true;
+    }
+
+    private bool TryHandleDashInput()
+    {
+        if (!input.HasBufferedDash)
+            return false;
+
+        bool isCancellingHeavyCharge = stateMachine.CurrentState == stateMachine.HeavyCharge;
+        bool canStartFromCurrentState = stateMachine.CurrentState == stateMachine.Idle ||
+            stateMachine.CurrentState == stateMachine.Move ||
+            stateMachine.CurrentState == stateMachine.Crouch ||
+            isCancellingHeavyCharge;
+        bool hasHorizontalDirection = Mathf.Abs(MoveInput.x) >= stats.tiltThreshold;
+
+        input.ConsumeDash();
+
+        if (!canStartFromCurrentState || !IsGrounded || !hasHorizontalDirection ||
+            !Dash.TryStartDash(MoveInput.x))
+            return false;
+
+        if (!isCancellingHeavyCharge && input.HasBufferedAttack)
         {
+            input.ConsumeAttack();
+            stateMachine.ChangeState(StateCharacter.DashAttack);
+            return true;
+        }
+
+        if (!isCancellingHeavyCharge && input.HasBufferedGrab)
+        {
+            input.ConsumeGrab();
+            stateMachine.ChangeState(StateCharacter.DashGrab);
+            return true;
+        }
+
+        stateMachine.ChangeState(StateCharacter.Dash);
+        return true;
+    }
+
+    private bool TryHandleHeavyAttackInput()
+    {
+        if (!input.HasBufferedHeavyAttack)
+            return false;
+
+        input.ConsumeHeavyAttack();
+
+        bool canStartFromCurrentState = stateMachine.CurrentState == stateMachine.Idle ||
+            stateMachine.CurrentState == stateMachine.Move ||
+            stateMachine.CurrentState == stateMachine.Crouch;
+
+        if (!IsGrounded || !canStartFromCurrentState)
+            return false;
+
+        HeavyAttackType attackType = Combat.ResolveHeavyAttackType();
+        HeavyAttackStats heavyStats = Combat.GetHeavyAttackStats(attackType);
+        if (heavyStats == null)
+        {
+            Debug.LogError($"[PlayerController] Missing {attackType} Heavy Attack stats on '{gameObject.name}'.");
+            return false;
+        }
+
+        stateMachine.HeavyCharge.Prepare(attackType, heavyStats);
+        stateMachine.ChangeState(StateCharacter.HeavyCharge);
+        return true;
+    }
+
+    private void CacheAnimatorParameters()
+    {
+        animatorParameterTypes.Clear();
+        if (Anim == null)
             return;
-        }
 
-        for (int i = 0; i < currentHand.Length; i++)
-        {
-            if (currentHand[i] != null)
-            {
-                if (currentHand[i] is MonoBehaviour mb) Destroy(mb.gameObject);
-                currentHand[i] = null;
-            }
-        }
-
-        for (int i = 0; i < 5; i++)
-        {
-            if (reserveDeck.Count > 0)
-            {
-                currentHand[i] = reserveDeck[0];
-                reserveDeck.RemoveAt(0);
-            }
-        }
-
-        UpdateHandUI();
-        UpdateDeckCountUI();
+        foreach (AnimatorControllerParameter parameter in Anim.parameters)
+            animatorParameterTypes[parameter.nameHash] = parameter.type;
     }
 
-    private void UpdateHandUI()
+    private bool HasAnimatorParameter(int parameterHash, AnimatorControllerParameterType parameterType)
     {
-        if (UIManager.Instance == null) return;
-        Image[] UISlots = (PlayerIndex == 0) ? UIManager.Instance.p1_cards : UIManager.Instance.p2_cards;
-
-        for (int i = 0; i < UISlots.Length; i++)
-        {
-            if (i < currentHand.Length && currentHand[i] != null)
-            {
-                UISlots[i].gameObject.SetActive(true);
-                currentHand[i].SetUI(UISlots[i]);
-            }
-            else
-            {
-                UISlots[i].gameObject.SetActive(false);
-            }
-        }
+        return Anim != null && animatorParameterTypes.TryGetValue(parameterHash, out AnimatorControllerParameterType actualType) &&
+            actualType == parameterType;
     }
-    private void UpdateDeckCountUI()
+
+    private bool TryPlayAnimationStateName(string stateName)
     {
-        if (deckCountText != null)
-        {
-            deckCountText.text = reserveDeck.Count.ToString();
-        }
+        if (Anim == null || string.IsNullOrWhiteSpace(stateName))
+            return false;
+
+        return TryPlayAnimation(Animator.StringToHash($"Base Layer.{stateName}"));
     }
 
-    public void TakeHit(float stunDuration)
-    {
-        stunTimer = stunDuration;
-        input.ClearAllInputs();
-        stateMachine.ChangeState(IdleState);
-    }
-
-    public IState ResolveAttackState()
-    {
-        Vector2 dir = input.CurrentDirection;
-        bool hasHorizontal = Mathf.Abs(dir.x) >= stats.tiltThreshold;
-        bool hasUp = dir.y >= stats.tiltThreshold;
-        bool hasDown = dir.y <= -stats.tiltThreshold;
-
-        input.ConsumeAttack();
-
-        if (hasUp && (!hasHorizontal || dir.y >= Mathf.Abs(dir.x))) return UpTiltState;
-
-        if (hasDown && (!hasHorizontal || Mathf.Abs(dir.y) >= Mathf.Abs(dir.x))) return DownTiltState;
-
-        if (hasHorizontal) return ForwardTiltState;
-
-        return JabState;
-    }
-
-    public void ApplyHorizontalMovement()
-    {
-        float currentSpeed = stats.moveSpeed * moveSpeedMultiplier;
-
-        rb.linearVelocity = new Vector2(MoveInput.x * currentSpeed, rb.linearVelocity.y);
-        HitBox.CheckAndFlip(MoveInput.x);
-    }
-
-    public void StopHorizontalMovement() => rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
-    public void ApplyJumpForce() => rb.linearVelocity = new Vector2(rb.linearVelocity.x, stats.jumpForce);
-    public void ConsumeJump() => input.ConsumeJump();
-    public void EnterDieState() => stateMachine.ChangeState(DieState);
-
-    public void OpenJabHitbox() => HitBox.SetJabHitbox(true);
-    public void CloseJabHitbox() => HitBox.SetJabHitbox(false);
-    public void OpenFTiltHitbox() => HitBox.SetFTiltHitbox(true);
-    public void CloseFTiltHitbox() => HitBox.SetFTiltHitbox(false);
-    public void OpenUTiltHitbox() => HitBox.SetUTiltHitbox(true);
-    public void CloseUTiltHitbox() => HitBox.SetUTiltHitbox(false);
-    public void OpenDTiltHitbox() => HitBox.SetDTiltHitbox(true);
-    public void CloseDTiltHitbox() => HitBox.SetDTiltHitbox(false);
-
-    public void OnDeath()
-    {
-        IsDead = true;
-        rb.linearVelocity = Vector2.zero;
-        rb.bodyType = RigidbodyType2D.Static;
-
-        if (TryGetComponent(out SpriteRenderer sr)) sr.enabled = false;
-        if (TryGetComponent(out Collider2D col)) col.enabled = false;
-
-        if (GameManager.Instance != null) GameManager.Instance.PlayerDied(PlayerIndex);
-    }
-
-    public void Respawn(Vector3 position)
-    {
-        IsDead = false;
-        rb.bodyType = RigidbodyType2D.Dynamic;
-        transform.position = position;
-
-        if (TryGetComponent(out SpriteRenderer sr)) sr.enabled = true;
-        if (TryGetComponent(out Collider2D col)) col.enabled = true;
-
-        input.ClearAllInputs();
-        stateMachine.ChangeState(IdleState);
-
-        moveSpeedMultiplier = 1f;
-        attackSpeedMultiplier = 1f;
-    }
+    public void EnterDieState() => stateMachine.ChangeState(StateCharacter.Die);
 }

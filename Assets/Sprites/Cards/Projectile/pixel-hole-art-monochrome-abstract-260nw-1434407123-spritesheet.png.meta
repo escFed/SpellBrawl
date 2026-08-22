@@ -1,0 +1,832 @@
+fileFormatVersion: 2
+guid: d0871e4241f882f459534a18363b4a31
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3405412861870073594
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_0
+  - first:
+      213: 4198809163047159932
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_1
+  - first:
+      213: 1599041427670222774
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_2
+  - first:
+      213: -6042397326977303585
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_3
+  - first:
+      213: -3434054414660228895
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_4
+  - first:
+      213: -2964286415010705530
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_5
+  - first:
+      213: -6202856013010792991
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_6
+  - first:
+      213: 1218058808048490247
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_7
+  - first:
+      213: -492513997262926423
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_8
+  - first:
+      213: -4046079555609440492
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_9
+  - first:
+      213: 2299525163009423553
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_10
+  - first:
+      213: 3607215889056216004
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_11
+  - first:
+      213: -7188293572766059511
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_12
+  - first:
+      213: -8832622507703926644
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_13
+  - first:
+      213: -8811207040708922249
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_14
+  - first:
+      213: -8569322029513261512
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_15
+  - first:
+      213: 3456306375888987173
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_16
+  - first:
+      213: -1424922135535592282
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_17
+  - first:
+      213: 1471266249514174537
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_18
+  - first:
+      213: 2010968937319632145
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_19
+  - first:
+      213: 101589590567142967
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_20
+  - first:
+      213: 6195808173631829857
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_21
+  - first:
+      213: -1195836356666226002
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_22
+  - first:
+      213: 8950267364219707782
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_23
+  - first:
+      213: -4654844584416472497
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_24
+  - first:
+      213: -5314732916340851224
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_25
+  - first:
+      213: -5871895749930036330
+    second: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_26
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 1254
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60910b67b0b8db0d0800000000000000
+      internalID: -3405412861870073594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 380
+        y: 1254
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c78c41300ba254a30800000000000000
+      internalID: 4198809163047159932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 1253
+        width: 20
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b7ca65d4bfe03610800000000000000
+      internalID: 1599041427670222774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 1252
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdb7fb525a7152ca0800000000000000
+      internalID: -6042397326977303585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 766
+        y: 1036
+        width: 251
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e8a0da44b9c750d0800000000000000
+      internalID: -3434054414660228895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 892
+        y: 1258
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68f45c4063dbcd6d0800000000000000
+      internalID: -2964286415010705530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 1022
+        y: 1095
+        width: 258
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ed889ff1570be9a0800000000000000
+      internalID: -6202856013010792991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1101
+        width: 241
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7071449480a67e010800000000000000
+      internalID: 1218058808048490247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 1100
+        width: 250
+        height: 157
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ad4c32012d3a29f0800000000000000
+      internalID: -492513997262926423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 516
+        y: 1098
+        width: 248
+        height: 142
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41fcdeac41079d7c0800000000000000
+      internalID: -4046079555609440492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 999
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c8bf3dc3fd89ef10800000000000000
+      internalID: 2299525163009423553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 380
+        y: 1006
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c3375f3db76f0230800000000000000
+      internalID: 3607215889056216004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 999
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9043e0ea41d0e3c90800000000000000
+      internalID: -7188293572766059511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 999
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c80003160a83c6580800000000000000
+      internalID: -8832622507703926644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 635
+        y: 1008
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 774bf1851ed48b580800000000000000
+      internalID: -8811207040708922249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 1001
+        width: 31
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83ebee03407a31980800000000000000
+      internalID: -8569322029513261512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 1135
+        y: 1005
+        width: 34
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 524e7c9265447ff20800000000000000
+      internalID: 3456306375888987173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 818
+        width: 769
+        height: 178
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ac5fc60ed8a93ce0800000000000000
+      internalID: -1424922135535592282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 853
+        y: 855
+        width: 134
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 948405cdbdcfa6410800000000000000
+      internalID: 1471266249514174537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 1022
+        y: 823
+        width: 258
+        height: 141
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11d084b089568eb10800000000000000
+      internalID: 2010968937319632145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_20
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 568
+        width: 225
+        height: 136
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 736c1a2c13be86100800000000000000
+      internalID: 101589590567142967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_21
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 556
+        width: 1026
+        height: 201
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16779c505beebf550800000000000000
+      internalID: 6195808173631829857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_22
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 304
+        width: 1280
+        height: 197
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eaa896f5b29876fe0800000000000000
+      internalID: -1195836356666226002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_23
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 49
+        width: 513
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68166194fbcb53c70800000000000000
+      internalID: 8950267364219707782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_24
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 50
+        width: 250
+        height: 186
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f42943d438ba66fb0800000000000000
+      internalID: -4654844584416472497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_25
+      rect:
+        serializedVersion: 2
+        x: 779
+        y: 48
+        width: 246
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ed7d6d32964e36b0800000000000000
+      internalID: -5314732916340851224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_26
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 52
+        width: 256
+        height: 144
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6935b431de5d28ea0800000000000000
+      internalID: -5871895749930036330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_0: -3405412861870073594
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_1: 4198809163047159932
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_10: 2299525163009423553
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_11: 3607215889056216004
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_12: -7188293572766059511
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_13: -8832622507703926644
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_14: -8811207040708922249
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_15: -8569322029513261512
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_16: 3456306375888987173
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_17: -1424922135535592282
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_18: 1471266249514174537
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_19: 2010968937319632145
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_2: 1599041427670222774
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_20: 101589590567142967
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_21: 6195808173631829857
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_22: -1195836356666226002
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_23: 8950267364219707782
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_24: -4654844584416472497
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_25: -5314732916340851224
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_26: -5871895749930036330
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_3: -6042397326977303585
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_4: -3434054414660228895
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_5: -2964286415010705530
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_6: -6202856013010792991
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_7: 1218058808048490247
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_8: -492513997262926423
+      pixel-hole-art-monochrome-abstract-260nw-1434407123-spritesheet_9: -4046079555609440492
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

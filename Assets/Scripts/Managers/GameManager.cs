@@ -18,10 +18,19 @@ public class GameManager : MonoBehaviour
     public GameObject victoryPanel;
     public TextMeshProUGUI winnerText;
 
+    [Header("RoundsPoint")]
+    public int p1Wins = 0;
+    public int p2Wins = 0;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        UpdateWinsUI();
     }
 
     public void PlayerDied(int deadPlayerIndex)
@@ -29,6 +38,12 @@ public class GameManager : MonoBehaviour
         if (isRoundTransitioning) return;
 
         isRoundTransitioning = true;
+
+        TargetGroup camUpdater = FindAnyObjectByType<TargetGroup>();
+        if (camUpdater != null)
+        {
+            camUpdater.RefreshTargets();
+        }
 
         if (deadPlayerIndex == 0)
         {
@@ -38,6 +53,11 @@ public class GameManager : MonoBehaviour
         {
             p1RoundsWon++;
         }
+
+        if (deadPlayerIndex == 0) p2Wins++;
+        else p1Wins++;
+
+        UpdateWinsUI();
 
         if (p1RoundsWon >= roundsToWin)
         {
@@ -53,6 +73,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void UpdateWinsUI()
+    {
+        if (UIManager.Instance != null)
+        {
+            if (UIManager.Instance.p1_winsText != null)
+                UIManager.Instance.p1_winsText.text = p1Wins.ToString(); ;
+            if (UIManager.Instance.p2_winsText != null)
+                UIManager.Instance.p2_winsText.text = p2Wins.ToString(); ;
+        }
+    }
+
     private IEnumerator ResetRoundRoutine()
     {
         yield return new WaitForSeconds(2f);
@@ -63,24 +94,32 @@ public class GameManager : MonoBehaviour
         }
 
         isRoundTransitioning = false;
+
+        CountdownManager.Instance.StartNextRound();
     }
 
     private void ShowVictoryScreen(string message)
     {
         if (winnerText != null) winnerText.text = message;
-        if (victoryPanel != null) victoryPanel.SetActive(true);
+        if (victoryPanel != null)
+        {
+            victoryPanel.SetActive(true);
+            UIFocus.SelectFirst(victoryPanel);
+        }
         Time.timeScale = 0f;
     }
 
     public void Rematch()
     {
         Time.timeScale = 1f;
+        AudioListener.pause = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void GoToMainMenu()
     {
         Time.timeScale = 1f;
+        AudioListener.pause = false;
         SceneManager.LoadScene("MainMenu");
     }
 }

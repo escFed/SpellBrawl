@@ -4,7 +4,7 @@ public class RespawnZone : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
-        PlayerHealth health = other.GetComponentInParent<PlayerHealth>();
+        CharacterHealth health = other.GetComponentInParent<CharacterHealth>();
 
         if (health != null)
         {

@@ -3,25 +3,6 @@ using UnityEngine.UI;
 
 public class FireBallCard : MonoBehaviour, ICardable
 {
-<<<<<<< Updated upstream:Assets/Scripts/Cards/Fire/FireBallCard.cs
-    [Header("Settings")]
-    [SerializeField] private GameObject fbPrefab;
-    [SerializeField] private float cooldownBetweenShots = 0.5f;
-    [SerializeField] private float reloadTime = 6f;
-    [SerializeField] private int maxShoots = 3;
-    public int EnergyCost => 40;
-
-    public Sprite cardSprite;
-    private Image cardUI;
-    private int currentShoots;
-    private bool canShoot = true;
-
-    private void Awake()
-    {
-        currentShoots = maxShoots;
-    }
-
-=======
     [Header("Card Info")]
     [SerializeField] private string cardName = "FireBall Card";
     [SerializeField, TextArea(3, 5)] private string cardDescription = "Throws a fireball";
@@ -40,7 +21,6 @@ public class FireBallCard : MonoBehaviour, ICardable
     public CardType Type => CardType.Offensive;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
->>>>>>> Stashed changes:Assets/Scripts/RosterCards/Fire/FireBallCard.cs
     public void SetUI(Image uiImage)
     {
         cardUI = uiImage;
@@ -53,22 +33,18 @@ public class FireBallCard : MonoBehaviour, ICardable
         }
     }
 
-    public void ExecuteCard(PlayerController player)
+    public bool CanBeUsed(PlayerController user) => true;
+
+    public void ExecuteCard(PlayerController character)
     {
-<<<<<<< Updated upstream:Assets/Scripts/Cards/Fire/FireBallCard.cs
-        if (!canShoot || currentShoots <= 0) return;
-
-        canShoot = false;
-
-        GameObject fireball = Instantiate(fbPrefab, player.throwPoint.position, Quaternion.identity);
-=======
         Transform spawnPoint = character.Grab != null && character.Grab.throwPoint != null ? character.Grab.throwPoint : character.transform;
->>>>>>> Stashed changes:Assets/Scripts/RosterCards/Fire/FireBallCard.cs
 
-        Vector2 direction = player.transform.localScale.x > 0 ? Vector2.right : Vector2.left;
+        GameObject fireball = Instantiate(fbPrefab, spawnPoint.position, Quaternion.identity);
+
+        Vector2 direction = character.transform.localScale.x > 0 ? Vector2.right : Vector2.left;
         if (fireball.TryGetComponent(out FireProjectile script))
         {
-            script.Init(direction, player.gameObject);
+            script.Init(direction, character.gameObject);
         }
 
         Destroy(gameObject);

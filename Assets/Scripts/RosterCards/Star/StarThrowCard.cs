@@ -3,17 +3,16 @@ using UnityEngine.UI;
 
 public class StarThrowCard : MonoBehaviour, ICardable
 {
+    [Header("Card Info")]
+    [SerializeField] private string cardName = "Star Throw";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Throws a star at the enemy";
+    [SerializeField] private string damageOrNot = "Damage";
+
     [Header("Settings")]
     [SerializeField] private GameObject starPrefab;
     [SerializeField] private float spawnHeight = 12f;
-    public int EnergyCost => 40;
+    [SerializeField] private int energyCost = 20;
 
-<<<<<<< Updated upstream:Assets/Scripts/Cards/Star/StarThrowCard.cs
-    public Sprite cardSprite;
-
-    private Image cardUI;
-    private bool canUse = true;
-=======
     [Header("Visual")]
     [SerializeField] private Sprite cardSprite;
     [SerializeField] private Image cardUI;
@@ -23,7 +22,6 @@ public class StarThrowCard : MonoBehaviour, ICardable
     public string CardName => cardName;
     public string CardDescription => cardDescription;
     public CardType Type => CardType.Offensive;
->>>>>>> Stashed changes:Assets/Scripts/RosterCards/Star/StarThrowCard.cs
 
     public void SetUI(Image uiImage)
     {
@@ -37,26 +35,16 @@ public class StarThrowCard : MonoBehaviour, ICardable
         }
     }
 
-    public void ExecuteCard(PlayerController player)
-    {
-<<<<<<< Updated upstream:Assets/Scripts/Cards/Star/StarThrowCard.cs
-        if (!canUse) return;
-        StartCoroutine(StarRoutine(player));
-    }
+    public bool CanBeUsed(PlayerController user) => true;
 
-    private IEnumerator StarRoutine(PlayerController player)
+    public void ExecuteCard(PlayerController character)
     {
-        canUse = false;
-        if (cardUI != null) cardUI.enabled = false;
-
-=======
->>>>>>> Stashed changes:Assets/Scripts/RosterCards/Star/StarThrowCard.cs
         PlayerController target = null;
         PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
 
         foreach (PlayerController p in allPlayers)
         {
-            if (p.gameObject != player.gameObject)
+            if (p.gameObject != character.gameObject)
             {
                 target = p;
                 break;
@@ -65,13 +53,13 @@ public class StarThrowCard : MonoBehaviour, ICardable
 
         if (target != null)
         {
-            Vector3 spawnPosition = new Vector3(player.transform.position.x, player.transform.position.y + spawnHeight, 0f);
+            Vector3 spawnPosition = new Vector3(character.transform.position.x, character.transform.position.y + spawnHeight, 0f);
 
             GameObject starObj = Instantiate(starPrefab, spawnPosition, Quaternion.identity);
 
             if (starObj.TryGetComponent(out StarProjectile starProjectile))
             {
-                starProjectile.Init(player.gameObject, target.transform);
+                starProjectile.Init(character.gameObject, target.transform);
             }
         }
 

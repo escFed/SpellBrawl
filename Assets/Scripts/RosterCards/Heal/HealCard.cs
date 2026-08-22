@@ -4,13 +4,20 @@ using System.Collections;
 
 public class HealCard : MonoBehaviour, ICardable
 {
+    [Header("Card Info")]
+    [SerializeField] private string cardName = "HealCard";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Reduce damage received";
+    [SerializeField] private string damageOrNot = "no";
+
     [Header("Heal Settings")]
-    public int healAmount = 25;
-
-    public int energyCost = 30;
-    public Sprite cardIcon;
-
+    [SerializeField] private int healAmount = 25;
+    [SerializeField] private int energyCost = 20;
+    [SerializeField] private Sprite cardIcon;
+    public string DamageableOrNot => damageOrNot;
     public int EnergyCost => energyCost;
+    public string CardName => cardName;
+    public string CardDescription => cardDescription;
+    public CardType Type => CardType.Utility;
 
     public void SetUI(Image img)
     {
@@ -20,14 +27,16 @@ public class HealCard : MonoBehaviour, ICardable
         }
     }
 
-    public void ExecuteCard(PlayerController player)
+    public bool CanBeUsed(PlayerController user) => true;
+
+    public void ExecuteCard(PlayerController character)
     {
-        StartCoroutine(HealRoutine(player));
+        StartCoroutine(HealRoutine(character));
     }
 
-    private IEnumerator HealRoutine(PlayerController player)
+    private IEnumerator HealRoutine(PlayerController character)
     {
-        PlayerHealth health = player.GetComponent<PlayerHealth>();
+        CharacterHealth health = character.GetComponent<CharacterHealth>();
 
         if (health != null)
         {

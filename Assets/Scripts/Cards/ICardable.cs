@@ -2,7 +2,13 @@ using UnityEngine.UI;
 
 public interface ICardable
 {
+    string CardName { get; }
+    string CardDescription { get; }
     int EnergyCost { get; }
-    void ExecuteCard(PlayerController player);
+    CardType Type { get; }
+
+    string DamageableOrNot { get; }
+    bool CanBeUsed(PlayerController user);
+    void ExecuteCard(PlayerController character);
     void SetUI(Image uiImage);
 }

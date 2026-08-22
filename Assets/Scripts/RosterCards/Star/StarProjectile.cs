@@ -5,7 +5,7 @@ public class StarProjectile : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private int damage = 10;
     [SerializeField] private Vector2 knockback = new Vector2(5f, 5f);
-    [SerializeField] private float lifeTime = 4f;
+    [SerializeField] private float lifeTime = 3f;
     [SerializeField] private float speed = 7f;
 
     private GameObject caster;

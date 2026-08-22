@@ -1,23 +1,15 @@
-<<<<<<< Updated upstream:Assets/Scripts/Cards/Thunder/ThunderStrikeCard.cs
-using System.Collections;
-=======
->>>>>>> Stashed changes:Assets/Scripts/RosterCards/Thunder/ThunderStrikeCard.cs
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ThunderStrikeCard : MonoBehaviour, ICardable
 {
+    [Header("Card Info")]
+    [SerializeField] private string cardName = "ThunderStrike Card";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Unleashes a powerful thunder strike.";
+    [SerializeField] private string damageOrNot = "8";
+
     [Header("Settings")]
     [SerializeField] private GameObject tsPrefab;
-<<<<<<< Updated upstream:Assets/Scripts/Cards/Thunder/ThunderStrikeCard.cs
-    [SerializeField] private float cooldownTime = 8f;
-    public int EnergyCost => 40;
-
-    public Sprite cardSprite;
-
-    private Image cardUI;
-    private bool canUse = true;
-=======
     [SerializeField] private int energyCost = 20;
 
     public int EnergyCost => energyCost;
@@ -28,7 +20,6 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
     [Header("Visual")]
     [SerializeField] public Sprite cardSprite;
     [SerializeField] private Image cardUI;
->>>>>>> Stashed changes:Assets/Scripts/RosterCards/Thunder/ThunderStrikeCard.cs
 
     public void SetUI(Image uiImage)
     {
@@ -42,29 +33,17 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
         }
     }
 
-    public void ExecuteCard(PlayerController player)
+    public bool CanBeUsed(PlayerController user) => true;
+
+    public void ExecuteCard(PlayerController character)
     {
-<<<<<<< Updated upstream:Assets/Scripts/Cards/Thunder/ThunderStrikeCard.cs
-        if (!canUse) return;
-
-        StartCoroutine(ThunderRoutine(player));
-    }
-
-    private IEnumerator ThunderRoutine(PlayerController player)
-    {
-        canUse = false;
-
-        if (cardUI != null) cardUI.enabled = false;
-
-=======
->>>>>>> Stashed changes:Assets/Scripts/RosterCards/Thunder/ThunderStrikeCard.cs
         PlayerController target = null;
 
         PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
 
         foreach (PlayerController p in allPlayers)
         {
-            if (p.gameObject != player.gameObject)
+            if (p.gameObject != character.gameObject)
             {
                 target = p;
                 break;
@@ -77,7 +56,7 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
 
             if (th.TryGetComponent(out ThunderProjectile tProj))
             {
-                tProj.Init(player.gameObject);
+                tProj.Init(character.gameObject);
             }
         }
 
