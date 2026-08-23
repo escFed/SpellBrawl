@@ -144,7 +144,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 1.0
+  bundleVersion: 0.031
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -804,7 +804,7 @@ PlayerSettings:
   qnxGraphicConfPath: 
   apiCompatibilityLevel: 6
   captureStartupLogs: {}
-  activeInputHandler: 2
+  activeInputHandler: 1
   windowsGamepadBackendHint: 0
   cloudProjectId: 095c8058-7c3d-44f8-b8a1-cddf6e3f2168
   framebufferDepthMemorylessMode: 0

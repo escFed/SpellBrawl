@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController), typeof(EnergyManager))]
 public class CharacterDeck : MonoBehaviour
 {
     private float CardLifetime = 30f;

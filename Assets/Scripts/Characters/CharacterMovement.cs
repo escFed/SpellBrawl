@@ -48,6 +48,12 @@ public class CharacterMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (rb.bodyType != RigidbodyType2D.Dynamic)
+        {
+            activeJumpGravityMultiplier = 1f;
+            return;
+        }
+
         if (activeJumpGravityMultiplier == 1f)
             return;
 

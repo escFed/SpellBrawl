@@ -19,7 +19,6 @@ public class CharacterStats : ScriptableObject
 
     [Header("Combat Stats")]
     public float tiltThreshold = 0.3f;
-    public float parryWindow = 0.2f;
     public float defenseMultiplier = 1f;
     public float knockbackMultiplier = 1.5f;
     public float dodgeSpeed = 14f;
