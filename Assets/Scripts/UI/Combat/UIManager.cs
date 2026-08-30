@@ -11,8 +11,8 @@ public class UIManager : MonoBehaviour
     public Image p2_icon;
 
     [Header("Damage")]
-    public Image p1_damageBar;
-    public Image p2_damageBar;
+    public TextMeshProUGUI p1_damagePercent;
+    public TextMeshProUGUI p2_damagePercent;
 
     [Header("Cards P1")]
     public Image[] p1_cards = new Image[4];
@@ -88,11 +88,14 @@ public class UIManager : MonoBehaviour
 
     private void UpdateDamageUI(int playerIndex, int damage)
     {
-        Image bar = (playerIndex == 0) ? p1_damageBar : p2_damageBar;
+        TextMeshProUGUI percent = (playerIndex == 0) ? p1_damagePercent : p2_damagePercent;
+        
+        p1_damagePercent.text = $"{damage}%";
+        p2_damagePercent.text = $"{damage}%";
 
-        if (bar != null)
+        if (percent != null)
         {
-            LeanTween.cancel(bar.gameObject);
+            LeanTween.cancel(percent.gameObject);
 
             // Determina el color objetivo según el daño
             Color targetColor;
@@ -108,18 +111,18 @@ public class UIManager : MonoBehaviour
                 targetColor = Color.darkRed;
 
             // Anima el color suavemente
-            LeanTween.value(bar.gameObject, bar.color, targetColor, 0.8f)
+            LeanTween.value(percent.gameObject, percent.color, targetColor, 0.8f)
                 .setEase(LeanTweenType.easeInOutQuad)
-                .setOnUpdate((Color c) => bar.color = c);
+                .setOnUpdate((Color c) => percent.color = c);
 
             // Efecto visual: pequeña escala cuando recibe daño
             if (damage > 0)
             {
-                LeanTween.scale(bar.gameObject, new Vector3(1.05f, 1.05f, 1f), 0.1f)
-                    .setEase(LeanTweenType.easeOutQuad)
+                LeanTween.scale(percent.gameObject, new Vector3(1.05f, 1.05f, 1f), 0.1f)
+                    .setEase(LeanTweenType.easeOutBounce)
                     .setOnComplete(() => {
-                        LeanTween.scale(bar.gameObject, Vector3.one, 0.3f)
-                            .setEase(LeanTweenType.easeInQuad);
+                        LeanTween.scale(percent.gameObject, Vector3.one, 0.3f)
+                            .setEase(LeanTweenType.easeInBounce);
                     });
             }
         }
@@ -163,20 +166,31 @@ public class UIManager : MonoBehaviour
         else
             p2HandSlots = hand;
 
-        for (int i = 0; i < uiSlots.Length; i++)
+        int maxSlots = Mathf.Min(uiSlots.Length, hand.Length);
+        for (int i = 0; i < maxSlots; i++)
         {
-            bool hasVisibleCard = i < hand.Length && hand[i].IsUnlocked && hand[i].Card != null;
+            bool hasVisibleCard = hand[i].IsUnlocked && hand[i].Card != null;
             if (hasVisibleCard)
             {
                 uiSlots[i].gameObject.SetActive(true);
                 hand[i].Card.SetUI(uiSlots[i]);
-                
             }
             else
             {
                 uiSlots[i].gameObject.SetActive(false);
             }
+
+            int index = i; // capturar variable local para el callback
+            LeanTween.cancel(uiSlots[index].gameObject);
+            LeanTween.scale(uiSlots[index].gameObject, Vector3.one * 1.2f, 0.2f)
+                .setEase(LeanTweenType.easeOutQuad)
+                .setOnComplete(() =>
+                {
+                    LeanTween.scale(uiSlots[index].gameObject, Vector3.one, 0.2f)
+                        .setEase(LeanTweenType.easeInQuad);
+                });
         }
+
     }
 
     private static void UpdateCardCooldownVisuals(Image[] uiSlots, HandSlotView[] hand)
@@ -211,8 +225,10 @@ public class UIManager : MonoBehaviour
                 .setEase(LeanTweenType.easeOutQuad)
                 .setOnComplete(() => {
                     LeanTween.scale(cardImage.gameObject, Vector3.one, 0.3f)
-                        .setEase(LeanTweenType.easeInQuad);
+                        .setEase(LeanTweenType.easeOutQuint);
                 });
+
+            
         }
     }
 }

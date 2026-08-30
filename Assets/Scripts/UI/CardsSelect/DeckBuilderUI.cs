@@ -25,7 +25,7 @@ public class DeckBuilderUI : MonoBehaviour
     public TextMeshProUGUI tooltipTitleText;
     public TextMeshProUGUI tooltipDescText;
     public TextMeshProUGUI costText;
-    public TextMeshProUGUI damageInfo;
+   // public TextMeshProUGUI damageInfo;
     public TextMeshProUGUI cardTypeText;
 
     private readonly List<GameObject> selectedCards = new List<GameObject>();
@@ -211,7 +211,7 @@ ui.deckBuilder = this;
         if (tooltipTitleText != null) tooltipTitleText.text = cardName;
         if (tooltipDescText != null) tooltipDescText.text = description;
         if (cost > 0 && costText != null) costText.text = cost.ToString();
-        if (damageInfo != null) damageInfo.text = damage;
+       // if (damageInfo != null) damageInfo.text = damage;
         if (cardTypeText != null) cardTypeText.text = type.ToString();
         if (tooltipPanel != null) tooltipPanel.SetActive(true);
     }
