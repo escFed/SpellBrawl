@@ -78,6 +78,7 @@ public class CharacterDeck : MonoBehaviour
 
         energy.TrySpendEnergy(cardData.EnergyCost);
         ExecuteCard(cardPrefab);
+        UIEvents.OnCardUsed?.Invoke(controller.PlayerIndex, handIndex);
         PublishState();
         return CardActions.Success;
     }

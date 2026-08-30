@@ -15,7 +15,7 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
     public int EnergyCost => energyCost;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
-    public CardType Type => CardType.Offensive;
+    public CardType Type => CardType.OFFENSIVE;
     public string DamageableOrNot => damageOrNot;
     [Header("Visual")]
     [SerializeField] public Sprite cardSprite;

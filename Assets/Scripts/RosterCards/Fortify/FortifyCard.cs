@@ -20,7 +20,7 @@ public class FortifyCard : MonoBehaviour, ICardable
     public int EnergyCost => energyCost;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
-    public CardType Type => CardType.Utility;
+    public CardType Type => CardType.BOOST;
     public string DamageableOrNot => damageOrNot;
     public void SetUI(Image img)
     {

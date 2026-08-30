@@ -9,4 +9,6 @@ public static class UIEvents
     public static Action<int, int, int> OnDeckCountChanged;
     public static Action<int, Sprite> OnIconSet;
     public static Action<int, HandSlotView[]> OnHandChanged;
+
+    public static Action<int, int> OnCardUsed;
 }

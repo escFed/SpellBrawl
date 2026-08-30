@@ -54,9 +54,16 @@ public class UICard : Selectable, ISubmitHandler, ICancelHandler
 
     public void UpdateVisuals()
     {
-        int count = deckBuilder.GetCardCount(cardPrefab);
-        if (cardCopiesText != null)
-            cardCopiesText.text = count > 0 ? "SELECTED" : string.Empty;
+        if (cardPrefab != null && deckBuilder != null)
+        {
+
+
+            int count = deckBuilder.GetCardCount(cardPrefab);
+
+
+            if (cardCopiesText != null)
+                cardCopiesText.text = count > 0 ? "SELECTED" : string.Empty;
+        }
     }
 
     private void ShowDescription()
@@ -70,4 +77,14 @@ public class UICard : Selectable, ISubmitHandler, ICancelHandler
             deckBuilder.ShowCardDescription(cardData.CardName, cardData.CardDescription, cardData.EnergyCost, cardData.DamageableOrNot, cardData.Type);
         }
     }
+
+    public void Setup(GameObject prefab, ICardable cardData, DeckBuilderUI builder)
+    {
+        cardPrefab = prefab;
+        deckBuilder = builder;
+        UpdateVisuals();
+        deckBuilder.ShowCardDescription(cardData.CardName, cardData.CardDescription, cardData.EnergyCost, cardData.DamageableOrNot, cardData.Type);
+    }
+
+
 }

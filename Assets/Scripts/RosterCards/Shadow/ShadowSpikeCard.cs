@@ -24,7 +24,7 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
     public string CardDescription => cardDescription;
 
     public string DamageableOrNot => damageOrNot;
-    public CardType Type => CardType.Utility;
+    public CardType Type => CardType.OFFENSIVE;
 
     public void SetUI(Image img)
     {

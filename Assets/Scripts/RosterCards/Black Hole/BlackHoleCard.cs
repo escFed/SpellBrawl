@@ -26,7 +26,7 @@ public class BlackHoleCard : MonoBehaviour, ICardable
 
     public int EnergyCost => energyCost;
 
-    public CardType Type => CardType.Utility;
+    public CardType Type => CardType.UTILITY;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
     public string DamageableOrNot => damageOrNot;

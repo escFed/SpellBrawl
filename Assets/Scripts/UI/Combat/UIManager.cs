@@ -51,6 +51,13 @@ public class UIManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    private void Start()
+    {
+        // Inicializa el color de las barras de daño al valor inicial (0)
+        UpdateDamageUI(0, 0);
+        UpdateDamageUI(1, 0);
+    }
+
     private void OnEnable()
     {
         UIEvents.OnDamageChanged += UpdateDamageUI;
@@ -59,6 +66,7 @@ public class UIManager : MonoBehaviour
         UIEvents.OnDeckCountChanged += UpdateDeckCountUI;
         UIEvents.OnIconSet += UpdateIconUI;
         UIEvents.OnHandChanged += UpdateHandUI;
+        UIEvents.OnCardUsed += PlayCardUseAnimation;
     }
 
     private void OnDisable()
@@ -69,6 +77,7 @@ public class UIManager : MonoBehaviour
         UIEvents.OnDeckCountChanged -= UpdateDeckCountUI;
         UIEvents.OnIconSet -= UpdateIconUI;
         UIEvents.OnHandChanged -= UpdateHandUI;
+        UIEvents.OnCardUsed -= PlayCardUseAnimation;
     }
 
     private void Update()
@@ -80,31 +89,38 @@ public class UIManager : MonoBehaviour
     private void UpdateDamageUI(int playerIndex, int damage)
     {
         Image bar = (playerIndex == 0) ? p1_damageBar : p2_damageBar;
+
         if (bar != null)
         {
+            LeanTween.cancel(bar.gameObject);
+
+            // Determina el color objetivo según el daño
+            Color targetColor;
             if (damage < 25)
-            {
-                bar.GetComponent<Image>().color = Color.green;
-            }
-
+                targetColor = Color.green;
             else if (damage <= 50)
-            {
-                bar.GetComponent<Image>().color = Color.yellow;
-            }
-
+                targetColor = Color.yellow;
             else if (damage <= 75)
-            {
-                bar.GetComponent<Image>().color = Color.orange;
-            }
-
+                targetColor = new Color(1f, 0.5f, 0f); // Naranja
             else if (damage <= 100)
-            {
-                bar.GetComponent<Image>().color = Color.red;
-            }
-
+                targetColor = Color.red;
             else
+                targetColor = Color.darkRed;
+
+            // Anima el color suavemente
+            LeanTween.value(bar.gameObject, bar.color, targetColor, 0.8f)
+                .setEase(LeanTweenType.easeInOutQuad)
+                .setOnUpdate((Color c) => bar.color = c);
+
+            // Efecto visual: pequeña escala cuando recibe daño
+            if (damage > 0)
             {
-                bar.GetComponent<Image>().color = Color.darkRed;
+                LeanTween.scale(bar.gameObject, new Vector3(1.05f, 1.05f, 1f), 0.1f)
+                    .setEase(LeanTweenType.easeOutQuad)
+                    .setOnComplete(() => {
+                        LeanTween.scale(bar.gameObject, Vector3.one, 0.3f)
+                            .setEase(LeanTweenType.easeInQuad);
+                    });
             }
         }
     }
@@ -154,6 +170,7 @@ public class UIManager : MonoBehaviour
             {
                 uiSlots[i].gameObject.SetActive(true);
                 hand[i].Card.SetUI(uiSlots[i]);
+                
             }
             else
             {
@@ -175,6 +192,27 @@ public class UIManager : MonoBehaviour
                 continue;
 
             slotImage.color = Time.time >= hand[i].ReadyAt ? Color.white : CooldownColor;
+        }
+    }
+
+    public void PlayCardUseAnimation(int playerIndex, int cardIndex)
+    {
+        Image[] cards = (playerIndex == 0) ? p1_cards : p2_cards;
+
+        if (cardIndex >= 0 && cardIndex < cards.Length && cards[cardIndex] != null)
+        {
+            Image cardImage = cards[cardIndex];
+
+            // Cancela cualquier animación anterior
+            LeanTween.cancel(cardImage.gameObject);
+
+            // Aplica la animación
+            LeanTween.scale(cardImage.gameObject, Vector3.one * 3f, 0.2f)
+                .setEase(LeanTweenType.easeOutQuad)
+                .setOnComplete(() => {
+                    LeanTween.scale(cardImage.gameObject, Vector3.one, 0.3f)
+                        .setEase(LeanTweenType.easeInQuad);
+                });
         }
     }
 }

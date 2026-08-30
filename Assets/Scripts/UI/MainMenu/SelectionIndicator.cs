@@ -12,9 +12,15 @@ public class SelectionIndicator : MonoBehaviour
     [SerializeField] private bool matchSelectionSize;
     [SerializeField] private Vector2 sizePadding;
 
+     private AudioSource source;
+
+    [SerializeField] private AudioClip indicatorSound;
+
     private Vector3[] worldCorners = new Vector3[4];
     private RectTransform indicatorTransform;
     private Image indicatorImage;
+
+    private GameObject lastSelected;
     private Vector2 movementVelocity;
 
     private void Awake()
@@ -26,9 +32,12 @@ public class SelectionIndicator : MonoBehaviour
 
     private void OnEnable()
     {
+      
         indicatorImage.enabled = false;
         movementVelocity = Vector2.zero;
     }
+
+
 
     private void LateUpdate()
     {
@@ -41,6 +50,14 @@ public class SelectionIndicator : MonoBehaviour
             return;
         }
 
+        // Detectar cambio de selección
+        if (selection.gameObject != lastSelected)
+        {
+            lastSelected = selection.gameObject;
+            PlayIndicatorSound();
+        }
+
+        // --- resto de tu código de posicionamiento ---
         selection.GetWorldCorners(worldCorners);
         Vector3 worldCenter = (worldCorners[0] + worldCorners[2]) * 0.5f;
         Vector3 localCenter = indicatorParent.InverseTransformPoint(worldCenter);
@@ -92,6 +109,8 @@ public class SelectionIndicator : MonoBehaviour
     {
         Vector3 currentPosition = indicatorTransform.localPosition;
         indicatorTransform.localPosition = new Vector3(position.x, position.y, currentPosition.z);
+        
+
     }
 
     private void MatchSelectionSize(RectTransform indicatorParent)
@@ -106,4 +125,16 @@ public class SelectionIndicator : MonoBehaviour
         indicatorTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
         indicatorTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
     }
+
+    private void PlayIndicatorSound()
+    {
+        if (source == null)
+            source = GetComponent<AudioSource>();
+
+        if (source != null && indicatorSound != null)
+            source.PlayOneShot(indicatorSound);
+    }
+
+
+
 }

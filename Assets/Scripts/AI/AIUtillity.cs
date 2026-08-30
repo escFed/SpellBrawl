@@ -33,9 +33,9 @@ public class AIUtilityBrain
         TryChoose(ref best, ScoreReposition(context));
         TryChoose(ref best, ScoreChase(context));
 
-        TryChoose(ref best, ScoreCard(AIDecision.UseDefensiveCard, CardType.Defensive, ScoreDefensiveCard(context)));
-        TryChoose(ref best, ScoreCard(AIDecision.UseOffensiveCard, CardType.Offensive, ScoreOffensiveCard(context)));
-        TryChoose(ref best, ScoreCard(AIDecision.UseUtilityCard, CardType.Utility, ScoreUtilityCard(context)));
+        TryChoose(ref best, ScoreCard(AIDecision.UseDefensiveCard, CardType.DEFENSIVE, ScoreDefensiveCard(context)));
+        TryChoose(ref best, ScoreCard(AIDecision.UseOffensiveCard, CardType.OFFENSIVE, ScoreOffensiveCard(context)));
+        TryChoose(ref best, ScoreCard(AIDecision.UseUtilityCard, CardType.UTILITY, ScoreUtilityCard(context)));
 
         if (Random.value < profile.mistakeChance)
             return new AIActionScore(AIDecision.Chase, 1f);

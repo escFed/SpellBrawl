@@ -21,7 +21,7 @@ public class StarThrowCard : MonoBehaviour, ICardable
     public int EnergyCost => energyCost;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
-    public CardType Type => CardType.Offensive;
+    public CardType Type => CardType.OFFENSIVE;
 
     public void SetUI(Image uiImage)
     {

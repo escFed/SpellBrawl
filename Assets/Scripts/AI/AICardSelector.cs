@@ -60,13 +60,13 @@ public class AICardSelector
             if (!card.CanBeUsed(selfController))
                 continue;
 
-            if (card.Type == CardType.Defensive && context.inDanger)
+            if (card.Type == CardType.DEFENSIVE && context.inDanger)
                 return true;
 
-            if (card.Type == CardType.Offensive && context.targetInCardRange)
+            if (card.Type == CardType.OFFENSIVE && context.targetInCardRange)
                 return true;
 
-            if (card.Type == CardType.Utility)
+            if (card.Type == CardType.UTILITY)
                 return true;
         }
 

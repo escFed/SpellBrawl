@@ -288,7 +288,7 @@ public class CharacterAI : MonoBehaviour, IInputProvider
         if (!context.targetInCardRange)
             return 0f;
 
-        if (!TryFindCardType(CardType.Offensive))
+        if (!TryFindCardType(CardType.OFFENSIVE))
             return 0f;
 
         float score = 45f;
@@ -310,7 +310,7 @@ public class CharacterAI : MonoBehaviour, IInputProvider
         if (SelfEnergy == null || cardTimer > 0f)
             return 0f;
 
-        if (!TryFindCardType(CardType.Defensive))
+        if (!TryFindCardType(CardType.DEFENSIVE))
             return 0f;
 
         float score = 0f;
@@ -332,7 +332,7 @@ public class CharacterAI : MonoBehaviour, IInputProvider
         if (SelfEnergy == null || cardTimer > 0f)
             return 0f;
 
-        if (!TryFindCardType(CardType.Utility))
+        if (!TryFindCardType(CardType.UTILITY))
             return 0f;
 
         float score = 20f;
@@ -493,13 +493,13 @@ public class CharacterAI : MonoBehaviour, IInputProvider
             if (!card.CanBeUsed(SelfController))
                 continue;
 
-            if (card.Type == CardType.Defensive && ctx.inDanger)
+            if (card.Type == CardType.DEFENSIVE && ctx.inDanger)
                 return true;
 
-            if (card.Type == CardType.Offensive && ctx.targetInCardRange)
+            if (card.Type == CardType.OFFENSIVE && ctx.targetInCardRange)
                 return true;
 
-            if (card.Type == CardType.Utility)
+            if (card.Type == CardType.UTILITY)
                 return true;
         }
 

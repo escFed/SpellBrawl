@@ -18,7 +18,7 @@ public class FireBallCard : MonoBehaviour, ICardable
 
     public string DamageableOrNot => damageOrNot;
     public int EnergyCost => energyCost;
-    public CardType Type => CardType.Offensive;
+    public CardType Type => CardType.OFFENSIVE;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
     public void SetUI(Image uiImage)
