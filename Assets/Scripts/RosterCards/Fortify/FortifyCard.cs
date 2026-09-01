@@ -16,6 +16,11 @@ public class FortifyCard : MonoBehaviour, ICardable
 
     [Header("UI Settings")]
     public Sprite cardIcon;
+    [SerializeField] private Image cardVisualImage; // renombrado para evitar conflicto con la interfaz
+    public Image CardVisualImage => cardVisualImage; // acceso al Image usado en la UI
+
+    // Implementación que exige la interfaz: Sprite
+    public Sprite CardVisual => cardIcon;
 
     public int EnergyCost => energyCost;
     public string CardName => cardName;
@@ -56,4 +61,7 @@ public class FortifyCard : MonoBehaviour, ICardable
 
         Destroy(gameObject);
     }
+
+    // Implementación explícita corregida (opcional, puede omitirse si ya hay implementación pública)
+    Sprite ICardable.CardVisual => cardIcon;
 }

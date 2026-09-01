@@ -18,6 +18,7 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
     [Header("Visual")]
     [SerializeField] private GameObject spikePrefab;
     [SerializeField] private Sprite cardIcon;
+    [SerializeField] private Image cardVisual; // añadido: referencia a la imagen UI
 
     public int EnergyCost => energyCost;
     public string CardName => cardName;
@@ -26,9 +27,12 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
     public string DamageableOrNot => damageOrNot;
     public CardType Type => CardType.OFFENSIVE;
 
+    // Implementación requerida por ICardable
+    public Sprite CardVisual => cardIcon;
+
     public void SetUI(Image img)
     {
-        if (img != null && cardIcon != null) img.sprite = cardIcon;
+        cardVisual = img;
     }
 
     public bool CanBeUsed(PlayerController user)

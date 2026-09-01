@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.UI;
 
 public interface ICardable
@@ -7,6 +8,7 @@ public interface ICardable
     int EnergyCost { get; }
     CardType Type { get; }
 
+    Sprite CardVisual { get; }
     string DamageableOrNot { get; }
     bool CanBeUsed(PlayerController user);
     void ExecuteCard(PlayerController character);

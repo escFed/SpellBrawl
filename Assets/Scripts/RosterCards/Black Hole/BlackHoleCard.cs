@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using UnityEngine;
@@ -22,6 +21,7 @@ public class BlackHoleCard : MonoBehaviour, ICardable
 
     [SerializeField] private GameObject prefab;
     [SerializeField] private Sprite cardIcon;
+    [SerializeField] private Image cardVisual;
 
 
     public int EnergyCost => energyCost;
@@ -30,11 +30,16 @@ public class BlackHoleCard : MonoBehaviour, ICardable
     public string CardName => cardName;
     public string CardDescription => cardDescription;
     public string DamageableOrNot => damageOrNot;
+    public Sprite CardVisual => cardIcon;
 
 
     public void SetUI(Image uiImage)
     {
-        if (uiImage != null && cardIcon != null) uiImage.sprite = cardIcon;
+        if (uiImage != null)
+        {
+            cardVisual = uiImage;
+            if (cardIcon != null) uiImage.sprite = cardIcon;
+        }
     }
 
     public bool CanBeUsed(PlayerController user)

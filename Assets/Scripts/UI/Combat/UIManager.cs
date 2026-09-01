@@ -183,11 +183,11 @@ public class UIManager : MonoBehaviour
             int index = i; // capturar variable local para el callback
             LeanTween.cancel(uiSlots[index].gameObject);
             LeanTween.scale(uiSlots[index].gameObject, Vector3.one * 1.2f, 0.2f)
-                .setEase(LeanTweenType.easeOutQuad)
+                .setEase(LeanTweenType.animationCurve)
                 .setOnComplete(() =>
                 {
                     LeanTween.scale(uiSlots[index].gameObject, Vector3.one, 0.2f)
-                        .setEase(LeanTweenType.easeInQuad);
+                        .setEase(LeanTweenType.animationCurve);
                 });
         }
 

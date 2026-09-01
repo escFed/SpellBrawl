@@ -13,11 +13,15 @@ public class HealCard : MonoBehaviour, ICardable
     [SerializeField] private int healAmount = 25;
     [SerializeField] private int energyCost = 20;
     [SerializeField] private Sprite cardIcon;
+    [SerializeField] private Image cardVisual;
+
     public string DamageableOrNot => damageOrNot;
     public int EnergyCost => energyCost;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
     public CardType Type => CardType.BOOST;
+    public Sprite CardVisual => cardIcon;
+    public Image CardVisualImage => cardVisual;
 
     public void SetUI(Image img)
     {

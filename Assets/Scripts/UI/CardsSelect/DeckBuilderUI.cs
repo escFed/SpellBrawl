@@ -11,8 +11,13 @@ public class DeckBuilderUI : MonoBehaviour
     [SerializeField] private CardCatalog catalog;
 
     [Header("Selected Cards UI")]
-    [SerializeField] private Transform selectedCardsPanel;
+    [SerializeField] public Transform selectedCardsPanel;
     [SerializeField] private GameObject cardVisualPrefab;
+
+
+   
+
+
 
     private readonly Dictionary<GameObject, GameObject> cardVisuals = new Dictionary<GameObject, GameObject>();
 
@@ -25,7 +30,10 @@ public class DeckBuilderUI : MonoBehaviour
     public TextMeshProUGUI tooltipTitleText;
     public TextMeshProUGUI tooltipDescText;
     public TextMeshProUGUI costText;
-   // public TextMeshProUGUI damageInfo;
+
+
+ 
+    public Sprite genericCard;
     public TextMeshProUGUI cardTypeText;
 
     private readonly List<GameObject> selectedCards = new List<GameObject>();
@@ -90,10 +98,16 @@ ui.deckBuilder = this;
             // Guardar referencia
             cardVisuals[cardPrefab] = cardVisual;
 
+
+            RepositionCards();
+
+
             if (source != null && aCardSelectedClip != null)
                 source.PlayOneShot(aCardSelectedClip);
 
         }
+
+
                 UpdateUI();
                 return true;
             
@@ -112,7 +126,9 @@ ui.deckBuilder = this;
         {
             Destroy(cardVisual);
             cardVisuals.Remove(cardPrefab);
+            RepositionCards();
         }
+
         UpdateUI();
         return true;
     }
@@ -184,7 +200,12 @@ ui.deckBuilder = this;
                 {
                     ui.cardPrefab = cardPrefab;
                     ui.deckBuilder = this;
-                    ui.UpdateVisuals();
+                    
+                    Image genImage = cardVisual.GetComponentInChildren<Image>();
+                    if(genImage != null && genericCard != null)
+                    {
+                        genImage.sprite = genericCard;
+                    }
                 }
                 // Guardar referencia
                 cardVisuals[cardPrefab] = cardVisual;
@@ -211,7 +232,6 @@ ui.deckBuilder = this;
         if (tooltipTitleText != null) tooltipTitleText.text = cardName;
         if (tooltipDescText != null) tooltipDescText.text = description;
         if (cost > 0 && costText != null) costText.text = cost.ToString();
-       // if (damageInfo != null) damageInfo.text = damage;
         if (cardTypeText != null) cardTypeText.text = type.ToString();
         if (tooltipPanel != null) tooltipPanel.SetActive(true);
     }
@@ -232,5 +252,25 @@ ui.deckBuilder = this;
 
         SceneManager.LoadScene("Stage1");
     }
+
+    private void RepositionCards()
+    {
+        int index = 0;
+        foreach (var kvp in cardVisuals)
+        {
+            GameObject cardVisual = kvp.Value;
+            if (cardVisual != null)
+            {
+                float offsetX = index * 13f; // separación horizontal
+                Vector3 targetPos = new Vector3(offsetX, 0f, 0f);
+
+                LeanTween.moveLocal(cardVisual, targetPos, 0.5f)
+                         .setEase(LeanTweenType.easeOutQuint);
+
+                index++;
+            }
+        }
+    }
+
 }
 

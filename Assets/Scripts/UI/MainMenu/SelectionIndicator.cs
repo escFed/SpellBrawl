@@ -7,11 +7,13 @@ public class SelectionIndicator : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private Vector2 offset;
-    [SerializeField] private float smoothTime = 0.06f;
+    [SerializeField] private float smoothTime = 0.02f;
 
     [SerializeField] private bool matchSelectionSize;
     [SerializeField] private Vector2 sizePadding;
 
+    [Header("Image Visual")]
+    [SerializeField] private GameObject cardVis;
      private AudioSource source;
 
     [SerializeField] private AudioClip indicatorSound;
@@ -38,6 +40,7 @@ public class SelectionIndicator : MonoBehaviour
     }
 
 
+    
 
     private void LateUpdate()
     {
@@ -50,12 +53,27 @@ public class SelectionIndicator : MonoBehaviour
             return;
         }
 
+    
+
         // Detectar cambio de selección
         if (selection.gameObject != lastSelected)
         {
             lastSelected = selection.gameObject;
+            
             PlayIndicatorSound();
-        }
+
+         
+                // mostrar carta en cardVis
+                ICardable cardData = selection.GetComponent<ICardable>();
+                if (cardData != null && cardVis != null)
+                {
+                    Image visImage = cardVis.GetComponent<Image>();
+                    if (visImage != null)
+                        visImage.sprite = cardData.CardVisual; // <-- usa Sprite en ICardable
+                }
+            }
+
+        
 
         // --- resto de tu código de posicionamiento ---
         selection.GetWorldCorners(worldCorners);
@@ -77,7 +95,7 @@ public class SelectionIndicator : MonoBehaviour
                 ref movementVelocity,
                 smoothTime,
                 Mathf.Infinity,
-                Time.unscaledDeltaTime);
+                Time.deltaTime);
 
             SetLocalPosition(nextPosition);
         }
