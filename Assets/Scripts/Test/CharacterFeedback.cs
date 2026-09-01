@@ -6,6 +6,8 @@ public class CombatFeedback : MonoBehaviour
 {
     private static CombatFeedback instance;
 
+    public static bool IsHitStopActive => instance != null && instance.hitStopRoutine != null;
+
     private CinemachineImpulseSource impulseSource;
     private Coroutine hitStopRoutine;
     private float hitStopEndTime;
@@ -174,9 +176,9 @@ public class CombatFeedback : MonoBehaviour
     {
         return reaction switch
         {
-            HitReaction.StrongHit => 0.075f,
-            HitReaction.Stunned => 0.1f,
-            _ => 0.035f
+            HitReaction.StrongHit => 0.08f,
+            HitReaction.Stunned => 0.11f,
+            _ => 0.045f
         };
     }
 }

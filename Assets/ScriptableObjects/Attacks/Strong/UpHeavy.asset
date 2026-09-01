@@ -16,6 +16,7 @@ MonoBehaviour:
   active: 0.08
   recovery: 0.4
   hitStun: 0.7
+  hitReaction: 1
   energyGain: 10
   maxChargeTime: 2
   minDamage: 10
@@ -23,5 +24,6 @@ MonoBehaviour:
   minKnockback: 5.5
   maxKnockback: 14
   knockbackDirection: {x: 0.2, y: 1}
+  maxHitStun: 0.85
   chargeAnimationState: UpHeavyCharge
   executionAnimationState: UpHeavy

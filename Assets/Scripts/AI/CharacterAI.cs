@@ -66,6 +66,9 @@ public class CharacterAI : MonoBehaviour, IInputProvider
             return;
         }
 
+        if (CombatFeedback.IsHitStopActive)
+            return;
+
         UpdateTargetTracker();
 
         if (Target == null)

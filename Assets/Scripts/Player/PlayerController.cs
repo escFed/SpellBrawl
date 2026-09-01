@@ -151,6 +151,8 @@ public class PlayerController : MonoBehaviour
 
         if (!controlsEnabled) return;
 
+        if (CombatFeedback.IsHitStopActive) return;
+
         bool isNowGrounded = IsGrounded;
         if (isNowGrounded && !wasGrounded)
             ResetJumps();
