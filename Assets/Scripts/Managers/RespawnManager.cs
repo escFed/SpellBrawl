@@ -9,6 +9,10 @@ public class RespawnManager : MonoBehaviour
     public Transform p1SpawnPoint;
     public Transform p2SpawnPoint;
 
+    [Header("Life Respawn")]
+    [SerializeField, Min(0f)] private float respawnDelay = 1.5f;
+    [SerializeField, Min(0f)] private float respawnProtectionDuration = 2f;
+
     [HideInInspector] public GameObject p1Instance;
     [HideInInspector] public GameObject p2Instance;
 
@@ -71,13 +75,11 @@ public class RespawnManager : MonoBehaviour
     {
         if (health == null || health.gameObject == null) return;
 
-        Transform targetSpawn = (health.gameObject == p1Instance) ? p1SpawnPoint : p2SpawnPoint;
+        Transform targetSpawn = playerIndex == 0 ? p1SpawnPoint : p2SpawnPoint;
 
         if (targetSpawn == null) return;
 
-        health.transform.position = targetSpawn.position;
-        Rigidbody2D rb = health.GetComponent<Rigidbody2D>();
-        if (rb != null) rb.linearVelocity = Vector2.zero;
+        health.BeginRespawnSequence(targetSpawn.position, respawnDelay, respawnProtectionDuration);
     }
 
     public void ResetRoundPositionsAndHealth()

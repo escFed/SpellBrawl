@@ -17,6 +17,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
 
     public Vector2 CurrentDirection { get; private set; }
     public bool HasBufferedJump => jumpTimer > 0;
+    public bool WasJumpReleased { get; private set; }
     public bool HasBufferedAttack => attackTimer > 0;
     public bool HasBufferedGrab => grabTimer > 0;
     public bool HasBufferedHand1 => hand1Timer > 0;
@@ -64,12 +65,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
 
     private void OnDisable()
     {
-        IsShieldHeld = false;
-        IsHeavyAttackHeld = false;
-        ConsumeParry();
-        ConsumeShield();
-        ConsumeHeavyAttack();
-        ConsumeHeavyAttackRelease();
+        ClearAllInputs();
     }
 
     private void Update()
@@ -97,7 +93,18 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     }
 
     public void OnMove(InputValue value) => CurrentDirection = value.Get<Vector2>();
-    public void OnJump(InputValue value) { if (value.isPressed) jumpTimer = jumpBufferTime; }
+    public void OnJump(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            jumpTimer = jumpBufferTime;
+            WasJumpReleased = false;
+        }
+        else
+        {
+            WasJumpReleased = true;
+        }
+    }
     public void OnAttack(InputValue value) { if (value.isPressed) attackTimer = attackBufferTime; }
     public void OnGrab(InputValue value) { if (value.isPressed) grabTimer = grabBufferTime; }
     public void OnDrawCards(InputValue value) { if (value.isPressed) drawCardsTimer = cardBufferTime; }
@@ -112,9 +119,6 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     {
         UpdateHeavyAttackState(value.isPressed);
     }
-
-    // Compatibility with the current Input Actions asset while it still exposes
-    // separate Roll and Dodge actions bound to the same button.
     public void OnRoll(InputValue value) => BufferEvade(value);
     public void OnDodge(InputValue value) => BufferEvade(value);
     public void OnShield(InputValue value)
@@ -126,6 +130,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     }
 
     public void ConsumeJump() => jumpTimer = 0;
+    public void ConsumeJumpRelease() => WasJumpReleased = false;
     public void ConsumeAttack() => attackTimer = 0;
     public void ConsumeGrab() => grabTimer = 0;
     public void ConsumeHand1() => hand1Timer = 0;
@@ -147,6 +152,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
 
         CurrentDirection = Vector2.zero;
         ConsumeJump();
+        ConsumeJumpRelease();
         ConsumeAttack();
         ConsumeGrab();
         ConsumeHand1();

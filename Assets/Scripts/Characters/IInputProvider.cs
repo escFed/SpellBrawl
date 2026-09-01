@@ -4,6 +4,7 @@ public interface IInputProvider
 {
     Vector2 CurrentDirection { get; }
     bool HasBufferedJump { get; }
+    bool WasJumpReleased { get; }
     bool HasBufferedAttack { get; }
     bool HasBufferedGrab { get; }
     bool HasBufferedHand1 { get; }
@@ -21,6 +22,7 @@ public interface IInputProvider
     bool WasHeavyAttackReleased { get; }
 
     void ConsumeJump();
+    void ConsumeJumpRelease();
     void ConsumeAttack();
     void ConsumeGrab();
     void ConsumeHand1();

@@ -12,7 +12,8 @@ public class CharacterGrabbable : MonoBehaviour, IGrabbable
     private bool isGrabbed;
     private bool stopHorizontalThrowOnLanding;
 
-    public bool CanBeGrabbed => controller != null && !controller.IsDead && !isGrabbed;
+    public bool CanBeGrabbed => controller != null && health != null && !controller.IsDead &&
+        !health.IsRespawnProtected && !isGrabbed;
     public Transform GrabTransform => transform;
 
     private void Awake()
@@ -30,6 +31,7 @@ public class CharacterGrabbable : MonoBehaviour, IGrabbable
         isGrabbed = true;
         stopHorizontalThrowOnLanding = false;
         controller.Shield?.Break();
+        controller.CancelGroundJumpAvailability();
         controller.ChangeState(StateCharacter.Idle);
         controller.controlsEnabled = false;
         controller.Movement.StopAllMovement();

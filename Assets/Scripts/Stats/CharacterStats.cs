@@ -12,7 +12,9 @@ public class CharacterStats : ScriptableObject
     public float moveSpeed = 5f;
     public float jumpForce = 12f;
     public float jumpSpeedMultiplier = 1f;
+    public float shortHopVelocityMultiplier = 0.6f;
     public int maxJumps = 2;
+    public float coyoteTime = 0.1f;
     public float weight = 100f;
     public float maxFallSpeed = -15f;
     public float fastFallSpeed = -25f;

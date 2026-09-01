@@ -43,6 +43,10 @@ public class HitStunState : PlayerState
         StateCharacter recoveryState = character.IsGrounded
             ? StateCharacter.Idle
             : StateCharacter.Jump;
+
+        if (recoveryState == StateCharacter.Jump)
+            stateMachine.Jump.PrepareReentry();
+
         stateMachine.ChangeState(recoveryState);
     }
 

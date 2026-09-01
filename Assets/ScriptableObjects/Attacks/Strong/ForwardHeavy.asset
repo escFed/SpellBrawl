@@ -24,6 +24,5 @@ MonoBehaviour:
   minKnockback: 9
   maxKnockback: 28
   knockbackDirection: {x: 1, y: 0.5}
-  maxHitStun: 0.85
   chargeAnimationState: ForwardHeavyCharge
   executionAnimationState: ForwardHeavy

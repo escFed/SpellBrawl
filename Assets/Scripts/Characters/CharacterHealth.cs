@@ -1,7 +1,10 @@
+using System.Collections;
 using UnityEngine;
 
 public class CharacterHealth : MonoBehaviour, IHitStunned
 {
+    private const float RespawnBlinkInterval = 0.1f;
+
     [Header("Health Settings")]
     public int currentDamage = 0;
 
@@ -11,14 +14,22 @@ public class CharacterHealth : MonoBehaviour, IHitStunned
     public float activeDefenseMultiplier = 1f;
 
     private Rigidbody2D rb;
+    private Collider2D bodyCollider;
+    private SpriteRenderer sprite;
     private PlayerController controller;
     private CharacterDeck deck;
     private bool isDead = false;
+    private bool isWaitingToRespawn;
     private float lastFallTime = -2f;
+    private Coroutine respawnRoutine;
+
+    public bool IsRespawnProtected { get; private set; }
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        bodyCollider = GetComponent<Collider2D>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
         controller = GetComponent<PlayerController>();
         deck = GetComponent<CharacterDeck>();
     }
@@ -30,7 +41,7 @@ public class CharacterHealth : MonoBehaviour, IHitStunned
 
     public void TakeDamage(int amount, Vector2 baseKnockback, float hitStun, HitReaction reaction, Vector2 hitPoint)
     {
-        if (isDead) return;
+        if (isDead || IsRespawnProtected) return;
 
 
         if (controller != null && controller.IsIntangible) return;
@@ -76,7 +87,7 @@ public class CharacterHealth : MonoBehaviour, IHitStunned
 
     public void TakePummelDamage(int amount)
     {
-        if (isDead || amount <= 0)
+        if (isDead || IsRespawnProtected || amount <= 0)
             return;
 
         float defenseMultiplier = controller != null && controller.stats != null ? controller.stats.defenseMultiplier : 1f;
@@ -103,7 +114,7 @@ public class CharacterHealth : MonoBehaviour, IHitStunned
     public void FallPenalty()
     {
 
-        if (isDead) return;
+        if (isDead || isWaitingToRespawn) return;
 
         if (Time.time - lastFallTime < 1f) return;
         lastFallTime = Time.time;
@@ -139,6 +150,7 @@ public class CharacterHealth : MonoBehaviour, IHitStunned
 
     public void ResetHealth()
     {
+        CancelRespawnSequence();
         isDead = false;
         currentDamage = 0;
         fallLives = 3;
@@ -174,6 +186,7 @@ public class CharacterHealth : MonoBehaviour, IHitStunned
 
     private void Die()
     {
+        CancelRespawnSequence();
         isDead = true;
 
         PlayerController controller = GetComponent<PlayerController>();
@@ -193,8 +206,8 @@ public class CharacterHealth : MonoBehaviour, IHitStunned
             rb.bodyType = RigidbodyType2D.Static;
         }
 
-        if (TryGetComponent(out SpriteRenderer sr)) sr.enabled = false;
-        if (TryGetComponent(out Collider2D col)) col.enabled = false;
+        SetCharacterVisible(false);
+        if (bodyCollider != null) bodyCollider.enabled = false;
 
         if (GameManager.Instance != null && controller != null)
             GameManager.Instance.PlayerDied(controller.PlayerIndex);
@@ -207,20 +220,120 @@ public class CharacterHealth : MonoBehaviour, IHitStunned
         if (rb != null) rb.bodyType = RigidbodyType2D.Dynamic;
         transform.position = position;
 
-        if (TryGetComponent(out SpriteRenderer sr)) sr.enabled = true;
-        if (TryGetComponent(out Collider2D col)) col.enabled = true;
+        SetCharacterVisible(true);
+        if (bodyCollider != null) bodyCollider.enabled = true;
 
         if (controller != null)
         {
-            controller.Shield?.ResetShield();
-            controller.Roll?.ResetRolls();
-            controller.Dodge?.ResetDodges();
-            controller.Dash?.ResetDash();
             GetComponent<IInputProvider>()?.ClearAllInputs();
             controller.ChangeState(StateCharacter.Idle);
+            controller.ResetJumps();
 
             controller.Movement.moveSpeedMultiplier = 1f;
             controller.Combat.attackSpeedMultiplier = 1f;
         }
+    }
+
+    public void BeginRespawnSequence(Vector3 position, float delay, float protectionDuration)
+    {
+        CancelRespawnSequence();
+        respawnRoutine = StartCoroutine(RespawnSequence(position, Mathf.Max(0f, delay), Mathf.Max(0f, protectionDuration)));
+    }
+
+    public void CancelRespawnProtection()
+    {
+        if (!IsRespawnProtected)
+            return;
+
+        IsRespawnProtected = false;
+        SetCharacterVisible(true);
+    }
+
+    private IEnumerator RespawnSequence(Vector3 position, float delay, float protectionDuration)
+    {
+        isWaitingToRespawn = true;
+        PrepareForRespawnDelay(position);
+
+        if (delay > 0f)
+            yield return new WaitForSeconds(delay);
+
+        if (isDead)
+        {
+            respawnRoutine = null;
+            yield break;
+        }
+
+        Respawn(position);
+        isWaitingToRespawn = false;
+
+        if (controller != null)
+        {
+            controller.ActiveInput?.ClearAllInputs();
+            controller.controlsEnabled = true;
+        }
+
+        IsRespawnProtected = protectionDuration > 0f;
+        float elapsed = 0f;
+        float blinkTimer = 0f;
+
+        while (IsRespawnProtected && elapsed < protectionDuration)
+        {
+            elapsed += Time.deltaTime;
+            blinkTimer += Time.deltaTime;
+
+            if (blinkTimer >= RespawnBlinkInterval)
+            {
+                blinkTimer -= RespawnBlinkInterval;
+                SetCharacterVisible(sprite == null || !sprite.enabled);
+            }
+
+            yield return null;
+        }
+
+        CancelRespawnProtection();
+        respawnRoutine = null;
+    }
+
+    private void PrepareForRespawnDelay(Vector3 position)
+    {
+        controller?.Grab?.ReleaseGrabbedTarget();
+
+        if (controller != null)
+        {
+            controller.controlsEnabled = false;
+            controller.ActiveInput?.ClearAllInputs();
+            controller.ChangeState(StateCharacter.Idle);
+        }
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.bodyType = RigidbodyType2D.Static;
+        }
+
+        transform.position = position;
+        SetCharacterVisible(false);
+
+        if (bodyCollider != null)
+            bodyCollider.enabled = false;
+    }
+
+    private void CancelRespawnSequence()
+    {
+        if (respawnRoutine != null)
+        {
+            StopCoroutine(respawnRoutine);
+            respawnRoutine = null;
+        }
+
+        isWaitingToRespawn = false;
+        CancelRespawnProtection();
+    }
+
+    private void SetCharacterVisible(bool visible)
+    {
+        if (sprite != null)
+            sprite.enabled = visible;
     }
 }

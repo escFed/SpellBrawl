@@ -30,7 +30,7 @@ public class IdleState : PlayerState
             return;
         }
 
-        if (character.JumpPressed && character.IsGrounded)
+        if (character.JumpPressed && character.CanJump)
         {
             stateMachine.ChangeState(StateCharacter.Jump);
             return;

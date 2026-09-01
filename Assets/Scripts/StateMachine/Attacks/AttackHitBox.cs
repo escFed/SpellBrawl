@@ -47,6 +47,9 @@ public class AttackHitbox : MonoBehaviour
         if (target == null)
             return;
 
+        if (target is CharacterHealth health && health.IsRespawnProtected)
+            return;
+
         float attackerDirection = Mathf.Sign(transform.root.localScale.x);
         if (attackerDirection == 0f)
             attackerDirection = 1f;

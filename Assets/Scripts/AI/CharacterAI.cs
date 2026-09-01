@@ -33,6 +33,7 @@ public class CharacterAI : MonoBehaviour, IInputProvider
 
     public Vector2 CurrentDirection { get; private set; }
     public bool HasBufferedJump { get; private set; }
+    public bool WasJumpReleased { get; private set; }
     public bool HasBufferedAttack { get; private set; }
     public bool HasBufferedGrab { get; private set; }
     public bool HasBufferedHand1 { get; private set; }
@@ -565,6 +566,7 @@ public class CharacterAI : MonoBehaviour, IInputProvider
     }
 
     public void ConsumeJump() => HasBufferedJump = false;
+    public void ConsumeJumpRelease() => WasJumpReleased = false;
     public void ConsumeAttack() => HasBufferedAttack = false;
     public void ConsumeGrab() => HasBufferedGrab = false;
     public void ConsumeParry() => HasBufferedParry = false;
@@ -599,6 +601,7 @@ public class CharacterAI : MonoBehaviour, IInputProvider
     public void ClearAllInputs()
     {
         ConsumeJump();
+        ConsumeJumpRelease();
         ConsumeAttack();
         ConsumeGrab();
         ConsumeParry();

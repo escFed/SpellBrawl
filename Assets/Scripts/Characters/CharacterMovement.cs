@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    private const float CrouchHeightRatio = 0.55f;
+    private float CrouchHeightRatio = 0.55f;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
@@ -13,6 +13,9 @@ public class CharacterMovement : MonoBehaviour
     public float moveSpeedMultiplier = 1f;
 
     public bool IsGrounded { get; private set; }
+    public bool HasStableGroundContact => IsGrounded && rb != null && rb.linearVelocity.y <= 0.01f;
+    public bool IsFastFalling { get; private set; }
+    public JumpType CurrentJumpType { get; private set; }
 
     private PlayerController controller;
     private Rigidbody2D rb;
@@ -20,6 +23,7 @@ public class CharacterMovement : MonoBehaviour
     private Vector2 standingColliderSize;
     private Vector2 standingColliderOffset;
     private float activeJumpGravityMultiplier = 1f;
+    private bool fastFallInputArmed = true;
 
     public bool IsCrouching { get; private set; }
 
@@ -36,14 +40,23 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    private void OnDisable() => SetCrouching(false);
+    private void OnDisable()
+    {
+        SetCrouching(false);
+        ResetAirMovementState();
+    }
 
     private void Update()
     {
+        RefreshGroundedState();
+    }
+
+    public void RefreshGroundedState()
+    {
         IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
-        if (IsGrounded && rb.linearVelocity.y <= 0.01f)
-            activeJumpGravityMultiplier = 1f;
+        if (HasStableGroundContact)
+            ResetAirMovementState();
     }
 
     private void FixedUpdate()
@@ -80,7 +93,21 @@ public class CharacterMovement : MonoBehaviour
     {
         float speedMultiplier = Mathf.Max(0.01f, controller.stats.jumpSpeedMultiplier);
         activeJumpGravityMultiplier = speedMultiplier * speedMultiplier;
+        IsFastFalling = false;
+        CurrentJumpType = JumpType.Full;
+        fastFallInputArmed = controller.MoveInput.y >= -controller.stats.tiltThreshold;
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, controller.stats.jumpForce * speedMultiplier);
+    }
+
+    public bool TryApplyShortHop()
+    {
+        if (CurrentJumpType != JumpType.Full || rb.linearVelocity.y <= 0f)
+            return false;
+
+        float velocityMultiplier = Mathf.Clamp01(controller.stats.shortHopVelocityMultiplier);
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * velocityMultiplier);
+        CurrentJumpType = JumpType.Short;
+        return true;
     }
 
     public void SetCrouching(bool crouching)
@@ -123,16 +150,59 @@ public class CharacterMovement : MonoBehaviour
     }
 
 
-    public void ApplyFastFall()
+    public bool TryStartFastFall(float verticalInput)
     {
-        if (rb.linearVelocity.y > controller.stats.fastFallSpeed)
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, controller.stats.fastFallSpeed);
+        float inputThreshold = Mathf.Clamp01(controller.stats.tiltThreshold);
+        bool isPressingDown = verticalInput < -inputThreshold;
+
+        if (!isPressingDown)
+        {
+            fastFallInputArmed = true;
+            return false;
+        }
+
+        if (IsGrounded || IsFastFalling || !fastFallInputArmed)
+            return false;
+
+        if (rb.linearVelocity.y >= 0f)
+        {
+            fastFallInputArmed = false;
+            return false;
+        }
+
+        fastFallInputArmed = false;
+        ApplyFastFall();
+        return true;
+    }
+
+    private void ApplyFastFall()
+    {
+        IsFastFalling = true;
+        float fallSpeedLimit = GetFallSpeedLimit();
+
+        if (rb.linearVelocity.y > fallSpeedLimit)
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, fallSpeedLimit);
     }
 
 
     public void ClampFallSpeed()
     {
-        if (rb.linearVelocity.y < controller.stats.maxFallSpeed)
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, controller.stats.maxFallSpeed);
+        float fallSpeedLimit = GetFallSpeedLimit();
+
+        if (rb.linearVelocity.y < fallSpeedLimit)
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, fallSpeedLimit);
+    }
+
+    private float GetFallSpeedLimit()
+    {
+        return IsFastFalling ? Mathf.Min(controller.stats.fastFallSpeed, controller.stats.maxFallSpeed): controller.stats.maxFallSpeed;
+    }
+
+    private void ResetAirMovementState()
+    {
+        activeJumpGravityMultiplier = 1f;
+        IsFastFalling = false;
+        CurrentJumpType = JumpType.None;
+        fastFallInputArmed = controller == null || controller.stats == null || controller.ActiveInput == null || controller.MoveInput.y >= -controller.stats.tiltThreshold;
     }
 }

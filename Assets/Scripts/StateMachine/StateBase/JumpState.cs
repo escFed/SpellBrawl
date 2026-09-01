@@ -3,12 +3,20 @@ using UnityEngine;
 public class JumpState : PlayerState
 {
     private float airTimer;
-    private bool isFastFalling;
     private bool skipForceOnEnter;
 
     public JumpState(PlayerController character, StateMachine sm) : base(character, sm) { }
 
     public void PrepareReentry() => skipForceOnEnter = true;
+
+    public bool TryPerformBufferedJump()
+    {
+        if (!character.TryPerformJump())
+            return false;
+
+        airTimer = 0f;
+        return true;
+    }
 
     public override void Enter()
     {
@@ -16,7 +24,6 @@ public class JumpState : PlayerState
         character.Anim.Play("Jump");
 
         airTimer = 0f;
-        isFastFalling = false;
 
         if (skipForceOnEnter)
         {
@@ -24,8 +31,7 @@ public class JumpState : PlayerState
         }
         else
         {
-            character.ConsumeJump();
-            character.Movement.ApplyJumpForce();
+            character.TryPerformJump();
         }
     }
 
@@ -38,6 +44,7 @@ public class JumpState : PlayerState
         }
 
         airTimer += Time.deltaTime;
+        character.HandleAirborneMovementInput();
 
         if (character.AttackInput)
         {
@@ -45,25 +52,16 @@ public class JumpState : PlayerState
             return;
         }
 
+        if (character.JumpPressed && character.CanJump)
+        {
+            TryPerformBufferedJump();
+            return;
+        }
+
         if (airTimer > 0.1f && character.IsGrounded)
         {
             stateMachine.ChangeState(Mathf.Abs(character.MoveInput.x) > 0.01f ? StateCharacter.Move : StateCharacter.Idle);
             return;
-        }
-
-        if (character.JumpPressed && character.JumpsRemaining > 0 && !character.IsGrounded)
-        {
-            airTimer = 0f;
-            isFastFalling = false;
-            character.ConsumeJump();
-            character.Movement.ApplyJumpForce();
-            return;
-        }
-
-        if (!isFastFalling && character.MoveInput.y < -0.5f && !character.IsGrounded)
-        {
-            isFastFalling = true;
-            character.Movement.ApplyFastFall();
         }
     }
 

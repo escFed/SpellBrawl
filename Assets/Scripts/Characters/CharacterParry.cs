@@ -18,15 +18,16 @@ public class CharacterParry : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         GameSettings.RegisterSource(audioSource, GameSound.SoundEffects);
     }
-    public void TryParry()
+    public bool TryParry()
     {
         IState currentState = controller.GetCurrentState();
 
-        if (currentState == controller.stateMachine.Idle || currentState == controller.stateMachine.Move)
-        {
-            hasParriedThisHit = false;
-            controller.ChangeState(StateCharacter.Parry);
-        }
+        if (currentState != controller.stateMachine.Idle && currentState != controller.stateMachine.Move)
+            return false;
+
+        hasParriedThisHit = false;
+        controller.ChangeState(StateCharacter.Parry);
+        return true;
     }
 
     public void OnSuccessfulParry()

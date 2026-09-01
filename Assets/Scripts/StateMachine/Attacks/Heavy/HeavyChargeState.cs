@@ -24,6 +24,7 @@ public sealed class HeavyChargeState : PlayerState
 
     public override void Enter()
     {
+        character.Health.CancelRespawnProtection();
         isExecuting = false;
         charge.Begin(stats.maxChargeTime);
         character.Movement.StopHorizontalMovement();
@@ -43,7 +44,7 @@ public sealed class HeavyChargeState : PlayerState
             return;
         }
 
-        if (character.JumpPressed && character.JumpsRemaining > 0)
+        if (character.JumpPressed && character.CanJump)
         {
             stateMachine.ChangeState(StateCharacter.Jump);
             return;

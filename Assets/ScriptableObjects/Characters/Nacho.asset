@@ -18,6 +18,7 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 9
   maxJumps: 2
+  coyoteTime: 0.1
   weight: 100
   maxFallSpeed: -15
   fastFallSpeed: -25

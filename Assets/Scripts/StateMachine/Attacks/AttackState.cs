@@ -14,6 +14,8 @@ public abstract class AttackState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        character.Health.CancelRespawnProtection();
+
         if (StopsHorizontalMovement)
             character.Movement.StopHorizontalMovement();
 
@@ -25,6 +27,9 @@ public abstract class AttackState : PlayerState
 
     public override void Update()
     {
+        if (AllowsAirDrift)
+            character.HandleAirborneMovementInput();
+
         timer += Time.deltaTime;
 
         if (timer >= stats.startup && !hitboxOpen)

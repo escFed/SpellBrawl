@@ -15,6 +15,7 @@ public abstract class GrabState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        character.Health.CancelRespawnProtection();
 
         timer = 0f;
         grabOpen = false;

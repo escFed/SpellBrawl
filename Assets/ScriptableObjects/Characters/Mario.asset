@@ -15,18 +15,21 @@ MonoBehaviour:
   characterName: Mario
   characterPrefab: {fileID: 8413723424367857399, guid: 1042d06538d2682408cae8f64b7c2841, type: 3}
   characterIcon: {fileID: -2832408800491106164, guid: 7e964f8cad2cadd43918551e88510817, type: 3}
-  moveSpeed: 7
-  jumpForce: 8
+  moveSpeed: 5
+  jumpForce: 9
   jumpSpeedMultiplier: 1.5
+  shortHopVelocityMultiplier: 0.58
   maxJumps: 2
-  weight: 75
-  maxFallSpeed: -10
-  fastFallSpeed: -20
+  coyoteTime: 0.1
+  weight: 100
+  maxFallSpeed: -15
+  fastFallSpeed: -24
   tiltThreshold: 0.3
+  parryWindow: 0.2
   defenseMultiplier: 1
   knockbackMultiplier: 1.5
-  dodgeSpeed: 13
-  dashSpeed: 13
+  dodgeSpeed: 14
+  dashSpeed: 15
   dashDuration: 0.18
   dashRecovery: 0.12
   dashCooldown: 3

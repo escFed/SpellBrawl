@@ -11,8 +11,17 @@ public class PlayerController : MonoBehaviour
     public bool IsIntangible { get; set; }
     public bool IsHitStunned => stateMachine != null && stateMachine.CurrentState == stateMachine.HitStun;
 
-    public int JumpsRemaining { get; private set; }
-    private bool wasGrounded;
+    public int JumpsRemaining => airJumpsRemaining + (CanGroundJump ? 1 : 0);
+    public bool CanGroundJump => groundJumpAvailable &&
+        ((Movement != null && Movement.HasStableGroundContact) || coyoteTimeRemaining > 0f);
+    public bool CanJump => CanGroundJump || (!IsGrounded && airJumpsRemaining > 0);
+    public float CoyoteTimeRemaining => coyoteTimeRemaining;
+
+    private int airJumpsRemaining;
+    private bool groundJumpAvailable;
+    private bool wasStablyGrounded;
+    private float coyoteTimeRemaining;
+    private bool wasPaused;
     public bool controlsEnabled = true;
     public bool cardsEnabled = true;
 
@@ -118,9 +127,10 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        Movement.RefreshGroundedState();
         stateMachine.ChangeState(StateCharacter.Idle);
         ResetJumps();
-        wasGrounded = IsGrounded;
+        wasStablyGrounded = Movement.HasStableGroundContact;
 
         bool isAI = (PlayerIndex == 1);
 
@@ -147,23 +157,61 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (IsDead) return;
+        if (input == null)
+            return;
 
-        if (!controlsEnabled) return;
+        if (IsDead || stateMachine.CurrentState == stateMachine.Die)
+        {
+            input.ClearAllInputs();
+            return;
+        }
+
+        if (PauseMenu.isPaused)
+        {
+            input.ClearAllInputs();
+            wasPaused = true;
+            return;
+        }
+
+        if (wasPaused)
+        {
+            input.ClearAllInputs();
+            wasPaused = false;
+        }
+
+        if (!controlsEnabled)
+        {
+            input.ClearAllInputs();
+            return;
+        }
 
         if (CombatFeedback.IsHitStopActive) return;
 
-        bool isNowGrounded = IsGrounded;
-        if (isNowGrounded && !wasGrounded)
-            ResetJumps();
-        wasGrounded = isNowGrounded;
+        Movement.RefreshGroundedState();
+        bool landedThisFrame = UpdateJumpAvailability();
+        EnterAirborneLocomotionIfNeeded();
+
+        if (TryHandleBufferedLandingJump(landedThisFrame))
+            return;
+
+        IState stateBeforeUpdate = stateMachine.CurrentState;
 
         if (IsHitStunned)
         {
             stateMachine.Update();
+            TryExecuteBufferedInputAfterRecovery(stateBeforeUpdate);
             return;
         }
 
+        if (TryHandlePriorityInputs())
+            return;
+
+        stateMachine.Update();
+        TryExecuteBufferedInputAfterRecovery(stateBeforeUpdate);
+    }
+
+    private bool TryHandlePriorityInputs()
+    {
         if (input.HasBufferedShield)
             input.ConsumeShield();
 
@@ -177,7 +225,7 @@ public class PlayerController : MonoBehaviour
             if (canStartShield)
             {
                 stateMachine.ChangeState(StateCharacter.Shield);
-                return;
+                return true;
             }
         }
 
@@ -186,7 +234,7 @@ public class PlayerController : MonoBehaviour
             Combat.FaceDirection(MoveInput.x);
 
         if (TryHandleDashInput())
-            return;
+            return true;
 
         bool isEvading = stateMachine.CurrentState == stateMachine.Roll ||
             stateMachine.CurrentState == stateMachine.Dodge;
@@ -207,31 +255,34 @@ public class PlayerController : MonoBehaviour
             {
                 input.ConsumeEvade();
                 stateMachine.ChangeState(StateCharacter.Roll);
-                return;
+                return true;
             }
 
             if (canStartDodge)
             {
                 input.ConsumeEvade();
                 stateMachine.ChangeState(StateCharacter.Dodge);
-                return;
+                return true;
             }
         }
 
         if (TryHandleHeavyAttackInput())
-            return;
+            return true;
 
         if (input.HasBufferedParry)
         {
-            parry.TryParry();
-            input.ConsumeParry();
+            if (parry.TryParry())
+            {
+                input.ConsumeParry();
+                return true;
+            }
         }
 
         bool canUseCards = cardsEnabled && (stateMachine.CurrentState == stateMachine.Idle || stateMachine.CurrentState == stateMachine.Move);
 
-        if (input.HasBufferedDrawCards)
+        if (canUseCards && input.HasBufferedDrawCards)
         {
-            if (canUseCards) deck.TryDrawNewHand();
+            deck.TryDrawNewHand();
             input.ConsumeDrawCards();
         }
 
@@ -243,12 +294,55 @@ public class PlayerController : MonoBehaviour
             else if (input.HasBufferedHand4) { deck.TryUseCardFromHand(3); input.ConsumeHand4(); }
         }
 
-        stateMachine.Update();
+        return false;
+    }
+
+    private void TryExecuteBufferedInputAfterRecovery(IState previousState)
+    {
+        // Attack recovery and hitstun can end inside StateMachine.Update. Dispatch once
+        // more so a still-buffered command runs on that same newly legal frame.
+        if (!WasBufferedRecoveryState(previousState) || previousState == stateMachine.CurrentState ||
+            !IsLocomotionState(stateMachine.CurrentState))
+            return;
+
+        if (TryHandlePriorityInputs())
+            return;
+
+        if (HasBufferedLocomotionInput(stateMachine.CurrentState))
+            stateMachine.Update();
+    }
+
+    private bool WasBufferedRecoveryState(IState state)
+    {
+        return state == stateMachine.HitStun || state is AttackState;
+    }
+
+    private bool IsLocomotionState(IState state)
+    {
+        return state == stateMachine.Idle || state == stateMachine.Move ||
+            state == stateMachine.Crouch || state == stateMachine.Jump;
+    }
+
+    private bool HasBufferedLocomotionInput(IState state)
+    {
+        if (state == stateMachine.Idle || state == stateMachine.Move)
+            return input.HasBufferedGrab || input.HasBufferedAttack ||
+                (input.HasBufferedJump && CanJump);
+
+        if (state == stateMachine.Crouch)
+            return input.HasBufferedJump && CanJump;
+
+        if (state == stateMachine.Jump)
+            return input.HasBufferedAttack ||
+                (input.HasBufferedJump && CanJump);
+
+        return false;
     }
 
     private void FixedUpdate()
     {
         if (IsDead) return;
+        if (PauseMenu.isPaused) return;
         if (!controlsEnabled) return;
         stateMachine.FixedUpdate();
     }
@@ -258,15 +352,113 @@ public class PlayerController : MonoBehaviour
         stateMachine.ChangeState(StateCharacter.Card);
     }
 
-    public void ConsumeJump()
+    public bool TryPerformJump()
     {
+        if (input == null || Movement == null || !CanJump)
+            return false;
+
+        if (CanGroundJump)
+        {
+            groundJumpAvailable = false;
+            coyoteTimeRemaining = 0f;
+        }
+        else
+        {
+            airJumpsRemaining = Mathf.Max(0, airJumpsRemaining - 1);
+        }
+
         input.ConsumeJump();
-        JumpsRemaining = Mathf.Max(0, JumpsRemaining - 1);
+        Movement.ApplyJumpForce();
+        return true;
+    }
+
+    public void HandleAirborneMovementInput()
+    {
+        if (input == null || Movement == null || IsGrounded)
+            return;
+
+        if (input.WasJumpReleased)
+        {
+            Movement.TryApplyShortHop();
+            input.ConsumeJumpRelease();
+        }
+
+        Movement.TryStartFastFall(MoveInput.y);
     }
 
     public void ResetJumps()
     {
-        JumpsRemaining = stats != null ? stats.maxJumps : 1;
+        int maxJumps = stats != null ? Mathf.Max(0, stats.maxJumps) : 1;
+        airJumpsRemaining = Mathf.Max(0, maxJumps - 1);
+        groundJumpAvailable = maxJumps > 0;
+        coyoteTimeRemaining = 0f;
+    }
+
+    public void CancelGroundJumpAvailability()
+    {
+        ForfeitGroundJump();
+        wasStablyGrounded = false;
+    }
+
+    private bool UpdateJumpAvailability()
+    {
+        bool isStablyGrounded = Movement.HasStableGroundContact;
+        bool landedThisFrame = isStablyGrounded && !wasStablyGrounded;
+
+        if (landedThisFrame)
+        {
+            ResetJumps();
+        }
+        else if (!isStablyGrounded && wasStablyGrounded && groundJumpAvailable)
+        {
+            if (CanArmCoyoteTime())
+                coyoteTimeRemaining = stats != null ? Mathf.Max(0f, stats.coyoteTime) : 0.1f;
+            else
+                ForfeitGroundJump();
+        }
+        else if (!isStablyGrounded && coyoteTimeRemaining > 0f)
+        {
+            coyoteTimeRemaining = Mathf.Max(0f, coyoteTimeRemaining - Time.deltaTime);
+            if (coyoteTimeRemaining <= 0f)
+                groundJumpAvailable = false;
+        }
+
+        wasStablyGrounded = isStablyGrounded;
+        return landedThisFrame;
+    }
+
+    private bool TryHandleBufferedLandingJump(bool landedThisFrame)
+    {
+        if (!landedThisFrame || !input.HasBufferedJump || !CanGroundJump ||
+            !IsLocomotionState(stateMachine.CurrentState))
+            return false;
+
+        if (stateMachine.CurrentState == stateMachine.Jump)
+            return stateMachine.Jump.TryPerformBufferedJump();
+
+        stateMachine.ChangeState(StateCharacter.Jump);
+        return stateMachine.CurrentState == stateMachine.Jump && !input.HasBufferedJump;
+    }
+
+    private bool CanArmCoyoteTime()
+    {
+        IState state = stateMachine.CurrentState;
+        return state == stateMachine.Idle || state == stateMachine.Move || state == stateMachine.Crouch;
+    }
+
+    private void ForfeitGroundJump()
+    {
+        groundJumpAvailable = false;
+        coyoteTimeRemaining = 0f;
+    }
+
+    private void EnterAirborneLocomotionIfNeeded()
+    {
+        if (IsGrounded || !CanArmCoyoteTime())
+            return;
+
+        stateMachine.Jump.PrepareReentry();
+        stateMachine.ChangeState(StateCharacter.Jump);
     }
 
     public void ConsumeEvadeInput() => input.ConsumeEvade();
@@ -338,11 +530,13 @@ public class PlayerController : MonoBehaviour
             isCancellingHeavyCharge;
         bool hasHorizontalDirection = Mathf.Abs(MoveInput.x) >= stats.tiltThreshold;
 
-        input.ConsumeDash();
-
-        if (!canStartFromCurrentState || !IsGrounded || !hasHorizontalDirection ||
-            !Dash.TryStartDash(MoveInput.x))
+        if (!canStartFromCurrentState || !IsGrounded || !hasHorizontalDirection)
             return false;
+
+        if (!Dash.TryStartDash(MoveInput.x))
+            return false;
+
+        input.ConsumeDash();
 
         if (!isCancellingHeavyCharge && input.HasBufferedAttack)
         {
@@ -367,8 +561,6 @@ public class PlayerController : MonoBehaviour
         if (!input.HasBufferedHeavyAttack)
             return false;
 
-        input.ConsumeHeavyAttack();
-
         bool canStartFromCurrentState = stateMachine.CurrentState == stateMachine.Idle ||
             stateMachine.CurrentState == stateMachine.Move ||
             stateMachine.CurrentState == stateMachine.Crouch;
@@ -380,10 +572,12 @@ public class PlayerController : MonoBehaviour
         HeavyAttackStats heavyStats = Combat.GetHeavyAttackStats(attackType);
         if (heavyStats == null)
         {
+            input.ConsumeHeavyAttack();
             Debug.LogError($"[PlayerController] Missing {attackType} Heavy Attack stats on '{gameObject.name}'.");
             return false;
         }
 
+        input.ConsumeHeavyAttack();
         stateMachine.HeavyCharge.Prepare(attackType, heavyStats);
         stateMachine.ChangeState(StateCharacter.HeavyCharge);
         return true;

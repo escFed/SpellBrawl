@@ -16,6 +16,7 @@ public class CardState : PlayerState
 
     public override void Enter()
     {
+        character.Health.CancelRespawnProtection();
         _timer = 0f;
 
         character.Movement.StopHorizontalMovement();
