@@ -70,9 +70,10 @@ public class CharacterMovement : MonoBehaviour
     public void ApplyHorizontalMovement()
     {
         float currentSpeed = controller.stats.moveSpeed * moveSpeedMultiplier;
-        rb.linearVelocity = new Vector2(controller.MoveInput.x * currentSpeed, rb.linearVelocity.y);
+        float walkDirection = controller.WalkDirection;
+        rb.linearVelocity = new Vector2(walkDirection * currentSpeed, rb.linearVelocity.y);
 
-        controller.Combat.CheckAndFlip(controller.MoveInput.x);
+        controller.Combat.CheckAndFlip(walkDirection);
     }
 
     public void StopHorizontalMovement() => rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);

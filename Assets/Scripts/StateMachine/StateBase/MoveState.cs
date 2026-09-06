@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class MoveState : PlayerState
 {
+    private static readonly int MoveAnimation = Animator.StringToHash("Base Layer.Move");
+
     public MoveState(PlayerController character, StateMachine sm) : base(character, sm) { }
 
     public override void Enter()
     {
         base.Enter();
-        character.Anim.Play("Move");
+        character.TryPlayAnimation(MoveAnimation);
     }
 
     public override void Update()
@@ -36,7 +38,7 @@ public class MoveState : PlayerState
             return;
         }
 
-        if (Mathf.Abs(character.MoveInput.x) < 0.01f)
+        if (character.WalkDirection == 0f)
         {
             // Crouch: stopped horizontally and pressing down
             if (character.MoveInput.y < -character.stats.tiltThreshold && character.IsGrounded)

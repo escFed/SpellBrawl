@@ -37,6 +37,15 @@ public class PlayerController : MonoBehaviour
 
     public IInputProvider ActiveInput => input;
     public Vector2 MoveInput => input.CurrentDirection;
+    public float WalkDirection
+    {
+        get
+        {
+            float x = input != null ? input.CurrentDirection.x : 0f;
+            float threshold = stats != null ? stats.tiltThreshold : 0.3f;
+            return Mathf.Abs(x) < threshold ? 0f : Mathf.Sign(x);
+        }
+    }
     public bool JumpPressed => input.HasBufferedJump;
     public bool IsGrounded => Movement.IsGrounded;
     public bool AttackInput => input.HasBufferedAttack;
@@ -181,7 +190,7 @@ public class PlayerController : MonoBehaviour
 
         bool canTurnFromInput = stateMachine.CurrentState != stateMachine.HeavyAttack;
         if (canTurnFromInput)
-            Combat.FaceDirection(MoveInput.x);
+            Combat.FaceDirection(WalkDirection);
 
         if (TryHandleDashInput())
             return;
@@ -275,6 +284,10 @@ public class PlayerController : MonoBehaviour
 
         if (Anim == null || Anim.layerCount <= baseLayer || !Anim.HasState(baseLayer, stateHash))
             return false;
+
+        AnimatorStateInfo current = Anim.GetCurrentAnimatorStateInfo(baseLayer);
+        if (current.fullPathHash == stateHash || current.shortNameHash == stateHash)
+            return true;
 
         Anim.Play(stateHash, baseLayer, 0f);
         return true;

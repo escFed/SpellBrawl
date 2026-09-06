@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class IdleState : PlayerState
 {
+    private static readonly int IdleAnimation = Animator.StringToHash("Base Layer.Idle");
+
     public IdleState(PlayerController character, StateMachine sm) : base(character, sm) { }
 
     public override void Enter()
     {
         base.Enter();
-        character.Anim.Play("Idle");
+        character.TryPlayAnimation(IdleAnimation);
     }
 
     public override void Update()
@@ -36,7 +38,7 @@ public class IdleState : PlayerState
             return;
         }
 
-        if (Mathf.Abs(character.MoveInput.x) > 0.01f)
+        if (character.WalkDirection != 0f)
         {
             stateMachine.ChangeState(StateCharacter.Move);
             return;

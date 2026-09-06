@@ -69,16 +69,36 @@ public class RespawnManager : MonoBehaviour
 
     public void RespawnPlayerAfterFall(CharacterHealth health, int playerIndex)
     {
-        if (health == null || health.gameObject == null) return;
+        if (health == null) return;
 
-        Transform targetSpawn = (health.gameObject == p1Instance) ? p1SpawnPoint : p2SpawnPoint;
+        Transform targetSpawn = null;
+        if (playerIndex == 0)
+            targetSpawn = p1SpawnPoint;
+        else if (playerIndex == 1)
+            targetSpawn = p2SpawnPoint;
 
-        if (targetSpawn == null) return;
+        if (targetSpawn == null)
+        {
+            Debug.LogError($"Respawn falló: spawn point no asignado para player {playerIndex}");
+            return;
+        }
 
         health.transform.position = targetSpawn.position;
+
         Rigidbody2D rb = health.GetComponent<Rigidbody2D>();
         if (rb != null) rb.linearVelocity = Vector2.zero;
+
+        UIEvents.OnLivesChanged(playerIndex, health.fallLives);
+
+        if (UIManager.Instance != null)
+            UIManager.Instance.RevealRemainingCards(playerIndex);
+
+        CharacterDeck deck = health.GetComponent<CharacterDeck>();
+        if (deck != null)
+            deck.HandleLifeLost();
     }
+
+
 
     public void ResetRoundPositionsAndHealth()
     {

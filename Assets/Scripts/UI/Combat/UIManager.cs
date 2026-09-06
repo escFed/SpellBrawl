@@ -43,6 +43,9 @@ public class UIManager : MonoBehaviour
     private HandSlotView[] p1HandSlots;
     private HandSlotView[] p2HandSlots;
 
+    [Header("Card Placeholders")]
+    [SerializeField] private Sprite emptySlotSprite;
+
     private static readonly Color CooldownColor = new Color(0.35f, 0.35f, 0.35f, 0.8f);
 
     private void Awake()
@@ -56,6 +59,7 @@ public class UIManager : MonoBehaviour
         // Inicializa el color de las barras de daño al valor inicial (0)
         UpdateDamageUI(0, 0);
         UpdateDamageUI(1, 0);
+        HideAllCardSlots();
     }
 
     private void OnEnable()
@@ -67,6 +71,7 @@ public class UIManager : MonoBehaviour
         UIEvents.OnIconSet += UpdateIconUI;
         UIEvents.OnHandChanged += UpdateHandUI;
         UIEvents.OnCardUsed += PlayCardUseAnimation;
+        UIEvents.OnCardReward += AddACardOnFallDown;
     }
 
     private void OnDisable()
@@ -78,6 +83,7 @@ public class UIManager : MonoBehaviour
         UIEvents.OnIconSet -= UpdateIconUI;
         UIEvents.OnHandChanged -= UpdateHandUI;
         UIEvents.OnCardUsed -= PlayCardUseAnimation;
+        UIEvents.OnCardReward -= AddACardOnFallDown;
     }
 
     private void Update()
@@ -167,31 +173,54 @@ public class UIManager : MonoBehaviour
             p2HandSlots = hand;
 
         int maxSlots = Mathf.Min(uiSlots.Length, hand.Length);
+
         for (int i = 0; i < maxSlots; i++)
         {
-            bool hasVisibleCard = hand[i].IsUnlocked && hand[i].Card != null;
-            if (hasVisibleCard)
+            Image slotImage = uiSlots[i];
+            if (slotImage == null) continue;
+
+            if (!hand[i].IsUnlocked)
             {
-                uiSlots[i].gameObject.SetActive(true);
-                hand[i].Card.SetUI(uiSlots[i]);
+                slotImage.gameObject.SetActive(false);
+                continue;
+            }
+
+            if (hand[i].Card != null)
+            {
+                hand[i].Card.SetUI(slotImage);
+                slotImage.color = Color.white;
             }
             else
             {
-                uiSlots[i].gameObject.SetActive(false);
+                slotImage.sprite = emptySlotSprite;
+                slotImage.color = new Color(1f, 1f, 1f, 0.5f);
             }
-
-            int index = i; // capturar variable local para el callback
-            LeanTween.cancel(uiSlots[index].gameObject);
-            LeanTween.scale(uiSlots[index].gameObject, Vector3.one * 1.2f, 0.2f)
-                .setEase(LeanTweenType.animationCurve)
-                .setOnComplete(() =>
-                {
-                    LeanTween.scale(uiSlots[index].gameObject, Vector3.one, 0.2f)
-                        .setEase(LeanTweenType.animationCurve);
-                });
         }
-
     }
+
+    private void HideAllCardSlots()
+    {
+        HideCardSlots(p1_cards);
+        HideCardSlots(p2_cards);
+    }
+
+    private static void HideCardSlots(Image[] slots)
+    {
+        if (slots == null)
+            return;
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i] == null)
+                continue;
+
+            slots[i].gameObject.SetActive(false);
+            slots[i].transform.localScale = Vector3.zero;
+        }
+    }
+
+
+
 
     private static void UpdateCardCooldownVisuals(Image[] uiSlots, HandSlotView[] hand)
     {
@@ -199,6 +228,8 @@ public class UIManager : MonoBehaviour
             return;
 
         int count = Mathf.Min(uiSlots.Length, hand.Length);
+
+        
         for (int i = 0; i < count; i++)
         {
             Image slotImage = uiSlots[i];
@@ -231,4 +262,58 @@ public class UIManager : MonoBehaviour
             
         }
     }
+
+    public void RevealRemainingCards(int playerIndex)
+    {
+        Image[] uiSlots = (playerIndex == 0) ? p1_cards : p2_cards;
+        HandSlotView[] hand = (playerIndex == 0) ? p1HandSlots : p2HandSlots;
+
+        for (int i = 2; i < hand.Length; i++)
+        {
+            if (hand[i].IsUnlocked && hand[i].Card != null)
+            {
+                uiSlots[i].gameObject.SetActive(true);
+                hand[i].Card.SetUI(uiSlots[i]);
+
+                uiSlots[i].transform.localScale = Vector3.zero;
+                LeanTween.scale(uiSlots[i].gameObject, Vector3.one, 0.3f)
+                    .setEase(LeanTweenType.easeOutBack)
+                    .setDelay(0.2f * (i - 2)); // escalonado
+            }
+        }
+    }
+
+
+    public void AnimateInitialCards(int playerIndex)
+    {
+        Image[] uiSlots = (playerIndex == 0) ? p1_cards : p2_cards;
+        int maxVisibleCards = 2;
+
+        for (int i = 0; i < maxVisibleCards; i++)
+        {
+            Image slotImage = uiSlots[i];
+            if (slotImage == null) continue;
+
+            slotImage.gameObject.SetActive(true);
+            slotImage.transform.localScale = Vector3.zero;
+
+            LeanTween.cancel(slotImage.gameObject);
+            LeanTween.scale(slotImage.gameObject, Vector3.one * 1.2f, 0.3f)
+                .setEase(LeanTweenType.easeOutBack)
+                .setOnComplete(() =>
+                {
+                    LeanTween.scale(slotImage.gameObject, Vector3.one, 0.2f)
+                        .setEase(LeanTweenType.easeInOutQuad);
+                });
+        }
+    }
+
+
+
+    private void AddACardOnFallDown(int playerIndex)
+    {
+        RevealRemainingCards(playerIndex);
+    }
+
+
 }

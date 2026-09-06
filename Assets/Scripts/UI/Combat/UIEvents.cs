@@ -11,4 +11,13 @@ public static class UIEvents
     public static Action<int, HandSlotView[]> OnHandChanged;
 
     public static Action<int, int> OnCardUsed;
+
+
+    public static event Action<int> OnCardReward;
+
+    public static void InvokeCardReward(int playerIndex)
+    {
+        OnCardReward?.Invoke(playerIndex);
+    }
+
 }
