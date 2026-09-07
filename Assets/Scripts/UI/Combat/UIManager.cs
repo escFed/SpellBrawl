@@ -1,4 +1,6 @@
+using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,6 +47,12 @@ public class UIManager : MonoBehaviour
 
     [Header("Card Placeholders")]
     [SerializeField] private Sprite emptySlotSprite;
+
+
+    [Header("Card Reactivaction Sound")]
+    [SerializeField] private AudioClip cardReactivationSound;
+    private AudioSource source;
+
 
     private static readonly Color CooldownColor = new Color(0.35f, 0.35f, 0.35f, 0.8f);
 
@@ -124,10 +132,10 @@ public class UIManager : MonoBehaviour
             // Efecto visual: pequeña escala cuando recibe daño
             if (damage > 0)
             {
-                LeanTween.scale(percent.gameObject, new Vector3(1.05f, 1.05f, 1f), 0.1f)
+                LeanTween.scale(percent.gameObject, new Vector3(1.05f, 1.05f, 1f), 0.4f)
                     .setEase(LeanTweenType.easeOutBounce)
                     .setOnComplete(() => {
-                        LeanTween.scale(percent.gameObject, Vector3.one, 0.3f)
+                        LeanTween.scale(percent.gameObject, Vector3.one, 0.4f)
                             .setEase(LeanTweenType.easeInBounce);
                     });
             }
@@ -164,7 +172,7 @@ public class UIManager : MonoBehaviour
         if (icon != null) icon.sprite = iconSprite;
     }
 
-    private void UpdateHandUI(int playerIndex, HandSlotView[] hand)
+    private void UpdateHandUI(int playerIndex, HandSlotView[] hand) 
     {
         Image[] uiSlots = (playerIndex == 0) ? p1_cards : p2_cards;
         if (playerIndex == 0)
@@ -179,9 +187,12 @@ public class UIManager : MonoBehaviour
             Image slotImage = uiSlots[i];
             if (slotImage == null) continue;
 
-            if (!hand[i].IsUnlocked)
+            if (!hand[i].IsUnlocked) 
             {
+               
+
                 slotImage.gameObject.SetActive(false);
+                
                 continue;
             }
 
@@ -193,7 +204,7 @@ public class UIManager : MonoBehaviour
             else
             {
                 slotImage.sprite = emptySlotSprite;
-                slotImage.color = new Color(1f, 1f, 1f, 0.5f);
+                slotImage.color = new Color(1f, 1f, 1f, 0.5f); // semi-transparente para indicar que la carta está desbloqueada
             }
         }
     }
@@ -229,16 +240,45 @@ public class UIManager : MonoBehaviour
 
         int count = Mathf.Min(uiSlots.Length, hand.Length);
 
-        
         for (int i = 0; i < count; i++)
         {
             Image slotImage = uiSlots[i];
             if (slotImage == null || !slotImage.gameObject.activeSelf || hand[i].Card == null)
                 continue;
 
-            slotImage.color = Time.time >= hand[i].ReadyAt ? Color.white : CooldownColor;
+            float remaining = hand[i].ReadyAt - Time.time;
+            if (remaining <= 0f)
+            {
+                // Carta lista: alpha completo
+                slotImage.color = new Color(1f, 1f, 1f, 1f);
+
+                // Reproducir sonido de reactivación
+                AudioSource source = slotImage.GetComponent<AudioSource>();
+                if (source != null && !source.isPlaying)
+                    source.PlayOneShot(UIManager.Instance.cardReactivationSound);
+            }
+            else
+            {
+                // Cooldown activo: alpha se va llenando
+                float totalCooldown = hand[i].CooldownDuration;
+                if (totalCooldown <= 0f)
+                {
+                    slotImage.color = new Color(1f, 1f, 1f, 0.5f);
+                    continue;
+                }
+
+                float raw = 1f - (remaining / totalCooldown);
+                raw = Mathf.Clamp01(raw);
+
+                // Usar easing con start=0, end=1 y val=raw
+                float progress = LeanTween.easeInOutQuad(0f, 1f, raw);
+
+                slotImage.color = new Color(1f, 1f, 1f, progress);
+            }
         }
     }
+
+
 
     public void PlayCardUseAnimation(int playerIndex, int cardIndex)
     {
@@ -258,6 +298,8 @@ public class UIManager : MonoBehaviour
                     LeanTween.scale(cardImage.gameObject, Vector3.one, 0.3f)
                         .setEase(LeanTweenType.easeOutQuint);
                 });
+
+            
 
             
         }
@@ -314,6 +356,8 @@ public class UIManager : MonoBehaviour
     {
         RevealRemainingCards(playerIndex);
     }
+
+
 
 
 }

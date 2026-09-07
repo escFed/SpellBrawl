@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterDeck : MonoBehaviour
+public class CharacterDeck : MonoBehaviour 
 {
-    private float CardLifetime = 30f;
+    private float CardLifetime = 30f; 
 
     [Header("Configuration")]
     [SerializeField] private DeckRules rules;
