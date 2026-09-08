@@ -106,7 +106,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
     public void FallPenalty()
     {
 
-        if (isDead || isWaitingToRespawn) return;
+        if (!isActiveAndEnabled || isDead || isWaitingToRespawn) return;
 
         if (Time.time - lastFallTime < 1f) return;
         lastFallTime = Time.time;
@@ -231,6 +231,9 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
     public void BeginRespawnSequence(Vector3 position, float delay, float protectionDuration)
     {
+        if (!isActiveAndEnabled || isDead)
+            return;
+
         CancelRespawnSequence();
         respawnRoutine = StartCoroutine(RespawnSequence(position, Mathf.Max(0f, delay), Mathf.Max(0f, protectionDuration)));
     }

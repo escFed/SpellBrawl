@@ -8270,8 +8270,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardUIManager
   p1_icon: {fileID: 1260444766}
   p2_icon: {fileID: 1992192621}
-  p1_damagePercent: {fileID: 1288756693}
-  p2_damagePercent: {fileID: 1071709598}
+  p1_damagePercent: {fileID: 1071709598}
+  p2_damagePercent: {fileID: 1288756693}
   p1_cards:
   - {fileID: 1360150111}
   - {fileID: 379308569}
@@ -15213,7 +15213,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 1.0763726}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -15223,7 +15223,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 19, y: 1.1527452}
+  m_Size: {x: 18.5, y: 3}
   m_EdgeRadius: 0
 --- !u!1 &1556367276
 GameObject:

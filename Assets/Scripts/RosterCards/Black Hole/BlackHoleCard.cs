@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.WSA;
 
 public class BlackHoleCard : MonoBehaviour, ICardable
 {

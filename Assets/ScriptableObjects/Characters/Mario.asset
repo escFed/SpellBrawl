@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6519a18f7b0148f4fadd7fd92d2d3564, type: 3}
   m_Name: Mario
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
-  characterName: Mario
+  characterName: Mario (PlayTest)
   characterPrefab: {fileID: 8413723424367857399, guid: 1042d06538d2682408cae8f64b7c2841, type: 3}
   characterIcon: {fileID: -2832408800491106164, guid: 7e964f8cad2cadd43918551e88510817, type: 3}
   moveSpeed: 5
@@ -26,6 +26,7 @@ MonoBehaviour:
   fastFallSpeed: -20
   tiltThreshold: 0.3
   defenseMultiplier: 1
+  strongHitStunThreshold: 0.5
   directionalInfluenceDegrees: 12
   knockbackAirDeceleration: 10
   knockbackGroundDeceleration: 40

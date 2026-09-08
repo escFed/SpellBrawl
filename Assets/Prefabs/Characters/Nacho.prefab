@@ -953,7 +953,7 @@ GameObject:
   - component: {fileID: 3262535833314222879}
   - component: {fileID: 7737548126659744619}
   - component: {fileID: 3497981266603642460}
-  - component: {fileID: 7756223917593862201}
+  - component: {fileID: 137167317267458014}
   - component: {fileID: 8597003566808776856}
   - component: {fileID: 2416802196115934665}
   - component: {fileID: 249917653517031569}
@@ -968,7 +968,7 @@ GameObject:
   - component: {fileID: 1686761356173621001}
   - component: {fileID: 1453294828406350904}
   - component: {fileID: -640666829969912022}
-  - component: {fileID: 1639155570749951014}
+  - component: {fileID: 8043311980823403460}
   m_Layer: 7
   m_Name: Nacho
   m_TagString: Untagged
@@ -1086,8 +1086,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!70 &7756223917593862201
-CapsuleCollider2D:
+--- !u!61 &137167317267458014
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1120,9 +1120,18 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.06, y: 0}
+  m_Offset: {x: -0.05, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.94, y: 1.12}
+    newSize: {x: 0.94, y: 1.12}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   m_Size: {x: 0.5, y: 1}
-  m_Direction: 0
+  m_EdgeRadius: 0
 --- !u!114 &8597003566808776856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1130,7 +1139,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8413723424367857399}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
@@ -1160,7 +1169,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8413723424367857399}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e32e500888eb384e91d4b136e25dbe5, type: 3}
   m_Name: 
@@ -1179,7 +1188,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8413723424367857399}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3360f1401af2e81408b4b4da89ccade4, type: 3}
   m_Name: 
@@ -1454,7 +1463,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1639155570749951014
+--- !u!114 &8043311980823403460
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
