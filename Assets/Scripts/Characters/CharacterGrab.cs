@@ -97,7 +97,9 @@ public class CharacterGrab : MonoBehaviour
         IGrabbable target = grabbedTarget;
         grabbedTarget = null;
         RestoreTargetCollisions();
-        target.OnThrown(throwStats.damage, GetDirectedThrowKnockback(direction, throwStats.knockback));
+        target.OnThrown(new CombatHit(throwStats.damage,
+            GetDirectedThrowKnockback(direction, throwStats.knockback), throwStats.hitStun,
+            HitReaction.Hit, target.GrabTransform.position, controller.PlayerIndex, throwStats.launch));
         GetComponent<EnergyManager>()?.AddEnergy(throwStats.energyGain);
     }
 

@@ -428,7 +428,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: -876546973899608171, guid: df64987bf0893ee46b89aa421dacd596, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -591,9 +591,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterBrain
   attackBufferTime: 0.15
+  grabBufferTime: 0.15
   jumpBufferTime: 0.15
   cardBufferTime: 0.15
-  shieldHoldThreshold: 0.15
+  evadeBufferTime: 0.15
+  dashBufferTime: 0.15
+  heavyAttackBufferTime: 0.15
 --- !u!114 &3472247776698935980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,7 +628,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   stats: {fileID: 11400000, guid: c523f9d6f062a1244adea83c96e74de4, type: 2}
-  stunTimer: 0
+  controlsEnabled: 1
+  cardsEnabled: 1
 --- !u!114 &1186901822830925340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -642,6 +646,15 @@ MonoBehaviour:
   fTiltHitbox: {fileID: 8246800037079071242}
   upTiltHitbox: {fileID: 445758605109185613}
   dTiltHitbox: {fileID: 5378816027172720550}
+  neutralAirHitbox: {fileID: 0}
+  forwardAirHitbox: {fileID: 0}
+  upAirHitbox: {fileID: 0}
+  downAirHitbox: {fileID: 0}
+  forwardHeavyHitbox: {fileID: 0}
+  upHeavyHitbox: {fileID: 0}
+  downHeavyHitbox: {fileID: 0}
+  grabHitbox: {fileID: 0}
+  pivotGrabHitbox: {fileID: 0}
   originalSpriteFacesRight: 1
 --- !u!114 &7554642670596897687
 MonoBehaviour:
@@ -683,15 +696,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb5d3792621129b4bae3f2a17e7bc90f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDeck
-  cardPrefabsPool:
-  - {fileID: 2052908611097359236, guid: b65cb8e6896a3a0489b3906511503c53, type: 3}
-  - {fileID: 8626042553062594018, guid: a5ffda282a8266e41a26b5594762a5ab, type: 3}
-  - {fileID: 8266632702581206144, guid: 836afddc1d8c95a43b7bd9099076fa8d, type: 3}
-  - {fileID: 8020222836146473951, guid: 6f7f7eeec9ac338469710aac8d7f00b7, type: 3}
-  - {fileID: 2077598287845426619, guid: 0a5c15f64f078634ca9f48541953e978, type: 3}
-  - {fileID: 7787666514362569338, guid: d52e531f554fb924da7faa414e98e18a, type: 3}
-  - {fileID: 3111288841274506641, guid: e8047da05a8773842894874f21cb14a4, type: 3}
-  totalDeckSize: 20
+  rules: {fileID: 0}
+  catalog: {fileID: 0}
 --- !u!114 &81641727053849126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -704,6 +710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec30e8c2b4a823428d6fcac54a3c579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterParry
+  parrySuccessSound: {fileID: 0}
 --- !u!114 &7498408753860970984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -717,7 +724,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterCombat
   attackSpeedMultiplier: 1
-  throwPoint: {fileID: 531333499451203714}
 --- !u!1 &3295659753739748874
 GameObject:
   m_ObjectHideFlags: 0

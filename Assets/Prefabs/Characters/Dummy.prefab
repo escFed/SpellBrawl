@@ -182,5 +182,4 @@ MonoBehaviour:
   currentDamage: 0
   maximumDisplayedDamage: 9999
   weight: 100
-  knockbackMultiplier: 1
   gravityScale: 1

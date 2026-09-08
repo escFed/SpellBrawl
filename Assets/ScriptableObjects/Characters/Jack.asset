@@ -21,13 +21,16 @@ MonoBehaviour:
   coyoteTime: 0.1
   weight: 100
   maxFallSpeed: -15
+  fastFallSpeed: -20
   tiltThreshold: 0.3
   parryWindow: 0.2
   defenseMultiplier: 1
-  knockbackMultiplier: 1.5
+  directionalInfluenceDegrees: 12
+  knockbackAirDeceleration: 10
+  knockbackGroundDeceleration: 40
   maxEnergy: 100
   startingEnergy: 50
-  jabAttack: {fileID: 11400000, guid: 6c0c086cebddbfa4db9bddd2ff3374a1, type: 2}
-  fTiltAttack: {fileID: 11400000, guid: 376742cb7e3e2294b947633c444dc4f5, type: 2}
-  upTiltAttack: {fileID: 11400000, guid: 53a20cbb049392c41b901c0ccd538c33, type: 2}
-  dTiltAttack: {fileID: 11400000, guid: df93bbed5071fa44cae51a47cd8f89fd, type: 2}
+  jabAttack: {fileID: 11400000, guid: 44e77717bb639cc41947661e52caf25c, type: 2}
+  fTiltAttack: {fileID: 11400000, guid: 92efd899db910784d8877a7790584f14, type: 2}
+  upTiltAttack: {fileID: 11400000, guid: 8f17051f3f0f64b4c84fc7a54054b8b0, type: 2}
+  dTiltAttack: {fileID: 11400000, guid: 15b0250bc1031cd4a892f7399dd7d177, type: 2}

@@ -21,13 +21,14 @@ MonoBehaviour:
   shortHopVelocityMultiplier: 0.58
   maxJumps: 2
   coyoteTime: 0.1
-  weight: 100
+  weight: 75
   maxFallSpeed: -15
-  fastFallSpeed: -24
+  fastFallSpeed: -20
   tiltThreshold: 0.3
-  parryWindow: 0.2
   defenseMultiplier: 1
-  knockbackMultiplier: 1.5
+  directionalInfluenceDegrees: 12
+  knockbackAirDeceleration: 10
+  knockbackGroundDeceleration: 40
   dodgeSpeed: 14
   dashSpeed: 15
   dashDuration: 0.18

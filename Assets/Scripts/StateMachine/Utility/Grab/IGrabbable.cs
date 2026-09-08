@@ -8,6 +8,7 @@ public interface IGrabbable
     void OnGrabbed(Transform holdPoint);
     void UpdateGrabbedPosition(Transform holdPoint);
     void TakePummelDamage(int amount);
-    void OnThrown(int amount, Vector2 knockback);
+
+    void OnThrown(CombatHit hit);
     void OnReleased();
 }

@@ -11,10 +11,11 @@ public class HeavyAttackStats : AttackStats
     public float maxDamage = 20f;
     public float minKnockback = 4f;
     public float maxKnockback = 10f;
+    [Min(0f)] public float maxKnockbackGrowth = 14f;
     public Vector2 knockbackDirection = new Vector2(1f, 0.5f);
 
     [Header("Charged Hit Stun")]
-    public float maxHitStun = 0.85f;
+    [InspectorName("Fully Charged Base Hit Stun")] public float maxHitStun = 0.85f;
 
     [Header("Animation")]
     public string chargeAnimationState = "HeavyCharge";

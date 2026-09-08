@@ -1,6 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
+using UnityEngine.WSA;
 
 public class ShadowSpikeCard : MonoBehaviour, ICardable
 {
@@ -14,21 +15,28 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
     [SerializeField] private float slowAmount = 0.4f;
     [SerializeField] private float duration = 2f;
     [SerializeField] private int energyCost = 20;
+    [SerializeField] private Vector2 knockback = Vector2.up;
+    [SerializeField, Min(0f)] private float hitStun = 0.3f;
+    [SerializeField] private KnockbackProfile launch = new KnockbackProfile { growth = 0f, hitStunPerSpeed = 0f, directionalInfluence = 0f };
 
     [Header("Visual")]
     [SerializeField] private GameObject spikePrefab;
     [SerializeField] private Sprite cardIcon;
+    [SerializeField] private Image cardVisual; // añadido: referencia a la imagen UI
 
     public int EnergyCost => energyCost;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
 
     public string DamageableOrNot => damageOrNot;
-    public CardType Type => CardType.Utility;
+    public CardType Type => CardType.Offensive;
+
+    // Implementación requerida por ICardable
+    public Sprite CardVisual => cardIcon;
 
     public void SetUI(Image img)
     {
-        if (img != null && cardIcon != null) img.sprite = cardIcon;
+        cardVisual = img;
     }
 
     public bool CanBeUsed(PlayerController user)
@@ -72,7 +80,7 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
 
             if (opponent.TryGetComponent(out CharacterHealth opponentHealth))
             {
-                opponentHealth.TakeDamage(damage, new Vector2(0, 1f));
+                opponentHealth.ReceiveHit(new CombatHit(damage, knockback, hitStun, HitReaction.Hit, opponent.transform.position, character.PlayerIndex, launch));
             }
 
             opponent.Movement.moveSpeedMultiplier = slowAmount;

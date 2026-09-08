@@ -19,6 +19,22 @@ public class CharacterMovement : MonoBehaviour
 
     private PlayerController controller;
     private Rigidbody2D rb;
+    private readonly KnockbackMotion knockbackMotion = new KnockbackMotion();
+    public Vector2 KnockbackVelocity => knockbackMotion.Velocity;
+    public Vector2 OrdinaryVelocity => rb.linearVelocity - KnockbackVelocity;
+
+    public void ApplyKnockback(Vector2 velocity)
+    {
+        ResetAirMovementState();
+        controller.CancelGroundJumpAvailability();
+        knockbackMotion.Launch(rb, velocity);
+    }
+
+    public void ResetKnockback() => knockbackMotion.Clear(rb);
+
+    private void SetOrdinaryVelocity(Vector2 velocity) => knockbackMotion.SetOrdinaryVelocity(rb, velocity);
+
+    public void StopVerticalMovement() => SetOrdinaryVelocity(new Vector2(OrdinaryVelocity.x, 0f));
     private CapsuleCollider2D bodyCollider;
     private Vector2 standingColliderSize;
     private Vector2 standingColliderOffset;
@@ -42,6 +58,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnDisable()
     {
+        ResetKnockback();
         SetCrouching(false);
         ResetAirMovementState();
     }
@@ -59,8 +76,11 @@ public class CharacterMovement : MonoBehaviour
             ResetAirMovementState();
     }
 
-    private void FixedUpdate()
+    // Called explicitly before the current state's physics update, after collision resolution.
+    public void StepPhysics()
     {
+        knockbackMotion.Step(rb, Time.fixedDeltaTime, controller.stats.knockbackAirDeceleration,
+            controller.stats.knockbackGroundDeceleration);
         if (rb.bodyType != RigidbodyType2D.Dynamic)
         {
             activeJumpGravityMultiplier = 1f;
@@ -83,12 +103,12 @@ public class CharacterMovement : MonoBehaviour
     public void ApplyHorizontalMovement()
     {
         float currentSpeed = controller.stats.moveSpeed * moveSpeedMultiplier;
-        rb.linearVelocity = new Vector2(controller.MoveInput.x * currentSpeed, rb.linearVelocity.y);
+        SetOrdinaryVelocity(new Vector2(controller.MoveInput.x * currentSpeed, OrdinaryVelocity.y));
 
         controller.Combat.CheckAndFlip(controller.MoveInput.x);
     }
 
-    public void StopHorizontalMovement() => rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+    public void StopHorizontalMovement() => SetOrdinaryVelocity(new Vector2(0f, OrdinaryVelocity.y));
     public void ApplyJumpForce()
     {
         float speedMultiplier = Mathf.Max(0.01f, controller.stats.jumpSpeedMultiplier);
@@ -96,7 +116,7 @@ public class CharacterMovement : MonoBehaviour
         IsFastFalling = false;
         CurrentJumpType = JumpType.Full;
         fastFallInputArmed = controller.MoveInput.y >= -controller.stats.tiltThreshold;
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, controller.stats.jumpForce * speedMultiplier);
+        SetOrdinaryVelocity(new Vector2(OrdinaryVelocity.x, controller.stats.jumpForce * speedMultiplier));
     }
 
     public bool TryApplyShortHop()
@@ -105,7 +125,7 @@ public class CharacterMovement : MonoBehaviour
             return false;
 
         float velocityMultiplier = Mathf.Clamp01(controller.stats.shortHopVelocityMultiplier);
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * velocityMultiplier);
+        SetOrdinaryVelocity(new Vector2(OrdinaryVelocity.x, OrdinaryVelocity.y * velocityMultiplier));
         CurrentJumpType = JumpType.Short;
         return true;
     }
@@ -134,19 +154,19 @@ public class CharacterMovement : MonoBehaviour
 
     public void ApplyRoll(float directionSign, float speed)
     {
-        rb.linearVelocity = new Vector2(directionSign * speed, rb.linearVelocity.y);
+        SetOrdinaryVelocity(new Vector2(directionSign * speed, OrdinaryVelocity.y));
     }
 
 
     public void ApplyDirectionalDash(Vector2 direction, float speed)
     {
-        rb.linearVelocity = direction * speed;
+        SetOrdinaryVelocity(direction * speed);
     }
 
 
     public void StopAllMovement()
     {
-        rb.linearVelocity = Vector2.zero;
+        SetOrdinaryVelocity(Vector2.zero);
     }
 
 
@@ -180,8 +200,8 @@ public class CharacterMovement : MonoBehaviour
         IsFastFalling = true;
         float fallSpeedLimit = GetFallSpeedLimit();
 
-        if (rb.linearVelocity.y > fallSpeedLimit)
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, fallSpeedLimit);
+        if (OrdinaryVelocity.y > fallSpeedLimit)
+            SetOrdinaryVelocity(new Vector2(OrdinaryVelocity.x, fallSpeedLimit));
     }
 
 
@@ -189,8 +209,8 @@ public class CharacterMovement : MonoBehaviour
     {
         float fallSpeedLimit = GetFallSpeedLimit();
 
-        if (rb.linearVelocity.y < fallSpeedLimit)
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, fallSpeedLimit);
+        if (OrdinaryVelocity.y < fallSpeedLimit)
+            SetOrdinaryVelocity(new Vector2(OrdinaryVelocity.x, fallSpeedLimit));
     }
 
     private float GetFallSpeedLimit()

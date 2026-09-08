@@ -17,12 +17,18 @@ public class CharacterStats : ScriptableObject
     public float coyoteTime = 0.1f;
     public float weight = 100f;
     public float maxFallSpeed = -15f;
-    public float fastFallSpeed = -25f;
+    [Tooltip("Downward speed while fast falling. Use a negative value; closer to zero is slower, capped by maxFallSpeed.")]
+    public float fastFallSpeed = -20f;
 
     [Header("Combat Stats")]
     public float tiltThreshold = 0.3f;
     public float defenseMultiplier = 1f;
-    public float knockbackMultiplier = 1.5f;
+    [Tooltip("Hitstun lasting at least this many seconds uses StrongHit. Explicit StrongHit and Stunned reactions are preserved.")]
+    [Min(0.01f)] public float strongHitStunThreshold = 0.5f;
+    [Tooltip("Maximum launch angle adjustment from defender input. Zero disables directional influence.")]
+    [Range(0f, 25f)] public float directionalInfluenceDegrees = 12f;
+    [Min(0.01f)] public float knockbackAirDeceleration = 10f;
+    [Min(0.01f)] public float knockbackGroundDeceleration = 40f;
     public float dodgeSpeed = 14f;
 
     [Header("Dash Stats")]

@@ -16,13 +16,21 @@ MonoBehaviour:
   active: 0.08
   recovery: 0.45
   hitStun: 0.7
+  launch:
+    growth: 4
+    hitStunPerSpeed: 0.006
+    maxHitStun: 1.05
+    directionalInfluence: 1
   hitReaction: 1
+  hitSound: {fileID: 8300000, guid: 14619561bda68f04bb2f176c827d813b, type: 3}
   energyGain: 10
   maxChargeTime: 2
   minDamage: 9
   maxDamage: 20
   minKnockback: 4
-  maxKnockback: 12
+  maxKnockback: 10
+  maxKnockbackGrowth: 10
   knockbackDirection: {x: 0.65, y: 0.35}
+  maxHitStun: 0.85
   chargeAnimationState: DownHeavyCharge
   executionAnimationState: DownHeavy

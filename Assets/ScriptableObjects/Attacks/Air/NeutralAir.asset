@@ -16,6 +16,13 @@ MonoBehaviour:
   active: 0.05
   recovery: 0.25
   hitStun: 0.3
+  launch:
+    growth: 2
+    hitStunPerSpeed: 0.004
+    maxHitStun: 0.45
+    directionalInfluence: 1
+  hitReaction: 0
+  hitSound: {fileID: 8300000, guid: 14619561bda68f04bb2f176c827d813b, type: 3}
   energyGain: 10
   damage: 8
-  knockback: {x: 4, y: 2}
+  knockback: {x: 3, y: 2}

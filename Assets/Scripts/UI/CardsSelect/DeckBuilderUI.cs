@@ -10,8 +10,19 @@ public class DeckBuilderUI : MonoBehaviour
     [SerializeField] private DeckRules rules;
     [SerializeField] private CardCatalog catalog;
 
+    [Header("Selected Cards UI")]
+    [SerializeField] public Transform selectedCardsPanel;
+    [SerializeField] private GameObject cardVisualPrefab;
+
+
+   
+
+
+
+    private readonly Dictionary<GameObject, GameObject> cardVisuals = new Dictionary<GameObject, GameObject>();
+
     [Header("UI Settings")]
-    public TextMeshProUGUI DeckSizeText;
+   
     public Button startMatchButton;
 
     [Header("Card Settings")]
@@ -19,7 +30,10 @@ public class DeckBuilderUI : MonoBehaviour
     public TextMeshProUGUI tooltipTitleText;
     public TextMeshProUGUI tooltipDescText;
     public TextMeshProUGUI costText;
-    public TextMeshProUGUI damageInfo;
+
+
+ 
+    public Sprite genericCard;
     public TextMeshProUGUI cardTypeText;
 
     private readonly List<GameObject> selectedCards = new List<GameObject>();
@@ -47,6 +61,8 @@ public class DeckBuilderUI : MonoBehaviour
             return;
         }
 
+
+      
         source = GetComponent<AudioSource>();
         if (source != null)
             GameSettings.RegisterSource(source, GameSound.SoundEffects);
@@ -63,11 +79,39 @@ public class DeckBuilderUI : MonoBehaviour
             return false;
 
         selectedCards.Add(cardPrefab);
-        if (source != null && aCardSelectedClip != null)
-            source.PlayOneShot(aCardSelectedClip);
 
-        UpdateUI();
-        return true;
+
+        if (selectedCardsPanel != null && cardVisualPrefab != null)
+        {
+            cardVisualPrefab.SetActive(true);
+            GameObject cardVisual = Instantiate(cardVisualPrefab, selectedCardsPanel);
+                UICard ui = cardVisual.GetComponent<UICard>();
+            if (ui != null)
+            {
+ui.cardPrefab = cardPrefab;
+ui.deckBuilder = this;
+                ui.UpdateVisuals();
+
+            }
+
+
+            // Guardar referencia
+            cardVisuals[cardPrefab] = cardVisual;
+
+
+            RepositionCards();
+
+
+            if (source != null && aCardSelectedClip != null)
+                source.PlayOneShot(aCardSelectedClip);
+
+        }
+
+
+                UpdateUI();
+                return true;
+            
+        
     }
 
     public bool TryRemoveCard(GameObject cardPrefab)
@@ -76,6 +120,15 @@ public class DeckBuilderUI : MonoBehaviour
             return false;
 
         selectedCards.Remove(cardPrefab);
+      
+
+        if(cardVisuals.TryGetValue(cardPrefab, out GameObject cardVisual))
+        {
+            Destroy(cardVisual);
+            cardVisuals.Remove(cardPrefab);
+            RepositionCards();
+        }
+
         UpdateUI();
         return true;
     }
@@ -87,8 +140,7 @@ public class DeckBuilderUI : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (DeckSizeText != null)
-            DeckSizeText.text = selectedCards.Count + " / " + (rules != null ? rules.DeckSize : 0);
+      
 
         if (startMatchButton != null)
             startMatchButton.interactable = rules != null && selectedCards.Count == rules.DeckSize;
@@ -98,6 +150,12 @@ public class DeckBuilderUI : MonoBehaviour
     {
         selectedCards.Clear();
         selectedCardSet.Clear();
+
+        foreach(var kvp in cardVisuals)
+        {
+            if(kvp.Value != null)
+                Destroy(kvp.Value);
+        }
         UpdateUI();
         RefreshAllUICards();
     }
@@ -109,6 +167,14 @@ public class DeckBuilderUI : MonoBehaviour
 
         selectedCards.Clear();
         selectedCardSet.Clear();
+
+        foreach (var kvp in cardVisuals)
+        {
+            if (kvp.Value != null)
+                Destroy(kvp.Value);
+        }
+        cardVisuals.Clear();
+
         if (!DeckBuilder.TryBuild(null, catalog, rules.DeckSize, selectedCards, out int availableCardCount))
         {
             Debug.LogError($"[DeckBuilderUI] The catalog needs {rules.DeckSize} unique valid cards but found {availableCardCount}.", this);
@@ -120,8 +186,36 @@ public class DeckBuilderUI : MonoBehaviour
         for (int i = 0; i < selectedCards.Count; i++)
             selectedCardSet.Add(selectedCards[i]);
 
+        foreach (var cardPrefab in selectedCards)
+        {
+
+            selectedCardSet.Add(cardPrefab);
+            if (selectedCardsPanel != null && cardVisualPrefab != null)
+            {
+               
+                GameObject cardVisual = Instantiate(cardVisualPrefab, selectedCardsPanel);
+                cardVisual.SetActive(true);
+                UICard ui = cardVisual.GetComponent<UICard>();
+                if (ui != null)
+                {
+                    ui.cardPrefab = cardPrefab;
+                    ui.deckBuilder = this;
+                    
+                    Image genImage = cardVisual.GetComponentInChildren<Image>();
+                    if(genImage != null && genericCard != null)
+                    {
+                        genImage.sprite = genericCard;
+                    }
+                }
+                // Guardar referencia
+                cardVisuals[cardPrefab] = cardVisual;
+            }
+
+           
+        }
+
         UpdateUI();
-        RefreshAllUICards();
+        
     }
 
     private void RefreshAllUICards()
@@ -138,7 +232,6 @@ public class DeckBuilderUI : MonoBehaviour
         if (tooltipTitleText != null) tooltipTitleText.text = cardName;
         if (tooltipDescText != null) tooltipDescText.text = description;
         if (cost > 0 && costText != null) costText.text = cost.ToString();
-        if (damageInfo != null) damageInfo.text = damage;
         if (cardTypeText != null) cardTypeText.text = type.ToString();
         if (tooltipPanel != null) tooltipPanel.SetActive(true);
     }
@@ -159,5 +252,25 @@ public class DeckBuilderUI : MonoBehaviour
 
         SceneManager.LoadScene("Stage1");
     }
+
+    private void RepositionCards()
+    {
+        int index = 0;
+        foreach (var kvp in cardVisuals)
+        {
+            GameObject cardVisual = kvp.Value;
+            if (cardVisual != null)
+            {
+                float offsetX = index * 13f; // separación horizontal
+                Vector3 targetPos = new Vector3(offsetX, 0f, 0f);
+
+                LeanTween.moveLocal(cardVisual, targetPos, 0.5f)
+                         .setEase(LeanTweenType.easeOutQuint);
+
+                index++;
+            }
+        }
+    }
+
 }
 

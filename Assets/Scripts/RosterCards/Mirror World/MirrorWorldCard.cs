@@ -14,6 +14,9 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
     [Header("Visual")]
     [SerializeField] private GameObject mirrorWorldPrefab;
     [SerializeField] private Sprite cardIcon;
+    [SerializeField] private Image cardVisual; // <<-- añadido
+
+    
 
     public int EnergyCost => energyCost;
 
@@ -21,10 +24,14 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
     public string CardName => cardName;
     public string CardDescription => cardDescription;
     public string DamageableOrNot => damageOrNot;
+    public Sprite CardVisual => cardIcon; // <<-- cambiado para coincidir con ICardable
+
     public void SetUI(Image uiImage)
     {
+        cardVisual = uiImage;
         if (uiImage != null && cardIcon != null) uiImage.sprite = cardIcon;
     }
+
     public bool CanBeUsed(PlayerController user) => true;
 
 
@@ -71,9 +78,4 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
         }
         return null;
     }
-
-
-
-
-
 }

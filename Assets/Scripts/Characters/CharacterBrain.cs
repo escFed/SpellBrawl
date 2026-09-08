@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class CharacterBrain : MonoBehaviour, IInputProvider
 {
+    private const string JumpActionName = "Jump";
     private const string ShieldActionName = "Shield";
     private const string HeavyAttackActionName = "HeavyAttack";
 
@@ -15,7 +16,14 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     [SerializeField] private float dashBufferTime = 0.15f;
     [SerializeField] private float heavyAttackBufferTime = 0.15f;
 
-    public Vector2 CurrentDirection { get; private set; }
+    private Vector2 currentDirection;
+    // Held movement survives action-buffer cleanup, including repeated hits without a new move event.
+    public Vector2 CurrentDirection
+    {
+        get => isActiveAndEnabled && moveAction != null && moveAction.enabled
+            ? moveAction.ReadValue<Vector2>() : currentDirection;
+        private set => currentDirection = value;
+    }
     public bool HasBufferedJump => jumpTimer > 0;
     public bool WasJumpReleased { get; private set; }
     public bool HasBufferedAttack => attackTimer > 0;
@@ -44,6 +52,8 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     private float heavyAttackTimer;
     private float heavyAttackReleaseTimer;
     private PlayerInput playerInput;
+    private InputAction jumpAction;
+    private InputAction moveAction;
     private InputAction shieldAction;
     private InputAction heavyAttackAction;
     private bool heavyAttackRequiresRelease;
@@ -57,6 +67,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     private void OnEnable()
     {
         CacheInputActions();
+        SubscribeInputActions();
 
         bool isHeavyAttackPressed = heavyAttackAction != null && heavyAttackAction.IsPressed();
         IsHeavyAttackHeld = isHeavyAttackPressed;
@@ -65,6 +76,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
 
     private void OnDisable()
     {
+        UnsubscribeInputActions();
         ClearAllInputs();
     }
 
@@ -93,18 +105,6 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     }
 
     public void OnMove(InputValue value) => CurrentDirection = value.Get<Vector2>();
-    public void OnJump(InputValue value)
-    {
-        if (value.isPressed)
-        {
-            jumpTimer = jumpBufferTime;
-            WasJumpReleased = false;
-        }
-        else
-        {
-            WasJumpReleased = true;
-        }
-    }
     public void OnAttack(InputValue value) { if (value.isPressed) attackTimer = attackBufferTime; }
     public void OnGrab(InputValue value) { if (value.isPressed) grabTimer = grabBufferTime; }
     public void OnDrawCards(InputValue value) { if (value.isPressed) drawCardsTimer = cardBufferTime; }
@@ -210,6 +210,12 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
         if (playerInput == null)
             playerInput = GetComponent<PlayerInput>();
 
+        moveAction = playerInput != null ? playerInput.actions?.FindAction("Move", false) : null;
+
+        jumpAction = playerInput != null
+            ? playerInput.actions?.FindAction(JumpActionName, false)
+            : null;
+
         shieldAction = playerInput != null
             ? playerInput.actions?.FindAction(ShieldActionName, false)
             : null;
@@ -217,5 +223,36 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
         heavyAttackAction = playerInput != null
             ? playerInput.actions?.FindAction(HeavyAttackActionName, false)
             : null;
+    }
+
+    private void SubscribeInputActions()
+    {
+        if (jumpAction == null)
+            return;
+
+        jumpAction.performed -= OnJumpPerformed;
+        jumpAction.canceled -= OnJumpCanceled;
+        jumpAction.performed += OnJumpPerformed;
+        jumpAction.canceled += OnJumpCanceled;
+    }
+
+    private void UnsubscribeInputActions()
+    {
+        if (jumpAction == null)
+            return;
+
+        jumpAction.performed -= OnJumpPerformed;
+        jumpAction.canceled -= OnJumpCanceled;
+    }
+
+    private void OnJumpPerformed(InputAction.CallbackContext context)
+    {
+        jumpTimer = jumpBufferTime;
+        WasJumpReleased = false;
+    }
+
+    private void OnJumpCanceled(InputAction.CallbackContext context)
+    {
+        WasJumpReleased = true;
     }
 }

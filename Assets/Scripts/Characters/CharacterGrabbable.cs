@@ -10,7 +10,7 @@ public class CharacterGrabbable : MonoBehaviour, IGrabbable
     private float originalGravityScale;
     private bool bodyStateStored;
     private bool isGrabbed;
-    private bool stopHorizontalThrowOnLanding;
+
 
     public bool CanBeGrabbed => controller != null && health != null && !controller.IsDead &&
         !health.IsRespawnProtected && !isGrabbed;
@@ -29,7 +29,7 @@ public class CharacterGrabbable : MonoBehaviour, IGrabbable
             return;
 
         isGrabbed = true;
-        stopHorizontalThrowOnLanding = false;
+        controller.Movement.ResetKnockback();
         controller.Shield?.Break();
         controller.CancelGroundJumpAvailability();
         controller.ChangeState(StateCharacter.Idle);
@@ -62,43 +62,22 @@ public class CharacterGrabbable : MonoBehaviour, IGrabbable
         health.TakePummelDamage(amount);
     }
 
-    public void OnThrown(int amount, Vector2 knockback)
+
+
+    public void OnThrown(CombatHit hit)
     {
         isGrabbed = false;
-        stopHorizontalThrowOnLanding = Mathf.Abs(knockback.x) > 0.01f;
         RestorePhysics();
         controller.controlsEnabled = true;
-        health.TakeDamage(amount, knockback);
+        health.ReceiveHit(hit);
     }
 
     public void OnReleased()
     {
         isGrabbed = false;
-        stopHorizontalThrowOnLanding = false;
+        controller.Movement.ResetKnockback();
         RestorePhysics();
         controller.controlsEnabled = true;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        StopThrowMovementOnGroundContact(collision);
-    }
-
-    private void StopThrowMovementOnGroundContact(Collision2D collision)
-    {
-        if (!stopHorizontalThrowOnLanding || body == null || body.linearVelocity.y > 0.01f)
-            return;
-
-        for (int i = 0; i < collision.contactCount; i++)
-        {
-            if (collision.GetContact(i).normal.y < 0.5f)
-                continue;
-
-            body.linearVelocity = Vector2.zero;
-            body.angularVelocity = 0f;
-            stopHorizontalThrowOnLanding = false;
-            return;
-        }
     }
 
     private void SuspendPhysics()

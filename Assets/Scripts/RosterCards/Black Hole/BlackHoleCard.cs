@@ -1,8 +1,8 @@
-
 using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.WSA;
 
 public class BlackHoleCard : MonoBehaviour, ICardable
 {
@@ -17,11 +17,15 @@ public class BlackHoleCard : MonoBehaviour, ICardable
 
     [SerializeField] private int damage = 25;
     [SerializeField] private int energyCost = 20;
+    [SerializeField] private Vector2 knockback = Vector2.up;
+    [SerializeField, Min(0f)] private float hitStun = 0.3f;
+    [SerializeField] private KnockbackProfile launch = new KnockbackProfile { growth = 0f, hitStunPerSpeed = 0f, directionalInfluence = 0f };
 
     [Header("Visual")]
 
     [SerializeField] private GameObject prefab;
     [SerializeField] private Sprite cardIcon;
+    [SerializeField] private Image cardVisual;
 
 
     public int EnergyCost => energyCost;
@@ -30,11 +34,16 @@ public class BlackHoleCard : MonoBehaviour, ICardable
     public string CardName => cardName;
     public string CardDescription => cardDescription;
     public string DamageableOrNot => damageOrNot;
+    public Sprite CardVisual => cardIcon;
 
 
     public void SetUI(Image uiImage)
     {
-        if (uiImage != null && cardIcon != null) uiImage.sprite = cardIcon;
+        if (uiImage != null)
+        {
+            cardVisual = uiImage;
+            if (cardIcon != null) uiImage.sprite = cardIcon;
+        }
     }
 
     public bool CanBeUsed(PlayerController user)
@@ -95,13 +104,13 @@ public class BlackHoleCard : MonoBehaviour, ICardable
 
                 if (opponent.TryGetComponent(out CharacterHealth opponentHealth))
                 {
-                    opponentHealth.TakeDamage(damage, new Vector2(0, 1f));
+                    opponentHealth.ReceiveHit(new CombatHit(damage, knockback, hitStun, HitReaction.Hit, opponent.transform.position, character.PlayerIndex, launch));
                 }
 
                 opponent.Movement.moveSpeedMultiplier = 0.2f;
                 opponent.Combat.attackSpeedMultiplier = 0.2f;
-                
-                logic.Initialize( opponent);
+
+                logic.Initialize(opponent);
                 StartCoroutine(logic.HoleRoutine());
 
                 yield return new WaitForSeconds(logic.effectDuration);
@@ -111,7 +120,7 @@ public class BlackHoleCard : MonoBehaviour, ICardable
                     opponent.Movement.moveSpeedMultiplier = 1f;
                     opponent.Combat.attackSpeedMultiplier = 1f;
                 }
-                        
+
             }
         }
 

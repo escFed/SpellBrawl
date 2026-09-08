@@ -14,15 +14,24 @@ public class HasteCard : MonoBehaviour, ICardable
     [SerializeField] private float duration = 5f;
     [SerializeField] private int energyCost = 20;
     [SerializeField] private Sprite cardIcon;
+
+    // Nuevo campo para cumplir la interfaz
+    [SerializeField] private Image cardVisual;
+
     public string DamageableOrNot => damageOrNot;
     public int EnergyCost => energyCost;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
-    public CardType Type => CardType.Utility;
+    public CardType Type => CardType.Boost;
+
+    // Implementación requerida por ICardable
+    public Sprite CardVisual => cardIcon;
 
     public void SetUI(Image img)
     {
         if (img != null && cardIcon != null) img.sprite = cardIcon;
+        // Guardar la referencia para la propiedad CardVisual (UI)
+        if (img != null) cardVisual = img;
     }
 
     public bool CanBeUsed(PlayerController user) => true;

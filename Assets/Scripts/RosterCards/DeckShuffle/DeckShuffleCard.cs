@@ -8,6 +8,9 @@ public class DeckShuffleCard : MonoBehaviour, ICardable
     [SerializeField, TextArea(3, 5)] private string cardDescription = "Sabotages the opponent hand";
     [SerializeField] private string damageOrNot = "no";
 
+    // Campo serializado para asignar en el Inspector
+    [SerializeField] private Image cardVisual;
+
     [SerializeField] private Sprite cardIcon;
     [SerializeField] private int energyCost = 20;
     public CardType Type => CardType.Utility;
@@ -15,6 +18,10 @@ public class DeckShuffleCard : MonoBehaviour, ICardable
     public string CardName => cardName;
     public string CardDescription => cardDescription;
     public string DamageableOrNot => damageOrNot;
+
+    // Implementación de la propiedad de la interfaz
+    public Sprite CardVisual => cardIcon;
+
     public void SetUI(Image img)
     {
         if (img != null && cardIcon != null) img.sprite = cardIcon;

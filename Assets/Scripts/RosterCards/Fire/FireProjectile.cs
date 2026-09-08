@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class FireProjectile : MonoBehaviour
 {
+    [SerializeField] private KnockbackProfile launch = new KnockbackProfile { growth = 3.5f };
+    [SerializeField, Min(0f)] private float hitStun = 0.3f;
     [Header("Stats")]
     [SerializeField] private float speed = 10f;
     [SerializeField] private int damage = 10;
@@ -11,6 +13,7 @@ public class FireProjectile : MonoBehaviour
 
     private Rigidbody2D rb;
     private GameObject caster;
+    private int attackerPlayerIndex = -1;
 
     void Awake()
     {
@@ -20,17 +23,24 @@ public class FireProjectile : MonoBehaviour
     public void Init(Vector2 direction, GameObject casterObject)
     {
         caster = casterObject;
+        attackerPlayerIndex = caster != null && caster.TryGetComponent(out PlayerController controller)
+            ? controller.PlayerIndex
+            : -1;
         rb.linearVelocity = direction.normalized * speed;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == caster) return;
+        if (caster != null && collision.transform.root == caster.transform.root) return;
 
-        if (collision.TryGetComponent(out IDamageable target))
+        ICombatHitReceiver target = collision.GetComponentInParent<ICombatHitReceiver>();
+        if (target != null)
         {
             float dir = Mathf.Sign(rb.linearVelocity.x);
-            target.TakeDamage(damage, new Vector2(knockback.x * dir, knockback.y));
+            Vector2 directedKnockback = new Vector2(knockback.x * dir, knockback.y);
+
+            target.ReceiveHit(new CombatHit(damage, directedKnockback, hitStun,
+                HitReaction.Hit, collision.ClosestPoint(transform.position), attackerPlayerIndex, launch));
 
             Destroy(gameObject);
         }

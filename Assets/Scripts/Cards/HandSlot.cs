@@ -7,6 +7,9 @@ public class HandSlot
     public bool IsUnlocked { get; private set; }
     public float ReadyAt { get; private set; }
 
+    public float cooldownDuration { get; private set; }
+
+
     public bool HasCard => Card != null;
 
     public void Unlock()
@@ -41,6 +44,6 @@ public class HandSlot
 
     public HandSlotView CreateView()
     {
-        return new HandSlotView(Card, IsUnlocked, ReadyAt);
+        return new HandSlotView(Card, IsUnlocked, ReadyAt, cooldownDuration);
     }
 }

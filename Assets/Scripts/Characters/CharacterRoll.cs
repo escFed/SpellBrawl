@@ -14,6 +14,7 @@ public class CharacterRoll : MonoBehaviour
 
     private LimitedUseCooldown usage;
     private Rigidbody2D body;
+    private CharacterMovement movement;
     private readonly CollisionIgnoreScope characterCollisions = new CollisionIgnoreScope();
     private Vector2 lastSafeCollisionPosition;
     private bool hasSafeCollisionPosition;
@@ -21,6 +22,7 @@ public class CharacterRoll : MonoBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
+        movement = GetComponent<CharacterMovement>();
         InitializeUsage();
     }
 
@@ -76,7 +78,10 @@ public class CharacterRoll : MonoBehaviour
         if (hasSafeCollisionPosition && characterCollisions.HasOverlapThatWillBeRestored() && body != null)
         {
             body.position = lastSafeCollisionPosition;
-            body.linearVelocity = new Vector2(0f, body.linearVelocity.y);
+            if (movement != null)
+                movement.StopHorizontalMovement();
+            else
+                body.linearVelocity = new Vector2(0f, body.linearVelocity.y);
             Physics2D.SyncTransforms();
         }
 

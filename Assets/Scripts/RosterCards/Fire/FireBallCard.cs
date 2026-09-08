@@ -21,6 +21,8 @@ public class FireBallCard : MonoBehaviour, ICardable
     public CardType Type => CardType.Offensive;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
+    public Sprite CardVisual => cardSprite;
+
     public void SetUI(Image uiImage)
     {
         cardUI = uiImage;

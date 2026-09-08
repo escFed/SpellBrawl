@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterDeck : MonoBehaviour
+public class CharacterDeck : MonoBehaviour 
 {
-    private float CardLifetime = 30f;
+    private float CardLifetime = 30f; 
 
     [Header("Configuration")]
     [SerializeField] private DeckRules rules;
@@ -78,6 +78,7 @@ public class CharacterDeck : MonoBehaviour
 
         energy.TrySpendEnergy(cardData.EnergyCost);
         ExecuteCard(cardPrefab);
+        UIEvents.OnCardUsed?.Invoke(controller.PlayerIndex, handIndex);
         PublishState();
         return CardActions.Success;
     }
@@ -89,7 +90,8 @@ public class CharacterDeck : MonoBehaviour
         if (energy.currentEnergy < rules.EnergyCost)
             return CardActions.NotEnoughEnergy;
         if (!runtime.TryFullRedraw(Time.time + rules.DrawnCardCooldown))
-            return CardActions.RedrawUnavailable;
+       
+        return CardActions.RedrawUnavailable;
 
         energy.TrySpendEnergy(rules.EnergyCost);
         PublishState();

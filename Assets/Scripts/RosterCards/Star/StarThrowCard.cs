@@ -22,6 +22,7 @@ public class StarThrowCard : MonoBehaviour, ICardable
     public string CardName => cardName;
     public string CardDescription => cardDescription;
     public CardType Type => CardType.Offensive;
+    public Sprite CardVisual => cardSprite;
 
     public void SetUI(Image uiImage)
     {

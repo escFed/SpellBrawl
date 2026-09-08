@@ -12,8 +12,7 @@ public class PlayerController : MonoBehaviour
     public bool IsHitStunned => stateMachine != null && stateMachine.CurrentState == stateMachine.HitStun;
 
     public int JumpsRemaining => airJumpsRemaining + (CanGroundJump ? 1 : 0);
-    public bool CanGroundJump => groundJumpAvailable &&
-        ((Movement != null && Movement.HasStableGroundContact) || coyoteTimeRemaining > 0f);
+    public bool CanGroundJump => groundJumpAvailable && ((Movement != null && Movement.HasStableGroundContact) || coyoteTimeRemaining > 0f);
     public bool CanJump => CanGroundJump || (!IsGrounded && airJumpsRemaining > 0);
     public float CoyoteTimeRemaining => coyoteTimeRemaining;
 
@@ -28,8 +27,7 @@ public class PlayerController : MonoBehaviour
     private IInputProvider input;
     private CharacterDeck deck;
     private CharacterParry parry;
-    private readonly System.Collections.Generic.Dictionary<int, AnimatorControllerParameterType> animatorParameterTypes =
-        new System.Collections.Generic.Dictionary<int, AnimatorControllerParameterType>();
+    private System.Collections.Generic.Dictionary<int, AnimatorControllerParameterType> animatorParameterTypes = new System.Collections.Generic.Dictionary<int, AnimatorControllerParameterType>();
 
     public Animator Anim { get; private set; }
     public CharacterCombat Combat { get; private set; }
@@ -43,6 +41,7 @@ public class PlayerController : MonoBehaviour
     public CharacterHitFeedback HitFeedback { get; private set; }
     public StateMachine stateMachine { get; private set; }
     public SpriteRenderer Sprite { get; private set; }
+    public CharacterVisuals Visuals { get; private set; }
 
     public IInputProvider ActiveInput => input;
     public Vector2 MoveInput => input.CurrentDirection;
@@ -64,6 +63,7 @@ public class PlayerController : MonoBehaviour
         Movement = GetComponent<CharacterMovement>();
         Health = GetComponent<CharacterHealth>();
         Sprite = GetComponentInChildren<SpriteRenderer>();
+        Visuals = GetComponent<CharacterVisuals>();
         Anim = GetComponentInChildren<Animator>();
         CacheAnimatorParameters();
         Shield = GetComponent<CharacterShield>();
@@ -128,6 +128,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         Movement.RefreshGroundedState();
+        Visuals.Initialize(Sprite, PlayerIndex);
         stateMachine.ChangeState(StateCharacter.Idle);
         ResetJumps();
         wasStablyGrounded = Movement.HasStableGroundContact;
@@ -343,6 +344,7 @@ public class PlayerController : MonoBehaviour
     {
         if (IsDead) return;
         if (PauseMenu.isPaused) return;
+        Movement.StepPhysics();
         if (!controlsEnabled) return;
         stateMachine.FixedUpdate();
     }

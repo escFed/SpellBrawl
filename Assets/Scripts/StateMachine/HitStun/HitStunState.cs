@@ -5,6 +5,7 @@ public class HitStunState : PlayerState
     private static int HitAnimation = Animator.StringToHash("Base Layer.Hit");
     private static int StrongHitAnimation = Animator.StringToHash("Base Layer.StrongHit");
     private static int StunnedAnimation = Animator.StringToHash("Base Layer.Stunned");
+    private static readonly int ReactionSpeed = Animator.StringToHash("HitReactionSpeed");
 
     private float pendingDuration;
     private HitReaction pendingReaction;
@@ -53,10 +54,15 @@ public class HitStunState : PlayerState
     public override void Exit()
     {
         TimeRemaining = 0f;
+        character.TrySetAnimatorFloat(ReactionSpeed, 1f);
     }
 
     private void PlayReaction(HitReaction reaction)
     {
+        float threshold = character.stats != null ? character.stats.strongHitStunThreshold : 0.5f;
+        if (reaction == HitReaction.Hit && TimeRemaining >= Mathf.Max(0.01f, threshold))
+            reaction = HitReaction.StrongHit;
+
         int animation = reaction switch
         {
             HitReaction.StrongHit => StrongHitAnimation,
@@ -64,6 +70,20 @@ public class HitStunState : PlayerState
             _ => HitAnimation
         };
 
-        character.TryPlayAnimation(animation);
+        // The speed parameter belongs only to reaction states, never to locomotion or attacks.
+        bool canAdjustSpeed = character.TrySetAnimatorFloat(ReactionSpeed, 1f);
+        if (!character.TryPlayAnimation(animation) || !canAdjustSpeed)
+            return;
+
+        // Resolve the newly selected state's actual motion length before fitting short stuns.
+        // Reaction clips are presentation-only and must not contain gameplay animation events.
+        Animator animator = character.Anim;
+        if (!animator.isActiveAndEnabled)
+            return;
+
+        animator.Update(0f);
+        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+        if (state.fullPathHash == animation && TimeRemaining > 0f)
+            character.TrySetAnimatorFloat(ReactionSpeed, Mathf.Max(1f, state.length / TimeRemaining));
     }
 }

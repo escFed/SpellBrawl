@@ -13,6 +13,7 @@ public class CountdownManager : MonoBehaviour
 
     [Header("Audio")]
     public AudioSource battleMusic;
+    
 
     private void Awake()
     {
@@ -82,7 +83,8 @@ public class CountdownManager : MonoBehaviour
         foreach (PlayerController player in allPlayers)
         {
             player.controlsEnabled = true;
-            if (player.TryGetComponent(out CharacterAI ai)) ai.enabled = true;
+            if (player.TryGetComponent(out CharacterAI ai))
+                ai.enabled = player.PlayerIndex != 0;
         }
     }
 }

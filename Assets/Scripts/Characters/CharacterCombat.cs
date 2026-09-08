@@ -82,7 +82,8 @@ public class CharacterCombat : MonoBehaviour
         float hitStun = HeavyAttackCharge.CalculateHitStun(stats.hitStun, stats.maxHitStun, chargeRatio);
         Vector2 direction = stats.knockbackDirection.sqrMagnitude > 0.0001f ? stats.knockbackDirection.normalized : Vector2.right;
 
-        hitBox.SetupHeavyAttack(type, stats, Mathf.RoundToInt(damage), direction * knockbackMagnitude, hitStun);
+        float growth = Mathf.Lerp(stats.launch?.growth ?? 3f, stats.maxKnockbackGrowth, Mathf.Clamp01(chargeRatio));
+        hitBox.SetupHeavyAttack(type, stats, Mathf.RoundToInt(damage), direction * knockbackMagnitude, hitStun, growth);
     }
 
     public void OpenHeavyHitbox(HeavyAttackType type) => hitBox.SetHeavyHitbox(type, true);

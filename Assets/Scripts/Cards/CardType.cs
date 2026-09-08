@@ -2,5 +2,6 @@ public enum CardType
 { 
     Offensive,
     Defensive,
-    Utility
+    Utility,
+    Boost
 }

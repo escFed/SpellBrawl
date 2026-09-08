@@ -17,29 +17,43 @@ MonoBehaviour:
   characterIcon: {fileID: 5626999505755021147, guid: 47c952369a7a8aa45bb2076eafe90bdd, type: 3}
   moveSpeed: 5
   jumpForce: 9
+  jumpSpeedMultiplier: 1.5
+  shortHopVelocityMultiplier: 0.6
   maxJumps: 2
   coyoteTime: 0.1
   weight: 100
   maxFallSpeed: -15
-  fastFallSpeed: -25
+  fastFallSpeed: -20
   tiltThreshold: 0.3
-  parryWindow: 0.2
   defenseMultiplier: 1
-  knockbackMultiplier: 1.5
-  shieldDamageMultiplier: 0.4
+  directionalInfluenceDegrees: 12
+  knockbackAirDeceleration: 10
+  knockbackGroundDeceleration: 40
   dodgeSpeed: 14
+  dashSpeed: 15
+  dashDuration: 0.18
+  dashRecovery: 0.12
+  dashCooldown: 3
+  dashAttackSpeed: 12
+  dashGrabSpeed: 9
+  dashGrabSlideDuration: 0.16
   maxEnergy: 100
   startingEnergy: 50
-  jabAttack: {fileID: 11400000, guid: f66d9bc76f790d44fa3393564874a077, type: 2}
-  fTiltAttack: {fileID: 11400000, guid: 0006f137956121d4ea0a1cebb0fe3e87, type: 2}
-  upTiltAttack: {fileID: 11400000, guid: 3d852c567de90cb4283b3948694f51c3, type: 2}
-  dTiltAttack: {fileID: 11400000, guid: 459af3d2ecfefeb4c89424f4d024390e, type: 2}
-  neutralAirAttack: {fileID: 11400000, guid: 37f1316cb1813134b8116bd3023b8d1a, type: 2}
-  forwardAirAttack: {fileID: 11400000, guid: 3d323fc6aed5e4e4b88a0191fa6e5224, type: 2}
-  upAirAttack: {fileID: 11400000, guid: 0e7bb0953bbfa564f894e453f81e2434, type: 2}
-  downAirAttack: {fileID: 11400000, guid: 23a34978a1eb4ce4a873b6fbcded86d2, type: 2}
+  jabAttack: {fileID: 11400000, guid: 44e77717bb639cc41947661e52caf25c, type: 2}
+  fTiltAttack: {fileID: 11400000, guid: 92efd899db910784d8877a7790584f14, type: 2}
+  upTiltAttack: {fileID: 11400000, guid: 8f17051f3f0f64b4c84fc7a54054b8b0, type: 2}
+  dTiltAttack: {fileID: 11400000, guid: 15b0250bc1031cd4a892f7399dd7d177, type: 2}
+  dashAttack: {fileID: 11400000, guid: 3fcda38b27ae28442bbd65f7c5b5cf5d, type: 2}
+  neutralAirAttack: {fileID: 11400000, guid: d69baa7dbab8e7442a93196c12b8f5b2, type: 2}
+  forwardAirAttack: {fileID: 11400000, guid: b66a921016cdaec4e9fa7e462cdfbde7, type: 2}
+  upAirAttack: {fileID: 11400000, guid: 0a44f046bf63847449244e27791ed209, type: 2}
+  downAirAttack: {fileID: 11400000, guid: a990f6caeb0baa146a0907b98dc2442a, type: 2}
+  forwardHeavyAttack: {fileID: 11400000, guid: accd7f04d9634434d8803066127e9a6c, type: 2}
+  upHeavyAttack: {fileID: 11400000, guid: e4e6f6bd6d56f534a8c8fcf2d170c0d9, type: 2}
+  downHeavyAttack: {fileID: 11400000, guid: 7ae825c39b71b9442ba12ab004c756c8, type: 2}
   grabStats: {fileID: 11400000, guid: 2c5e655208a85164a8637480d2cbf9e3, type: 2}
   pivotGrabStats: {fileID: 11400000, guid: af0b95d6c8369fc47b8da8fcb13de93d, type: 2}
+  dashGrabStats: {fileID: 0}
   forwardThrow: {fileID: 11400000, guid: cfa05a88377d4054dbb1053e6cb6a9f8, type: 2}
   backThrow: {fileID: 11400000, guid: 28b1030c3afea904eae396aa361994ac, type: 2}
   upThrow: {fileID: 11400000, guid: 69262e4f9b8ba12499adaca6056fd4b9, type: 2}

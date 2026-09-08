@@ -16,6 +16,13 @@ public class InverseGravityCard : MonoBehaviour, ICardable
     public string CardDescription => cardDescription;
     public string DamageableOrNot => damageOrNot;
 
+    // Campo añadido para referencia del Image de UI
+    [SerializeField] private Image cardVisual;
+    // Implementación requerida por ICardable: devuelve el Sprite (el icono)
+    public Sprite CardVisual => cardIcon;
+    // Propiedad adicional para exponer el Image si es necesaria en el resto del código
+    public Image CardVisualImage => cardVisual;
+
     [Header("Effect Settings")]
     public float effectDuration = 1f;
     public float floatGravity = -0.3f;
@@ -51,5 +58,7 @@ public class InverseGravityCard : MonoBehaviour, ICardable
     public void SetUI(Image img)
     {
         if (img != null && cardIcon != null) img.sprite = cardIcon;
+        // Mantener referencia al Image de UI para la propiedad CardVisualImage
+        if (img != null) cardVisual = img;
     }
 }

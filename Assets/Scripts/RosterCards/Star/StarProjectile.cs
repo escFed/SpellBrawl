@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class StarProjectile : MonoBehaviour
 {
+    [SerializeField] private KnockbackProfile launch = new KnockbackProfile { growth = 4f };
+    [SerializeField, Min(0f)] private float hitStun = 0.3f;
     [Header("Stats")]
     [SerializeField] private int damage = 10;
     [SerializeField] private Vector2 knockback = new Vector2(5f, 5f);
@@ -10,11 +12,15 @@ public class StarProjectile : MonoBehaviour
 
     private GameObject caster;
     private Transform target;
+    private int attackerPlayerIndex = -1;
 
     public void Init(GameObject casterObject, Transform targetTransform)
     {
         caster = casterObject;
         target = targetTransform;
+        attackerPlayerIndex = caster != null && caster.TryGetComponent(out PlayerController controller)
+            ? controller.PlayerIndex
+            : -1;
 
         Destroy(gameObject, lifeTime);
     }
@@ -35,11 +41,14 @@ public class StarProjectile : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.gameObject == caster) return;
+        if (caster != null && collision.transform.root == caster.transform.root) return;
 
-        if (collision.TryGetComponent(out IDamageable hitTarget))
+        ICombatHitReceiver hitTarget = collision.GetComponentInParent<ICombatHitReceiver>();
+        if (hitTarget != null)
         {
-            hitTarget.TakeDamage(damage, knockback);
+            hitTarget.ReceiveHit(new CombatHit(damage, knockback, hitStun,
+                HitReaction.Hit, collision.ClosestPoint(transform.position), attackerPlayerIndex, launch));
+
             Destroy(gameObject);
         }
     }

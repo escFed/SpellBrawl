@@ -17,3 +17,9 @@ MonoBehaviour:
   damage: 10
   knockback: {x: 0, y: -6}
   energyGain: 10
+  hitStun: 0.3
+  launch:
+    growth: 0
+    hitStunPerSpeed: 0.004
+    maxHitStun: 0.5
+    directionalInfluence: 1

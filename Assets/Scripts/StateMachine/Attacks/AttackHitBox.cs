@@ -6,11 +6,17 @@ public class AttackHitbox : MonoBehaviour
     private int currentDamage;
     private Vector2 currentKnockback;
     private float currentHitStun;
+    private float currentGrowth;
     private HitReaction currentHitReaction;
     private Collider2D hitCollider;
+    private PlayerController owner;
     private bool hasHit;
 
-    private void Awake() => hitCollider = GetComponent<Collider2D>();
+    private void Awake()
+    {
+        hitCollider = GetComponent<Collider2D>();
+        owner = GetComponentInParent<PlayerController>();
+    }
 
     public void Setup(NormalAttackStats stats)
     {
@@ -22,11 +28,12 @@ public class AttackHitbox : MonoBehaviour
         Setup(stats, damage, knockback, stats != null ? stats.hitStun : 0f);
     }
 
-    public void Setup(AttackStats stats, int damage, Vector2 knockback, float hitStun)
+    public void Setup(AttackStats stats, int damage, Vector2 knockback, float hitStun, float growthOverride = -1f)
     {
         currentStats = stats;
         currentDamage = Mathf.Max(0, damage);
         currentKnockback = knockback;
+        currentGrowth = growthOverride >= 0f ? growthOverride : stats?.launch?.growth ?? 3f;
         currentHitStun = Mathf.Max(0f, hitStun);
         currentHitReaction = stats != null ? stats.hitReaction : HitReaction.Hit;
         hasHit = false;
@@ -43,7 +50,7 @@ public class AttackHitbox : MonoBehaviour
         if (other.transform.root == transform.root)
             return;
 
-        IDamageable target = other.GetComponentInParent<IDamageable>();
+        ICombatHitReceiver target = other.GetComponentInParent<ICombatHitReceiver>();
         if (target == null)
             return;
 
@@ -55,15 +62,16 @@ public class AttackHitbox : MonoBehaviour
             attackerDirection = 1f;
 
         Vector2 directedKnockback = new Vector2(currentKnockback.x * attackerDirection, currentKnockback.y);
+        int attackerPlayerIndex = owner != null ? owner.PlayerIndex : -1;
 
-        if (target is IHitStunned hitStunTarget)
+        Vector2 hitPoint = other.ClosestPoint(hitCollider.bounds.center);
+        bool applied = target.ReceiveHit(new CombatHit(currentDamage, directedKnockback,
+            currentHitStun, currentHitReaction, hitPoint, attackerPlayerIndex, currentStats.launch, currentGrowth));
+        if (applied)
         {
-            Vector2 hitPoint = other.ClosestPoint(hitCollider.bounds.center);
-            hitStunTarget.TakeDamage(currentDamage, directedKnockback, currentHitStun, currentHitReaction, hitPoint);
+            transform.root.GetComponent<EnergyManager>()?.AddEnergy(currentStats.energyGain);
+            CombatFeedback.PlayHitSound(currentStats.hitSound);
         }
-        else
-            target.TakeDamage(currentDamage, directedKnockback);
-        transform.root.GetComponent<EnergyManager>()?.AddEnergy(currentStats.energyGain);
         hasHit = true;
     }
 

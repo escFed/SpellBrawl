@@ -85,7 +85,7 @@ public class CharacterHitBox : MonoBehaviour
     public void SetupForwardAir(AerialAttackStats stats) => SetupHitbox(GetForwardAirHitbox(), stats, "forwardAirHitbox", "forwardAirAttack");
     public void SetupUpAir(AerialAttackStats stats) => SetupHitbox(GetUpAirHitbox(), stats, "upAirHitbox", "upAirAttack");
     public void SetupDownAir(AerialAttackStats stats) => SetupHitbox(GetDownAirHitbox(), stats, "downAirHitbox", "downAirAttack");
-    public void SetupHeavyAttack(HeavyAttackType type, HeavyAttackStats stats, int damage, Vector2 knockback, float hitStun)
+    public void SetupHeavyAttack(HeavyAttackType type, HeavyAttackStats stats, int damage, Vector2 knockback, float hitStun, float growthOverride = -1f)
     {
         AttackHitbox attackHitbox = GetHeavyHitbox(type);
         if (attackHitbox == null)
@@ -94,7 +94,7 @@ public class CharacterHitBox : MonoBehaviour
             return;
         }
 
-        attackHitbox.Setup(stats, damage, knockback, hitStun);
+        attackHitbox.Setup(stats, damage, knockback, hitStun, growthOverride);
     }
     public void SetupGrabbox(CharacterGrab grab) => SetupGrabbox(GetGrabbox(), grab, "grabHitbox");
     public void SetupPivotGrabbox(CharacterGrab grab) => SetupGrabbox(GetPivotGrabbox(), grab, "pivotGrabHitbox");

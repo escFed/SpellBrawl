@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class CharacterHealth : MonoBehaviour, IHitStunned
+public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 {
     private const float RespawnBlinkInterval = 0.1f;
 
@@ -34,55 +34,47 @@ public class CharacterHealth : MonoBehaviour, IHitStunned
         deck = GetComponent<CharacterDeck>();
     }
 
-    public void TakeDamage(int amount, Vector2 baseKnockback)
+    public bool ReceiveHit(CombatHit hit)
     {
-        TakeDamage(amount, baseKnockback, 0.3f, HitReaction.Hit, transform.position);
-    }
-
-    public void TakeDamage(int amount, Vector2 baseKnockback, float hitStun, HitReaction reaction, Vector2 hitPoint)
-    {
-        if (isDead || IsRespawnProtected) return;
-
-
-        if (controller != null && controller.IsIntangible) return;
+        if (isDead || IsRespawnProtected || controller.IsIntangible) return false;
 
         if (controller != null && controller.IsParrying)
         {
             GetComponent<CharacterParry>().OnSuccessfulParry();
-            return;
+            return false;
         }
 
-        int finalDamage = Mathf.RoundToInt(amount * controller.stats.defenseMultiplier * activeDefenseMultiplier);
+        // A zero-damage displacement still respects a held shield.
+        if (hit.Damage == 0 && controller.Shield != null && controller.Shield.IsActive)
+            return false;
+
+        int finalDamage = Mathf.Max(0, Mathf.RoundToInt(hit.Damage * controller.stats.defenseMultiplier * activeDefenseMultiplier));
 
         if (controller != null && controller.Shield != null)
             finalDamage = controller.Shield.AbsorbDamage(finalDamage);
 
-        if (finalDamage <= 0)
-            return;
+        if (finalDamage <= 0 && (hit.Damage > 0 || hit.BaseKnockback.sqrMagnitude < 0.000001f))
+            return false;
 
         currentDamage += finalDamage;
         UpdateUI();
 
-        float damageScale = 1f;
-        if (currentDamage > 100)
-        {
-            float extraDamage = currentDamage - 100f;
-            damageScale += (extraDamage / 100f) * controller.stats.knockbackMultiplier;
-        }
+        // Capture held direction before TakeHit clears action buffers.
+        Vector2 influence = controller.ActiveInput != null ? controller.ActiveInput.CurrentDirection : Vector2.zero;
+        Vector2 finalKnockback = KnockbackCalculation.CalculateVelocity(hit, currentDamage, controller.stats.weight,
+            influence, controller.stats.directionalInfluenceDegrees);
+        float stun = KnockbackCalculation.CalculateHitStun(hit, finalKnockback);
 
-        float weightFactor = controller.stats.weight / 100f;
-        Vector2 finalKnockback = (baseKnockback / weightFactor) * damageScale;
+        // Exit the interrupted state before installing the new launch: exits may stop movement.
+        controller.Combat.TakeHit(stun, hit.Reaction);
+        controller.Movement.ApplyKnockback(finalKnockback);
+        controller.HitFeedback?.Flash(hit.Reaction);
 
-        rb.linearVelocity = Vector2.zero;
-        rb.AddForce(finalKnockback * rb.mass, ForceMode2D.Impulse);
-
-        if (controller != null)
-        {
-            controller.Combat.TakeHit(Mathf.Max(0f, hitStun), reaction);
-            controller.HitFeedback?.Flash(reaction);
-        }
-
-        CombatFeedback.PlayImpact(hitPoint, finalKnockback, reaction);
+        if (hit.AttackerPlayerIndex >= 0)
+            CombatFeedback.PlayImpact(hit.Point, finalKnockback, hit.Reaction, PlayerColors.Get(hit.AttackerPlayerIndex));
+        else
+            CombatFeedback.PlayImpact(hit.Point, finalKnockback, hit.Reaction);
+        return true;
     }
 
     public void TakePummelDamage(int amount)
@@ -121,6 +113,7 @@ public class CharacterHealth : MonoBehaviour, IHitStunned
 
         fallLives--;
 
+        controller.Movement.ResetKnockback();
         if (fallLives > 0)
         {
             currentDamage = 0;
@@ -186,6 +179,7 @@ public class CharacterHealth : MonoBehaviour, IHitStunned
 
     private void Die()
     {
+        this.controller.Movement.ResetKnockback();
         CancelRespawnSequence();
         isDead = true;
 
@@ -215,6 +209,7 @@ public class CharacterHealth : MonoBehaviour, IHitStunned
 
     public void Respawn(Vector3 position)
     {
+        controller.Movement.ResetKnockback();
         isDead = false;
 
         if (rb != null) rb.bodyType = RigidbodyType2D.Dynamic;
