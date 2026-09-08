@@ -25,4 +25,4 @@ MonoBehaviour:
   hitSound: {fileID: 8300000, guid: 14619561bda68f04bb2f176c827d813b, type: 3}
   energyGain: 10
   damage: 6
-  knockback: {x: 1.5, y: 4}
+  knockback: {x: 1.5, y: 6}

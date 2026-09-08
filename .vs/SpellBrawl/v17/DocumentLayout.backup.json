@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "D:\\RepoGit\\SpellBrawl\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|d:\\repogit\\spellbrawl\\assets\\scripts\\rostercards\\tsunami\\tsunamicard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rostercards\\tsunami\\tsunamicard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|d:\\repogit\\spellbrawl\\assets\\scripts\\rostercards\\tsunami\\tsunamiwave.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rostercards\\tsunami\\tsunamiwave.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\rostercards\\star\\starprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -19,7 +19,7 @@
       "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rostercards\\thunder\\thunderstrikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|d:\\repogit\\spellbrawl\\assets\\scripts\\rostercards\\shadow\\shadowspikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\rostercards\\shadow\\shadowspikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rostercards\\shadow\\shadowspikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -79,14 +79,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "TsunamiCard.cs",
-              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Tsunami\\TsunamiCard.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\Tsunami\\TsunamiCard.cs",
-              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Tsunami\\TsunamiCard.cs",
-              "RelativeToolTip": "Assets\\Scripts\\RosterCards\\Tsunami\\TsunamiCard.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAAAAEQAAAARAAAAAAAAAA==",
+              "Title": "TsunamiWave.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Tsunami\\TsunamiWave.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\Tsunami\\TsunamiWave.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Tsunami\\TsunamiWave.cs",
+              "RelativeToolTip": "Assets\\Scripts\\RosterCards\\Tsunami\\TsunamiWave.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-08T18:10:31.192Z",
+              "WhenOpened": "2026-09-08T18:13:22.317Z",
               "EditorCaption": ""
             },
             {
@@ -99,8 +99,7 @@
               "RelativeToolTip": "Assets\\Scripts\\RosterCards\\Star\\StarProjectile.cs",
               "ViewState": "AgIAABgAAAAAAAAAAAAAAC0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-08T16:26:19.45Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-08T16:26:19.45Z"
             },
             {
               "$type": "Document",
@@ -112,8 +111,7 @@
               "RelativeToolTip": "Assets\\Scripts\\RosterCards\\Thunder\\ThunderProjectile.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-08T16:25:29.063Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-08T16:25:29.063Z"
             },
             {
               "$type": "Document",
@@ -125,8 +123,7 @@
               "RelativeToolTip": "Assets\\Scripts\\RosterCards\\Thunder\\ThunderStrikeCard.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-08T16:17:38.554Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-08T16:17:38.554Z"
             },
             {
               "$type": "Document",
@@ -150,8 +147,7 @@
               "RelativeToolTip": "Assets\\Scripts\\RosterCards\\Shadow\\ShadowSpikeCard.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-08T16:17:25.662Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-08T16:17:25.662Z"
             },
             {
               "$type": "Document",

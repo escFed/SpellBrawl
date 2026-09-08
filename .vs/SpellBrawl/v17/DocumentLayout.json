@@ -84,7 +84,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\Tsunami\\TsunamiWave.cs",
               "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Tsunami\\TsunamiWave.cs",
               "RelativeToolTip": "Assets\\Scripts\\RosterCards\\Tsunami\\TsunamiWave.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAAACsAAABvAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-09-08T18:13:22.317Z",
               "EditorCaption": ""
@@ -99,8 +99,7 @@
               "RelativeToolTip": "Assets\\Scripts\\RosterCards\\Star\\StarProjectile.cs",
               "ViewState": "AgIAABgAAAAAAAAAAAAAAC0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-08T16:26:19.45Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-08T16:26:19.45Z"
             },
             {
               "$type": "Document",
@@ -112,8 +111,7 @@
               "RelativeToolTip": "Assets\\Scripts\\RosterCards\\Thunder\\ThunderProjectile.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-08T16:25:29.063Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-08T16:25:29.063Z"
             },
             {
               "$type": "Document",
