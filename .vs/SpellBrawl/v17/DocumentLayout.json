@@ -3,7 +3,23 @@
   "WorkspaceRootPath": "D:\\RepoGit\\SpellBrawl\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|d:\\repogit\\spellbrawl\\assets\\scripts\\rostercards\\shadow\\shadowspikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|d:\\repogit\\spellbrawl\\assets\\scripts\\rostercards\\tsunami\\tsunamiwave.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rostercards\\tsunami\\tsunamiwave.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\rostercards\\star\\starprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rostercards\\star\\starprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\rostercards\\thunder\\thunderprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rostercards\\thunder\\thunderprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\rostercards\\thunder\\thunderstrikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rostercards\\thunder\\thunderstrikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\rostercards\\shadow\\shadowspikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rostercards\\shadow\\shadowspikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -11,20 +27,8 @@
       "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rostercards\\black hole\\blackholecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\rostercards\\thunder\\thunderprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rostercards\\thunder\\thunderprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\rostercards\\star\\starprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rostercards\\star\\starprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\rostercards\\fire\\fireprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rostercards\\fire\\fireprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\rostercards\\thunder\\thunderstrikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rostercards\\thunder\\thunderstrikecard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|D:\\RepoGit\\SpellBrawl\\assets\\scripts\\rostercards\\star\\starthrowcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -70,19 +74,33 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "TsunamiWave.cs",
+              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Tsunami\\TsunamiWave.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\Tsunami\\TsunamiWave.cs",
+              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Tsunami\\TsunamiWave.cs",
+              "RelativeToolTip": "Assets\\Scripts\\RosterCards\\Tsunami\\TsunamiWave.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAAACsAAABvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-08T18:13:22.317Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "StarProjectile.cs",
               "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Star\\StarProjectile.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\Star\\StarProjectile.cs",
               "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Star\\StarProjectile.cs",
               "RelativeToolTip": "Assets\\Scripts\\RosterCards\\Star\\StarProjectile.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAC0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-08T16:26:19.45Z"
+              "WhenOpened": "2026-09-08T16:26:19.45Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -92,13 +110,14 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\Thunder\\ThunderProjectile.cs",
               "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Thunder\\ThunderProjectile.cs",
               "RelativeToolTip": "Assets\\Scripts\\RosterCards\\Thunder\\ThunderProjectile.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAABIAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-08T16:25:29.063Z"
+              "WhenOpened": "2026-09-08T16:25:29.063Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "ThunderStrikeCard.cs",
               "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Thunder\\ThunderStrikeCard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\Thunder\\ThunderStrikeCard.cs",
@@ -110,7 +129,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "StarThrowCard.cs",
               "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Star\\StarThrowCard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\Star\\StarThrowCard.cs",
@@ -122,20 +141,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "ShadowSpikeCard.cs",
               "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Shadow\\ShadowSpikeCard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\Shadow\\ShadowSpikeCard.cs",
               "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Shadow\\ShadowSpikeCard.cs",
               "RelativeToolTip": "Assets\\Scripts\\RosterCards\\Shadow\\ShadowSpikeCard.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-08T16:17:25.662Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-08T16:17:25.662Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "MirrorWorldCard.cs",
               "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Mirror World\\MirrorWorldCard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\Mirror World\\MirrorWorldCard.cs",
@@ -147,7 +165,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "InverseGravityCard.cs",
               "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\InverseGravity\\InverseGravityCard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\InverseGravity\\InverseGravityCard.cs",
@@ -159,7 +177,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "HasteCard.cs",
               "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Haste\\HasteCard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\Haste\\HasteCard.cs",
@@ -171,7 +189,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "FireProjectile.cs",
               "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Fire\\FireProjectile.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\Fire\\FireProjectile.cs",
@@ -183,7 +201,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "BlackHoleCard.cs",
               "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Black Hole\\BlackHoleCard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\Black Hole\\BlackHoleCard.cs",
@@ -191,12 +209,11 @@
               "RelativeToolTip": "Assets\\Scripts\\RosterCards\\Black Hole\\BlackHoleCard.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-08T16:14:54.17Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-08T16:14:54.17Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "HealCard.cs",
               "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Heal\\HealCard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\Heal\\HealCard.cs",
@@ -208,7 +225,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "FortifyCard.cs",
               "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Fortify\\FortifyCard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\Fortify\\FortifyCard.cs",
@@ -220,7 +237,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "FireBallCard.cs",
               "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\Fire\\FireBallCard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\Fire\\FireBallCard.cs",
@@ -232,7 +249,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "DeckShuffleCard.cs",
               "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\RosterCards\\DeckShuffle\\DeckShuffleCard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\RosterCards\\DeckShuffle\\DeckShuffleCard.cs",
@@ -244,7 +261,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "CardType.cs",
               "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Cards\\CardType.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Cards\\CardType.cs",
