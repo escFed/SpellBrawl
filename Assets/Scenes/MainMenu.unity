@@ -1623,6 +1623,128 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &131557018
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 131557019}
+  - component: {fileID: 131557022}
+  - component: {fileID: 131557021}
+  - component: {fileID: 131557020}
+  m_Layer: 5
+  m_Name: CardTsunami
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &131557019
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131557018}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -387.37732}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 947883962}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 235.45, y: -39.45}
+  m_SizeDelta: {x: 44.1, y: 38.9}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &131557020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131557018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8d34c34d4e8a2c47b9b2d4e39ab937f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UICard
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 131557021}
+  cardPrefab: {fileID: 5246520119532629478, guid: 461b187b1bdeac543b029d22f80e838c, type: 3}
+  deckBuilder: {fileID: 729951386}
+  cardCopiesText: {fileID: 0}
+  cardVisualPrefabInstance: {fileID: 5096273829772342689, guid: 22dc21ba189e3584ab5d40c15ee79c72, type: 3}
+  cardPrevImage: {fileID: 0}
+--- !u!114 &131557021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131557018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -3354741048468357691, guid: 530242507da49bb43957637cdb2b0379, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &131557022
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131557018}
+  m_CullTransparentMesh: 1
 --- !u!1 &157943499
 GameObject:
   m_ObjectHideFlags: 0
@@ -1870,7 +1992,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 63.05005, y: -53.450012}
+  m_AnchoredPosition: {x: 63.05, y: -53.45}
   m_SizeDelta: {x: 44.1, y: 38.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &188918769
@@ -1917,7 +2039,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 8020222836146473951, guid: 6f7f7eeec9ac338469710aac8d7f00b7, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 0}
-  cardVisualPrefabInstance: {fileID: 0}
+  cardVisualPrefabInstance: {fileID: 5096273829772342689, guid: 22dc21ba189e3584ab5d40c15ee79c72, type: 3}
   cardPrevImage: {fileID: 0}
 --- !u!114 &188918770
 MonoBehaviour:
@@ -2778,7 +2900,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1429, y: 334}
+  m_AnchoredPosition: {x: -1478, y: 334}
   m_SizeDelta: {x: -66, y: -58}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &288199146
@@ -3536,7 +3658,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 8626042553062594018, guid: a5ffda282a8266e41a26b5594762a5ab, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 0}
-  cardVisualPrefabInstance: {fileID: 0}
+  cardVisualPrefabInstance: {fileID: 5096273829772342689, guid: 22dc21ba189e3584ab5d40c15ee79c72, type: 3}
   cardPrevImage: {fileID: 0}
 --- !u!114 &354078714
 MonoBehaviour:
@@ -3794,7 +3916,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 49, y: -150.00003}
+  m_AnchoredPosition: {x: 49, y: -129}
   m_SizeDelta: {x: -1024.5372, y: -657.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &392599709
@@ -6474,7 +6596,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 5701111109364838219, guid: 6d218a8803a192c4981363d71199cf67, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 0}
-  cardVisualPrefabInstance: {fileID: 0}
+  cardVisualPrefabInstance: {fileID: 5096273829772342689, guid: 22dc21ba189e3584ab5d40c15ee79c72, type: 3}
   cardPrevImage: {fileID: 0}
 --- !u!114 &721114838
 MonoBehaviour:
@@ -8506,7 +8628,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 8266632702581206144, guid: 836afddc1d8c95a43b7bd9099076fa8d, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 0}
-  cardVisualPrefabInstance: {fileID: 0}
+  cardVisualPrefabInstance: {fileID: 5096273829772342689, guid: 22dc21ba189e3584ab5d40c15ee79c72, type: 3}
   cardPrevImage: {fileID: 0}
 --- !u!114 &904610232
 MonoBehaviour:
@@ -9016,11 +9138,12 @@ RectTransform:
   - {fileID: 1133060741}
   - {fileID: 1685708427}
   - {fileID: 1263366725}
+  - {fileID: 131557019}
   m_Father: {fileID: 729951383}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 20.430176, y: 81}
+  m_AnchoredPosition: {x: 20.430176, y: 106}
   m_SizeDelta: {x: -967.6525, y: -608}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &947883963
@@ -9036,7 +9159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GridLayoutGroup
   m_Padding:
-    m_Left: 66
+    m_Left: 37
     m_Right: 0
     m_Top: 20
     m_Bottom: 0
@@ -10070,7 +10193,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 8020222836146473951, guid: a1e23b8fc63d99a44b5dd66e83c8d8c3, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 0}
-  cardVisualPrefabInstance: {fileID: 0}
+  cardVisualPrefabInstance: {fileID: 5096273829772342689, guid: 22dc21ba189e3584ab5d40c15ee79c72, type: 3}
   cardPrevImage: {fileID: 0}
 --- !u!114 &1007689940
 MonoBehaviour:
@@ -10954,10 +11077,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 69541588}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1000, y: 550}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -10.148804, y: 0}
+  m_SizeDelta: {x: -426.2875, y: -530}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1123804501
 MonoBehaviour:
@@ -11467,7 +11590,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 132.15, y: -39.45}
+  m_AnchoredPosition: {x: 103.149994, y: -39.45}
   m_SizeDelta: {x: 44.1, y: 38.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1133060742
@@ -11514,7 +11637,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 3111288841274506641, guid: e8047da05a8773842894874f21cb14a4, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 0}
-  cardVisualPrefabInstance: {fileID: 0}
+  cardVisualPrefabInstance: {fileID: 5096273829772342689, guid: 22dc21ba189e3584ab5d40c15ee79c72, type: 3}
   cardPrevImage: {fileID: 0}
 --- !u!114 &1133060743
 MonoBehaviour:
@@ -12357,7 +12480,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 220.34999, y: -39.45}
+  m_AnchoredPosition: {x: 191.34999, y: -39.45}
   m_SizeDelta: {x: 44.1, y: 38.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1263366726
@@ -12404,7 +12527,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 2077598287845426619, guid: 0a5c15f64f078634ca9f48541953e978, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 0}
-  cardVisualPrefabInstance: {fileID: 0}
+  cardVisualPrefabInstance: {fileID: 5096273829772342689, guid: 22dc21ba189e3584ab5d40c15ee79c72, type: 3}
   cardPrevImage: {fileID: 0}
 --- !u!114 &1263366727
 MonoBehaviour:
@@ -12480,7 +12603,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -31.650146, y: -60}
+  m_AnchoredPosition: {x: -31.650146, y: -20}
   m_SizeDelta: {x: -981.4211, y: -608}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1264751073
@@ -13406,7 +13529,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 88.05, y: -39.45}
+  m_AnchoredPosition: {x: 59.05, y: -39.45}
   m_SizeDelta: {x: 44.1, y: 38.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1404193798
@@ -13453,7 +13576,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 2052908611097359236, guid: b65cb8e6896a3a0489b3906511503c53, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 0}
-  cardVisualPrefabInstance: {fileID: 0}
+  cardVisualPrefabInstance: {fileID: 5096273829772342689, guid: 22dc21ba189e3584ab5d40c15ee79c72, type: 3}
   cardPrevImage: {fileID: 0}
 --- !u!114 &1404193799
 MonoBehaviour:
@@ -14704,7 +14827,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -392.86, y: 93.222015}
+  m_AnchoredPosition: {x: -440, y: 93.222015}
   m_SizeDelta: {x: -1099.7, y: -583.56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1482974482
@@ -15733,7 +15856,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 4282770336491579012, guid: 28f803e4034c9cb438d95ea5b925f4d6, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 0}
-  cardVisualPrefabInstance: {fileID: 0}
+  cardVisualPrefabInstance: {fileID: 5096273829772342689, guid: 22dc21ba189e3584ab5d40c15ee79c72, type: 3}
   cardPrevImage: {fileID: 0}
 --- !u!114 &1615726684
 MonoBehaviour:
@@ -16270,7 +16393,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 176.25, y: -39.45}
+  m_AnchoredPosition: {x: 147.25, y: -39.45}
   m_SizeDelta: {x: 44.1, y: 38.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1685708428
@@ -16317,7 +16440,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 7787666514362569338, guid: d52e531f554fb924da7faa414e98e18a, type: 3}
   deckBuilder: {fileID: 729951386}
   cardCopiesText: {fileID: 0}
-  cardVisualPrefabInstance: {fileID: 0}
+  cardVisualPrefabInstance: {fileID: 5096273829772342689, guid: 22dc21ba189e3584ab5d40c15ee79c72, type: 3}
   cardPrevImage: {fileID: 0}
 --- !u!114 &1685708429
 MonoBehaviour:
@@ -18226,10 +18349,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1082848253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 400, y: 0}
-  m_SizeDelta: {x: 300, y: 500}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 93, y: 8}
+  m_SizeDelta: {x: -1735.7819, y: -580}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1905689378
 MonoBehaviour:
@@ -18592,7 +18715,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 456, y: 132.21475}
+  m_AnchoredPosition: {x: 521, y: 132.21475}
   m_SizeDelta: {x: -1065.939, y: -607.96606}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1973502134
@@ -19189,10 +19312,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1082848253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400, y: 0}
-  m_SizeDelta: {x: 300, y: 500}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -104, y: 8}
+  m_SizeDelta: {x: -1712.6255, y: -580}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2061417533
 MonoBehaviour:

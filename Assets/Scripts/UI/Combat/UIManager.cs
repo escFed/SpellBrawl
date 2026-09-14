@@ -8,6 +8,11 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+
+    [Header("Controls Image")]
+
+    public ControlsImageScript controlsImageScript;
+
     [Header("Character Icons")]
     public Image p1_icon;
     public Image p2_icon;
@@ -416,6 +421,10 @@ public class UIManager : MonoBehaviour
     }
 
 
+    public void HideControlsImageAfterTheFirstTimeYouPlay()
+    {
+        controlsImageScript.gameObject.SetActive(false);
+    }
 
 
 }
