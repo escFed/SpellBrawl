@@ -107,6 +107,8 @@ public class CharacterDeck : MonoBehaviour
         }
 
         PublishState();
+
+        UIEvents.InvokeCardReward(controller.PlayerIndex);
     }
 
     public void ForceSabotageRedraw()

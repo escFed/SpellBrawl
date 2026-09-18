@@ -56,9 +56,9 @@ MonoBehaviour:
   damageableOrNot: DAMAGEABLE
   energyCost: 30
   type: 0
-  cardVisual: {fileID: -6228109934841879290, guid: 53326dd7db26f0a45af86dae9d7a9f9f, type: 3}
+  cardVisual: {fileID: -3354741048468357691, guid: 530242507da49bb43957637cdb2b0379, type: 3}
   cardUI: {fileID: 6717744815730758578}
-  tsunamiPrefab: {fileID: 1454149254468200836, guid: 010a906e0d1fd524aad75f005a12847d, type: 3}
+  tsunamiPrefab: {fileID: 1454149254468200836, guid: 060ddce4b3e31a144a7fd03554f94f15, type: 3}
 --- !u!222 &2842359911289966233
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -87,7 +87,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6228109934841879290, guid: 53326dd7db26f0a45af86dae9d7a9f9f, type: 3}
+  m_Sprite: {fileID: -3354741048468357691, guid: 530242507da49bb43957637cdb2b0379, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
@@ -202,6 +203,8 @@ public class UIManager : MonoBehaviour
 
     private void UpdateHandUI(int playerIndex, HandSlotView[] hand) 
     {
+        Debug.Log($"UpdateHandUI called - Player: {playerIndex}, Hand length: {hand.Length}");
+
         Image[] uiSlots = (playerIndex == 0) ? p1_cards : p2_cards;
         if (playerIndex == 0)
         {
@@ -214,21 +217,28 @@ public class UIManager : MonoBehaviour
             SyncCooldownNotifications(hand, ref p2CooldownNotifications);
         }
 
-        int maxSlots = Mathf.Min(uiSlots.Length, hand.Length);
-
-        for (int i = 0; i < maxSlots; i++)
+        // Itera sobre TODOS los slots UI disponibles (no solo los de la mano)
+        for (int i = 0; i < uiSlots.Length; i++)
         {
             Image slotImage = uiSlots[i];
             if (slotImage == null) continue;
 
-            if (!hand[i].IsUnlocked) 
-            {
-               
+            Debug.Log($"  Slot {i}: IsUnlocked={i < hand.Length && hand[i].IsUnlocked}");
 
+            // Si el índice está fuera del rango de la mano o no está desbloqueado
+            if (i >= hand.Length || !hand[i].IsUnlocked) 
+            {
                 slotImage.gameObject.SetActive(false);
-                
                 continue;
             }
+
+            // El slot está desbloqueado, lo mostramos
+            slotImage.gameObject.SetActive(true);
+
+            // IMPORTANTE: Activar el Image antes de SetUI
+            slotImage.enabled = true;
+
+            RectTransform rect = slotImage.GetComponent<RectTransform>();
 
             if (hand[i].Card != null)
             {
@@ -238,8 +248,16 @@ public class UIManager : MonoBehaviour
             else
             {
                 slotImage.sprite = emptySlotSprite;
-                slotImage.color = new Color(1f, 1f, 1f, 0.5f); // semi-transparente para indicar que la carta está desbloqueada
+                slotImage.color = new Color(1f, 1f, 1f, 0.5f);
             }
+
+            // Forzar reconstrucción del layout group padre
+            if (rect.parent != null)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(rect.parent as RectTransform);
+            }
+            LayoutRebuilder.ForceRebuildLayoutImmediate(rect);
+            Canvas.ForceUpdateCanvases();
         }
     }
 
