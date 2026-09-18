@@ -84,8 +84,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.36695012, b: 0, a: 1}
+  m_Sprite: {fileID: 6001068211979146556, guid: 68aa825b5ce09894a8f435ce2777c90f, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -169,6 +169,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56be4e27de19ca34e9554003e83256b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FireProjectile
+  launch:
+    growth: 3.5
+    hitStunPerSpeed: 0.006
+    maxHitStun: 0.8
+    directionalInfluence: 1
+  hitStun: 0.3
   speed: 15
   damage: 10
   knockback: {x: 6, y: 2}
