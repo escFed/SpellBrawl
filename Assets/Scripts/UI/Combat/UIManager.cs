@@ -48,6 +48,8 @@ public class UIManager : MonoBehaviour
     public TMPro.TextMeshProUGUI p1_winsText;
     public TMPro.TextMeshProUGUI p2_winsText;
 
+
+    
     private HandSlotView[] p1HandSlots;
     private HandSlotView[] p2HandSlots;
     private CardCooldownNotification[] p1CooldownNotifications;
@@ -62,7 +64,12 @@ public class UIManager : MonoBehaviour
     private AudioSource source;
 
 
+    [Header("Damage Increase Sound")]
+
+    [SerializeField] private AudioClip damageIncreaseSound;
     private static readonly Color CooldownColor = new Color(0.35f, 0.35f, 0.35f, 0.8f);
+
+    [SerializeField] private AudioClip cardProgressionSound;
 
     private void Awake()
     {
@@ -143,18 +150,36 @@ public class UIManager : MonoBehaviour
             // Determina el color objetivo según el daño
             Color targetColor;
             if (damage < 25)
+            { 
                 targetColor = Color.green;
+                
+            }
             else if (damage <= 50)
+            {
                 targetColor = Color.yellow;
+                
+            }
             else if (damage <= 75)
+            {
                 targetColor = new Color(1f, 0.5f, 0f); // Naranja
+
+                if(source != null && damageIncreaseSound != null)
+                source.PlayOneShot(damageIncreaseSound);
+            }
             else if (damage <= 100)
+            {
                 targetColor = Color.red;
+                if(source != null && damageIncreaseSound != null)
+                source.PlayOneShot(damageIncreaseSound);
+            }
             else
+            {
                 targetColor = Color.darkRed;
+                
+            }
 
             // Anima el color suavemente
-            LeanTween.value(percent.gameObject, percent.color, targetColor, 0.8f)
+            LeanTween.value(percent.gameObject, percent.color, targetColor, 1.2f)
                 .setEase(LeanTweenType.easeInOutQuad)
                 .setOnUpdate((Color c) => percent.color = c);
 
@@ -244,17 +269,20 @@ public class UIManager : MonoBehaviour
             {
                 hand[i].Card.SetUI(slotImage);
                 slotImage.color = Color.white;
+               
             }
             else
             {
                 slotImage.sprite = emptySlotSprite;
                 slotImage.color = new Color(1f, 1f, 1f, 0.5f);
+               
             }
 
             // Forzar reconstrucción del layout group padre
             if (rect.parent != null)
             {
                 LayoutRebuilder.ForceRebuildLayoutImmediate(rect.parent as RectTransform);
+               
             }
             LayoutRebuilder.ForceRebuildLayoutImmediate(rect);
             Canvas.ForceUpdateCanvases();
@@ -344,7 +372,7 @@ public class UIManager : MonoBehaviour
     }
 
     private static bool ConsumeCardReadyNotifications(Image[] images, HandSlotView[] hand,
-        ref CardCooldownNotification[] notifications)
+        ref CardCooldownNotification[] notifications) 
     {
         SyncCooldownNotifications(hand, ref notifications);
         if (notifications == null)
@@ -399,9 +427,10 @@ public class UIManager : MonoBehaviour
                 hand[i].Card.SetUI(uiSlots[i]);
 
                 uiSlots[i].transform.localScale = Vector3.zero;
-                LeanTween.scale(uiSlots[i].gameObject, Vector3.one, 0.3f)
+                LeanTween.scale(uiSlots[i].gameObject, Vector3.one, 2.3f)
                     .setEase(LeanTweenType.easeOutBack)
                     .setDelay(0.2f * (i - 2)); // escalonado
+                source.PlayOneShot(cardProgressionSound);
             }
         }
     }

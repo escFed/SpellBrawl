@@ -2713,7 +2713,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &454785561
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5443,6 +5443,8 @@ MonoBehaviour:
   p2_winsText: {fileID: 1844859643}
   emptySlotSprite: {fileID: 8258699828648923953, guid: 97529058fcc03134f977b2c7d987f808, type: 3}
   cardReactivationSound: {fileID: 8300000, guid: 232a13015667fd14a93996536bf8e9dd, type: 3}
+  damageIncreaseSound: {fileID: 8300000, guid: cfeaf92ea1aec8c4eb4d39af61d7697d, type: 3}
+  cardProgressionSound: {fileID: 8300000, guid: 8b46b622e2103484181e93d9a6eb212f, type: 3}
 --- !u!114 &969920559
 MonoBehaviour:
   m_ObjectHideFlags: 0

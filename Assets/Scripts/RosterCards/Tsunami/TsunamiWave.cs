@@ -37,12 +37,14 @@ public class TsunamiWave : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject == caster) return;
+        if (collision.gameObject == caster) return;
 
-        if(collision.TryGetComponent(out HitReaction hitTarget))
+        if (collision.TryGetComponent(out HitReactionComponent hitTarget))
         {
             Vector2 knockbackDirection = (collision.transform.position - caster.transform.position).normalized;
+            hitTarget.React(HitReaction.StrongHit, knockbackDirection * knockBackAmount);
             Destroy(gameObject);
         }
     }
+
 }
