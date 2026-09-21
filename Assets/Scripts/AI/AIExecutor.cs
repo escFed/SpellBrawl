@@ -20,7 +20,7 @@ public class AIExecutor
             cardCooldownTimer -= deltaTime;
     }
 
-    public void Execute(AIDecision decision, AIInput input, PlayerController selfController, Transform selfTransform, AINavigation navigation, Vector3 perceivedTargetPosition, float attackRange, int selectedCardIndex, int maxConsecutiveAttacks, float attackCooldownDuration, float cardCooldownDuration)
+    public void Execute(AIDecision decision, AIInput input, CharacterCoordinator selfController, Transform selfTransform, AINavigation navigation, Vector3 perceivedTargetPosition, float attackRange, int selectedCardIndex, int maxConsecutiveAttacks, float attackCooldownDuration, float cardCooldownDuration)
     {
         input.ClearAll();
 

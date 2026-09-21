@@ -5,11 +5,11 @@ public class FragileRealityLogic : MonoBehaviour
     [SerializeField] private float platformDuration = 3f;
     [SerializeField] private GameObject platformPrefab;
 
-    private PlayerController caster;
-    private PlayerController target;
+    private CharacterCoordinator caster;
+    private CharacterCoordinator target;
 
     // Método para inicializar desde la carta
-    public void Initialize(PlayerController casterPlayer, PlayerController targetPlayer)
+    public void Initialize(CharacterCoordinator casterPlayer, CharacterCoordinator targetPlayer)
     {
         caster = casterPlayer;
         target = targetPlayer;

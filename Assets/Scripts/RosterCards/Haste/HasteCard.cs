@@ -34,14 +34,14 @@ public class HasteCard : MonoBehaviour, ICardable
         if (img != null) cardVisual = img;
     }
 
-    public bool CanBeUsed(PlayerController user) => true;
+    public bool CanBeUsed(CharacterCoordinator user) => true;
 
-    public void ExecuteCard(PlayerController character)
+    public void ExecuteCard(CharacterCoordinator character)
     {
         StartCoroutine(HasteRoutine(character));
     }
 
-    private IEnumerator HasteRoutine(PlayerController character)
+    private IEnumerator HasteRoutine(CharacterCoordinator character)
     {
         character.Movement.moveSpeedMultiplier = speedMultiplier;
         character.Combat.attackSpeedMultiplier = speedMultiplier;

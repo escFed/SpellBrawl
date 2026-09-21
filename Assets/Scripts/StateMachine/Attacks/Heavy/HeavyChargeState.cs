@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public sealed class HeavyChargeState : PlayerState
+public sealed class HeavyChargeState : CharacterState
 {
     private static readonly int HeavyAttackTypeParameter = Animator.StringToHash("HeavyAttackType");
     private static readonly int HeavyChargeRatioParameter = Animator.StringToHash("HeavyChargeRatio");
@@ -14,7 +14,7 @@ public sealed class HeavyChargeState : PlayerState
     private HeavyAttackStats stats;
     private bool isExecuting;
 
-    public HeavyChargeState(PlayerController character, StateMachine stateMachine) : base(character, stateMachine) { }
+    public HeavyChargeState(CharacterCoordinator character, CharacterStateMachine stateMachine) : base(character, stateMachine) { }
 
     public void Prepare(HeavyAttackType selectedAttackType, HeavyAttackStats selectedStats)
     {
@@ -28,35 +28,35 @@ public sealed class HeavyChargeState : PlayerState
         isExecuting = false;
         charge.Begin(stats.maxChargeTime);
         character.Movement.StopHorizontalMovement();
-        character.TryPlayAnimation(stats.chargeAnimationState, "Idle");
-        character.TrySetAnimatorInt(HeavyAttackTypeParameter, (int)attackType);
-        character.TrySetAnimatorFloat(HeavyChargeRatioParameter, 0f);
-        character.TrySetAnimatorBool(HeavyChargeMaxParameter, false);
-        character.TrySetAnimatorInt(HeavyAttackPhaseParameter, 1);
+        character.Animation.TryPlay(stats.chargeAnimationState, "Idle");
+        character.Animation.TrySetInt(HeavyAttackTypeParameter, (int)attackType);
+        character.Animation.TrySetFloat(HeavyChargeRatioParameter, 0f);
+        character.Animation.TrySetBool(HeavyChargeMaxParameter, false);
+        character.Animation.TrySetInt(HeavyAttackPhaseParameter, 1);
     }
 
     public override void Update()
     {
         if (!character.IsGrounded)
         {
-            stateMachine.Jump.PrepareReentry();
-            stateMachine.ChangeState(StateCharacter.Jump);
+            character.States.Jump.PrepareReentry();
+            stateMachine.ChangeState(character.States.Jump);
             return;
         }
 
         if (character.JumpPressed && character.CanJump)
         {
-            stateMachine.ChangeState(StateCharacter.Jump);
+            stateMachine.ChangeState(character.States.Jump);
             return;
         }
 
         charge.Tick(Time.deltaTime);
-        character.TrySetAnimatorFloat(HeavyChargeRatioParameter, charge.ChargeRatio);
+        character.Animation.TrySetFloat(HeavyChargeRatioParameter, charge.ChargeRatio);
 
         if (charge.IsFullyCharged)
         {
-            character.TrySetAnimatorBool(HeavyChargeMaxParameter, true);
-            character.TrySetAnimatorTrigger(HeavyChargeReachedMaxTrigger);
+            character.Animation.TrySetBool(HeavyChargeMaxParameter, true);
+            character.Animation.TrySetTrigger(HeavyChargeReachedMaxTrigger);
             ExecuteAttack(1f);
             return;
         }
@@ -78,17 +78,17 @@ public sealed class HeavyChargeState : PlayerState
 
         if (!isExecuting)
         {
-            character.TrySetAnimatorBool(HeavyChargeMaxParameter, false);
-            character.TrySetAnimatorInt(HeavyAttackPhaseParameter, 5);
-            character.TrySetAnimatorTrigger(HeavyChargeCancelledTrigger);
+            character.Animation.TrySetBool(HeavyChargeMaxParameter, false);
+            character.Animation.TrySetInt(HeavyAttackPhaseParameter, 5);
+            character.Animation.TrySetTrigger(HeavyChargeCancelledTrigger);
         }
     }
 
     private void ExecuteAttack(float chargeRatio)
     {
-        stateMachine.HeavyAttack.Prepare(attackType, stats, chargeRatio);
+        character.States.HeavyAttack.Prepare(attackType, stats, chargeRatio);
         isExecuting = true;
         character.ActiveInput?.ConsumeHeavyAttackRelease();
-        stateMachine.ChangeState(StateCharacter.HeavyAttack);
+        stateMachine.ChangeState(character.States.HeavyAttack);
     }
 }

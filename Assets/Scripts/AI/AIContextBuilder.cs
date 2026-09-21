@@ -2,7 +2,7 @@
 
 //public static class AIContextBuilder
 //{
-//    public static AIContext Build(Transform selfTransform, PlayerController selfController, EnergyManager selfEnergy, CharacterHealth selfHealth, CharacterHealth targetHealth, AITarget targetTracker, AINavigation navigation, AICardSelector cardSelector, float attackRange, float cardRange)
+//    public static AIContext Build(Transform selfTransform, CharacterCoordinator selfController, EnergyManager selfEnergy, CharacterHealth selfHealth, CharacterHealth targetHealth, AITarget targetTracker, AINavigation navigation, AICardSelector cardSelector, float attackRange, float cardRange)
 //    {
 //        Vector3 targetPosition = targetTracker.PerceivedTargetPosition;
 //        float distanceX = Mathf.Abs(targetPosition.x - selfTransform.position.x);

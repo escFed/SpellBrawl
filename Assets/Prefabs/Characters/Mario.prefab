@@ -1230,8 +1230,8 @@ GameObject:
   - component: {fileID: 8597003566808776856}
   - component: {fileID: 2416802196115934665}
   - component: {fileID: 249917653517031569}
-  - component: {fileID: 1238812524633315625}
   - component: {fileID: 158549324596254434}
+  - component: {fileID: 1238812524633315625}
   - component: {fileID: 9208369854405864837}
   - component: {fileID: 579046217688888013}
   - component: {fileID: 4907414666020560748}
@@ -1471,6 +1471,21 @@ MonoBehaviour:
   verticalJumpThreshold: 1.5
   recoveryHeightThreshold: -3
   currentDecision: 0
+--- !u!114 &158549324596254434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8413723424367857399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44ac979ff93691841b17c3a9e89be3ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  stats: {fileID: 11400000, guid: 9e61a409cc107824292296bf90f56bba, type: 2}
+  controlsEnabled: 1
+  cardsEnabled: 1
 --- !u!114 &1238812524633315625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1489,21 +1504,6 @@ MonoBehaviour:
     m_Bits: 64
   groundCheckRadius: 0.2
   moveSpeedMultiplier: 1
---- !u!114 &158549324596254434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8413723424367857399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44ac979ff93691841b17c3a9e89be3ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  stats: {fileID: 11400000, guid: 9e61a409cc107824292296bf90f56bba, type: 2}
-  controlsEnabled: 1
-  cardsEnabled: 1
 --- !u!114 &9208369854405864837
 MonoBehaviour:
   m_ObjectHideFlags: 0

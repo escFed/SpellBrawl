@@ -1,11 +1,11 @@
 public class PivotGrabState : GrabState
 {
-    public PivotGrabState(PlayerController character, StateMachine sm, GrabStats grabStats): base(character, sm, grabStats) { }
+    public PivotGrabState(CharacterCoordinator character, CharacterStateMachine sm, GrabStats grabStats): base(character, sm, grabStats) { }
 
     public override void Enter()
     {
         base.Enter();
-        character.Anim.Play("Grab");
+        character.Animation.TryPlay("Grab");
     }
 
     protected override void ReadyGrabbox() => character.Grab.SetupPivotGrabbox();

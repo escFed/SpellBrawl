@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class CardState : PlayerState
+public class CardState : CharacterState
 {
     private float _timer;
     private float _recoveryTime = 0.4f;
     private ICardable _cardToUse;
 
-    public CardState(PlayerController character, StateMachine stateMachine) : base(character, stateMachine) { }
+    public CardState(CharacterCoordinator character, CharacterStateMachine stateMachine) : base(character, stateMachine) { }
 
     public void SetCard(ICardable card, float recovery)
     {
@@ -31,7 +31,7 @@ public class CardState : PlayerState
     {
         if (character.IsDead)
         {
-            stateMachine.ChangeState(StateCharacter.Die);
+            stateMachine.ChangeState(character.States.Die);
             return;
         }
 
@@ -41,11 +41,11 @@ public class CardState : PlayerState
         {
             if (Mathf.Abs(character.MoveInput.x) > 0.01f)
             {
-                stateMachine.ChangeState(StateCharacter.Move);
+                stateMachine.ChangeState(character.States.Move);
             }
             else
             {
-                stateMachine.ChangeState(StateCharacter.Idle);
+                stateMachine.ChangeState(character.States.Idle);
             }
         }
     }

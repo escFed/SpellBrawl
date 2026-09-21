@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HitStunState : PlayerState
+public class HitStunState : CharacterState
 {
     private static int HitAnimation = Animator.StringToHash("Base Layer.Hit");
     private static int StrongHitAnimation = Animator.StringToHash("Base Layer.StrongHit");
@@ -12,7 +12,7 @@ public class HitStunState : PlayerState
 
     public float TimeRemaining { get; private set; }
 
-    public HitStunState(PlayerController character, StateMachine stateMachine) : base(character, stateMachine) { }
+    public HitStunState(CharacterCoordinator character, CharacterStateMachine stateMachine) : base(character, stateMachine) { }
 
     public void Apply(float duration, HitReaction reaction)
     {
@@ -26,7 +26,7 @@ public class HitStunState : PlayerState
             return;
         }
 
-        stateMachine.ChangeState(StateCharacter.HitStun);
+        stateMachine.ChangeState(character.States.HitStun);
     }
 
     public override void Enter()
@@ -41,12 +41,12 @@ public class HitStunState : PlayerState
         if (TimeRemaining > 0f)
             return;
 
-        StateCharacter recoveryState = character.IsGrounded
-            ? StateCharacter.Idle
-            : StateCharacter.Jump;
+        ICharacterState recoveryState = character.IsGrounded
+            ? character.States.Idle
+            : character.States.Jump;
 
-        if (recoveryState == StateCharacter.Jump)
-            stateMachine.Jump.PrepareReentry();
+        if (recoveryState == character.States.Jump)
+            character.States.Jump.PrepareReentry();
 
         stateMachine.ChangeState(recoveryState);
     }
@@ -54,7 +54,7 @@ public class HitStunState : PlayerState
     public override void Exit()
     {
         TimeRemaining = 0f;
-        character.TrySetAnimatorFloat(ReactionSpeed, 1f);
+        character.Animation.TrySetFloat(ReactionSpeed, 1f);
     }
 
     private void PlayReaction(HitReaction reaction)
@@ -71,19 +71,12 @@ public class HitStunState : PlayerState
         };
 
         // The speed parameter belongs only to reaction states, never to locomotion or attacks.
-        bool canAdjustSpeed = character.TrySetAnimatorFloat(ReactionSpeed, 1f);
-        if (!character.TryPlayAnimation(animation) || !canAdjustSpeed)
+        bool canAdjustSpeed = character.Animation.TrySetFloat(ReactionSpeed, 1f);
+        if (!character.Animation.TryPlay(animation) || !canAdjustSpeed)
             return;
 
         // Resolve the newly selected state's actual motion length before fitting short stuns.
         // Reaction clips are presentation-only and must not contain gameplay animation events.
-        Animator animator = character.Anim;
-        if (!animator.isActiveAndEnabled)
-            return;
-
-        animator.Update(0f);
-        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
-        if (state.fullPathHash == animation && TimeRemaining > 0f)
-            character.TrySetAnimatorFloat(ReactionSpeed, Mathf.Max(1f, state.length / TimeRemaining));
+        character.Animation.TryFitCurrentStateToDuration(animation, ReactionSpeed, TimeRemaining);
     }
 }

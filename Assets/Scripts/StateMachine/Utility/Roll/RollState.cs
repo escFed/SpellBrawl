@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RollState : PlayerState
+public class RollState : CharacterState
 {
     private static readonly int RollAnimation = Animator.StringToHash("Base Layer.Roll");
 
@@ -17,7 +17,7 @@ public class RollState : PlayerState
     private float rollDirection;
     private Color originalSpriteColor;
 
-    public RollState(PlayerController character, StateMachine sm) : base(character, sm) { }
+    public RollState(CharacterCoordinator character, CharacterStateMachine sm) : base(character, sm) { }
 
     public override void Enter()
     {
@@ -39,7 +39,7 @@ public class RollState : PlayerState
     {
         if (character.IsDead)
         {
-            stateMachine.ChangeState(StateCharacter.Die);
+            stateMachine.ChangeState(character.States.Die);
             return;
         }
 
@@ -110,7 +110,7 @@ public class RollState : PlayerState
         if (Mathf.Approximately(rollDirection, 0f))
             rollDirection = 1f;
 
-        character.TryPlayAnimation(RollAnimation);
+        character.Animation.TryPlay(RollAnimation);
         return true;
     }
 
@@ -119,18 +119,18 @@ public class RollState : PlayerState
         if (character.IsGrounded)
         {
             stateMachine.ChangeState(Mathf.Abs(character.MoveInput.x) > 0.01f
-                ? StateCharacter.Move
-                : StateCharacter.Idle);
+                ? character.States.Move
+                : character.States.Idle);
             return;
         }
 
-        stateMachine.Jump.PrepareReentry();
-        stateMachine.ChangeState(StateCharacter.Jump);
+        character.States.Jump.PrepareReentry();
+        stateMachine.ChangeState(character.States.Jump);
     }
 
     private void SetIntangible(bool intangible)
     {
-        character.IsIntangible = intangible;
+        character.Health.SetIntangible(intangible);
 
         if (character.Sprite == null)
             return;

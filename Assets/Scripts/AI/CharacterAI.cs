@@ -17,7 +17,7 @@ public class CharacterAI : MonoBehaviour, IInputProvider
     public float verticalJumpThreshold = 1.5f;
     public float recoveryHeightThreshold = -3f;
 
-    public PlayerController SelfController { get; private set; }
+    public CharacterCoordinator SelfController { get; private set; }
     public EnergyManager SelfEnergy { get; private set; }
     public CharacterHealth SelfHealth { get; private set; }
     public CharacterDeck SelfDeck { get; private set; }
@@ -25,7 +25,7 @@ public class CharacterAI : MonoBehaviour, IInputProvider
 
     public AIDecision currentDecision = AIDecision.Idle;
 
-    private PlayerController targetController;
+    private CharacterCoordinator targetController;
     private Vector3 perceivedTargetPosition;
     private float thinkTimer;
     private float cardTimer;
@@ -52,7 +52,7 @@ public class CharacterAI : MonoBehaviour, IInputProvider
 
     private void Awake()
     {
-        SelfController = GetComponent<PlayerController>();
+        SelfController = GetComponent<CharacterCoordinator>();
         SelfEnergy = GetComponent<EnergyManager>();
         SelfHealth = GetComponent<CharacterHealth>();
         SelfDeck = GetComponent<CharacterDeck>();
@@ -98,12 +98,12 @@ public class CharacterAI : MonoBehaviour, IInputProvider
         if (targetController != null && !targetController.IsDead && targetController.gameObject.activeInHierarchy)
             return;
 
-        PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+        CharacterCoordinator[] allPlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
 
         targetController = null;
         Target = null;
 
-        foreach (PlayerController player in allPlayers)
+        foreach (CharacterCoordinator player in allPlayers)
         {
             if (player != SelfController && !player.IsDead)
             {

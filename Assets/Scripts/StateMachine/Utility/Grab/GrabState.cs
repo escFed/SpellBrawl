@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public abstract class GrabState : PlayerState
+public abstract class GrabState : CharacterState
 {
     protected GrabStats stats;
     private float timer;
     private bool grabOpen;
     private bool grabClosed;
 
-    protected GrabState(PlayerController character, StateMachine sm, GrabStats grabStats): base(character, sm)
+    protected GrabState(CharacterCoordinator character, CharacterStateMachine sm, GrabStats grabStats): base(character, sm)
     {
         stats = grabStats;
     }
@@ -29,7 +29,7 @@ public abstract class GrabState : PlayerState
     {
         if (stats == null)
         {
-            stateMachine.ChangeState(StateCharacter.Idle);
+            stateMachine.ChangeState(character.States.Idle);
             return;
         }
 
@@ -45,8 +45,8 @@ public abstract class GrabState : PlayerState
         {
             CloseGrabbox();
             grabClosed = true;
-            stateMachine.GrabHold.BeginHold(stats);
-            stateMachine.ChangeState(StateCharacter.GrabHold);
+            character.States.GrabHold.BeginHold(stats);
+            stateMachine.ChangeState(character.States.GrabHold);
             return;
         }
 
@@ -58,7 +58,7 @@ public abstract class GrabState : PlayerState
 
         if (timer >= stats.startup + stats.active + stats.recovery)
         {
-            stateMachine.ChangeState(Mathf.Abs(character.MoveInput.x) > 0.01f ? StateCharacter.Move: StateCharacter.Idle);
+            stateMachine.ChangeState(Mathf.Abs(character.MoveInput.x) > 0.01f ? character.States.Move: character.States.Idle);
         }
     }
 

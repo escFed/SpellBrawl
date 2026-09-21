@@ -15,7 +15,7 @@ public class ThunderProjectile : MonoBehaviour
     public void Init(GameObject casterObject)
     {
         caster = casterObject;
-        attackerPlayerIndex = caster != null && caster.TryGetComponent(out PlayerController controller)
+        attackerPlayerIndex = caster != null && caster.TryGetComponent(out CharacterCoordinator controller)
             ? controller.PlayerIndex
             : -1;
         Destroy(gameObject, lifeTime);

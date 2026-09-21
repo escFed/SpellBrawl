@@ -1,22 +1,22 @@
 using UnityEngine;
 
-public class DashState : PlayerState
+public class DashState : CharacterState
 {
     private float timer;
 
-    public DashState(PlayerController character, StateMachine sm) : base(character, sm) { }
+    public DashState(CharacterCoordinator character, CharacterStateMachine sm) : base(character, sm) { }
 
     public override void Enter()
     {
         timer = 0f;
-        character.Anim.Play("Move");
+        character.Animation.TryPlay("Move");
     }
 
     public override void Update()
     {
         if (character.IsDead)
         {
-            stateMachine.ChangeState(StateCharacter.Die);
+            stateMachine.ChangeState(character.States.Die);
             return;
         }
 
@@ -25,14 +25,14 @@ public class DashState : PlayerState
         if (character.AttackInput)
         {
             character.ActiveInput?.ConsumeAttack();
-            stateMachine.ChangeState(StateCharacter.DashAttack);
+            stateMachine.ChangeState(character.States.DashAttack);
             return;
         }
 
         if (character.GrabInput)
         {
             character.ActiveInput?.ConsumeGrab();
-            stateMachine.ChangeState(StateCharacter.DashGrab);
+            stateMachine.ChangeState(character.States.DashGrab);
             return;
         }
 
@@ -57,13 +57,13 @@ public class DashState : PlayerState
     {
         if (!character.IsGrounded)
         {
-            stateMachine.Jump.PrepareReentry();
-            stateMachine.ChangeState(StateCharacter.Jump);
+            character.States.Jump.PrepareReentry();
+            stateMachine.ChangeState(character.States.Jump);
             return;
         }
 
         stateMachine.ChangeState(Mathf.Abs(character.MoveInput.x) > 0.01f
-            ? StateCharacter.Move
-            : StateCharacter.Idle);
+            ? character.States.Move
+            : character.States.Idle);
     }
 }

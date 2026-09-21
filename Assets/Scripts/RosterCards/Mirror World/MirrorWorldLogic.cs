@@ -4,11 +4,11 @@ using UnityEngine;
 public class MirrorWorldLogic : MonoBehaviour
 {
     [SerializeField] private float effectDuration;
-    private PlayerController playerController;
-    private PlayerController targetController;
+    private CharacterCoordinator playerController;
+    private CharacterCoordinator targetController;
 
 
-    public void Initialize(PlayerController ctrl, PlayerController target)
+    public void Initialize(CharacterCoordinator ctrl, CharacterCoordinator target)
     {
         playerController = ctrl;
 
@@ -32,4 +32,3 @@ public class MirrorWorldLogic : MonoBehaviour
         Destroy(gameObject);
     }
 }
-

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DodgeState : PlayerState
+public class DodgeState : CharacterState
 {
     private static int AirDodgeAnimation = Animator.StringToHash("Base Layer.AirDodge");
 
@@ -17,7 +17,7 @@ public class DodgeState : PlayerState
     private Vector2 dodgeDirection;
     private Color originalSpriteColor;
 
-    public DodgeState(PlayerController character, StateMachine sm) : base(character, sm) { }
+    public DodgeState(CharacterCoordinator character, CharacterStateMachine sm) : base(character, sm) { }
 
     public override void Enter()
     {
@@ -38,7 +38,7 @@ public class DodgeState : PlayerState
     {
         if (character.IsDead)
         {
-            stateMachine.ChangeState(StateCharacter.Die);
+            stateMachine.ChangeState(character.States.Die);
             return;
         }
 
@@ -108,7 +108,7 @@ public class DodgeState : PlayerState
         dodgeDirection = ResolveCardinalDirection(character.MoveInput);
         SetIntangible(false);
         character.Movement.StopAllMovement();
-        character.TryPlayAnimation(AirDodgeAnimation);
+        character.Animation.TryPlay(AirDodgeAnimation);
         return true;
     }
 
@@ -131,18 +131,18 @@ public class DodgeState : PlayerState
         if (character.IsGrounded)
         {
             stateMachine.ChangeState(Mathf.Abs(character.MoveInput.x) > 0.01f
-                ? StateCharacter.Move
-                : StateCharacter.Idle);
+                ? character.States.Move
+                : character.States.Idle);
             return;
         }
 
-        stateMachine.Jump.PrepareReentry();
-        stateMachine.ChangeState(StateCharacter.Jump);
+        character.States.Jump.PrepareReentry();
+        stateMachine.ChangeState(character.States.Jump);
     }
 
     private void SetIntangible(bool intangible)
     {
-        character.IsIntangible = intangible;
+        character.Health.SetIntangible(intangible);
 
         if (character.Sprite == null)
             return;

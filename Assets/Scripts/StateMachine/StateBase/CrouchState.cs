@@ -1,25 +1,13 @@
 using UnityEngine;
 
-public class CrouchState : PlayerState
+public class CrouchState : CharacterState
 {
-    private static readonly int CrouchAnimation = Animator.StringToHash("Base Layer.Crouch");
-
-    public CrouchState(PlayerController character, StateMachine sm) : base(character, sm) { }
+    public CrouchState(CharacterCoordinator character, CharacterStateMachine sm) : base(character, sm) { }
 
     public override void Enter()
     {
         character.Movement.SetCrouching(true);
-
-        if (character.Anim == null)
-            return;
-
-        if (character.Anim.HasState(0, CrouchAnimation))
-        {
-            character.Anim.Play(CrouchAnimation, 0, 0f);
-            return;
-        }
-
-        character.Anim.Play("Idle", 0, 0f);
+        character.Animation.TryPlay("Crouch", "Idle");
     }
 
     public override void Exit()
@@ -31,14 +19,14 @@ public class CrouchState : PlayerState
     {
         if (character.IsDead)
         {
-            stateMachine.ChangeState(StateCharacter.Die);
+            stateMachine.ChangeState(character.States.Die);
             return;
         }
 
         // Jump from crouch
         if (character.JumpPressed && character.CanJump)
         {
-            stateMachine.ChangeState(StateCharacter.Jump);
+            stateMachine.ChangeState(character.States.Jump);
             return;
         }
 
@@ -47,8 +35,8 @@ public class CrouchState : PlayerState
         if (!stillPressingDown || !character.IsGrounded)
         {
             stateMachine.ChangeState(Mathf.Abs(character.MoveInput.x) > 0.01f
-                ? StateCharacter.Move
-                : StateCharacter.Idle);
+                ? character.States.Move
+                : character.States.Idle);
         }
     }
 

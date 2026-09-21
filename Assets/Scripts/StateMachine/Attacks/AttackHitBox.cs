@@ -9,13 +9,13 @@ public class AttackHitbox : MonoBehaviour
     private float currentGrowth;
     private HitReaction currentHitReaction;
     private Collider2D hitCollider;
-    private PlayerController owner;
+    private CharacterCoordinator owner;
     private bool hasHit;
 
     private void Awake()
     {
         hitCollider = GetComponent<Collider2D>();
-        owner = GetComponentInParent<PlayerController>();
+        owner = GetComponentInParent<CharacterCoordinator>();
     }
 
     public void Setup(NormalAttackStats stats)

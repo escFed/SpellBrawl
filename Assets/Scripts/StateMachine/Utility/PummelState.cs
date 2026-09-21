@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class PummelState : PlayerState
+public class PummelState : CharacterState
 {
     private GrabStats stats;
     private float timer;
     private bool preserveGrabOnExit;
 
-    public PummelState(PlayerController character, StateMachine sm) : base(character, sm) { }
+    public PummelState(CharacterCoordinator character, CharacterStateMachine sm) : base(character, sm) { }
 
     public void SetGrabStats(GrabStats grabStats) => stats = grabStats;
 
@@ -20,11 +20,11 @@ public class PummelState : PlayerState
 
         if (stats == null || !character.Grab.HasGrabbedTarget)
         {
-            stateMachine.ChangeState(StateCharacter.Idle);
+            stateMachine.ChangeState(character.States.Idle);
             return;
         }
 
-        character.Anim.Play("Pummel", 0, 0f);
+        character.Animation.TryPlay("Pummel");
         character.Grab.ApplyPummel(stats);
     }
 
@@ -32,20 +32,20 @@ public class PummelState : PlayerState
     {
         if (!character.Grab.HasGrabbedTarget)
         {
-            stateMachine.ChangeState(StateCharacter.Idle);
+            stateMachine.ChangeState(character.States.Idle);
             return;
         }
 
         timer += Time.deltaTime;
 
-        if (stateMachine.GrabHold.HasHoldExpired)
+        if (character.States.GrabHold.HasHoldExpired)
         {
-            ChangeStatePreservingGrab(StateCharacter.Throw);
+            ChangeStatePreservingGrab(character.States.Throw);
             return;
         }
 
         if (timer >= Mathf.Max(0f, stats.pummelCooldown))
-            ChangeStatePreservingGrab(StateCharacter.GrabHold);
+            ChangeStatePreservingGrab(character.States.GrabHold);
     }
 
     public override void FixedUpdate()
@@ -62,7 +62,7 @@ public class PummelState : PlayerState
         stats = null;
     }
 
-    private void ChangeStatePreservingGrab(StateCharacter nextState)
+    private void ChangeStatePreservingGrab(ICharacterState nextState)
     {
         preserveGrabOnExit = true;
         stateMachine.ChangeState(nextState);

@@ -38,9 +38,9 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
         cardVisual = img;
     }
 
-    public bool CanBeUsed(PlayerController user)
+    public bool CanBeUsed(CharacterCoordinator user)
     {
-        PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+        CharacterCoordinator[] allPlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
         foreach (var p in allPlayers)
         {
             if (p.PlayerIndex != user.PlayerIndex)
@@ -51,15 +51,15 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
         return false;
     }
 
-    public void ExecuteCard(PlayerController character)
+    public void ExecuteCard(CharacterCoordinator character)
     {
         StartCoroutine(SpikeRoutine(character));
     }
 
-    private IEnumerator SpikeRoutine(PlayerController character)
+    private IEnumerator SpikeRoutine(CharacterCoordinator character)
     {
-        PlayerController opponent = null;
-        PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+        CharacterCoordinator opponent = null;
+        CharacterCoordinator[] allPlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
 
         foreach (var p in allPlayers)
         {

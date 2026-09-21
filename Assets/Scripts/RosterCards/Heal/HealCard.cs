@@ -31,14 +31,14 @@ public class HealCard : MonoBehaviour, ICardable
         }
     }
 
-    public bool CanBeUsed(PlayerController user) => true;
+    public bool CanBeUsed(CharacterCoordinator user) => true;
 
-    public void ExecuteCard(PlayerController character)
+    public void ExecuteCard(CharacterCoordinator character)
     {
         StartCoroutine(HealRoutine(character));
     }
 
-    private IEnumerator HealRoutine(PlayerController character)
+    private IEnumerator HealRoutine(CharacterCoordinator character)
     {
         CharacterHealth health = character.GetComponent<CharacterHealth>();
 

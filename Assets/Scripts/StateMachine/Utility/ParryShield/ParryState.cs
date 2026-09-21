@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ParryState : PlayerState
+public class ParryState : CharacterState
 {
     private static int ParryAnimation = Animator.StringToHash("Base Layer.Parry");
 
@@ -13,20 +13,20 @@ public class ParryState : PlayerState
     private float _timer;
     private Color originalSpriteColor;
 
-    public ParryState(PlayerController character, StateMachine sm) : base(character, sm) { }
+    public ParryState(CharacterCoordinator character, CharacterStateMachine sm) : base(character, sm) { }
 
     public override void Enter()
     {
         base.Enter();
         character.Movement.StopHorizontalMovement();
-        character.TryPlayAnimation(ParryAnimation);
+        character.Animation.TryPlay(ParryAnimation);
 
         if (character.Sprite != null)
             originalSpriteColor = character.Sprite.color;
 
         _timer = 0f;
         _phase = Phase.Startup;
-        character.IsParrying = false;
+        character.Parry.SetParryWindowActive(false);
     }
 
     public override void Update()
@@ -42,7 +42,7 @@ public class ParryState : PlayerState
                 {
                     _phase = Phase.Active;
                     _timer = 0f;
-                    character.IsParrying = true;
+                    character.Parry.SetParryWindowActive(true);
 
                     if (character.Sprite != null)
                         character.Sprite.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, originalSpriteColor.a);
@@ -54,7 +54,7 @@ public class ParryState : PlayerState
                 {
                     _phase = Phase.Recovery;
                     _timer = 0f;
-                    character.IsParrying = false;
+                    character.Parry.SetParryWindowActive(false);
 
                     RestoreSpriteColor();
                 }
@@ -63,7 +63,7 @@ public class ParryState : PlayerState
             case Phase.Recovery:
                 if (_timer >= recovery)
                 {
-                    stateMachine.ChangeState(StateCharacter.Idle);
+                    stateMachine.ChangeState(character.States.Idle);
                 }
                 break;
         }
@@ -71,7 +71,7 @@ public class ParryState : PlayerState
 
     public override void Exit()
     {
-        character.IsParrying = false;
+        character.Parry.SetParryWindowActive(false);
         RestoreSpriteColor();
     }
 

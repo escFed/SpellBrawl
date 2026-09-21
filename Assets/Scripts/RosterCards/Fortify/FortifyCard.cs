@@ -35,14 +35,14 @@ public class FortifyCard : MonoBehaviour, ICardable
         }
     }
 
-    public bool CanBeUsed(PlayerController user) => true;
+    public bool CanBeUsed(CharacterCoordinator user) => true;
 
-    public void ExecuteCard(PlayerController character)
+    public void ExecuteCard(CharacterCoordinator character)
     {
         StartCoroutine(ShieldRoutine(character));
     }
 
-    private IEnumerator ShieldRoutine(PlayerController character)
+    private IEnumerator ShieldRoutine(CharacterCoordinator character)
     {
         CharacterHealth health = character.GetComponent<CharacterHealth>();
 

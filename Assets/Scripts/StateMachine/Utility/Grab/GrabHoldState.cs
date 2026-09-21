@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GrabHoldState : PlayerState
+public class GrabHoldState : CharacterState
 {
     private GrabStats stats;
     private float holdEndTime;
@@ -10,7 +10,7 @@ public class GrabHoldState : PlayerState
 
     public bool HasHoldExpired => Time.time >= holdEndTime;
 
-    public GrabHoldState(PlayerController character, StateMachine sm) : base(character, sm) { }
+    public GrabHoldState(CharacterCoordinator character, CharacterStateMachine sm) : base(character, sm) { }
 
     public void BeginHold(GrabStats grabStats)
     {
@@ -26,7 +26,7 @@ public class GrabHoldState : PlayerState
 
         preserveGrabOnExit = false;
         character.Movement.StopAllMovement();
-        character.Anim.Play("Idle");
+        character.Animation.TryPlay("Idle");
 
         if (isNewHold)
         {
@@ -40,21 +40,21 @@ public class GrabHoldState : PlayerState
     {
         if (!character.Grab.HasGrabbedTarget)
         {
-            stateMachine.ChangeState(StateCharacter.Idle);
+            stateMachine.ChangeState(character.States.Idle);
             return;
         }
 
         if (HasHoldExpired)
         {
-            ChangeStatePreservingGrab(StateCharacter.Throw);
+            ChangeStatePreservingGrab(character.States.Throw);
             return;
         }
 
         if (character.AttackInput)
         {
             character.ActiveInput?.ConsumeAttack();
-            stateMachine.Pummel.SetGrabStats(stats);
-            ChangeStatePreservingGrab(StateCharacter.Pummel);
+            character.States.Pummel.SetGrabStats(stats);
+            ChangeStatePreservingGrab(character.States.Pummel);
             return;
         }
 
@@ -64,12 +64,12 @@ public class GrabHoldState : PlayerState
         if (character.GrabInput)
         {
             character.ActiveInput?.ConsumeGrab();
-            ChangeStatePreservingGrab(StateCharacter.Throw);
+            ChangeStatePreservingGrab(character.States.Throw);
             return;
         }
 
         if (directionArmed && !IsDirectionNeutral())
-            ChangeStatePreservingGrab(StateCharacter.Throw);
+            ChangeStatePreservingGrab(character.States.Throw);
     }
 
     public override void FixedUpdate()
@@ -84,7 +84,7 @@ public class GrabHoldState : PlayerState
             character.Grab.ReleaseGrabbedTarget();
     }
 
-    private void ChangeStatePreservingGrab(StateCharacter nextState)
+    private void ChangeStatePreservingGrab(ICharacterState nextState)
     {
         preserveGrabOnExit = true;
         stateMachine.ChangeState(nextState);

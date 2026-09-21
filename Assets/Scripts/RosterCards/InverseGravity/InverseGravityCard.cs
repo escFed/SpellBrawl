@@ -27,14 +27,14 @@ public class InverseGravityCard : MonoBehaviour, ICardable
     public float effectDuration = 1f;
     public float floatGravity = -0.3f;
 
-    public bool CanBeUsed(PlayerController user)
+    public bool CanBeUsed(CharacterCoordinator user)
     {
         return true;
     }
 
-    public void ExecuteCard(PlayerController character)
+    public void ExecuteCard(CharacterCoordinator character)
     {
-        PlayerController rival = GetRival(character);
+        CharacterCoordinator rival = GetRival(character);
 
         if (rival != null)
         {
@@ -45,10 +45,10 @@ public class InverseGravityCard : MonoBehaviour, ICardable
         Destroy(gameObject);
     }
 
-    private PlayerController GetRival(PlayerController user)
+    private CharacterCoordinator GetRival(CharacterCoordinator user)
     {
-        PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
-        foreach (PlayerController p in allPlayers)
+        CharacterCoordinator[] allPlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
+        foreach (CharacterCoordinator p in allPlayers)
         {
             if (p != user) return p;
         }

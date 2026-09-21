@@ -19,7 +19,7 @@ public class DeckShuffleCard : MonoBehaviour, ICardable
     public string CardDescription => cardDescription;
     public string DamageableOrNot => damageOrNot;
 
-    // Implementación de la propiedad de la interfaz
+    // ImplementaciÃ³n de la propiedad de la interfaz
     public Sprite CardVisual => cardIcon;
 
     public void SetUI(Image img)
@@ -27,11 +27,11 @@ public class DeckShuffleCard : MonoBehaviour, ICardable
         if (img != null && cardIcon != null) img.sprite = cardIcon;
     }
 
-    public bool CanBeUsed(PlayerController user) => true;
+    public bool CanBeUsed(CharacterCoordinator user) => true;
 
-    public void ExecuteCard(PlayerController character)
+    public void ExecuteCard(CharacterCoordinator character)
     {
-        PlayerController rival = GetRival(character);
+        CharacterCoordinator rival = GetRival(character);
 
         if (rival != null)
         {
@@ -39,15 +39,15 @@ public class DeckShuffleCard : MonoBehaviour, ICardable
             if (rivalDeck != null)
             {
                 rivalDeck.ForceSabotageRedraw();
-                Debug.Log("¡Mano del rival saboteada!");
+                Debug.Log("Â¡Mano del rival saboteada!");
             }
         }
     }
 
-    private PlayerController GetRival(PlayerController user)
+    private CharacterCoordinator GetRival(CharacterCoordinator user)
     {
-        PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
-        foreach (PlayerController p in allPlayers)
+        CharacterCoordinator[] allPlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
+        foreach (CharacterCoordinator p in allPlayers)
         {
             if (p != user) return p;
         }
