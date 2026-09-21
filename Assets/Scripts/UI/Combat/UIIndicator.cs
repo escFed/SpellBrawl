@@ -24,7 +24,7 @@ public class UIIndicator : MonoBehaviour
         originalScale = transform.localScale;
 
 
-        PlayerController character = GetComponentInParent<PlayerController>();
+        CharacterCoordinator character = GetComponentInParent<CharacterCoordinator>();
 
         if (character != null)
         {

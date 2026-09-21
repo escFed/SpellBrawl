@@ -1,20 +1,20 @@
 using UnityEngine;
 
-public class ShieldState : PlayerState
+public class ShieldState : CharacterState
 {
     private static readonly int ShieldAnimation = Animator.StringToHash("Base Layer.Shield");
 
-    public ShieldState(PlayerController character, StateMachine sm) : base(character, sm) { }
+    public ShieldState(CharacterCoordinator character, CharacterStateMachine sm) : base(character, sm) { }
 
     public override void Enter()
     {
         if (!character.Shield.TryActivate())
         {
-            stateMachine.ChangeState(StateCharacter.Idle);
+            stateMachine.ChangeState(character.States.Idle);
             return;
         }
 
-        character.TryPlayAnimation(ShieldAnimation);
+        character.Animation.TryPlay(ShieldAnimation);
         character.Movement.StopAllMovement();
     }
 
@@ -22,12 +22,12 @@ public class ShieldState : PlayerState
     {
         if (character.IsDead)
         {
-            stateMachine.ChangeState(StateCharacter.Die);
+            stateMachine.ChangeState(character.States.Die);
             return;
         }
 
         if (!character.Shield.IsActive || !character.ActiveInput.IsShieldHeld || !character.IsGrounded)
-            stateMachine.ChangeState(StateCharacter.Idle);
+            stateMachine.ChangeState(character.States.Idle);
     }
 
     public override void FixedUpdate()

@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public abstract class AttackState : PlayerState
+public abstract class AttackState : CharacterState
 {
     protected AttackStats stats;
     private float timer;
     private bool hitboxOpen;
     private bool hitboxClose;
-    public AttackState(PlayerController character, StateMachine sm, AttackStats attackStats) : base(character, sm)
+    public AttackState(CharacterCoordinator character, CharacterStateMachine sm, AttackStats attackStats) : base(character, sm)
     {
         stats = attackStats;
     }
@@ -46,9 +46,9 @@ public abstract class AttackState : PlayerState
 
         if (timer >= stats.startup + stats.active + stats.recovery)
         {
-            StateCharacter nextState = GetRecoveryState();
-            if (nextState == StateCharacter.Jump)
-                stateMachine.Jump.PrepareReentry();
+            ICharacterState nextState = GetRecoveryState();
+            if (nextState == character.States.Jump)
+                character.States.Jump.PrepareReentry();
 
             stateMachine.ChangeState(nextState);
         }
@@ -77,13 +77,13 @@ public abstract class AttackState : PlayerState
     protected virtual bool AllowsAirDrift => false;
     protected float ElapsedTime => timer;
 
-    protected virtual StateCharacter GetRecoveryState()
+    protected virtual ICharacterState GetRecoveryState()
     {
         if (!character.IsGrounded)
-            return StateCharacter.Jump;
+            return character.States.Jump;
 
         return Mathf.Abs(character.MoveInput.x) > 0.01f
-            ? StateCharacter.Move
-            : StateCharacter.Idle;
+            ? character.States.Move
+            : character.States.Idle;
     }
 }

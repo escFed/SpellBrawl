@@ -23,7 +23,7 @@ public class FireProjectile : MonoBehaviour
     public void Init(Vector2 direction, GameObject casterObject)
     {
         caster = casterObject;
-        attackerPlayerIndex = caster != null && caster.TryGetComponent(out PlayerController controller)
+        attackerPlayerIndex = caster != null && caster.TryGetComponent(out CharacterCoordinator controller)
             ? controller.PlayerIndex
             : -1;
         rb.linearVelocity = direction.normalized * speed;
@@ -50,4 +50,3 @@ public class FireProjectile : MonoBehaviour
         }
     }
 }
-

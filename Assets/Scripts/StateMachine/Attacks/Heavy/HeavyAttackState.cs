@@ -11,7 +11,7 @@ public class HeavyAttackState : AttackState
     private float chargeRatio;
     private HeavyAttackStats HeavyStats => (HeavyAttackStats)stats;
 
-    public HeavyAttackState(PlayerController character, StateMachine stateMachine) : base(character, stateMachine, null) { }
+    public HeavyAttackState(CharacterCoordinator character, CharacterStateMachine stateMachine) : base(character, stateMachine, null) { }
 
     public void Prepare(HeavyAttackType selectedAttackType, HeavyAttackStats selectedStats, float selectedChargeRatio)
     {
@@ -23,11 +23,11 @@ public class HeavyAttackState : AttackState
     public override void Enter()
     {
         base.Enter();
-        character.TryPlayAnimation(HeavyStats.executionAnimationState, GetFallbackAnimation());
-        character.TrySetAnimatorInt(HeavyAttackTypeParameter, (int)attackType);
-        character.TrySetAnimatorFloat(HeavyChargeRatioParameter, chargeRatio);
-        character.TrySetAnimatorBool(HeavyChargeMaxParameter, chargeRatio >= 1f);
-        character.TrySetAnimatorInt(HeavyAttackPhaseParameter, 2);
+        character.Animation.TryPlay(HeavyStats.executionAnimationState, GetFallbackAnimation());
+        character.Animation.TrySetInt(HeavyAttackTypeParameter, (int)attackType);
+        character.Animation.TrySetFloat(HeavyChargeRatioParameter, chargeRatio);
+        character.Animation.TrySetBool(HeavyChargeMaxParameter, chargeRatio >= 1f);
+        character.Animation.TrySetInt(HeavyAttackPhaseParameter, 2);
     }
 
     public override void Update()
@@ -39,16 +39,16 @@ public class HeavyAttackState : AttackState
         int phase = ElapsedTime < stats.startup
             ? 2
             : ElapsedTime < stats.startup + stats.active ? 3 : 4;
-        character.TrySetAnimatorInt(HeavyAttackPhaseParameter, phase);
+        character.Animation.TrySetInt(HeavyAttackPhaseParameter, phase);
     }
 
     public override void Exit()
     {
         base.Exit();
         character.Combat.CloseAllHeavyHitboxes();
-        character.TrySetAnimatorFloat(HeavyChargeRatioParameter, 0f);
-        character.TrySetAnimatorBool(HeavyChargeMaxParameter, false);
-        character.TrySetAnimatorInt(HeavyAttackPhaseParameter, 0);
+        character.Animation.TrySetFloat(HeavyChargeRatioParameter, 0f);
+        character.Animation.TrySetBool(HeavyChargeMaxParameter, false);
+        character.Animation.TrySetInt(HeavyAttackPhaseParameter, 0);
     }
 
     protected override void ReadyHitbox() => character.Combat.SetupHeavyAttack(attackType, HeavyStats, chargeRatio);

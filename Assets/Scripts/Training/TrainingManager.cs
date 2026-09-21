@@ -19,7 +19,7 @@ public class TrainingManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerStateText;
     [SerializeField] private TextMeshProUGUI helpText;
 
-    private PlayerController player;
+    private CharacterCoordinator player;
     private Dummy dummy;
     private Vector3 playerSpawnPosition;
     private CharacterDatabase database;
@@ -167,8 +167,8 @@ public class TrainingManager : MonoBehaviour
 
         player.ActiveInput?.ClearAllInputs();
         player.Health?.ResetHealth();
-        player.ChangeState(StateCharacter.Idle);
-        player.controlsEnabled = true;
+        player.ChangeState(player.States.Idle);
+        player.SetControlsEnabled(true);
     }
 
     public void ReturnToMainMenu()
@@ -205,26 +205,17 @@ public class TrainingManager : MonoBehaviour
 
         GameObject instance = Instantiate(stats.characterPrefab, position, Quaternion.identity);
         instance.name = stats.characterName + " (Training Player)";
-        player = instance.GetComponent<PlayerController>();
+        player = instance.GetComponent<CharacterCoordinator>();
 
         if (player == null)
         {
-            Debug.LogError("The selected character prefab needs a PlayerController.");
+            Debug.LogError("The selected character prefab needs a CharacterCoordinator.");
             return;
         }
 
-        player.PlayerIndex = 0;
+        player.ConfigureControl(PlayerSlot.PlayerOne, PlayerMode.Player);
         player.cardsEnabled = false;
-        player.controlsEnabled = true;
-
-        CharacterAI ai = instance.GetComponent<CharacterAI>();
-        if (ai != null) ai.enabled = false;
-
-        CharacterBrain brain = instance.GetComponent<CharacterBrain>();
-        if (brain != null) brain.enabled = true;
-
-        PlayerInput playerInput = instance.GetComponent<PlayerInput>();
-        if (playerInput != null) playerInput.enabled = true;
+        player.SetControlsEnabled(true);
     }
 
     private void SetupDummy(Vector3 position)

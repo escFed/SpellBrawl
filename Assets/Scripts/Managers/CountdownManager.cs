@@ -1,7 +1,6 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class CountdownManager : MonoBehaviour
 {
@@ -69,22 +68,15 @@ public class CountdownManager : MonoBehaviour
 
     private void DisablePlayers()
     {
-        PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
-        foreach (PlayerController player in allPlayers)
-        {
-            player.controlsEnabled = false;
-            if (player.TryGetComponent(out CharacterAI ai)) ai.enabled = false;
-        }
+        CharacterCoordinator[] allPlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
+        foreach (CharacterCoordinator player in allPlayers)
+            player.SetControlsEnabled(false);
     }
 
     private void EnablePlayers()
     {
-        PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
-        foreach (PlayerController player in allPlayers)
-        {
-            player.controlsEnabled = true;
-            if (player.TryGetComponent(out CharacterAI ai))
-                ai.enabled = player.PlayerIndex != 0;
-        }
+        CharacterCoordinator[] allPlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
+        foreach (CharacterCoordinator player in allPlayers)
+            player.SetControlsEnabled(true);
     }
 }

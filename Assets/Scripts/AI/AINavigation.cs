@@ -9,7 +9,7 @@ public class AINavigation
     public float verticalJumpThreshold = 1.5f;
     public float recoveryHeightThreshold = -3f;
 
-    public bool IsNearEdge(PlayerController selfController, Transform selfTransform)
+    public bool IsNearEdge(CharacterCoordinator selfController, Transform selfTransform)
     {
         if (!selfController.IsGrounded)
             return false;
@@ -31,7 +31,7 @@ public class AINavigation
         return tooLow || highDamageNearEdge;
     }
 
-    public void ExecuteMove(PlayerController selfController, Transform selfTransform, AIInput input, float directionX, bool forceJump)
+    public void ExecuteMove(CharacterCoordinator selfController, Transform selfTransform, AIInput input, float directionX, bool forceJump)
     {
         if (Mathf.Abs(directionX) < 0.01f)
         {
@@ -54,7 +54,7 @@ public class AINavigation
             input.PressJump();
     }
 
-    private bool IsSafeToMove(PlayerController selfController, Transform selfTransform, float directionX, out bool shouldJump)
+    private bool IsSafeToMove(CharacterCoordinator selfController, Transform selfTransform, float directionX, out bool shouldJump)
     {
         shouldJump = false;
 

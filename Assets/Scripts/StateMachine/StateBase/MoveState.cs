@@ -1,20 +1,20 @@
 using UnityEngine;
 
-public class MoveState : PlayerState
+public class MoveState : CharacterState
 {
-    public MoveState(PlayerController character, StateMachine sm) : base(character, sm) { }
+    public MoveState(CharacterCoordinator character, CharacterStateMachine sm) : base(character, sm) { }
 
     public override void Enter()
     {
         base.Enter();
-        character.Anim.Play("Move");
+        character.Animation.TryPlay("Move");
     }
 
     public override void Update()
     {
         if (character.IsDead)
         {
-            stateMachine.ChangeState(StateCharacter.Die);
+            stateMachine.ChangeState(character.States.Die);
             return;
         }
 
@@ -32,7 +32,7 @@ public class MoveState : PlayerState
 
         if (character.JumpPressed && character.CanJump)
         {
-            stateMachine.ChangeState(StateCharacter.Jump);
+            stateMachine.ChangeState(character.States.Jump);
             return;
         }
 
@@ -40,9 +40,9 @@ public class MoveState : PlayerState
         {
             // Crouch: stopped horizontally and pressing down
             if (character.MoveInput.y < -character.stats.tiltThreshold && character.IsGrounded)
-                stateMachine.ChangeState(StateCharacter.Crouch);
+                stateMachine.ChangeState(character.States.Crouch);
             else
-                stateMachine.ChangeState(StateCharacter.Idle);
+                stateMachine.ChangeState(character.States.Idle);
         }
     }
 

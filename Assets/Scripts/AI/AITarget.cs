@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class AITarget
 {
-    private PlayerController selfController;
+    private CharacterCoordinator selfController;
 
-    public PlayerController TargetController { get; private set; }
+    public CharacterCoordinator TargetController { get; private set; }
     public CharacterHealth TargetHealth { get; private set; }
     public Transform Target { get; private set; }
     public Vector3 PerceivedTargetPosition { get; private set; }
 
-    public void Initialize(PlayerController self, Vector3 initialPosition)
+    public void Initialize(CharacterCoordinator self, Vector3 initialPosition)
     {
         selfController = self;
         PerceivedTargetPosition = initialPosition;
@@ -35,13 +35,13 @@ public class AITarget
 
     private void FindTarget()
     {
-        PlayerController[] allPlayers = Object.FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+        CharacterCoordinator[] allPlayers = Object.FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
 
         TargetController = null;
         TargetHealth = null;
         Target = null;
 
-        foreach (PlayerController player in allPlayers)
+        foreach (CharacterCoordinator player in allPlayers)
         {
             if (player == selfController || player.IsDead)
                 continue;

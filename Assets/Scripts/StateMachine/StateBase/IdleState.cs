@@ -1,20 +1,20 @@
 using UnityEngine;
 
-public class IdleState : PlayerState
+public class IdleState : CharacterState
 {
-    public IdleState(PlayerController character, StateMachine sm) : base(character, sm) { }
+    public IdleState(CharacterCoordinator character, CharacterStateMachine sm) : base(character, sm) { }
 
     public override void Enter()
     {
         base.Enter();
-        character.Anim.Play("Idle");
+        character.Animation.TryPlay("Idle");
     }
 
     public override void Update()
     {
         if (character.IsDead)
         {
-            stateMachine.ChangeState(StateCharacter.Die);
+            stateMachine.ChangeState(character.States.Die);
             return;
         }
 
@@ -32,13 +32,13 @@ public class IdleState : PlayerState
 
         if (character.JumpPressed && character.CanJump)
         {
-            stateMachine.ChangeState(StateCharacter.Jump);
+            stateMachine.ChangeState(character.States.Jump);
             return;
         }
 
         if (Mathf.Abs(character.MoveInput.x) > 0.01f)
         {
-            stateMachine.ChangeState(StateCharacter.Move);
+            stateMachine.ChangeState(character.States.Move);
             return;
         }
 
@@ -47,7 +47,7 @@ public class IdleState : PlayerState
             Mathf.Abs(character.MoveInput.x) < character.stats.tiltThreshold &&
             character.IsGrounded)
         {
-            stateMachine.ChangeState(StateCharacter.Crouch);
+            stateMachine.ChangeState(character.States.Crouch);
         }
     }
 

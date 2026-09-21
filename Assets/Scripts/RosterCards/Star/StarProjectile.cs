@@ -18,7 +18,7 @@ public class StarProjectile : MonoBehaviour
     {
         caster = casterObject;
         target = targetTransform;
-        attackerPlayerIndex = caster != null && caster.TryGetComponent(out PlayerController controller)
+        attackerPlayerIndex = caster != null && caster.TryGetComponent(out CharacterCoordinator controller)
             ? controller.PlayerIndex
             : -1;
 

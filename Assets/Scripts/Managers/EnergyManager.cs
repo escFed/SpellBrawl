@@ -3,16 +3,17 @@ using UnityEngine;
 public class EnergyManager : MonoBehaviour
 {
     public int currentEnergy;
-    private PlayerController Controller;
+    private CharacterCoordinator Controller;
 
     private void Awake()
     {
-        Controller = GetComponent<PlayerController>();
+        Controller = GetComponent<CharacterCoordinator>();
     }
 
     private void Start()
     {
         currentEnergy = Controller.stats.startingEnergy;
+        UpdateUI();
     }
     public void AddEnergy(int amount)
     {

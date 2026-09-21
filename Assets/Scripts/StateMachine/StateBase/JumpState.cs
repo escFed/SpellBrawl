@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class JumpState : PlayerState
+public class JumpState : CharacterState
 {
     private float airTimer;
     private bool skipForceOnEnter;
 
-    public JumpState(PlayerController character, StateMachine sm) : base(character, sm) { }
+    public JumpState(CharacterCoordinator character, CharacterStateMachine sm) : base(character, sm) { }
 
     public void PrepareReentry() => skipForceOnEnter = true;
 
@@ -21,7 +21,7 @@ public class JumpState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        character.Anim.Play("Jump");
+        character.Animation.TryPlay("Jump");
 
         airTimer = 0f;
 
@@ -39,7 +39,7 @@ public class JumpState : PlayerState
     {
         if (character.IsDead)
         {
-            stateMachine.ChangeState(StateCharacter.Die);
+            stateMachine.ChangeState(character.States.Die);
             return;
         }
 
@@ -60,7 +60,7 @@ public class JumpState : PlayerState
 
         if (airTimer > 0.1f && character.IsGrounded)
         {
-            stateMachine.ChangeState(Mathf.Abs(character.MoveInput.x) > 0.01f ? StateCharacter.Move : StateCharacter.Idle);
+            stateMachine.ChangeState(Mathf.Abs(character.MoveInput.x) > 0.01f ? character.States.Move : character.States.Idle);
             return;
         }
     }

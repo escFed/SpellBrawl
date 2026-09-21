@@ -26,13 +26,13 @@ public class TargetGroup : MonoBehaviour
     {
         if (targetGroup == null) return;
 
-        PlayerController[] alivePlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+        CharacterCoordinator[] alivePlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
 
         if (forceRefresh || targetGroup.Targets.Count != alivePlayers.Length)
         {
             targetGroup.Targets.Clear();
 
-            foreach (PlayerController p in alivePlayers)
+            foreach (CharacterCoordinator p in alivePlayers)
             {
                 targetGroup.AddMember(p.transform, 1f, 3f);
             }

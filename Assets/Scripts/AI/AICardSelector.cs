@@ -1,10 +1,10 @@
 public class AICardSelector
 {
-    private PlayerController selfController;
+    private CharacterCoordinator selfController;
     private EnergyManager selfEnergy;
     private CharacterDeck selfDeck;
 
-    public void Initialize(PlayerController controller, EnergyManager energy, CharacterDeck deck)
+    public void Initialize(CharacterCoordinator controller, EnergyManager energy, CharacterDeck deck)
     {
         selfController = controller;
         selfEnergy = energy;

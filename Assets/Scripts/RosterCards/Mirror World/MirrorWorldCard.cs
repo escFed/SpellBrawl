@@ -32,10 +32,10 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
         if (uiImage != null && cardIcon != null) uiImage.sprite = cardIcon;
     }
 
-    public bool CanBeUsed(PlayerController user) => true;
+    public bool CanBeUsed(CharacterCoordinator user) => true;
 
 
-    public void ExecuteCard(PlayerController caster)
+    public void ExecuteCard(CharacterCoordinator caster)
     {
         if (caster == null || mirrorWorldPrefab == null)
         {
@@ -44,7 +44,7 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
             return;
         }
 
-        PlayerController target = FindEnemy(caster);
+        CharacterCoordinator target = FindEnemy(caster);
         if (target == null)
         {
             Destroy(gameObject);
@@ -67,11 +67,11 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
         Destroy(gameObject);
     }
 
-    private PlayerController FindEnemy(PlayerController caster)
+    private CharacterCoordinator FindEnemy(CharacterCoordinator caster)
     {
-        PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+        CharacterCoordinator[] allPlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
 
-        foreach (PlayerController player in allPlayers)
+        foreach (CharacterCoordinator player in allPlayers)
         {
             if (player != caster && !player.IsDead)
                 return player;

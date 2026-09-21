@@ -10,7 +10,7 @@ public interface ICardable
 
     Sprite CardVisual { get; }
     string DamageableOrNot { get; }
-    bool CanBeUsed(PlayerController user);
-    void ExecuteCard(PlayerController character);
+    bool CanBeUsed(CharacterCoordinator user);
+    void ExecuteCard(CharacterCoordinator character);
     void SetUI(Image uiImage);
 }

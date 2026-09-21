@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class RespawnManager : MonoBehaviour
 {
@@ -9,10 +8,13 @@ public class RespawnManager : MonoBehaviour
     public Transform p1SpawnPoint;
     public Transform p2SpawnPoint;
 
-    [Header("Life Respawn")]
-    [SerializeField, Min(0f)] private float respawnDelay = 1.5f;
-    [SerializeField, Min(0f)] private float respawnProtectionDuration = 2f;
+    [Header("Control Modes")]
+    [SerializeField] private PlayerMode p1Mode = PlayerMode.Player;
+    [SerializeField] private PlayerMode p2Mode = PlayerMode.AI;
 
+    [Header("Life Respawn")]
+    [SerializeField] private float respawnDelay = 1.5f;
+    [SerializeField] private float respawnProtectionDuration = 2f;
     [HideInInspector] public GameObject p1Instance;
     [HideInInspector] public GameObject p2Instance;
 
@@ -38,15 +40,11 @@ public class RespawnManager : MonoBehaviour
         CharacterStats p1Stats = SelectionManager.Instance.characterDb.GetCharacter(SelectionManager.Instance.p1SelectedIndex);
         p1Instance = Instantiate(p1Stats.characterPrefab, p1SpawnPoint.position, Quaternion.identity);
 
-        if (p1Instance.TryGetComponent(out PlayerController p1Ctrl))
+        if (p1Instance.TryGetComponent(out CharacterCoordinator p1Ctrl))
         {
-            p1Ctrl.PlayerIndex = 0;
-            p1Ctrl.controlsEnabled = false;
+            p1Ctrl.ConfigureControl(PlayerSlot.PlayerOne, p1Mode);
+            p1Ctrl.SetControlsEnabled(false);
         }
-
-        if (p1Instance.TryGetComponent(out CharacterAI p1AI)) p1AI.enabled = false;
-        if (p1Instance.TryGetComponent(out PlayerInput p1Input)) p1Input.enabled = true;
-        if (p1Instance.TryGetComponent(out CharacterBrain p1Brain)) p1Brain.enabled = true;
 
         Vector3 p1Scale = p1Instance.transform.localScale;
         p1Scale.x = Mathf.Abs(p1Scale.x);
@@ -55,16 +53,11 @@ public class RespawnManager : MonoBehaviour
         CharacterStats aiStats = SelectionManager.Instance.characterDb.GetCharacter(SelectionManager.Instance.aiSelectedIndex);
         p2Instance = Instantiate(aiStats.characterPrefab, p2SpawnPoint.position, Quaternion.identity);
 
-        if (p2Instance.TryGetComponent(out PlayerController p2Ctrl))
+        if (p2Instance.TryGetComponent(out CharacterCoordinator p2Ctrl))
         {
-            p2Ctrl.PlayerIndex = 1;
-            p2Ctrl.controlsEnabled = false;
+            p2Ctrl.ConfigureControl(PlayerSlot.PlayerTwo, p2Mode);
+            p2Ctrl.SetControlsEnabled(false);
         }
-
-        if (p2Instance.TryGetComponent(out PlayerInput aiInput)) Destroy(aiInput);
-        if (p2Instance.TryGetComponent(out CharacterBrain aiBrain)) Destroy(aiBrain);
-
-        if (p2Instance.TryGetComponent(out CharacterAI aiAI)) aiAI.enabled = false;
 
         Vector3 aiScale = p2Instance.transform.localScale;
         aiScale.x = -Mathf.Abs(aiScale.x);
@@ -84,8 +77,8 @@ public class RespawnManager : MonoBehaviour
 
     public void ResetRoundPositionsAndHealth()
     {
-        PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
-        foreach (PlayerController p in allPlayers)
+        CharacterCoordinator[] allPlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
+        foreach (CharacterCoordinator p in allPlayers)
         {
             CharacterHealth pHealth = p.GetComponent<CharacterHealth>();
 

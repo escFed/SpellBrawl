@@ -5,9 +5,9 @@ public class BlackHoleLogic : MonoBehaviour
 {
     [SerializeField] public float effectDuration = 1.0f;
 
-    private PlayerController targetController;
+    private CharacterCoordinator targetController;
 
-    public void Initialize(PlayerController trgt)
+    public void Initialize(CharacterCoordinator trgt)
     {
         targetController = trgt;
     }

@@ -4,14 +4,14 @@ public class AIUtilityBrain
 {
     private AIProfile profile;
     private AICardSelector cardSelector;
-    private PlayerController selfController;
+    private CharacterCoordinator selfController;
     private AIDecision currentDecision;
     private float attackRange;
     private float idealSpacing;
     private float cardCooldownTimer;
     private float attackCooldownTimer;
 
-    public AIActionScore ChooseDecision(AIContext context, AIProfile profile, AICardSelector cardSelector, PlayerController selfController, AIDecision currentDecision, float attackRange, float idealSpacing, float cardCooldownTimer, float attackCooldownTimer)
+    public AIActionScore ChooseDecision(AIContext context, AIProfile profile, AICardSelector cardSelector, CharacterCoordinator selfController, AIDecision currentDecision, float attackRange, float idealSpacing, float cardCooldownTimer, float attackCooldownTimer)
     {
         this.profile = profile;
         this.cardSelector = cardSelector;

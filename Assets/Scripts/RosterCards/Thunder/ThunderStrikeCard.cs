@@ -37,15 +37,15 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
         }
     }
 
-    public bool CanBeUsed(PlayerController user) => true;
+    public bool CanBeUsed(CharacterCoordinator user) => true;
 
-    public void ExecuteCard(PlayerController character)
+    public void ExecuteCard(CharacterCoordinator character)
     {
-        PlayerController target = null;
+        CharacterCoordinator target = null;
 
-        PlayerController[] allPlayers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+        CharacterCoordinator[] allPlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
 
-        foreach (PlayerController p in allPlayers)
+        foreach (CharacterCoordinator p in allPlayers)
         {
             if (p.gameObject != character.gameObject)
             {

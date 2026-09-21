@@ -4,13 +4,13 @@ public class DashAttackState : GroundAttackState
 {
     private float dashTimer;
 
-    public DashAttackState(PlayerController character, StateMachine sm, GroundAttackStats attackStats) : base(character, sm, attackStats) { }
+    public DashAttackState(CharacterCoordinator character, CharacterStateMachine sm, GroundAttackStats attackStats) : base(character, sm, attackStats) { }
 
     public override void Enter()
     {
         dashTimer = 0f;
         base.Enter();
-        character.TryPlayAnimation("DashAttack", "FTilt");
+        character.Animation.TryPlay("DashAttack", "FTilt");
     }
 
     public override void Update()

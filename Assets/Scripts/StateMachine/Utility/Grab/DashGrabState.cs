@@ -4,13 +4,13 @@ public class DashGrabState : GrabState
 {
     private float slideTimer;
 
-    public DashGrabState(PlayerController character, StateMachine sm, GrabStats grabStats): base(character, sm, grabStats) { }
+    public DashGrabState(CharacterCoordinator character, CharacterStateMachine sm, GrabStats grabStats): base(character, sm, grabStats) { }
 
     public override void Enter()
     {
         slideTimer = 0f;
         base.Enter();
-        character.Anim.Play("Grab");
+        character.Animation.TryPlay("Grab");
     }
 
     public override void Update()

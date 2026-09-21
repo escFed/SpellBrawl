@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class DieState : PlayerState
+public class DieState : CharacterState
 {
-    public DieState(PlayerController character, StateMachine sm) : base(character, sm) { }
+    public DieState(CharacterCoordinator character, CharacterStateMachine sm) : base(character, sm) { }
 
     public override void Enter()
     {

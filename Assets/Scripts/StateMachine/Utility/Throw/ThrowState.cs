@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class ThrowState : PlayerState
+public class ThrowState : CharacterState
 {
     private float timer;
     private bool released;
     private ThrowDirection direction;
     private ThrowStats stats;
 
-    public ThrowState(PlayerController character, StateMachine sm) : base(character, sm) { }
+    public ThrowState(CharacterCoordinator character, CharacterStateMachine sm) : base(character, sm) { }
 
     public override void Enter()
     {
@@ -35,25 +35,11 @@ public class ThrowState : PlayerState
     private void PlayThrowAnimation()
     {
         string animationName = GetAnimationName(direction);
-        Animator animator = character.Anim;
-        string controllerName = animator != null && animator.runtimeAnimatorController != null
-            ? animator.runtimeAnimatorController.name
-            : "None";
-        string layerName = animator != null && animator.layerCount > 0 ? animator.GetLayerName(0) : "None";
-        bool hasAnimationState = animator != null && animator.layerCount > 0 &&
-                                 animator.HasState(0, Animator.StringToHash($"{layerName}.{animationName}"));
-
-        string message =
+        bool animationPlayed = character.Animation.TryPlay(animationName);
+        Debug.Log(
             $"[Throw] Character='{character.name}' Direction={direction} Animation='{animationName}' " +
-            $"Controller='{controllerName}' Layer='{layerName}' StateFound={hasAnimationState}";
-
-        if (hasAnimationState)
-            Debug.Log(message, character);
-        else
-            Debug.LogWarning(message, character);
-
-        if (animator != null)
-            animator.Play(animationName, 0, 0f);
+            $"StateFound={animationPlayed}",
+            character);
     }
 
     public override void Update()
@@ -61,13 +47,13 @@ public class ThrowState : PlayerState
         if (stats == null)
         {
             character.Grab.ReleaseGrabbedTarget();
-            stateMachine.ChangeState(StateCharacter.Idle);
+            stateMachine.ChangeState(character.States.Idle);
             return;
         }
 
         if (!character.Grab.HasGrabbedTarget && !released)
         {
-            stateMachine.ChangeState(StateCharacter.Idle);
+            stateMachine.ChangeState(character.States.Idle);
             return;
         }
 
@@ -81,7 +67,7 @@ public class ThrowState : PlayerState
 
         if (timer >= stats.releaseDelay + stats.recovery)
         {
-            stateMachine.ChangeState(Mathf.Abs(character.MoveInput.x) > 0.01f ? StateCharacter.Move : StateCharacter.Idle);
+            stateMachine.ChangeState(Mathf.Abs(character.MoveInput.x) > 0.01f ? character.States.Move : character.States.Idle);
         }
     }
 

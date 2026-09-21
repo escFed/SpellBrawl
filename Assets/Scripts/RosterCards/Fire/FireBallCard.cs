@@ -35,9 +35,9 @@ public class FireBallCard : MonoBehaviour, ICardable
         }
     }
 
-    public bool CanBeUsed(PlayerController user) => true;
+    public bool CanBeUsed(CharacterCoordinator user) => true;
 
-    public void ExecuteCard(PlayerController character)
+    public void ExecuteCard(CharacterCoordinator character)
     {
         Transform spawnPoint = character.Grab != null && character.Grab.throwPoint != null ? character.Grab.throwPoint : character.transform;
 
