@@ -9,6 +9,7 @@ public class MenuManager : MonoBehaviour
     public GameObject controlsPanel;
     public GameObject characterSelectPanel;
     public GameObject cardsSelectPanel;
+    public GameObject mapSelectPanel;
     public GameObject settingsPanel;
 
     private void Start()
@@ -22,6 +23,7 @@ public class MenuManager : MonoBehaviour
         mainMenuPanel.SetActive(true);
         characterSelectPanel.SetActive(false);
         cardsSelectPanel.SetActive(false);
+        if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
         howToPlayPanel.SetActive(false);
         settingsPanel.SetActive(false);
         if (controlsPanel != null) controlsPanel.SetActive(false);
@@ -34,6 +36,7 @@ public class MenuManager : MonoBehaviour
         mainMenuPanel.SetActive(false);
         controlsPanel.SetActive(false);
         howToPlayPanel.SetActive(true);
+        if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
         Focus(howToPlayPanel);
     }
 
@@ -46,6 +49,7 @@ public class MenuManager : MonoBehaviour
         mainMenuPanel.SetActive(false);
         if (controlsPanel != null) controlsPanel.SetActive(false);
         characterSelectPanel.SetActive(true);
+        if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
         howToPlayPanel.SetActive(false);
         Focus(characterSelectPanel);
     }
@@ -60,6 +64,7 @@ public class MenuManager : MonoBehaviour
         if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
         if (controlsPanel != null) controlsPanel.SetActive(false);
         if (cardsSelectPanel != null) cardsSelectPanel.SetActive(false);
+        if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
         characterSelectPanel.SetActive(true);
         Focus(characterSelectPanel);
     }
@@ -78,12 +83,39 @@ public class MenuManager : MonoBehaviour
         Focus(cardsSelectPanel);
     }
 
+    public void ShowMapSelect()
+    {
+        CloseSettings();
+
+        if (mapSelectPanel == null)
+        {
+            Debug.LogError("[MenuManager] SelectionMap panel was not found.", this);
+            return;
+        }
+
+        mainMenuPanel.SetActive(false);
+        characterSelectPanel.SetActive(false);
+        cardsSelectPanel.SetActive(false);
+        howToPlayPanel.SetActive(false);
+        if (controlsPanel != null) controlsPanel.SetActive(false);
+        mapSelectPanel.SetActive(true);
+        Focus(mapSelectPanel);
+    }
+
     public void BackToCharacterSelect()
     {
         CloseSettings();
         cardsSelectPanel.SetActive(false);
         characterSelectPanel.SetActive(true);
         Focus(characterSelectPanel);
+    }
+
+    public void BackToCardsSelect()
+    {
+        CloseSettings();
+        if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
+        cardsSelectPanel.SetActive(true);
+        Focus(cardsSelectPanel);
     }
 
     public void GoToStage1()
@@ -117,6 +149,7 @@ public class MenuManager : MonoBehaviour
         if (controlsPanel != null) controlsPanel.SetActive(false);
         if (characterSelectPanel != null) characterSelectPanel.SetActive(false);
         if (cardsSelectPanel != null) cardsSelectPanel.SetActive(false);
+        if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
         if (settingsPanel != null)
         {
             settingsPanel.SetActive(true);

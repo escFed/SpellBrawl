@@ -36,7 +36,7 @@ public class GrabHitbox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (hasGrabbed || ownerGrab == null)
+        if (grabCollider == null || !grabCollider.enabled || hasGrabbed || ownerGrab == null)
             return;
 
         if (other.transform.root == transform.root)
