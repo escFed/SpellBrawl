@@ -38,7 +38,9 @@ public class CharacterGrab : MonoBehaviour
 
     public bool TryCaptureTarget(IGrabbable target)
     {
-        if (grabbedTarget != null || target == null || !target.CanBeGrabbed)
+        if (controller == null || controller.stateMachine == null ||
+            !(controller.stateMachine.CurrentState is GrabState) ||
+            grabbedTarget != null || target == null || !target.CanBeGrabbed)
             return false;
 
         Transform targetTransform = target.GrabTransform;

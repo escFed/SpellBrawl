@@ -16,13 +16,10 @@ public class DeckBuilderUI : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI deckSizeText; 
    
-
-
-
     private readonly Dictionary<GameObject, GameObject> cardVisuals = new Dictionary<GameObject, GameObject>();
 
     [Header("UI Settings")]
-   
+    [SerializeField] private MenuManager menuManager;
     public Button startMatchButton;
 
     [Header("Card Settings")]
@@ -253,6 +250,12 @@ ui.deckBuilder = this;
 
     public void SaveDeck()
     {
+        if (menuManager == null)
+        {
+            Debug.LogError("[DeckBuilderUI] Assign MenuManager in the Inspector before opening map selection.", this);
+            return;
+        }
+
         if (rules == null || DeckManager.Instance == null ||
             !DeckManager.Instance.TrySetDeck(selectedCards, rules.DeckSize))
         {
@@ -260,7 +263,7 @@ ui.deckBuilder = this;
             return;
         }
 
-        SceneManager.LoadScene("Stage1");
+        menuManager.ShowMapSelect();
     }
 
     private void RepositionCards()

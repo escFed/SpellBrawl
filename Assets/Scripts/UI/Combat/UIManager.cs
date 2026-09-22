@@ -1,17 +1,13 @@
-using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
-
     [Header("Controls Image")]
-
     public ControlsImageScript controlsImageScript;
 
     [Header("Character Icons")]
@@ -226,7 +222,7 @@ public class UIManager : MonoBehaviour
         if (icon != null) icon.sprite = iconSprite;
     }
 
-    private void UpdateHandUI(int playerIndex, HandSlotView[] hand) 
+    private void UpdateHandUI(int playerIndex, HandSlotView[] hand)
     {
         Debug.Log($"UpdateHandUI called - Player: {playerIndex}, Hand length: {hand.Length}");
 
@@ -251,7 +247,7 @@ public class UIManager : MonoBehaviour
             Debug.Log($"  Slot {i}: IsUnlocked={i < hand.Length && hand[i].IsUnlocked}");
 
             // Si el índice está fuera del rango de la mano o no está desbloqueado
-            if (i >= hand.Length || !hand[i].IsUnlocked) 
+            if (i >= hand.Length || !hand[i].IsUnlocked)
             {
                 slotImage.gameObject.SetActive(false);
                 continue;
@@ -259,6 +255,8 @@ public class UIManager : MonoBehaviour
 
             // El slot está desbloqueado, lo mostramos
             slotImage.gameObject.SetActive(true);
+            if (i >= 2 && slotImage.transform.localScale == Vector3.zero)
+                slotImage.transform.localScale = Vector3.one;
 
             // IMPORTANTE: Activar el Image antes de SetUI
             slotImage.enabled = true;
@@ -269,20 +267,20 @@ public class UIManager : MonoBehaviour
             {
                 hand[i].Card.SetUI(slotImage);
                 slotImage.color = Color.white;
-               
+
             }
             else
             {
                 slotImage.sprite = emptySlotSprite;
                 slotImage.color = new Color(1f, 1f, 1f, 0.5f);
-               
+
             }
 
             // Forzar reconstrucción del layout group padre
             if (rect.parent != null)
             {
                 LayoutRebuilder.ForceRebuildLayoutImmediate(rect.parent as RectTransform);
-               
+
             }
             LayoutRebuilder.ForceRebuildLayoutImmediate(rect);
             Canvas.ForceUpdateCanvases();
@@ -309,9 +307,6 @@ public class UIManager : MonoBehaviour
             slots[i].transform.localScale = Vector3.zero;
         }
     }
-
-
-
 
     private static void UpdateCardCooldownVisuals(Image[] uiSlots, HandSlotView[] hand)
     {

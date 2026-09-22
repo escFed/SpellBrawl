@@ -6,8 +6,9 @@ public abstract class GrabState : CharacterState
     private float timer;
     private bool grabOpen;
     private bool grabClosed;
+    private bool preserveGrabOnExit;
 
-    protected GrabState(CharacterCoordinator character, CharacterStateMachine sm, GrabStats grabStats): base(character, sm)
+    protected GrabState(CharacterCoordinator character, CharacterStateMachine sm, GrabStats grabStats) : base(character, sm)
     {
         stats = grabStats;
     }
@@ -20,6 +21,7 @@ public abstract class GrabState : CharacterState
         timer = 0f;
         grabOpen = false;
         grabClosed = false;
+        preserveGrabOnExit = false;
 
         character.Movement.StopHorizontalMovement();
         ReadyGrabbox();
@@ -46,6 +48,7 @@ public abstract class GrabState : CharacterState
             CloseGrabbox();
             grabClosed = true;
             character.States.GrabHold.BeginHold(stats);
+            preserveGrabOnExit = true;
             stateMachine.ChangeState(character.States.GrabHold);
             return;
         }
@@ -58,7 +61,7 @@ public abstract class GrabState : CharacterState
 
         if (timer >= stats.startup + stats.active + stats.recovery)
         {
-            stateMachine.ChangeState(Mathf.Abs(character.MoveInput.x) > 0.01f ? character.States.Move: character.States.Idle);
+            stateMachine.ChangeState(Mathf.Abs(character.MoveInput.x) > 0.01f ? character.States.Move : character.States.Idle);
         }
     }
 
@@ -66,6 +69,9 @@ public abstract class GrabState : CharacterState
     {
         if (grabOpen && !grabClosed)
             CloseGrabbox();
+
+        if (!preserveGrabOnExit)
+            character.Grab.ReleaseGrabbedTarget();
     }
 
     protected abstract void ReadyGrabbox();
