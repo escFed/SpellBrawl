@@ -3,24 +3,8 @@
   "WorkspaceRootPath": "D:\\RepoGit\\SpellBrawl\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|d:\\repogit\\spellbrawl\\assets\\scripts\\statemachine\\utility\\grab\\grabstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\utility\\grab\\grabstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|d:\\repogit\\spellbrawl\\assets\\scripts\\statemachine\\attacks\\grabhitbox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\statemachine\\attacks\\grabhitbox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|d:\\repogit\\spellbrawl\\assets\\scripts\\character\\charactergrab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\character\\charactergrab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|d:\\repogit\\spellbrawl\\assets\\scripts\\ui\\combat\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\combat\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|d:\\repogit\\spellbrawl\\assets\\scripts\\ui\\cardsselect\\deckbuilderui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\cardsselect\\deckbuilderui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,66 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "GrabState.cs",
-              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\Grab\\GrabState.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Utility\\Grab\\GrabState.cs",
-              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Utility\\Grab\\GrabState.cs",
-              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Utility\\Grab\\GrabState.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAIwFAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-22T14:27:58.922Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "GrabHitBox.cs",
-              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\GrabHitBox.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\StateMachine\\Attacks\\GrabHitBox.cs",
-              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\StateMachine\\Attacks\\GrabHitBox.cs",
-              "RelativeToolTip": "Assets\\Scripts\\StateMachine\\Attacks\\GrabHitBox.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAIwDMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-22T14:27:38.613Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CharacterGrab.cs",
-              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Character\\CharacterGrab.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Character\\CharacterGrab.cs",
-              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\Character\\CharacterGrab.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Character\\CharacterGrab.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAK8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-22T14:26:49.268Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "UIManager.cs",
               "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\Combat\\UIManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Combat\\UIManager.cs",
               "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\Combat\\UIManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\UI\\Combat\\UIManager.cs",
-              "ViewState": "AgIAANcAAAAAAAAAAAAAADUBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAH0AAAAAAAAAAAAAAI4AAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-22T14:23:58.16Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DeckBuilderUI.cs",
-              "DocumentMoniker": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\CardsSelect\\DeckBuilderUI.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\CardsSelect\\DeckBuilderUI.cs",
-              "ToolTip": "D:\\RepoGit\\SpellBrawl\\Assets\\Scripts\\UI\\CardsSelect\\DeckBuilderUI.cs",
-              "RelativeToolTip": "Assets\\Scripts\\UI\\CardsSelect\\DeckBuilderUI.cs",
-              "ViewState": "AgIAAOUAAAAAAAAAAIBJwAkBAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-22T02:51:24.345Z",
+              "WhenOpened": "2026-09-22T15:29:22.429Z",
               "EditorCaption": ""
             }
           ]
