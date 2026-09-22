@@ -14,7 +14,7 @@ public class DeckBuilderUI : MonoBehaviour
     [SerializeField] public Transform selectedCardsPanel;
     [SerializeField] private GameObject cardVisualPrefab;
 
-
+    [SerializeField] private TextMeshProUGUI deckSizeText; 
    
 
 
@@ -61,8 +61,12 @@ public class DeckBuilderUI : MonoBehaviour
             return;
         }
 
+        if(deckSizeText != null)
 
-      
+            deckSizeText.text = $"{selectedCards.Count}/{rules.DeckSize}";
+
+
+
         source = GetComponent<AudioSource>();
         if (source != null)
             GameSettings.RegisterSource(source, GameSound.SoundEffects);
@@ -80,6 +84,8 @@ public class DeckBuilderUI : MonoBehaviour
 
         selectedCards.Add(cardPrefab);
 
+        if(deckSizeText != null)
+        deckSizeText.text = $"{selectedCards.Count}/{rules.DeckSize}";
 
         if (selectedCardsPanel != null && cardVisualPrefab != null)
         {
@@ -120,7 +126,10 @@ ui.deckBuilder = this;
             return false;
 
         selectedCards.Remove(cardPrefab);
-      
+
+        if (deckSizeText != null)
+           
+        deckSizeText.text = $"{selectedCards.Count}/{rules.DeckSize}";
 
         if(cardVisuals.TryGetValue(cardPrefab, out GameObject cardVisual))
         {
@@ -140,7 +149,8 @@ ui.deckBuilder = this;
 
     private void UpdateUI()
     {
-      
+        if (deckSizeText != null)
+            deckSizeText.text = $"{selectedCards.Count}/{rules.DeckSize}";
 
         if (startMatchButton != null)
             startMatchButton.interactable = rules != null && selectedCards.Count == rules.DeckSize;

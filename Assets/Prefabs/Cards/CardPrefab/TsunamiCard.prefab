@@ -55,7 +55,7 @@ MonoBehaviour:
     IN THE ZONE
   damageableOrNot: DAMAGEABLE
   energyCost: 30
-  type: 0
+  type: 2
   cardVisual: {fileID: -3354741048468357691, guid: 530242507da49bb43957637cdb2b0379, type: 3}
   cardUI: {fileID: 6717744815730758578}
   tsunamiPrefab: {fileID: 1454149254468200836, guid: 060ddce4b3e31a144a7fd03554f94f15, type: 3}

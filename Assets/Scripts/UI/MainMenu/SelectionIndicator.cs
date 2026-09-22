@@ -46,6 +46,8 @@ public class SelectionIndicator : MonoBehaviour
         Vector3 localCenter = indicatorParent.InverseTransformPoint(worldCenter);
         Vector2 targetPosition = new Vector2(localCenter.x, localCenter.y) + offset;
 
+        indicatorImage.enabled = true;
+
         if (!indicatorImage.enabled || smoothTime <= 0f)
         {
             SetLocalPosition(targetPosition);
@@ -68,7 +70,7 @@ public class SelectionIndicator : MonoBehaviour
         if (matchSelectionSize)
             MatchSelectionSize(indicatorParent);
 
-        indicatorImage.enabled = true;
+        
     }
 
     private RectTransform GetCurrentSelection()
