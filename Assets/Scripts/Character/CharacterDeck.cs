@@ -36,7 +36,7 @@ public class CharacterDeck : MonoBehaviour
     private void Start()
     {
         List<GameObject> deckTemplate = new List<GameObject>(rules.DeckSize);
-        IReadOnlyList<GameObject> selectedDeck = GetSelectedPlayerDeck();
+        IReadOnlyList<GameObject> selectedDeck = GetSelectedDeck();
 
         if (!DeckBuilder.TryBuild(selectedDeck, catalog, rules.DeckSize, deckTemplate, out int availableCardCount))
         {
@@ -138,12 +138,13 @@ public class CharacterDeck : MonoBehaviour
         Destroy(cardInstance, CardLifetime);
     }
 
-    private IReadOnlyList<GameObject> GetSelectedPlayerDeck()
+    private IReadOnlyList<GameObject> GetSelectedDeck()
     {
-        if (controller.PlayerIndex != 0 || DeckManager.Instance == null)
+        if (DeckManager.Instance == null)
             return null;
 
-        IReadOnlyList<GameObject> selectedDeck = DeckManager.Instance.SelectedDeck;
+        PlayerSlot slot = controller.PlayerIndex == 0 ? PlayerSlot.PlayerOne : PlayerSlot.PlayerTwo;
+        IReadOnlyList<GameObject> selectedDeck = DeckManager.Instance.GetDeck(slot);
         return selectedDeck.Count > 0 ? selectedDeck : null;
     }
 

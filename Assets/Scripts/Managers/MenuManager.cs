@@ -5,6 +5,7 @@ public class MenuManager : MonoBehaviour
 {
     [Header("Panels")]
     public GameObject mainMenuPanel;
+    public GameObject gameModePanel;
     public GameObject howToPlayPanel;
     public GameObject controlsPanel;
     public GameObject characterSelectPanel;
@@ -21,6 +22,7 @@ public class MenuManager : MonoBehaviour
     {
         CloseSettings();
         mainMenuPanel.SetActive(true);
+        if (gameModePanel != null) gameModePanel.SetActive(false);
         characterSelectPanel.SetActive(false);
         cardsSelectPanel.SetActive(false);
         if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
@@ -34,10 +36,39 @@ public class MenuManager : MonoBehaviour
     {
         CloseSettings();
         mainMenuPanel.SetActive(false);
+        if (gameModePanel != null) gameModePanel.SetActive(false);
         controlsPanel.SetActive(false);
         howToPlayPanel.SetActive(true);
         if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
         Focus(howToPlayPanel);
+    }
+
+    public void ShowGameModeSelect()
+    {
+        CloseSettings();
+        mainMenuPanel.SetActive(false);
+        if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
+        if (controlsPanel != null) controlsPanel.SetActive(false);
+        if (characterSelectPanel != null) characterSelectPanel.SetActive(false);
+        if (cardsSelectPanel != null) cardsSelectPanel.SetActive(false);
+        if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
+        if (gameModePanel == null) gameModePanel.SetActive(true);
+        Focus(gameModePanel);
+    }
+
+    public void SelectPlayerVsPlayer()
+    {
+        SelectMatchMode(MatchMode.PlayerVsPlayer);
+    }
+
+    public void SelectPlayerVsAI()
+    {
+        SelectMatchMode(MatchMode.PlayerVsAI);
+    }
+
+    public void SelectAIvsAI()
+    {
+        SelectMatchMode(MatchMode.AIVsAI);
     }
 
     public void CharacterSelect()
@@ -47,10 +78,12 @@ public class MenuManager : MonoBehaviour
             SelectionManager.Instance.isTrainingMode = false;
 
         mainMenuPanel.SetActive(false);
+        if (gameModePanel != null) gameModePanel.SetActive(false);
         if (controlsPanel != null) controlsPanel.SetActive(false);
         characterSelectPanel.SetActive(true);
         if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
         howToPlayPanel.SetActive(false);
+        BeginCharacterSelection();
         Focus(characterSelectPanel);
     }
 
@@ -61,11 +94,13 @@ public class MenuManager : MonoBehaviour
             SelectionManager.Instance.isTrainingMode = true;
 
         mainMenuPanel.SetActive(false);
+        if (gameModePanel != null) gameModePanel.SetActive(false);
         if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
         if (controlsPanel != null) controlsPanel.SetActive(false);
         if (cardsSelectPanel != null) cardsSelectPanel.SetActive(false);
         if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
         characterSelectPanel.SetActive(true);
+        BeginCharacterSelection();
         Focus(characterSelectPanel);
     }
 
@@ -80,20 +115,29 @@ public class MenuManager : MonoBehaviour
         characterSelectPanel.SetActive(false);
         howToPlayPanel.SetActive(false);
         cardsSelectPanel.SetActive(true);
+        DeckBuilderUI deckBuilder = cardsSelectPanel.GetComponent<DeckBuilderUI>();
+        if (deckBuilder != null)
+            deckBuilder.BeginSelection(PlayerSlot.PlayerOne);
         Focus(cardsSelectPanel);
+    }
+
+    public void HandleCharacterSelectionComplete()
+    {
+        if (SelectionManager.Instance != null && !ModeRules.UsesCustomDeck(SelectionManager.Instance.matchMode, PlayerSlot.PlayerOne))
+        {
+            ShowMapSelect();
+            return;
+        }
+
+        ShowCardsSelect();
     }
 
     public void ShowMapSelect()
     {
         CloseSettings();
 
-        if (mapSelectPanel == null)
-        {
-            Debug.LogError("[MenuManager] SelectionMap panel was not found.", this);
-            return;
-        }
-
-        mainMenuPanel.SetActive(false);
+        if (mapSelectPanel == null) mainMenuPanel.SetActive(false);
+        if (gameModePanel != null) gameModePanel.SetActive(false);
         characterSelectPanel.SetActive(false);
         cardsSelectPanel.SetActive(false);
         howToPlayPanel.SetActive(false);
@@ -107,12 +151,20 @@ public class MenuManager : MonoBehaviour
         CloseSettings();
         cardsSelectPanel.SetActive(false);
         characterSelectPanel.SetActive(true);
+        BeginCharacterSelection();
         Focus(characterSelectPanel);
     }
 
     public void BackToCardsSelect()
     {
         CloseSettings();
+
+        if (SelectionManager.Instance != null && SelectionManager.Instance.matchMode == MatchMode.AIVsAI)
+        {
+            BackToCharacterSelect();
+            return;
+        }
+
         if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
         cardsSelectPanel.SetActive(true);
         Focus(cardsSelectPanel);
@@ -145,6 +197,7 @@ public class MenuManager : MonoBehaviour
     public void ShowSettings()
     {
         mainMenuPanel.SetActive(false);
+        if (gameModePanel != null) gameModePanel.SetActive(false);
         if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
         if (controlsPanel != null) controlsPanel.SetActive(false);
         if (characterSelectPanel != null) characterSelectPanel.SetActive(false);
@@ -171,6 +224,29 @@ public class MenuManager : MonoBehaviour
     private void CloseSettings()
     {
         if (settingsPanel != null) settingsPanel.SetActive(false);
+    }
+
+    private void SelectMatchMode(MatchMode mode)
+    {
+        if (SelectionManager.Instance == null)
+        {
+            Debug.LogError("[MenuManager] SelectionManager is required before choosing a match mode.", this);
+            return;
+        }
+
+        SelectionManager.Instance.BeginMatchSetup(mode);
+        DeckManager.Instance?.ClearDecks();
+        CharacterSelect();
+    }
+
+    private void BeginCharacterSelection()
+    {
+        if (characterSelectPanel == null)
+            return;
+
+        CharacterSelectUI characterSelect = characterSelectPanel.GetComponent<CharacterSelectUI>();
+        if (characterSelect != null)
+            characterSelect.BeginSelection();
     }
 
     private void Focus(GameObject panel)

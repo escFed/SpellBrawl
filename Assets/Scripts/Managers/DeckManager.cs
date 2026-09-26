@@ -5,9 +5,10 @@ public class DeckManager : MonoBehaviour
 {
     public static DeckManager Instance;
 
-    private List<GameObject> selectedDeck = new List<GameObject>();
+    private List<GameObject> p1SelectedDeck = new List<GameObject>();
+    private List<GameObject> p2SelectedDeck = new List<GameObject>();
 
-    public IReadOnlyList<GameObject> SelectedDeck => selectedDeck;
+    public IReadOnlyList<GameObject> SelectedDeck => p1SelectedDeck;
 
     public void Awake()
     {
@@ -24,6 +25,11 @@ public class DeckManager : MonoBehaviour
 
     public bool TrySetDeck(IReadOnlyList<GameObject> cards, int requiredSize)
     {
+        return TrySetDeck(PlayerSlot.PlayerOne, cards, requiredSize);
+    }
+
+    public bool TrySetDeck(PlayerSlot slot, IReadOnlyList<GameObject> cards, int requiredSize)
+    {
         if (cards == null || cards.Count != requiredSize)
             return false;
 
@@ -35,8 +41,25 @@ public class DeckManager : MonoBehaviour
                 return false;
         }
 
-        selectedDeck.Clear();
-        selectedDeck.AddRange(cards);
+        List<GameObject> targetDeck = GetMutableDeck(slot);
+        targetDeck.Clear();
+        targetDeck.AddRange(cards);
         return true;
+    }
+
+    public IReadOnlyList<GameObject> GetDeck(PlayerSlot slot)
+    {
+        return slot == PlayerSlot.PlayerOne ? p1SelectedDeck : p2SelectedDeck;
+    }
+
+    public void ClearDecks()
+    {
+        p1SelectedDeck.Clear();
+        p2SelectedDeck.Clear();
+    }
+
+    private List<GameObject> GetMutableDeck(PlayerSlot slot)
+    {
+        return slot == PlayerSlot.PlayerOne ? p1SelectedDeck : p2SelectedDeck;
     }
 }
