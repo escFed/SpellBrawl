@@ -23,11 +23,6 @@ public class DeckManager : MonoBehaviour
         }
     }
 
-    public bool TrySetDeck(IReadOnlyList<GameObject> cards, int requiredSize)
-    {
-        return TrySetDeck(PlayerSlot.PlayerOne, cards, requiredSize);
-    }
-
     public bool TrySetDeck(PlayerSlot slot, IReadOnlyList<GameObject> cards, int requiredSize)
     {
         if (cards == null || cards.Count != requiredSize)

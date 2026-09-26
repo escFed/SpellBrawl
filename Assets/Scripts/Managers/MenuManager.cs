@@ -52,7 +52,7 @@ public class MenuManager : MonoBehaviour
         if (characterSelectPanel != null) characterSelectPanel.SetActive(false);
         if (cardsSelectPanel != null) cardsSelectPanel.SetActive(false);
         if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
-        if (gameModePanel == null) gameModePanel.SetActive(true);
+        if (gameModePanel != null) gameModePanel.SetActive(true);
         Focus(gameModePanel);
     }
 
@@ -136,7 +136,7 @@ public class MenuManager : MonoBehaviour
     {
         CloseSettings();
 
-        if (mapSelectPanel == null) mainMenuPanel.SetActive(false);
+        if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
         if (gameModePanel != null) gameModePanel.SetActive(false);
         characterSelectPanel.SetActive(false);
         cardsSelectPanel.SetActive(false);

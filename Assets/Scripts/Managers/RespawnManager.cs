@@ -32,60 +32,91 @@ public class RespawnManager : MonoBehaviour
 
     private void InitialSpawn()
     {
-        if (SelectionManager.Instance == null)
-        {
-            Debug.LogWarning("�Inicia desde el MainMenu para que el SelectionManager exista!");
+        if (!ValidateSetup(out SelectionManager selection))
             return;
+
+        p1Mode = selection.GetControlMode(PlayerSlot.PlayerOne);
+        p2Mode = selection.GetControlMode(PlayerSlot.PlayerTwo);
+
+        CharacterStats p1Stats = selection.characterDb.GetCharacter(selection.p1SelectedIndex);
+        CharacterStats p2Stats = selection.characterDb.GetCharacter(selection.p2SelectedIndex);
+        CharacterCoordinator p1Controller = SpawnCharacter(
+            p1Stats,
+            p1SpawnPoint,
+            PlayerSlot.PlayerOne,
+            p1Mode,
+            out p1Instance);
+        CharacterCoordinator p2Controller = SpawnCharacter(
+            p2Stats,
+            p2SpawnPoint,
+            PlayerSlot.PlayerTwo,
+            p2Mode,
+            out p2Instance);
+
+        ConfigureInitialControls(selection.matchMode, p1Controller, p2Controller);
+    }
+
+    private bool ValidateSetup(out SelectionManager selection)
+    {
+        selection = SelectionManager.Instance;
+        if (selection == null)
+        {
+            Debug.LogWarning("[RespawnManager] Start from MainMenu so SelectionManager exists.", this);
+            return false;
         }
 
-        SelectionManager selection = SelectionManager.Instance;
         if (selection.characterDb == null || p1SpawnPoint == null || p2SpawnPoint == null)
         {
             Debug.LogError("[RespawnManager] CharacterDatabase and both spawn points are required.", this);
-            return;
+            return false;
         }
 
         if (!IsValidCharacterIndex(selection.characterDb, selection.p1SelectedIndex) ||
             !IsValidCharacterIndex(selection.characterDb, selection.p2SelectedIndex))
         {
             Debug.LogError("[RespawnManager] Both players need a valid character selection.", this);
-            return;
+            return false;
         }
 
-        p1Mode = selection.GetControlMode(PlayerSlot.PlayerOne);
-        p2Mode = selection.GetControlMode(PlayerSlot.PlayerTwo);
+        return true;
+    }
 
-        CharacterStats p1Stats = selection.characterDb.GetCharacter(selection.p1SelectedIndex);
-        p1Instance = Instantiate(p1Stats.characterPrefab, p1SpawnPoint.position, Quaternion.identity);
-
-        CharacterCoordinator p1Controller = null;
-
-        if (p1Instance.TryGetComponent(out CharacterCoordinator p1Ctrl))
+    private CharacterCoordinator SpawnCharacter(
+        CharacterStats stats,
+        Transform spawnPoint,
+        PlayerSlot slot,
+        PlayerMode mode,
+        out GameObject instance)
+    {
+        if (stats == null || stats.characterPrefab == null)
         {
-            p1Controller = p1Ctrl;
-            p1Ctrl.ConfigureControl(PlayerSlot.PlayerOne, p1Mode);
+            Debug.LogError($"[RespawnManager] {slot} needs a valid character prefab.", this);
+            instance = null;
+            return null;
         }
 
-        Vector3 p1Scale = p1Instance.transform.localScale;
-        p1Scale.x = Mathf.Abs(p1Scale.x);
-        p1Instance.transform.localScale = p1Scale;
+        instance = Instantiate(stats.characterPrefab, spawnPoint.position, Quaternion.identity);
 
-        CharacterStats p2Stats = selection.characterDb.GetCharacter(selection.p2SelectedIndex);
-        p2Instance = Instantiate(p2Stats.characterPrefab, p2SpawnPoint.position, Quaternion.identity);
-
-        CharacterCoordinator p2Controller = null;
-
-        if (p2Instance.TryGetComponent(out CharacterCoordinator p2Ctrl))
+        CharacterCoordinator controller = null;
+        if (instance.TryGetComponent(out CharacterCoordinator configuredController))
         {
-            p2Controller = p2Ctrl;
-            p2Ctrl.ConfigureControl(PlayerSlot.PlayerTwo, p2Mode);
+            controller = configuredController;
+            controller.ConfigureControl(slot, mode);
         }
 
-        Vector3 p2Scale = p2Instance.transform.localScale;
-        p2Scale.x = -Mathf.Abs(p2Scale.x);
-        p2Instance.transform.localScale = p2Scale;
+        Vector3 scale = instance.transform.localScale;
+        scale.x = slot == PlayerSlot.PlayerOne ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.x);
+        instance.transform.localScale = scale;
 
-        if (selection.matchMode == MatchMode.PlayerVsPlayer)
+        return controller;
+    }
+
+    private void ConfigureInitialControls(
+        MatchMode matchMode,
+        CharacterCoordinator p1Controller,
+        CharacterCoordinator p2Controller)
+    {
+        if (matchMode == MatchMode.PlayerVsPlayer)
             ConfigureLocal(p1Controller, p2Controller);
 
         p1Controller?.SetControlsEnabled(false);
