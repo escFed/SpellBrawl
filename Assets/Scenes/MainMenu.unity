@@ -1290,7 +1290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSelectUI
   gridContainer: {fileID: 90709306}
   selectImage: {fileID: 90709309}
-  selectText: {fileID: 0}
+  selectText: {fileID: 1167972448}
   selectGrid: {fileID: 1748270585}
   characterButtonPrefab: {fileID: 3963562761126413911, guid: c1366835057adcf418f8350df4e58173, type: 3}
   cardsPanel: {fileID: 729951382}

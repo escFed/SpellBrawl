@@ -26,6 +26,8 @@ public class Dummy : MonoBehaviour, ICombatHitReceiver, IGrabbable
     public TrainingLaunchTrace Trace { get; } = new TrainingLaunchTrace();
     public bool CanBeGrabbed => enabled && gameObject.activeInHierarchy && !isGrabbed;
     public Transform GrabTransform => transform;
+    public bool HasStableGroundContact => HasGroundContact() && body.linearVelocity.y <= 0.01f;
+    public float AerialSuspensionRemaining => aerialSuspensionRemaining;
 
     private readonly KnockbackMotion motion = new KnockbackMotion();
     private Rigidbody2D body;
@@ -35,6 +37,9 @@ public class Dummy : MonoBehaviour, ICombatHitReceiver, IGrabbable
     private RigidbodyType2D bodyTypeBeforeGrab;
     private float gravityScaleBeforeGrab;
     private bool physicsSuspended;
+    private readonly ContactPoint2D[] groundContacts = new ContactPoint2D[8];
+    private float aerialSuspensionRemaining;
+    private float aerialSuspensionGravityMultiplier = 1f;
 
     private void Awake()
     {
@@ -58,6 +63,7 @@ public class Dummy : MonoBehaviour, ICombatHitReceiver, IGrabbable
         motion.Step(body, Time.fixedDeltaTime,
             targetCharacter != null ? targetCharacter.knockbackAirDeceleration : airDeceleration,
             targetCharacter != null ? targetCharacter.knockbackGroundDeceleration : groundDeceleration);
+        StepAerialSuspension();
         // The dummy has neutral movement input, just like a player who releases the stick.
         motion.SetOrdinaryVelocity(body, new Vector2(0f, body.linearVelocity.y - motion.Velocity.y));
     }
@@ -105,7 +111,8 @@ public class Dummy : MonoBehaviour, ICombatHitReceiver, IGrabbable
             targetCharacter != null ? targetCharacter.directionalInfluenceDegrees : 12f);
         HitStunRemaining = Mathf.Max(HitStunRemaining, KnockbackCalculation.CalculateHitStun(hit, velocity));
         Trace.Begin(transform.position, velocity, HitStunRemaining, before, currentDamage);
-        motion.Launch(body, velocity);
+        motion.Launch(body, velocity, hit.AirDecelerationMultiplier);
+        BeginAerialSuspension(hit.DefenderSuspension);
         if (hit.AttackerPlayerIndex >= 0)
             CombatFeedback.PlayImpact(hit.Point, velocity, hit.Reaction, PlayerColors.Get(hit.AttackerPlayerIndex));
         else
@@ -213,8 +220,56 @@ public class Dummy : MonoBehaviour, ICombatHitReceiver, IGrabbable
     {
         Trace.Stop();
         motion.Clear(body);
+        aerialSuspensionRemaining = 0f;
+        aerialSuspensionGravityMultiplier = 1f;
         if (body != null)
             body.angularVelocity = 0f;
+    }
+
+    private void BeginAerialSuspension(AerialSuspension suspension)
+    {
+        if (!suspension.IsActive || body == null || body.bodyType != RigidbodyType2D.Dynamic)
+            return;
+
+        aerialSuspensionRemaining = Mathf.Max(aerialSuspensionRemaining, suspension.Duration);
+        aerialSuspensionGravityMultiplier = Mathf.Min(aerialSuspensionGravityMultiplier, suspension.GravityMultiplier);
+    }
+
+    private void StepAerialSuspension()
+    {
+        if (aerialSuspensionRemaining <= 0f)
+            return;
+
+        if (HasStableGroundContact)
+        {
+            aerialSuspensionRemaining = 0f;
+            aerialSuspensionGravityMultiplier = 1f;
+            return;
+        }
+
+        Vector2 extraGravity = Physics2D.gravity * body.gravityScale * (aerialSuspensionGravityMultiplier - 1f);
+        body.linearVelocity += extraGravity * Time.fixedDeltaTime;
+        aerialSuspensionRemaining = Mathf.Max(0f, aerialSuspensionRemaining - Time.fixedDeltaTime);
+        if (aerialSuspensionRemaining <= 0f)
+            aerialSuspensionGravityMultiplier = 1f;
+    }
+
+    private bool HasGroundContact()
+    {
+        if (body == null)
+            return false;
+
+        int count = body.GetContacts(groundContacts);
+        for (int i = 0; i < count; i++)
+        {
+            ContactPoint2D contact = groundContacts[i];
+            Collider2D surface = contact.collider.attachedRigidbody == body ? contact.otherCollider : contact.collider;
+            if (surface != null && (surface.attachedRigidbody == null ||
+                surface.attachedRigidbody.bodyType != RigidbodyType2D.Dynamic) && contact.normal.y > 0.5f)
+                return true;
+        }
+
+        return false;
     }
 
     private void OnDisable()

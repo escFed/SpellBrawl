@@ -21,6 +21,7 @@ MonoBehaviour:
     hitStunPerSpeed: 0.004
     maxHitStun: 0.35
     directionalInfluence: 1
+    airDecelerationMultiplier: 1
   hitReaction: 0
   hitSound: {fileID: 8300000, guid: 14619561bda68f04bb2f176c827d813b, type: 3}
   energyGain: 10

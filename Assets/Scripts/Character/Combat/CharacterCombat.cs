@@ -2,11 +2,14 @@ using UnityEngine;
 
 public class CharacterCombat : MonoBehaviour
 {
+    private const float AerialComboWindow = 0.9f;
+
     [Header("Combat Settings")]
     public float attackSpeedMultiplier = 1f;
 
     private CharacterCoordinator controller;
     private CharacterHitBox hitBox;
+    private AerialTracker aerialCombo = new AerialTracker();
 
     private void Awake()
     {
@@ -18,10 +21,49 @@ public class CharacterCombat : MonoBehaviour
 
     public void TakeHit(float stunDuration, HitReaction reaction)
     {
+        ResetAerialCombo();
         controller.Grab?.ReleaseGrabbedTarget();
         hitBox.CloseAllHeavyHitboxes();
         Input?.ClearAllInputs();
         controller.States.HitStun.Apply(stunDuration, reaction);
+    }
+
+    private void OnDisable() => ResetAerialCombo();
+
+    public float GetAerialSuspensionStrength(ICombatHitReceiver target, AerialAttackStats stats,
+        out bool targetGrounded)
+    {
+        targetGrounded = IsTargetGrounded(target);
+        if (target == null || stats == null)
+            return 0f;
+
+        return aerialCombo.Preview(target, Time.time, targetGrounded,
+            stats.maximumSuspensionHits, stats.suspensionDecay);
+    }
+
+    public void BeginAerialCombo(ICombatHitReceiver target)
+    {
+        if (target != null)
+            aerialCombo.Begin(target, Time.time, AerialComboWindow);
+    }
+
+    public void RegisterAerialHit(ICombatHitReceiver target, bool targetWasGrounded)
+    {
+        if (target != null)
+            aerialCombo.Confirm(target, Time.time, targetWasGrounded, AerialComboWindow);
+    }
+
+    public void ResetAerialCombo() => aerialCombo.Reset();
+
+    private static bool IsTargetGrounded(ICombatHitReceiver target)
+    {
+        if (target is CharacterHealth health)
+        {
+            CharacterCoordinator targetController = health.GetComponent<CharacterCoordinator>();
+            return targetController != null && targetController.Movement.HasStableGroundContact;
+        }
+
+        return target is Dummy dummy && dummy.HasStableGroundContact;
     }
 
     public ICharacterState ResolveAttackState()

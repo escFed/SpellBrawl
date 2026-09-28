@@ -81,7 +81,8 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
         // Exit the interrupted state before installing the new launch: exits may stop movement.
         controller.Combat.TakeHit(stun, hit.Reaction);
-        controller.Movement.ApplyKnockback(finalKnockback);
+        controller.Movement.ApplyKnockback(finalKnockback, hit.AirDecelerationMultiplier);
+        controller.Movement.BeginAerialSuspension(hit.DefenderSuspension);
         controller.HitFeedback?.Flash(hit.Reaction);
 
         if (hit.AttackerPlayerIndex >= 0)

@@ -63,12 +63,31 @@ public class AttackHitbox : MonoBehaviour
 
         Vector2 directedKnockback = new Vector2(currentKnockback.x * attackerDirection, currentKnockback.y);
         int attackerPlayerIndex = owner != null ? owner.PlayerIndex : -1;
+        AerialAttackStats aerialStats = currentStats as AerialAttackStats;
+        bool targetGroundedBeforeHit = false;
+        float suspensionStrength = owner != null && aerialStats != null
+            ? owner.Combat.GetAerialSuspensionStrength(target, aerialStats, out targetGroundedBeforeHit)
+            : 0f;
+        AerialSuspension defenderSuspension = aerialStats != null
+            ? aerialStats.CreateDefenderSuspension(suspensionStrength)
+            : default;
 
         Vector2 hitPoint = other.ClosestPoint(hitCollider.bounds.center);
         bool applied = target.ReceiveHit(new CombatHit(currentDamage, directedKnockback,
-            currentHitStun, currentHitReaction, hitPoint, attackerPlayerIndex, currentStats.launch, currentGrowth));
+            currentHitStun, currentHitReaction, hitPoint, attackerPlayerIndex, currentStats.launch, currentGrowth,
+            defenderSuspension));
         if (applied)
         {
+            if (owner != null && currentStats is GroundAttackStats groundStats && groundStats.startsAerialCombo)
+                owner.Combat.BeginAerialCombo(target);
+
+            if (owner != null && aerialStats != null)
+            {
+                if (!owner.IsGrounded)
+                    owner.Movement.BeginAerialSuspension(aerialStats.CreateAttackerSuspension(suspensionStrength));
+                owner.Combat.RegisterAerialHit(target, targetGroundedBeforeHit);
+            }
+
             transform.root.GetComponent<EnergyManager>()?.AddEnergy(currentStats.energyGain);
             CombatFeedback.PlayHitSound(currentStats.hitSound);
         }

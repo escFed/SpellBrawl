@@ -21,8 +21,16 @@ MonoBehaviour:
     hitStunPerSpeed: 0.004
     maxHitStun: 0.45
     directionalInfluence: 1
+    airDecelerationMultiplier: 1
   hitReaction: 0
   hitSound: {fileID: 8300000, guid: 14619561bda68f04bb2f176c827d813b, type: 3}
   energyGain: 10
   damage: 4
   knockback: {x: 3, y: 2}
+  attackerSuspensionDuration: 0.1
+  attackerGravityMultiplier: 0.4
+  attackerMaximumDownwardSpeed: 1.5
+  defenderSuspensionDuration: 0.12
+  defenderGravityMultiplier: 0.5
+  suspensionDecay: 0.55
+  maximumSuspensionHits: 2

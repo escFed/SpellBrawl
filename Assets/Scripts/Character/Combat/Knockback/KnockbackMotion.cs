@@ -5,13 +5,15 @@ public sealed class KnockbackMotion
 {
     private readonly ContactPoint2D[] contacts = new ContactPoint2D[16];
     private Vector2 ordinaryVelocity;
+    private float airDecelerationMultiplier = 1f;
     public Vector2 Velocity { get; private set; }
     public bool IsActive => Velocity.sqrMagnitude > 0.000001f;
 
-    public void Launch(Rigidbody2D body, Vector2 velocity)
+    public void Launch(Rigidbody2D body, Vector2 velocity, float airborneDecelerationMultiplier = 1f)
     {
         ordinaryVelocity = Vector2.zero;
         Velocity = velocity;
+        airDecelerationMultiplier = Mathf.Clamp(airborneDecelerationMultiplier, 0.1f, 2f);
         body.linearVelocity = velocity;
     }
 
@@ -19,6 +21,7 @@ public sealed class KnockbackMotion
     {
         ordinaryVelocity = Vector2.zero;
         Velocity = Vector2.zero;
+        airDecelerationMultiplier = 1f;
         // Static bodies have no velocity to clear during death/respawn cleanup.
         if (body != null && body.bodyType != RigidbodyType2D.Static)
             body.linearVelocity = Vector2.zero;
@@ -72,7 +75,7 @@ public sealed class KnockbackMotion
         }
 
         ordinaryVelocity = body.linearVelocity - Velocity;
-        float deceleration = grounded ? groundDeceleration : airDeceleration;
+        float deceleration = grounded ? groundDeceleration : airDeceleration * airDecelerationMultiplier;
         Velocity = Vector2.MoveTowards(Velocity, Vector2.zero, Mathf.Max(0f, deceleration) * Mathf.Max(0f, deltaTime));
         body.linearVelocity = ordinaryVelocity + Velocity;
     }
