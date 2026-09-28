@@ -1,8 +1,8 @@
 using System;
 
-public sealed class CharacterStateMachine
+public class CharacterStateMachine
 {
-    private const int MaximumTransitionsPerRequest = 8;
+    private int MaximumTransitionsPerRequest = 8;
 
     private bool isTransitioning;
     private ICharacterState pendingState;

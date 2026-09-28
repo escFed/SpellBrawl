@@ -13,10 +13,8 @@ public class DeckBuilderUI : MonoBehaviour
     [Header("Selected Cards UI")]
     [SerializeField] public Transform selectedCardsPanel;
     [SerializeField] private GameObject cardVisualPrefab;
-
-    [SerializeField] private TextMeshProUGUI deckSizeText; 
-   
-    private readonly Dictionary<GameObject, GameObject> cardVisuals = new Dictionary<GameObject, GameObject>();
+    [SerializeField] private TextMeshProUGUI deckSizeText;
+    private Dictionary<GameObject, GameObject> cardVisuals = new Dictionary<GameObject, GameObject>();
 
     [Header("UI Settings")]
     [SerializeField] private MenuManager menuManager;
@@ -27,22 +25,38 @@ public class DeckBuilderUI : MonoBehaviour
     public TextMeshProUGUI tooltipTitleText;
     public TextMeshProUGUI tooltipDescText;
     public TextMeshProUGUI costText;
-
-
- 
     public Sprite genericCard;
     public TextMeshProUGUI cardTypeText;
 
-    private readonly List<GameObject> selectedCards = new List<GameObject>();
-    private readonly HashSet<GameObject> selectedCardSet = new HashSet<GameObject>();
+    private List<GameObject> selectedCards = new List<GameObject>();
+    private HashSet<GameObject> selectedCardSet = new HashSet<GameObject>();
+    private PlayerSlot selectingSlot = PlayerSlot.PlayerOne;
+    private bool initialized;
 
     [Header("UI Audio")]
-
     private AudioSource source;
     [SerializeField] private AudioClip aCardSelectedClip;
 
     public void Start()
     {
+        Initialize();
+    }
+
+    public void BeginSelection(PlayerSlot slot)
+    {
+        Initialize();
+        if (!initialized)
+            return;
+
+        selectingSlot = slot;
+        ClearDeck();
+    }
+
+    private void Initialize()
+    {
+        if (initialized)
+            return;
+
         if (rules == null)
         {
             Debug.LogError("[DeckBuilderUI] DeckRules is not assigned.", this);
@@ -58,17 +72,16 @@ public class DeckBuilderUI : MonoBehaviour
             return;
         }
 
-        if(deckSizeText != null)
-
+        if (deckSizeText != null)
             deckSizeText.text = $"{selectedCards.Count}/{rules.DeckSize}";
 
-
-
         source = GetComponent<AudioSource>();
+
         if (source != null)
             GameSettings.RegisterSource(source, GameSound.SoundEffects);
 
         UpdateUI();
+        initialized = true;
     }
 
     public bool AddCardToDeck(GameObject cardPrefab)
@@ -81,42 +94,32 @@ public class DeckBuilderUI : MonoBehaviour
 
         selectedCards.Add(cardPrefab);
 
-        if(deckSizeText != null)
-        deckSizeText.text = $"{selectedCards.Count}/{rules.DeckSize}";
+        if (deckSizeText != null)
+            deckSizeText.text = $"{selectedCards.Count}/{rules.DeckSize}";
 
         if (selectedCardsPanel != null && cardVisualPrefab != null)
         {
             cardVisualPrefab.SetActive(true);
             GameObject cardVisual = Instantiate(cardVisualPrefab, selectedCardsPanel);
-                UICard ui = cardVisual.GetComponent<UICard>();
+            UICard ui = cardVisual.GetComponent<UICard>();
             if (ui != null)
             {
-ui.cardPrefab = cardPrefab;
-ui.deckBuilder = this;
+                ui.cardPrefab = cardPrefab;
+                ui.deckBuilder = this;
                 ui.UpdateVisuals();
 
             }
 
-
-            // Guardar referencia
             cardVisuals[cardPrefab] = cardVisual;
-
-
             RepositionCards();
-
 
             if (source != null && aCardSelectedClip != null)
                 source.PlayOneShot(aCardSelectedClip);
-
         }
-
-
-                UpdateUI();
-                return true;
-            
         
+        UpdateUI();
+        return true;
     }
-
     public bool TryRemoveCard(GameObject cardPrefab)
     {
         if (cardPrefab == null || !selectedCardSet.Remove(cardPrefab))
@@ -125,10 +128,10 @@ ui.deckBuilder = this;
         selectedCards.Remove(cardPrefab);
 
         if (deckSizeText != null)
-           
-        deckSizeText.text = $"{selectedCards.Count}/{rules.DeckSize}";
 
-        if(cardVisuals.TryGetValue(cardPrefab, out GameObject cardVisual))
+            deckSizeText.text = $"{selectedCards.Count}/{rules.DeckSize}";
+
+        if (cardVisuals.TryGetValue(cardPrefab, out GameObject cardVisual))
         {
             Destroy(cardVisual);
             cardVisuals.Remove(cardPrefab);
@@ -147,7 +150,7 @@ ui.deckBuilder = this;
     private void UpdateUI()
     {
         if (deckSizeText != null)
-            deckSizeText.text = $"{selectedCards.Count}/{rules.DeckSize}";
+            deckSizeText.text = rules != null ? $"{GetParticipantLabel()} {selectedCards.Count}/{rules.DeckSize}" : "0/0";
 
         if (startMatchButton != null)
             startMatchButton.interactable = rules != null && selectedCards.Count == rules.DeckSize;
@@ -158,11 +161,12 @@ ui.deckBuilder = this;
         selectedCards.Clear();
         selectedCardSet.Clear();
 
-        foreach(var kvp in cardVisuals)
+        foreach (var kvp in cardVisuals)
         {
-            if(kvp.Value != null)
+            if (kvp.Value != null)
                 Destroy(kvp.Value);
         }
+        cardVisuals.Clear();
         UpdateUI();
         RefreshAllUICards();
     }
@@ -199,7 +203,7 @@ ui.deckBuilder = this;
             selectedCardSet.Add(cardPrefab);
             if (selectedCardsPanel != null && cardVisualPrefab != null)
             {
-               
+
                 GameObject cardVisual = Instantiate(cardVisualPrefab, selectedCardsPanel);
                 cardVisual.SetActive(true);
                 UICard ui = cardVisual.GetComponent<UICard>();
@@ -207,9 +211,9 @@ ui.deckBuilder = this;
                 {
                     ui.cardPrefab = cardPrefab;
                     ui.deckBuilder = this;
-                    
+
                     Image genImage = cardVisual.GetComponentInChildren<Image>();
-                    if(genImage != null && genericCard != null)
+                    if (genImage != null && genericCard != null)
                     {
                         genImage.sprite = genericCard;
                     }
@@ -217,12 +221,8 @@ ui.deckBuilder = this;
                 // Guardar referencia
                 cardVisuals[cardPrefab] = cardVisual;
             }
-
-           
         }
-
         UpdateUI();
-        
     }
 
     private void RefreshAllUICards()
@@ -257,13 +257,28 @@ ui.deckBuilder = this;
         }
 
         if (rules == null || DeckManager.Instance == null ||
-            !DeckManager.Instance.TrySetDeck(selectedCards, rules.DeckSize))
+            !DeckManager.Instance.TrySetDeck(selectingSlot, selectedCards, rules.DeckSize))
         {
             Debug.LogError("[DeckBuilderUI] Cannot start the match with an invalid deck.", this);
             return;
         }
 
+        if (SelectionManager.Instance != null && selectingSlot == PlayerSlot.PlayerOne && ModeRules.UsesCustomDeck(SelectionManager.Instance.matchMode, PlayerSlot.PlayerTwo))
+        {
+            BeginSelection(PlayerSlot.PlayerTwo);
+            UIFocus.SelectFirst(gameObject);
+            return;
+        }
+
         menuManager.ShowMapSelect();
+    }
+
+    private string GetParticipantLabel()
+    {
+        if (SelectionManager.Instance != null)
+            return SelectionManager.Instance.GetDisplayName(selectingSlot);
+
+        return selectingSlot == PlayerSlot.PlayerOne ? "Player 1" : "Player 2";
     }
 
     private void RepositionCards()
@@ -277,13 +292,9 @@ ui.deckBuilder = this;
                 float offsetX = index * 13f; // separación horizontal
                 Vector3 targetPos = new Vector3(offsetX, 0f, 0f);
 
-                LeanTween.moveLocal(cardVisual, targetPos, 0.5f)
-                         .setEase(LeanTweenType.easeOutQuint);
-
+                LeanTween.moveLocal(cardVisual, targetPos, 0.5f).setEase(LeanTweenType.easeOutQuint);
                 index++;
             }
         }
     }
-
 }
-

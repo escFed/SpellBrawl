@@ -61,11 +61,11 @@ public class GameManager : MonoBehaviour
 
         if (p1RoundsWon >= roundsToWin)
         {
-            ShowVictoryScreen("Player 1 Wins");
+            ShowVictoryScreen(GetWinnerMessage(PlayerSlot.PlayerOne));
         }
         else if (p2RoundsWon >= roundsToWin)
         {
-            ShowVictoryScreen("AI Wins");
+            ShowVictoryScreen(GetWinnerMessage(PlayerSlot.PlayerTwo));
         }
         else
         {
@@ -107,6 +107,12 @@ public class GameManager : MonoBehaviour
             UIFocus.SelectFirst(victoryPanel);
         }
         Time.timeScale = 0f;
+    }
+
+    private static string GetWinnerMessage(PlayerSlot slot)
+    {
+        string winnerName = SelectionManager.Instance != null ? SelectionManager.Instance.GetDisplayName(slot): ModeRules.GetDisplayName(MatchMode.PlayerVsPlayer, slot);
+        return $"{winnerName} Wins";
     }
 
     public void Rematch()

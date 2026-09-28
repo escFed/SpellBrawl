@@ -140,7 +140,7 @@ public class UIManager : MonoBehaviour
 
         if (percent != null)
         {
-            percent.text = $"{damage}%";
+            percent.text = $"{damage}";
             LeanTween.cancel(percent.gameObject);
 
             // Determina el color objetivo según el daño

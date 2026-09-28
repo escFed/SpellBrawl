@@ -23,11 +23,11 @@ public class CharacterMovement : MonoBehaviour
     public Vector2 KnockbackVelocity => knockbackMotion.Velocity;
     public Vector2 OrdinaryVelocity => rb.linearVelocity - KnockbackVelocity;
 
-    public void ApplyKnockback(Vector2 velocity)
+    public void ApplyKnockback(Vector2 velocity, float airDecelerationMultiplier = 1f)
     {
         ResetAirMovementState();
         controller.CancelGroundJumpAvailability();
-        knockbackMotion.Launch(rb, velocity);
+        knockbackMotion.Launch(rb, velocity, airDecelerationMultiplier);
     }
 
     public void ResetKnockback() => knockbackMotion.Clear(rb);
@@ -39,9 +39,12 @@ public class CharacterMovement : MonoBehaviour
     private Vector2 standingColliderSize;
     private Vector2 standingColliderOffset;
     private float activeJumpGravityMultiplier = 1f;
+    private float aerialSuspensionRemaining;
+    private float aerialSuspensionGravityMultiplier = 1f;
     private bool fastFallInputArmed = true;
 
     public bool IsCrouching { get; private set; }
+    public float AerialSuspensionRemaining => aerialSuspensionRemaining;
 
     private void Awake()
     {
@@ -70,10 +73,15 @@ public class CharacterMovement : MonoBehaviour
 
     public void RefreshGroundedState()
     {
+        bool wasGrounded = IsGrounded;
         IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
         if (HasStableGroundContact)
+        {
+            if (!wasGrounded)
+                controller.Combat.ResetAerialCombo();
             ResetAirMovementState();
+        }
     }
 
     // Called explicitly before the current state's physics update, after collision resolution.
@@ -83,21 +91,42 @@ public class CharacterMovement : MonoBehaviour
             controller.stats.knockbackGroundDeceleration);
         if (rb.bodyType != RigidbodyType2D.Dynamic)
         {
-            activeJumpGravityMultiplier = 1f;
+            ResetAirMovementState();
             return;
         }
-
-        if (activeJumpGravityMultiplier == 1f)
-            return;
 
         if (IsGrounded && rb.linearVelocity.y <= 0.01f)
         {
-            activeJumpGravityMultiplier = 1f;
+            ResetAirMovementState();
             return;
         }
 
-        Vector2 extraGravity = Physics2D.gravity * rb.gravityScale * (activeJumpGravityMultiplier - 1f);
-        rb.linearVelocity += extraGravity * Time.fixedDeltaTime;
+        float gravityMultiplier = activeJumpGravityMultiplier;
+        if (aerialSuspensionRemaining > 0f)
+        {
+            gravityMultiplier *= aerialSuspensionGravityMultiplier;
+            aerialSuspensionRemaining = Mathf.Max(0f, aerialSuspensionRemaining - Time.fixedDeltaTime);
+            if (aerialSuspensionRemaining <= 0f)
+                aerialSuspensionGravityMultiplier = 1f;
+        }
+
+        if (!Mathf.Approximately(gravityMultiplier, 1f))
+        {
+            Vector2 extraGravity = Physics2D.gravity * rb.gravityScale * (gravityMultiplier - 1f);
+            rb.linearVelocity += extraGravity * Time.fixedDeltaTime;
+        }
+    }
+
+    public void BeginAerialSuspension(AerialSuspension suspension)
+    {
+        if (!suspension.IsActive || rb == null || rb.bodyType != RigidbodyType2D.Dynamic)
+            return;
+
+        aerialSuspensionRemaining = Mathf.Max(aerialSuspensionRemaining, suspension.Duration);
+        aerialSuspensionGravityMultiplier = Mathf.Min(aerialSuspensionGravityMultiplier, suspension.GravityMultiplier);
+
+        if (suspension.MaximumDownwardSpeed > 0f && OrdinaryVelocity.y < -suspension.MaximumDownwardSpeed)
+            SetOrdinaryVelocity(new Vector2(OrdinaryVelocity.x, -suspension.MaximumDownwardSpeed));
     }
 
     public void ApplyHorizontalMovement()
@@ -221,6 +250,8 @@ public class CharacterMovement : MonoBehaviour
     private void ResetAirMovementState()
     {
         activeJumpGravityMultiplier = 1f;
+        aerialSuspensionRemaining = 0f;
+        aerialSuspensionGravityMultiplier = 1f;
         IsFastFalling = false;
         CurrentJumpType = JumpType.None;
         fastFallInputArmed = controller == null || controller.stats == null || controller.ActiveInput == null || controller.MoveInput.y >= -controller.stats.tiltThreshold;

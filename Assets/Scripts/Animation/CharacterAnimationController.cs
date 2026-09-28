@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class CharacterAnimationController
+public class CharacterAnimationController
 {
-    private const int BaseLayer = 0;
+    private int BaseLayer = 0;
 
-    private readonly Animator animator;
-    private readonly Object logContext;
-    private readonly Dictionary<int, AnimatorControllerParameterType> parameterTypes = new();
-    private readonly HashSet<string> reportedConfigurationIssues = new();
+    private Animator animator;
+    private Object logContext;
+    private Dictionary<int, AnimatorControllerParameterType> parameterTypes = new();
+    private HashSet<string> reportedConfigurationIssues = new();
 
     public CharacterAnimationController(Animator animator, Object logContext = null)
     {
@@ -24,9 +24,7 @@ public sealed class CharacterAnimationController
 
         if (!animator.HasState(BaseLayer, stateHash))
         {
-            ReportOnce(
-                $"state:{stateHash}",
-                $"Animator state hash '{stateHash}' is not configured on '{animator.name}'.");
+            ReportOnce($"state:{stateHash}",$"Animator state hash '{stateHash}' is not configured on '{animator.name}'.");
             return false;
         }
 
@@ -82,8 +80,7 @@ public sealed class CharacterAnimationController
 
     public bool TryFitCurrentStateToDuration(int stateHash, int speedParameterHash, float duration)
     {
-        if (duration <= 0f || !HasParameter(speedParameterHash, AnimatorControllerParameterType.Float) ||
-            !CanUseAnimator() || !animator.isActiveAndEnabled)
+        if (duration <= 0f || !HasParameter(speedParameterHash, AnimatorControllerParameterType.Float) || !CanUseAnimator() || !animator.isActiveAndEnabled)
             return false;
 
         animator.Update(0f);
@@ -137,11 +134,7 @@ public sealed class CharacterAnimationController
         if (animator != null && animator.layerCount > BaseLayer)
             return true;
 
-        ReportOnce(
-            "animator",
-            animator == null
-                ? "Character animation request ignored because no Animator is configured."
-                : $"Character animation request ignored because '{animator.name}' has no base layer.");
+        ReportOnce("animator",animator == null? "Character animation request ignored because no Animator is configured.": $"Character animation request ignored because '{animator.name}' has no base layer.");
         return false;
     }
 

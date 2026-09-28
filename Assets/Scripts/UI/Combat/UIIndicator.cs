@@ -11,6 +11,10 @@ public class UIIndicator : MonoBehaviour
     public string p1Name = "P1";
     public Color p1Color = new Color(1f, 0.2f, 0.2f);
 
+    [Header("P2")]
+    public string p2Name = "P2";
+    public Color p2Color = new Color(0.2f, 0.4f, 1f);
+
     [Header("IA")]
     public string iaName = "IA";
     public Color iaColor = new Color(0.2f, 0.4f, 1f);
@@ -23,24 +27,35 @@ public class UIIndicator : MonoBehaviour
         myParent = transform.parent;
         originalScale = transform.localScale;
 
-
         CharacterCoordinator character = GetComponentInParent<CharacterCoordinator>();
-
         if (character != null)
+            Configure(character.Slot, character.Mode);
+    }
+
+    public void Configure(PlayerSlot slot, PlayerMode mode)
+    {
+        if (mode == PlayerMode.AI)
         {
-            if (character.PlayerIndex == 0)
-            {
-                if (indicatorText != null) indicatorText.text = p1Name;
-                if (indicatorText != null) indicatorText.color = p1Color;
-                if (arrowImage != null) arrowImage.color = p1Color;
-            }
-            else 
-            {
-                if (indicatorText != null) indicatorText.text = iaName;
-                if (indicatorText != null) indicatorText.color = iaColor;
-                if (arrowImage != null) arrowImage.color = iaColor;
-            }
+            ApplyPresentation(iaName, iaColor);
+            return;
         }
+
+        if (slot == PlayerSlot.PlayerOne)
+            ApplyPresentation(p1Name, p1Color);
+        else
+            ApplyPresentation(p2Name, p2Color);
+    }
+
+    private void ApplyPresentation(string label, Color color)
+    {
+        if (indicatorText != null)
+        {
+            indicatorText.text = label;
+            indicatorText.color = color;
+        }
+
+        if (arrowImage != null)
+            arrowImage.color = color;
     }
 
     private void LateUpdate()
@@ -51,10 +66,6 @@ public class UIIndicator : MonoBehaviour
 
         float fixX = myParent.localScale.x < 0 ? -1f : 1f;
 
-        transform.localScale = new Vector3(
-            Mathf.Abs(originalScale.x) * fixX,
-            originalScale.y,
-            originalScale.z
-        );
+        transform.localScale = new Vector3(Mathf.Abs(originalScale.x) * fixX, originalScale.y, originalScale.z);
     }
 }

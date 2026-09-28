@@ -11,5 +11,6 @@ public sealed class KnockbackProfile
     [InspectorName("Final Hit Stun Cap"), Min(0f)] public float maxHitStun = 0.8f;
     [Tooltip("Defender angle control for this move. Zero preserves its authored direction.")]
     [Range(0f, 1f)] public float directionalInfluence = 1f;
+    [Tooltip("Multiplier applied to the defender's airborne knockback decay. Values below one keep launch momentum longer.")]
+    [Range(0.1f, 2f)] public float airDecelerationMultiplier = 1f;
 }
-

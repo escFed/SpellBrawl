@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class RespawnManager : MonoBehaviour
 {
@@ -31,37 +32,136 @@ public class RespawnManager : MonoBehaviour
 
     private void InitialSpawn()
     {
-        if (SelectionManager.Instance == null)
+        if (!ValidateSetup(out SelectionManager selection))
+            return;
+
+        p1Mode = selection.GetControlMode(PlayerSlot.PlayerOne);
+        p2Mode = selection.GetControlMode(PlayerSlot.PlayerTwo);
+
+        CharacterStats p1Stats = selection.characterDb.GetCharacter(selection.p1SelectedIndex);
+        CharacterStats p2Stats = selection.characterDb.GetCharacter(selection.p2SelectedIndex);
+        CharacterCoordinator p1Controller = SpawnCharacter(
+            p1Stats,
+            p1SpawnPoint,
+            PlayerSlot.PlayerOne,
+            p1Mode,
+            out p1Instance);
+        CharacterCoordinator p2Controller = SpawnCharacter(
+            p2Stats,
+            p2SpawnPoint,
+            PlayerSlot.PlayerTwo,
+            p2Mode,
+            out p2Instance);
+
+        ConfigureInitialControls(selection.matchMode, p1Controller, p2Controller);
+    }
+
+    private bool ValidateSetup(out SelectionManager selection)
+    {
+        selection = SelectionManager.Instance;
+        if (selection == null)
         {
-            Debug.LogWarning("�Inicia desde el MainMenu para que el SelectionManager exista!");
+            Debug.LogWarning("[RespawnManager] Start from MainMenu so SelectionManager exists.", this);
+            return false;
+        }
+
+        if (selection.characterDb == null || p1SpawnPoint == null || p2SpawnPoint == null)
+        {
+            Debug.LogError("[RespawnManager] CharacterDatabase and both spawn points are required.", this);
+            return false;
+        }
+
+        if (!IsValidCharacterIndex(selection.characterDb, selection.p1SelectedIndex) ||
+            !IsValidCharacterIndex(selection.characterDb, selection.p2SelectedIndex))
+        {
+            Debug.LogError("[RespawnManager] Both players need a valid character selection.", this);
+            return false;
+        }
+
+        return true;
+    }
+
+    private CharacterCoordinator SpawnCharacter(
+        CharacterStats stats,
+        Transform spawnPoint,
+        PlayerSlot slot,
+        PlayerMode mode,
+        out GameObject instance)
+    {
+        if (stats == null || stats.characterPrefab == null)
+        {
+            Debug.LogError($"[RespawnManager] {slot} needs a valid character prefab.", this);
+            instance = null;
+            return null;
+        }
+
+        instance = Instantiate(stats.characterPrefab, spawnPoint.position, Quaternion.identity);
+
+        CharacterCoordinator controller = null;
+        if (instance.TryGetComponent(out CharacterCoordinator configuredController))
+        {
+            controller = configuredController;
+            controller.ConfigureControl(slot, mode);
+        }
+
+        Vector3 scale = instance.transform.localScale;
+        scale.x = slot == PlayerSlot.PlayerOne ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.x);
+        instance.transform.localScale = scale;
+
+        return controller;
+    }
+
+    private void ConfigureInitialControls(
+        MatchMode matchMode,
+        CharacterCoordinator p1Controller,
+        CharacterCoordinator p2Controller)
+    {
+        if (matchMode == MatchMode.PlayerVsPlayer)
+            ConfigureLocal(p1Controller, p2Controller);
+
+        p1Controller?.SetControlsEnabled(false);
+        p2Controller?.SetControlsEnabled(false);
+    }
+
+    private static bool IsValidCharacterIndex(CharacterDatabase database, int index)
+    {
+        return database != null && index >= 0 && index < database.CharacterCount;
+    }
+
+    private void ConfigureLocal(CharacterCoordinator p1Controller, CharacterCoordinator p2Controller)
+    {
+        if (p1Controller == null || p2Controller == null)
+            return;
+
+        PlayerInput p1Input = p1Controller.GetComponent<PlayerInput>();
+        PlayerInput p2Input = p2Controller.GetComponent<PlayerInput>();
+        if (p1Input == null || p2Input == null)
+        {
+            Debug.LogError("[RespawnManager] Both human characters require PlayerInput components.", this);
             return;
         }
 
-        CharacterStats p1Stats = SelectionManager.Instance.characterDb.GetCharacter(SelectionManager.Instance.p1SelectedIndex);
-        p1Instance = Instantiate(p1Stats.characterPrefab, p1SpawnPoint.position, Quaternion.identity);
+        p1Input.neverAutoSwitchControlSchemes = true;
+        p2Input.neverAutoSwitchControlSchemes = true;
 
-        if (p1Instance.TryGetComponent(out CharacterCoordinator p1Ctrl))
+        if (Gamepad.all.Count >= 2)
         {
-            p1Ctrl.ConfigureControl(PlayerSlot.PlayerOne, p1Mode);
-            p1Ctrl.SetControlsEnabled(false);
+            p1Input.SwitchCurrentControlScheme("Gamepad", Gamepad.all[0]);
+            p2Input.SwitchCurrentControlScheme("Gamepad", Gamepad.all[1]);
+            return;
         }
 
-        Vector3 p1Scale = p1Instance.transform.localScale;
-        p1Scale.x = Mathf.Abs(p1Scale.x);
-        p1Instance.transform.localScale = p1Scale;
-
-        CharacterStats aiStats = SelectionManager.Instance.characterDb.GetCharacter(SelectionManager.Instance.aiSelectedIndex);
-        p2Instance = Instantiate(aiStats.characterPrefab, p2SpawnPoint.position, Quaternion.identity);
-
-        if (p2Instance.TryGetComponent(out CharacterCoordinator p2Ctrl))
+        if (Gamepad.all.Count >= 1 && Keyboard.current != null && Mouse.current != null)
         {
-            p2Ctrl.ConfigureControl(PlayerSlot.PlayerTwo, p2Mode);
-            p2Ctrl.SetControlsEnabled(false);
+            p1Input.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current, Mouse.current);
+            p2Input.SwitchCurrentControlScheme("Gamepad", Gamepad.all[0]);
+            return;
         }
 
-        Vector3 aiScale = p2Instance.transform.localScale;
-        aiScale.x = -Mathf.Abs(aiScale.x);
-        p2Instance.transform.localScale = aiScale;
+        Debug.LogError(
+            "[RespawnManager] Local 1 vs 1 requires two gamepads, or a keyboard/mouse plus one gamepad. " +
+            "The current input bindings cannot split one keyboard between both players.",
+            this);
     }
 
     public void RespawnPlayerAfterFall(CharacterHealth health, int playerIndex)
