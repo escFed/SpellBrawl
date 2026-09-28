@@ -425,8 +425,11 @@ public class UIManager : MonoBehaviour
                 LeanTween.scale(uiSlots[i].gameObject, Vector3.one, 2.3f)
                     .setEase(LeanTweenType.easeOutBack)
                     .setDelay(0.2f * (i - 2)); // escalonado
-                source.PlayOneShot(cardProgressionSound);
+               
+
             }
+            source.PlayOneShot(cardProgressionSound);
+
         }
     }
 
