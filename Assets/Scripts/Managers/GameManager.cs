@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         AudioListener.pause = false;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        LoadingScreen.LoadStage(SceneManager.GetActiveScene().name);
     }
 
     public void GoToMainMenu()

@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,6 +8,10 @@ public class StageSelectionUI : MonoBehaviour
 {
     [Header("Selection UI")]
     [SerializeField] private TextMeshProUGUI mapNameText;
+
+    [Header("Transition")]
+    [SerializeField] private CanvasGroup blackTransition;
+    [SerializeField, Min(0f)] private float transitionSeconds = 0.4f;
 
     [Header("Scenes")]
     [SerializeField] private string map1SceneName = "Stage1";
@@ -18,6 +23,7 @@ public class StageSelectionUI : MonoBehaviour
     [SerializeField] private string randomDisplayName = "Random";
 
     private MapPool selectedMap = MapPool.Stage1;
+    private bool transitionStarted;
 
     private void OnEnable()
     {
@@ -41,6 +47,9 @@ public class StageSelectionUI : MonoBehaviour
 
     public void StartMatch()
     {
+        if (transitionStarted)
+            return;
+
         string sceneName = ResolveSelectedSceneName();
         if (string.IsNullOrWhiteSpace(sceneName))
         {
@@ -56,7 +65,29 @@ public class StageSelectionUI : MonoBehaviour
             return;
         }
 
-        SceneManager.LoadScene(sceneName);
+        if (blackTransition == null)
+        {
+            Debug.LogError("[StageSelectionUI] Assign the black transition CanvasGroup.", this);
+            return;
+        }
+
+        transitionStarted = true;
+        StartCoroutine(EnterLoadingScreen(sceneName));
+    }
+
+    private IEnumerator EnterLoadingScreen(string sceneName)
+    {
+        blackTransition.gameObject.SetActive(true);
+        blackTransition.alpha = 0f;
+        float elapsed = 0f;
+        while (elapsed < transitionSeconds)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            blackTransition.alpha = Mathf.Clamp01(elapsed / Mathf.Max(0.001f, transitionSeconds));
+            yield return null;
+        }
+        blackTransition.alpha = 1f;
+        LoadingScreen.LoadStage(sceneName);
     }
 
     private void SetSelection(MapPool choice)

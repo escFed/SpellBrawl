@@ -55,8 +55,6 @@ public class TsunamiCard : MonoBehaviour, ICardable
 
         if (target != null)
         {
-            int damageAmount = 50;
-
             if (tsunamiPrefab != null)
             {
                 GameObject waveInstance = Instantiate(tsunamiPrefab, character.transform.position, Quaternion.identity);
@@ -76,8 +74,6 @@ public class TsunamiCard : MonoBehaviour, ICardable
             {
                 Debug.LogError("❌ Prefab Tsunami no asignado en TsunamiCard.");
             }
-
-            Debug.Log($"{character.name} usó {cardName} contra {target.name}, causando {damageAmount} de daño!");
         }
         else
         {

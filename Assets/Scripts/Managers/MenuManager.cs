@@ -172,7 +172,7 @@ public class MenuManager : MonoBehaviour
 
     public void GoToStage1()
     {
-        SceneManager.LoadScene("Stage1");
+        LoadingScreen.LoadStage("Stage1");
     }
 
     public void ShowControls()
