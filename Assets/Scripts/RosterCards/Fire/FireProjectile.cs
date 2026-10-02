@@ -27,6 +27,7 @@ public class FireProjectile : MonoBehaviour
             ? controller.PlayerIndex
             : -1;
         rb.linearVelocity = direction.normalized * speed;
+        AIDangerSource.Attach(gameObject, caster, 0.5f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

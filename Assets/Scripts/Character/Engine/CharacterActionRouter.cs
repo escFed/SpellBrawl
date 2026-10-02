@@ -27,7 +27,8 @@ public sealed class CharacterActionRouter
         if (TryHandleShield(input))
             return true;
 
-        if (!machine.Is(States.HeavyAttack))
+        // Preserve facing while holding a target so opposite directional input can select Back Throw.
+        if (!machine.Is(States.HeavyAttack) && !character.Grab.HasGrabbedTarget)
             character.Combat.FaceDirection(character.MoveInput.x);
 
         if (TryHandleDash(input))

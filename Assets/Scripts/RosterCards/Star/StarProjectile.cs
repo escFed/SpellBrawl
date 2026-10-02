@@ -23,6 +23,7 @@ public class StarProjectile : MonoBehaviour
             : -1;
 
         Destroy(gameObject, lifeTime);
+        AIDangerSource.Attach(gameObject, caster, 0.55f, target);
     }
 
     private void Update()

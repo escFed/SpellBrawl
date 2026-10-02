@@ -19,6 +19,7 @@ public class ThunderProjectile : MonoBehaviour
             ? controller.PlayerIndex
             : -1;
         Destroy(gameObject, lifeTime);
+        AIDangerSource.Attach(gameObject, caster, 1f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

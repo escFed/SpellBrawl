@@ -40,18 +40,25 @@ public class AITarget
         TargetController = null;
         TargetHealth = null;
         Target = null;
+        float closestDistanceSquared = float.PositiveInfinity;
 
         foreach (CharacterCoordinator player in allPlayers)
         {
             if (player == selfController || player.IsDead)
                 continue;
 
+            float distanceSquared = (player.transform.position - selfController.transform.position).sqrMagnitude;
+            if (distanceSquared >= closestDistanceSquared)
+                continue;
+
+            closestDistanceSquared = distanceSquared;
             TargetController = player;
             TargetHealth = player.GetComponent<CharacterHealth>();
             Target = player.transform;
-            PerceivedTargetPosition = Target.position;
-            return;
         }
+
+        if (Target != null)
+            PerceivedTargetPosition = Target.position;
     }
 }
 

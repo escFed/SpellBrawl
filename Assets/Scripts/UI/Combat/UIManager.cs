@@ -224,8 +224,6 @@ public class UIManager : MonoBehaviour
 
     private void UpdateHandUI(int playerIndex, HandSlotView[] hand)
     {
-        Debug.Log($"UpdateHandUI called - Player: {playerIndex}, Hand length: {hand.Length}");
-
         Image[] uiSlots = (playerIndex == 0) ? p1_cards : p2_cards;
         if (playerIndex == 0)
         {
@@ -243,8 +241,6 @@ public class UIManager : MonoBehaviour
         {
             Image slotImage = uiSlots[i];
             if (slotImage == null) continue;
-
-            Debug.Log($"  Slot {i}: IsUnlocked={i < hand.Length && hand[i].IsUnlocked}");
 
             // Si el índice está fuera del rango de la mano o no está desbloqueado
             if (i >= hand.Length || !hand[i].IsUnlocked)

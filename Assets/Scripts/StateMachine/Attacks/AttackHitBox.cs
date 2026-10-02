@@ -73,25 +73,62 @@ public class AttackHitbox : MonoBehaviour
             : default;
 
         Vector2 hitPoint = other.ClosestPoint(hitCollider.bounds.center);
-        bool applied = target.ReceiveHit(new CombatHit(currentDamage, directedKnockback,
-            currentHitStun, currentHitReaction, hitPoint, attackerPlayerIndex, currentStats.launch, currentGrowth,
-            defenderSuspension));
+        CombatHit hit = new CombatHit(currentDamage, directedKnockback, currentHitStun, currentHitReaction, hitPoint, attackerPlayerIndex, currentStats.launch, currentGrowth, defenderSuspension);
+
+        CharacterCoordinator defender = other.GetComponentInParent<CharacterCoordinator>();
+        AttackContact contact = new AttackContact(this ,owner ,defender ,target ,hit ,currentStats ,aerialStats ,targetGroundedBeforeHit, suspensionStrength, Time.fixedTimeAsDouble, IsEligibleForGroundClash(defender));
+
+        CombatExchangeResolver.Register(contact);
+        hasHit = true;
+    }
+
+    public void ResolveContact(AttackContact contact)
+    {
+        if (contact == null || contact.Target == null)
+            return;
+
+        if (contact.Target is Object targetObject && targetObject == null)
+            return;
+
+        bool applied = contact.Target.ReceiveHit(contact.Hit);
         if (applied)
         {
-            if (owner != null && currentStats is GroundAttackStats groundStats && groundStats.startsAerialCombo)
-                owner.Combat.BeginAerialCombo(target);
+            if (contact.Attacker != null && contact.Stats is GroundAttackStats groundStats && groundStats.startsAerialCombo)
+                contact.Attacker.Combat.BeginAerialCombo(contact.Target);
 
-            if (owner != null && aerialStats != null)
+            if (contact.Attacker != null && contact.AerialStats != null)
             {
-                if (!owner.IsGrounded)
-                    owner.Movement.BeginAerialSuspension(aerialStats.CreateAttackerSuspension(suspensionStrength));
-                owner.Combat.RegisterAerialHit(target, targetGroundedBeforeHit);
+                if (!contact.Attacker.IsGrounded)
+                    contact.Attacker.Movement.BeginAerialSuspension(
+                        contact.AerialStats.CreateAttackerSuspension(contact.SuspensionStrength));
+                contact.Attacker.Combat.RegisterAerialHit(contact.Target, contact.TargetGroundedBeforeHit);
             }
 
-            transform.root.GetComponent<EnergyManager>()?.AddEnergy(currentStats.energyGain);
-            CombatFeedback.PlayHitSound(currentStats.hitSound);
+            contact.Attacker?.GetComponent<EnergyManager>()?.AddEnergy(contact.Stats.energyGain);
+            CombatFeedback.PlayHitSound(contact.Stats.hitSound);
         }
-        hasHit = true;
+    }
+
+    private bool IsEligibleForGroundClash(CharacterCoordinator defender)
+    {
+        if (currentStats is not GroundAttackStats || owner == null || defender == null || owner == defender)
+            return false;
+
+        CharacterHealth ownerHealth = owner.Health;
+        CharacterHealth defenderHealth = defender.Health;
+        if (ownerHealth == null || defenderHealth == null ||
+            ownerHealth.Phase != RespawnPhase.Active || defenderHealth.Phase != RespawnPhase.Active ||
+            ownerHealth.IsIntangible || defenderHealth.IsIntangible)
+            return false;
+
+        if (!owner.Movement.HasStableGroundContact || !defender.Movement.HasStableGroundContact)
+            return false;
+
+        if (owner.IsParrying || defender.IsParrying)
+            return false;
+
+        return (owner.Shield == null || !owner.Shield.IsActive) &&
+            (defender.Shield == null || !defender.Shield.IsActive);
     }
 
     private void OnDrawGizmos()

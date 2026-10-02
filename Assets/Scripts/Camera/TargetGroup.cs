@@ -12,30 +12,68 @@ public class TargetGroup : MonoBehaviour
         RefreshTargets(true);
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         checkTimer -= Time.deltaTime;
         if (checkTimer <= 0)
         {
             checkTimer = 0.5f;
             RefreshTargets(false);
+            return;
         }
+
+        SyncTargetWeights();
     }
 
     public void RefreshTargets(bool forceRefresh = false)
     {
         if (targetGroup == null) return;
 
-        CharacterCoordinator[] alivePlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
+        CharacterCoordinator[] players = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
 
-        if (forceRefresh || targetGroup.Targets.Count != alivePlayers.Length)
+        if (forceRefresh || !TargetsMatch(players))
         {
             targetGroup.Targets.Clear();
 
-            foreach (CharacterCoordinator p in alivePlayers)
+            foreach (CharacterCoordinator player in players)
             {
-                targetGroup.AddMember(p.transform, 1f, 3f);
+                targetGroup.AddMember(player.transform, GetCameraWeight(player), 3f);
             }
+
+            return;
         }
+
+        SyncTargetWeights();
+    }
+
+    private bool TargetsMatch(CharacterCoordinator[] players)
+    {
+        if (targetGroup.Targets.Count != players.Length)
+            return false;
+
+        foreach (CharacterCoordinator player in players)
+            if (player == null || targetGroup.FindMember(player.transform) < 0)
+                return false;
+
+        return true;
+    }
+
+    private void SyncTargetWeights()
+    {
+        if (targetGroup == null)
+            return;
+
+        foreach (CinemachineTargetGroup.Target target in targetGroup.Targets)
+        {
+            CharacterCoordinator player = target.Object != null
+                ? target.Object.GetComponent<CharacterCoordinator>()
+                : null;
+            target.Weight = GetCameraWeight(player);
+        }
+    }
+
+    private static float GetCameraWeight(CharacterCoordinator player)
+    {
+        return player != null && player.Health != null && player.Health.ShouldCameraTrack ? 1f : 0f;
     }
 }

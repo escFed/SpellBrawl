@@ -20,6 +20,12 @@ public class CharacterStats : ScriptableObject
     [Tooltip("Downward speed while fast falling. Use a negative value; closer to zero is slower, capped by maxFallSpeed.")]
     public float fastFallSpeed = -20f;
 
+    [Header("Wall Jump Stats")]
+    [Min(0f)] public float wallJumpHorizontalSpeed = 8f;
+    [Min(0f)] public float wallJumpVerticalSpeed = 11f;
+    [Min(0f)] public float wallJumpControlLockTime = 0.12f;
+    [Min(0f)] public float wallCoyoteTime = 0.08f;
+
     [Header("Combat Stats")]
     public float tiltThreshold = 0.3f;
     public float defenseMultiplier = 1f;

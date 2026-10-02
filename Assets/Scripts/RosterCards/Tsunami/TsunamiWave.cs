@@ -20,6 +20,7 @@ public class TsunamiWave : MonoBehaviour
         target = targetTransform;
         lifeTime = waveLifeTime;
         Destroy(gameObject, lifeTime);
+        AIDangerSource.Attach(gameObject, caster, 1.1f, target);
     }
    
     // Update is called once per frame

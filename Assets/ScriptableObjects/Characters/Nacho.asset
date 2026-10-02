@@ -24,8 +24,13 @@ MonoBehaviour:
   weight: 100
   maxFallSpeed: -15
   fastFallSpeed: -20
+  wallJumpHorizontalSpeed: 8
+  wallJumpVerticalSpeed: 11
+  wallJumpControlLockTime: 0.12
+  wallCoyoteTime: 0.08
   tiltThreshold: 0.3
   defenseMultiplier: 1
+  strongHitStunThreshold: 0.5
   directionalInfluenceDegrees: 12
   knockbackAirDeceleration: 10
   knockbackGroundDeceleration: 40

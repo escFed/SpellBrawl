@@ -9,6 +9,11 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckRadius = 0.2f;
 
+    [Header("Wall Check")]
+    [SerializeField] private LayerMask wallJumpLayer;
+    [SerializeField, Min(0f)] private float wallCheckDistance = 0.08f;
+    [SerializeField, Range(0f, 1f)] private float minimumWallNormalX = 0.7f;
+
     [Header("Movement Modifiers")]
     public float moveSpeedMultiplier = 1f;
 
@@ -16,6 +21,10 @@ public class CharacterMovement : MonoBehaviour
     public bool HasStableGroundContact => IsGrounded && rb != null && rb.linearVelocity.y <= 0.01f;
     public bool IsFastFalling { get; private set; }
     public JumpType CurrentJumpType { get; private set; }
+    public bool IsTouchingWall => WallSide != 0 && WallCollider != null;
+    public int WallSide { get; private set; }
+    public Collider2D WallCollider { get; private set; }
+    public bool HasWallJumpControlLock => wallJumpControlLockRemaining > 0f;
 
     private CharacterCoordinator controller;
     private Rigidbody2D rb;
@@ -42,6 +51,9 @@ public class CharacterMovement : MonoBehaviour
     private float aerialSuspensionRemaining;
     private float aerialSuspensionGravityMultiplier = 1f;
     private bool fastFallInputArmed = true;
+    private float wallJumpControlLockRemaining;
+    private ContactFilter2D wallContactFilter;
+    private readonly RaycastHit2D[] wallCastResults = new RaycastHit2D[8];
 
     public bool IsCrouching { get; private set; }
     public float AerialSuspensionRemaining => aerialSuspensionRemaining;
@@ -51,6 +63,7 @@ public class CharacterMovement : MonoBehaviour
         controller = GetComponent<CharacterCoordinator>();
         rb = GetComponent<Rigidbody2D>();
         bodyCollider = GetComponent<CapsuleCollider2D>();
+        ConfigureWallContactFilter();
 
         if (bodyCollider != null)
         {
@@ -64,6 +77,7 @@ public class CharacterMovement : MonoBehaviour
         ResetKnockback();
         SetCrouching(false);
         ResetAirMovementState();
+        ClearWallContact();
     }
 
     private void Update()
@@ -74,7 +88,9 @@ public class CharacterMovement : MonoBehaviour
     public void RefreshGroundedState()
     {
         bool wasGrounded = IsGrounded;
-        IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        IsGrounded = groundCheck != null &&
+            Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        RefreshWallContactState();
 
         if (HasStableGroundContact)
         {
@@ -89,6 +105,9 @@ public class CharacterMovement : MonoBehaviour
     {
         knockbackMotion.Step(rb, Time.fixedDeltaTime, controller.stats.knockbackAirDeceleration,
             controller.stats.knockbackGroundDeceleration);
+        wallJumpControlLockRemaining = Mathf.Max(0f,
+            wallJumpControlLockRemaining - Time.fixedDeltaTime);
+
         if (rb.bodyType != RigidbodyType2D.Dynamic)
         {
             ResetAirMovementState();
@@ -131,6 +150,12 @@ public class CharacterMovement : MonoBehaviour
 
     public void ApplyHorizontalMovement()
     {
+        if (HasWallJumpControlLock)
+        {
+            controller.Combat.CheckAndFlip(OrdinaryVelocity.x);
+            return;
+        }
+
         float currentSpeed = controller.stats.moveSpeed * moveSpeedMultiplier;
         SetOrdinaryVelocity(new Vector2(controller.MoveInput.x * currentSpeed, OrdinaryVelocity.y));
 
@@ -144,8 +169,30 @@ public class CharacterMovement : MonoBehaviour
         activeJumpGravityMultiplier = speedMultiplier * speedMultiplier;
         IsFastFalling = false;
         CurrentJumpType = JumpType.Full;
+        wallJumpControlLockRemaining = 0f;
         fastFallInputArmed = controller.MoveInput.y >= -controller.stats.tiltThreshold;
         SetOrdinaryVelocity(new Vector2(OrdinaryVelocity.x, controller.stats.jumpForce * speedMultiplier));
+    }
+
+    public void ApplyWallJumpForce(int wallSide)
+    {
+        if (wallSide == 0)
+            return;
+
+        float awayFromWall = -Mathf.Sign(wallSide);
+        float speedMultiplier = Mathf.Max(0.01f, controller.stats.jumpSpeedMultiplier);
+        activeJumpGravityMultiplier = speedMultiplier * speedMultiplier;
+        aerialSuspensionRemaining = 0f;
+        aerialSuspensionGravityMultiplier = 1f;
+        IsFastFalling = false;
+        CurrentJumpType = JumpType.Wall;
+        fastFallInputArmed = controller.MoveInput.y >= -controller.stats.tiltThreshold;
+        wallJumpControlLockRemaining = Mathf.Max(0f, controller.stats.wallJumpControlLockTime);
+
+        SetOrdinaryVelocity(new Vector2(
+            awayFromWall * Mathf.Max(0f, controller.stats.wallJumpHorizontalSpeed),
+            Mathf.Max(0f, controller.stats.wallJumpVerticalSpeed)));
+        controller.Combat.CheckAndFlip(awayFromWall);
     }
 
     public bool TryApplyShortHop()
@@ -254,6 +301,68 @@ public class CharacterMovement : MonoBehaviour
         aerialSuspensionGravityMultiplier = 1f;
         IsFastFalling = false;
         CurrentJumpType = JumpType.None;
+        wallJumpControlLockRemaining = 0f;
         fastFallInputArmed = controller == null || controller.stats == null || controller.ActiveInput == null || controller.MoveInput.y >= -controller.stats.tiltThreshold;
+    }
+
+    private void ConfigureWallContactFilter()
+    {
+        wallContactFilter = new ContactFilter2D
+        {
+            useLayerMask = true,
+            layerMask = wallJumpLayer,
+            useTriggers = true
+        };
+    }
+
+    private void RefreshWallContactState()
+    {
+        ClearWallContact();
+
+        if (bodyCollider == null || wallJumpLayer.value == 0 || IsGrounded)
+            return;
+
+        ConfigureWallContactFilter();
+        int preferredSide = controller != null && Mathf.Abs(controller.MoveInput.x) > 0.01f
+            ? (int)Mathf.Sign(controller.MoveInput.x)
+            : 0;
+
+        if (preferredSide != 0 && TrySetWallContact(preferredSide))
+            return;
+
+        if (preferredSide != -1 && TrySetWallContact(-1))
+            return;
+
+        if (preferredSide != 1)
+            TrySetWallContact(1);
+    }
+
+    private bool TrySetWallContact(int side)
+    {
+        Vector2 direction = side < 0 ? Vector2.left : Vector2.right;
+        int hitCount = bodyCollider.Cast(
+            direction,
+            wallContactFilter,
+            wallCastResults,
+            Mathf.Max(0f, wallCheckDistance));
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            RaycastHit2D hit = wallCastResults[i];
+            if (hit.collider == null || hit.normal.x * side > -minimumWallNormalX)
+                continue;
+
+            WallSide = side;
+            WallCollider = hit.collider;
+            return true;
+        }
+
+        return false;
+    }
+
+    private void ClearWallContact()
+    {
+        WallSide = 0;
+        WallCollider = null;
     }
 }

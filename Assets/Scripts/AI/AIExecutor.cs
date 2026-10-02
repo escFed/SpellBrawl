@@ -2,60 +2,129 @@ using UnityEngine;
 
 public class AIExecutor
 {
-    private int consecutiveAttacks;
-    private float attackCooldownTimer;
-    private float cardCooldownTimer;
-    private AIDecision lastLoggedDecision = (AIDecision)(-1);
-    private string lastLoggedAttack = "";
+    private float jumpReleaseAt = -1f;
+    private float heavyReleaseAt = -1f;
+    private float shieldReleaseAt = -1f;
 
-    public float AttackCooldownTimer => attackCooldownTimer;
-    public float CardCooldownTimer => cardCooldownTimer;
-
-    public void Tick(float deltaTime)
+    public void Tick(AIInput input, float currentTime)
     {
-        if (attackCooldownTimer > 0f)
-            attackCooldownTimer -= deltaTime;
+        if (jumpReleaseAt >= 0f && currentTime >= jumpReleaseAt)
+        {
+            input.ReleaseJump();
+            jumpReleaseAt = -1f;
+        }
 
-        if (cardCooldownTimer > 0f)
-            cardCooldownTimer -= deltaTime;
+        if (heavyReleaseAt >= 0f && currentTime >= heavyReleaseAt)
+        {
+            input.SetHeavyAttackHeld(false);
+            heavyReleaseAt = -1f;
+        }
+
+        if (shieldReleaseAt >= 0f && currentTime >= shieldReleaseAt)
+        {
+            input.SetShieldHeld(false);
+            shieldReleaseAt = -1f;
+        }
     }
 
-    public void Execute(AIDecision decision, AIInput input, CharacterCoordinator selfController, Transform selfTransform, AINavigation navigation, Vector3 perceivedTargetPosition, float attackRange, int selectedCardIndex, int maxConsecutiveAttacks, float attackCooldownDuration, float cardCooldownDuration)
+    public void Reset(AIInput input)
     {
-        input.ClearAll();
+        jumpReleaseAt = -1f;
+        heavyReleaseAt = -1f;
+        shieldReleaseAt = -1f;
+        input.ClearAllInputs();
+    }
+
+    public void Execute(AIActionScore action, AIInput input, CharacterCoordinator selfController, Transform selfTransform, AINavigation navigation, Vector3 perceivedTargetPosition, float attackRange, AIProfile profile, float currentTime)
+    {
+        Reset(input);
 
         float deltaX = perceivedTargetPosition.x - selfTransform.position.x;
-        float dirX = Mathf.Abs(deltaX) < 0.01f ? GetFacingDirection(selfTransform): Mathf.Sign(deltaX);
+        float directionX = Mathf.Abs(deltaX) < 0.01f ? GetFacingDirection(selfTransform): Mathf.Sign(deltaX);
 
-        LogDecisionChange(decision);
-        UpdateAttackLimit(decision, maxConsecutiveAttacks, attackCooldownDuration);
-
-        switch (decision)
+        switch (action.Decision)
         {
             case AIDecision.Idle:
-                input.SetDirection(Vector2.zero);
                 break;
 
             case AIDecision.Chase:
-                navigation.ExecuteMove(selfController, selfTransform, input, dirX, false);
+                navigation.ExecuteMove(selfController, selfTransform, input, directionX, false, perceivedTargetPosition);
                 break;
 
             case AIDecision.Flee:
             case AIDecision.Reposition:
-                navigation.ExecuteMove(selfController, selfTransform, input, -dirX, false);
+                navigation.ExecuteMove(selfController, selfTransform, input, -directionX, false, perceivedTargetPosition);
                 break;
 
             case AIDecision.Recover:
-                navigation.ExecuteMove(selfController, selfTransform, input, dirX, true);
+                navigation.ExecuteMove(selfController, selfTransform, input, directionX, true, perceivedTargetPosition);
                 break;
 
             case AIDecision.Jump:
-                input.SetDirection(new Vector2(dirX * 0.5f, 0f));
-                input.PressJump();
+                navigation.ExecutePlannedJump(selfController, input, false);
+                break;
+
+            case AIDecision.ShortHop:
+                navigation.ExecutePlannedJump(selfController, input, true);
+                if (input.HasBufferedJump)
+                    jumpReleaseAt = currentTime + profile.shortHopHoldTime;
+                break;
+
+            case AIDecision.Crouch:
+            case AIDecision.FastFall:
+                input.SetDirection(Vector2.down);
                 break;
 
             case AIDecision.Attack:
-                ExecuteAttack(input, selfTransform, perceivedTargetPosition, dirX, attackRange);
+                ExecuteAttack(input, selfTransform, perceivedTargetPosition, directionX, attackRange);
+                break;
+
+            case AIDecision.Dash:
+                input.SetDirection(new Vector2(directionX, 0f));
+                input.PressDash();
+                break;
+
+            case AIDecision.DashAttack:
+                input.SetDirection(new Vector2(directionX, 0f));
+                input.PressDash();
+                input.PressAttack();
+                break;
+
+            case AIDecision.DashGrab:
+                input.SetDirection(new Vector2(directionX, 0f));
+                input.PressDash();
+                input.PressGrab();
+                break;
+
+            case AIDecision.HeavyAttack:
+                SetAttackDirection(input, selfTransform, perceivedTargetPosition, directionX, attackRange);
+                input.SetHeavyAttackHeld(true);
+                heavyReleaseAt = currentTime + profile.heavyChargeTime;
+                break;
+
+            case AIDecision.Grab:
+                input.SetDirection(new Vector2(directionX, 0f));
+                input.PressGrab();
+                break;
+
+            case AIDecision.Pummel:
+                input.SetDirection(Vector2.zero);
+                input.PressAttack();
+                break;
+
+            case AIDecision.Throw:
+                input.SetDirection(ResolveThrowInput(selfController, selfTransform, navigation, perceivedTargetPosition, directionX));
+                input.PressGrab();
+                break;
+
+            case AIDecision.Shield:
+                input.SetShieldHeld(true);
+                shieldReleaseAt = currentTime + profile.shieldHoldTime;
+                break;
+
+            case AIDecision.Evade:
+                input.SetDirection(new Vector2(-directionX, selfController != null && selfController.IsGrounded ? 0f : 0.35f));
+                input.PressEvade();
                 break;
 
             case AIDecision.Parry:
@@ -69,89 +138,52 @@ public class AIExecutor
             case AIDecision.UseOffensiveCard:
             case AIDecision.UseDefensiveCard:
             case AIDecision.UseUtilityCard:
-                input.SetDirection(new Vector2(dirX, 0f));
-                input.PressCardButton(selectedCardIndex);
-                cardCooldownTimer = cardCooldownDuration;
+            case AIDecision.UseBoostCard:
+                input.SetDirection(new Vector2(directionX, 0f));
+                input.PressCardButton(action.CardIndex);
                 break;
         }
     }
 
-    private void ExecuteAttack(AIInput input, Transform selfTransform, Vector3 perceivedTargetPosition, float dirX, float attackRange)
+    private static void ExecuteAttack(AIInput input, Transform selfTransform, Vector3 perceivedTargetPosition, float directionX, float attackRange)
     {
-        float distY = perceivedTargetPosition.y - selfTransform.position.y;
-        float distXAbs = Mathf.Abs(perceivedTargetPosition.x - selfTransform.position.x);
-
-        Vector2 attackDirection;
-        string attackName;
-
-        if (distY > 0.5f)
-        {
-            attackDirection = new Vector2(0f, 1f);
-            attackName = "Up Tilt";
-        }
-        else if (distY < -0.2f)
-        {
-            attackDirection = new Vector2(0f, -1f);
-            attackName = "Down Tilt";
-        }
-        else if (distXAbs > attackRange * 0.5f)
-        {
-            attackDirection = new Vector2(dirX, 0f);
-            attackName = "Forward Tilt";
-        }
-        else if (Random.value > 0.5f)
-        {
-            attackDirection = Vector2.zero;
-            attackName = "Jab";
-        }
-        else
-        {
-            attackDirection = new Vector2(dirX, 0f);
-            attackName = "Forward Tilt";
-        }
-
-        if (attackName != lastLoggedAttack)
-        {
-            Debug.Log($"<color=red>[IA Combat]</color> Ejecutando: <b>{attackName}</b>");
-            lastLoggedAttack = attackName;
-        }
-
-        input.SetDirection(attackDirection);
+        SetAttackDirection(input, selfTransform, perceivedTargetPosition, directionX, attackRange);
         input.PressAttack();
     }
 
-    private void UpdateAttackLimit(AIDecision decision, int maxConsecutiveAttacks, float attackCooldownDuration)
+    private static void SetAttackDirection(AIInput input, Transform selfTransform, Vector3 perceivedTargetPosition, float directionX, float attackRange)
     {
-        if (decision == AIDecision.Attack)
-        {
-            consecutiveAttacks++;
+        float distanceY = perceivedTargetPosition.y - selfTransform.position.y;
+        float absoluteDistanceX = Mathf.Abs(perceivedTargetPosition.x - selfTransform.position.x);
 
-            if (consecutiveAttacks >= maxConsecutiveAttacks)
-            {
-                attackCooldownTimer = attackCooldownDuration;
-                consecutiveAttacks = 0;
-                Debug.Log("<color=yellow>[IA Brain]</color> Limite de ataques. Necesito retroceder.");
-            }
-
-            return;
-        }
-
-        if (attackCooldownTimer <= 0f)
-            consecutiveAttacks = 0;
+        if (distanceY > 0.5f)
+            input.SetDirection(Vector2.up);
+        else if (distanceY < -0.2f)
+            input.SetDirection(Vector2.down);
+        else if (absoluteDistanceX > attackRange * 0.5f)
+            input.SetDirection(new Vector2(directionX, 0f));
+        else
+            input.SetDirection(Vector2.zero);
     }
 
-    private void LogDecisionChange(AIDecision decision)
+    private static Vector2 ResolveThrowInput(CharacterCoordinator selfController, Transform selfTransform, AINavigation navigation, Vector3 perceivedTargetPosition, float directionX)
     {
-        if (decision == lastLoggedDecision)
-            return;
+        float distanceY = perceivedTargetPosition.y - selfTransform.position.y;
+        if (distanceY > 0.75f)
+            return Vector2.up;
+        if (distanceY < -0.5f)
+            return Vector2.down;
 
-        Debug.Log($"<color=orange>[IA Brain]</color> Cambio de decision a: <b>{decision}</b>");
-        lastLoggedDecision = decision;
+        bool shouldBackThrow = selfController != null && ((selfController.Health != null && selfController.Health.currentDamage >= 85f) || navigation.IsNearEdge(selfController, selfTransform));
+        if (shouldBackThrow)
+            return new Vector2(-GetFacingDirection(selfTransform), 0f);
+
+        float facingDirection = GetFacingDirection(selfTransform);
+        return new Vector2(Mathf.Sign(directionX) == Mathf.Sign(facingDirection)? facingDirection: directionX, 0f);
     }
 
-    private float GetFacingDirection(Transform selfTransform)
+    private static float GetFacingDirection(Transform selfTransform)
     {
         return selfTransform.localScale.x >= 0f ? 1f : -1f;
     }
 }
-

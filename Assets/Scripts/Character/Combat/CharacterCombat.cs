@@ -23,9 +23,27 @@ public class CharacterCombat : MonoBehaviour
     {
         ResetAerialCombo();
         controller.Grab?.ReleaseGrabbedTarget();
-        hitBox.CloseAllHeavyHitboxes();
+        hitBox.CloseAllAttackHitboxes();
         Input?.ClearAllInputs();
         controller.States.HitStun.Apply(stunDuration, reaction);
+    }
+
+    public void PrepareForClash()
+    {
+        ResetAerialCombo();
+        controller.Grab?.ReleaseGrabbedTarget();
+        hitBox.CloseAllAttackHitboxes();
+        Input?.ClearAllInputs();
+        controller.Movement.ResetKnockback();
+        controller.Movement.StopAllMovement();
+    }
+
+    public void LaunchFromClash(Vector2 velocity, float stunDuration)
+    {
+        hitBox.CloseAllAttackHitboxes();
+        Input?.ClearAllInputs();
+        controller.States.HitStun.Apply(stunDuration, HitReaction.StrongHit);
+        controller.Movement.ApplyKnockback(velocity);
     }
 
     private void OnDisable() => ResetAerialCombo();

@@ -131,6 +131,18 @@ public class CharacterHitBox : MonoBehaviour
         SetHitboxActive(GetHeavyHitbox(HeavyAttackType.Up), false);
         SetHitboxActive(GetHeavyHitbox(HeavyAttackType.Down), false);
     }
+    public void CloseAllAttackHitboxes()
+    {
+        SetHitboxActive(jabHitbox, false);
+        SetHitboxActive(fTiltHitbox, false);
+        SetHitboxActive(upTiltHitbox, false);
+        SetHitboxActive(dTiltHitbox, false);
+        SetHitboxActive(neutralAirHitbox, false);
+        SetHitboxActive(forwardAirHitbox, false);
+        SetHitboxActive(upAirHitbox, false);
+        SetHitboxActive(downAirHitbox, false);
+        CloseAllHeavyHitboxes();
+    }
     public void SetGrabbox(bool active) => SetGrabboxActive(GetGrabbox(), active);
     public void SetPivotGrabbox(bool active) => SetGrabboxActive(GetPivotGrabbox(), active);
 

@@ -8,6 +8,7 @@ public class RespawnManager : MonoBehaviour
     [Header("SpawnPoints")]
     public Transform p1SpawnPoint;
     public Transform p2SpawnPoint;
+    public Transform stockRespawnPoint;
 
     [Header("Control Modes")]
     [SerializeField] private PlayerMode p1Mode = PlayerMode.Player;
@@ -168,7 +169,9 @@ public class RespawnManager : MonoBehaviour
     {
         if (health == null || health.gameObject == null) return;
 
-        Transform targetSpawn = playerIndex == 0 ? p1SpawnPoint : p2SpawnPoint;
+        Transform targetSpawn = stockRespawnPoint != null
+            ? stockRespawnPoint
+            : playerIndex == 0 ? p1SpawnPoint : p2SpawnPoint;
 
         if (targetSpawn == null) return;
 

@@ -21,11 +21,14 @@ public class CharacterCoordinator : MonoBehaviour
     public bool IsParrying => Parry != null && Parry.IsParrying;
     public bool IsIntangible => Health != null && Health.IsIntangible;
     public bool IsHitStunned => stateMachine != null && States != null && stateMachine.Is(States.HitStun);
+    public bool IsInClashSequence => stateMachine != null && States != null && stateMachine.Is(States.ClashSequence);
 
     public int JumpsRemaining => jumpController.JumpsRemaining;
     public bool CanGroundJump => jumpController.CanGroundJump;
+    public bool CanWallJump => jumpController.CanWallJump;
     public bool CanJump => jumpController.CanJump;
     public float CoyoteTimeRemaining => jumpController.CoyoteTimeRemaining;
+    public float WallCoyoteTimeRemaining => jumpController.WallCoyoteTimeRemaining;
 
     private bool wasPaused;
     [SerializeField] private bool controlsEnabled = true;
@@ -184,6 +187,14 @@ public class CharacterCoordinator : MonoBehaviour
         if (CombatFeedback.IsHitStopActive) return;
 
         Movement.RefreshGroundedState();
+
+        if (IsInClashSequence)
+        {
+            input.ClearAllInputs();
+            stateMachine.Update();
+            return;
+        }
+
         if (jumpController.Tick())
             return;
 
