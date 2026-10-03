@@ -260,8 +260,9 @@ public class CharacterCoordinator : MonoBehaviour
         if (IsDead) return;
         if (PauseMenu.isPaused) return;
         Movement.StepPhysics();
-        if (!Controller.InputEnabled) return;
-        stateMachine.FixedUpdate();
+        if (Controller.InputEnabled)
+            stateMachine.FixedUpdate();
+        Movement.ApplyExternalHorizontalPushes();
     }
     public void ExecuteCardState(ICardable cardToUse)
     {

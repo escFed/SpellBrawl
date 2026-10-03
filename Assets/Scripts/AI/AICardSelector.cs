@@ -115,7 +115,9 @@ public class AICardSelector : IAICardSelector
         if (card is ShadowSpikeCard)
             return score + (context.TargetShielding ? 4f : 24f);
         if (card is TsunamiCard)
-            return score + (context.TargetDamage >= 70f ? 28f : 18f);
+            return Mathf.Abs(context.DistanceY) <= 1.5f && !context.TargetShielding
+                ? score + (context.DistanceX <= 8f ? 25f : 8f)
+                : -100f;
         if (card is BlackHoleCard)
             return score + (context.DistanceX < 4f ? 32f : 18f);
         if (card is DeckShuffleCard)

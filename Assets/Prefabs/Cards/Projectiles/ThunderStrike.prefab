@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6084198517098094437}
   - component: {fileID: 7957075167779324642}
   - component: {fileID: 4972897621989202936}
-  - component: {fileID: -1285240696690653525}
+  - component: {fileID: 3183429444669282762}
   m_Layer: 0
   m_Name: ThunderStrike
   m_TagString: Untagged
@@ -85,12 +85,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 8425088821408075694, guid: 42d29520fb302e04e9e745019690e913, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2d6c4e3466394004d9ada78c9c3d75bf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.08, y: 3}
+  m_Size: {x: 19.3125, y: 19.3125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -133,8 +133,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.08, y: 3}
-    newSize: {x: 1.08, y: 3}
+    oldSize: {x: 4.828125, y: 4.828125}
+    newSize: {x: 19.3125, y: 19.3125}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -185,24 +185,30 @@ MonoBehaviour:
     hitStunPerSpeed: 0.006
     maxHitStun: 0.8
     directionalInfluence: 1
+    airDecelerationMultiplier: 1
   hitStun: 0.3
   damage: 15
   knockback: {x: 0, y: 10}
   lifeTime: 0.5
---- !u!111 &-1285240696690653525
-Animation:
+--- !u!95 &3183429444669282762
+Animator:
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7062071539232757206}
   m_Enabled: 1
-  serializedVersion: 4
-  m_Animation: {fileID: 7400000, guid: 1deaf0a6535283f4e840c84970f3de9b, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 1deaf0a6535283f4e840c84970f3de9b, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f0b511475c7f32e4f9198dc76e662187, type: 2}
+  m_CullingMode: 0
   m_UpdateMode: 0
-  m_CullingType: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -1,51 +1,88 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TsunamiWave : MonoBehaviour
 {
+    [Header("Wave Settings")]
+    [SerializeField, Min(0f)] private float speed = 6f;
+    [SerializeField, Min(0f)] private float pushSpeed = 9f;
+    [SerializeField, Min(0f)] private float windUpDuration = 0.25f;
+    [SerializeField, Min(0f)] private float travelDuration = 2.5f;
 
-    [Header("Stats")]
-    [SerializeField] public int knockBackAmount = 35;
-    [SerializeField] private float speed = 10f;
+    private readonly HashSet<CharacterMovement> affected = new HashSet<CharacterMovement>();
+    private CharacterCoordinator caster;
+    private float direction;
+    private float activeAt;
+    private bool initialized;
 
-     private float lifeTime;
-
-
-    private GameObject caster;
-
-    private Transform target;
-
-    public void Init(GameObject casterObject, Transform targetTransform, float waveLifeTime)
+    public void Init(CharacterCoordinator owner, float horizontalDirection)
     {
-        caster = casterObject;
-        target = targetTransform;
-        lifeTime = waveLifeTime;
-        Destroy(gameObject, lifeTime);
-        AIDangerSource.Attach(gameObject, caster, 1.1f, target);
+        caster = owner;
+        direction = horizontalDirection < 0f ? -1f : 1f;
+        activeAt = Time.time + windUpDuration;
+        initialized = true;
+
+        SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+        if (sprite != null)
+            sprite.flipX = direction < 0f;
+
+        Destroy(gameObject, windUpDuration + travelDuration);
+        AIDangerSource.Attach(gameObject, owner != null ? owner.gameObject : null, 2.2f);
     }
-   
-    // Update is called once per frame
-    void Update()
+
+    private void FixedUpdate()
     {
-        if(target != null)
+        if (!initialized || Time.time < activeAt)
+            return;
+
+        transform.position += Vector3.right * (direction * speed * Time.fixedDeltaTime);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision) => RefreshTarget(collision);
+    private void OnTriggerStay2D(Collider2D collision) => RefreshTarget(collision);
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out CharacterMovement movement))
+            RemoveTarget(movement);
+    }
+
+    private void RefreshTarget(Collider2D collision)
+    {
+        // Only the character's body collider may register a push, not child hitboxes.
+        if (!collision.TryGetComponent(out CharacterCoordinator target) || target == caster ||
+            target.Movement == null)
+            return;
+
+        CharacterMovement movement = target.Movement;
+        if (!initialized || Time.time < activeAt || target.Health == null ||
+            target.Health.Phase != RespawnPhase.Active || target.IsIntangible || target.IsParrying ||
+            (target.Shield != null && target.Shield.IsActive))
         {
-            Vector3 direction = (target.position - transform.position).normalized;
-            transform.position += direction * speed * Time.deltaTime;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
+            RemoveTarget(movement);
+            return;
         }
+
+        movement.SetExternalHorizontalPush(this, direction * pushSpeed);
+        affected.Add(movement);
     }
 
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void RemoveTarget(CharacterMovement movement)
     {
-        if (collision.gameObject == caster) return;
+        if (movement == null)
+            return;
 
-        if (collision.TryGetComponent(out HitReactionComponent hitTarget))
-        {
-            Vector2 knockbackDirection = (collision.transform.position - caster.transform.position).normalized;
-            hitTarget.React(HitReaction.StrongHit, knockbackDirection * knockBackAmount);
-            Destroy(gameObject);
-        }
+        movement.ClearExternalHorizontalPush(this);
+        affected.Remove(movement);
     }
 
+    private void OnDisable()
+    {
+        foreach (CharacterMovement movement in affected)
+        {
+            if (movement != null)
+                movement.ClearExternalHorizontalPush(this);
+        }
+        affected.Clear();
+    }
 }

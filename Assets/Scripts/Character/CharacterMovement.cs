@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
@@ -29,6 +30,7 @@ public class CharacterMovement : MonoBehaviour
     private CharacterCoordinator controller;
     private Rigidbody2D rb;
     private readonly KnockbackMotion knockbackMotion = new KnockbackMotion();
+    private readonly Dictionary<Component, float> externalHorizontalPushes = new Dictionary<Component, float>();
     public Vector2 KnockbackVelocity => knockbackMotion.Velocity;
     public Vector2 OrdinaryVelocity => rb.linearVelocity - KnockbackVelocity;
 
@@ -37,6 +39,47 @@ public class CharacterMovement : MonoBehaviour
         ResetAirMovementState();
         controller.CancelGroundJumpAvailability();
         knockbackMotion.Launch(rb, velocity, airDecelerationMultiplier);
+    }
+
+    public void SetExternalHorizontalPush(Component source, float speed)
+    {
+        if (source != null)
+            externalHorizontalPushes[source] = speed;
+    }
+
+    public void ClearExternalHorizontalPush(Component source)
+    {
+        if (source != null)
+            externalHorizontalPushes.Remove(source);
+    }
+
+    // Runs after the current state writes its movement so the current cannot be erased by input.
+    public void ApplyExternalHorizontalPushes()
+    {
+        if (rb == null || rb.bodyType != RigidbodyType2D.Dynamic || !rb.simulated ||
+            externalHorizontalPushes.Count == 0 || controller.Health == null ||
+            controller.Health.Phase != RespawnPhase.Active || controller.IsIntangible ||
+            controller.IsParrying || (controller.Shield != null && controller.Shield.IsActive))
+            return;
+
+        float totalPush = 0f;
+        float maximumPush = 0f;
+        foreach (KeyValuePair<Component, float> entry in externalHorizontalPushes)
+        {
+            if (entry.Key == null)
+                continue;
+            totalPush += entry.Value;
+            maximumPush = Mathf.Max(maximumPush, Mathf.Abs(entry.Value));
+        }
+
+        totalPush = Mathf.Clamp(totalPush, -maximumPush, maximumPush);
+        if (Mathf.Abs(totalPush) < 0.001f)
+            return;
+
+        Vector2 velocity = rb.linearVelocity;
+        float speedLimit = Mathf.Max(Mathf.Abs(velocity.x), maximumPush);
+        velocity.x = Mathf.Clamp(velocity.x + totalPush, -speedLimit, speedLimit);
+        rb.linearVelocity = velocity;
     }
 
     public void ResetKnockback() => knockbackMotion.Clear(rb);
@@ -75,6 +118,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnDisable()
     {
+        externalHorizontalPushes.Clear();
         ResetKnockback();
         SetCrouching(false);
         ResetAirMovementState();
