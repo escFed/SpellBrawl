@@ -9,7 +9,6 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
     [SerializeField] private string damageOrNot = "no";
 
     [Header("Settings Mirror World")]
-    [SerializeField] private int energyCost = 30;
 
     [Header("Visual")]
     [SerializeField] private GameObject mirrorWorldPrefab;
@@ -18,7 +17,6 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
 
     
 
-    public int EnergyCost => energyCost;
 
     public CardType Type => CardType.Utility;
     public string CardName => cardName;

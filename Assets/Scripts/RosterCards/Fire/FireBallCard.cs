@@ -10,14 +10,12 @@ public class FireBallCard : MonoBehaviour, ICardable
 
     [Header("Settings")]
     [SerializeField] private GameObject fbPrefab;
-    [SerializeField] private int energyCost = 20;
 
     [Header("Visual")]
     [SerializeField] private Sprite cardSprite;
     [SerializeField] private Image cardUI;
 
     public string DamageableOrNot => damageOrNot;
-    public int EnergyCost => energyCost;
     public CardType Type => CardType.Offensive;
     public string CardName => cardName;
     public string CardDescription => cardDescription;

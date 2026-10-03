@@ -16,5 +16,4 @@ public abstract class AttackStats : ScriptableObject
     [Tooltip("Optional impact sound. Leave empty to use the shared CombatAudioSettings hit clip.")]
     public AudioClip hitSound;
 
-    public int energyGain = 10;
 }

@@ -90,31 +90,10 @@ public class AIExecutor
                 input.PressAttack();
                 break;
 
-            case AIDecision.DashGrab:
-                input.SetDirection(new Vector2(directionX, 0f));
-                input.PressDash();
-                input.PressGrab();
-                break;
-
             case AIDecision.HeavyAttack:
                 SetAttackDirection(input, selfTransform, perceivedTargetPosition, directionX, attackRange);
                 input.SetHeavyAttackHeld(true);
                 heavyReleaseAt = currentTime + profile.heavyChargeTime;
-                break;
-
-            case AIDecision.Grab:
-                input.SetDirection(new Vector2(directionX, 0f));
-                input.PressGrab();
-                break;
-
-            case AIDecision.Pummel:
-                input.SetDirection(Vector2.zero);
-                input.PressAttack();
-                break;
-
-            case AIDecision.Throw:
-                input.SetDirection(ResolveThrowInput(selfController, selfTransform, navigation, perceivedTargetPosition, directionX));
-                input.PressGrab();
                 break;
 
             case AIDecision.Shield:
@@ -164,22 +143,6 @@ public class AIExecutor
             input.SetDirection(new Vector2(directionX, 0f));
         else
             input.SetDirection(Vector2.zero);
-    }
-
-    private static Vector2 ResolveThrowInput(CharacterCoordinator selfController, Transform selfTransform, AINavigation navigation, Vector3 perceivedTargetPosition, float directionX)
-    {
-        float distanceY = perceivedTargetPosition.y - selfTransform.position.y;
-        if (distanceY > 0.75f)
-            return Vector2.up;
-        if (distanceY < -0.5f)
-            return Vector2.down;
-
-        bool shouldBackThrow = selfController != null && ((selfController.Health != null && selfController.Health.currentDamage >= 85f) || navigation.IsNearEdge(selfController, selfTransform));
-        if (shouldBackThrow)
-            return new Vector2(-GetFacingDirection(selfTransform), 0f);
-
-        float facingDirection = GetFacingDirection(selfTransform);
-        return new Vector2(Mathf.Sign(directionX) == Mathf.Sign(facingDirection)? facingDirection: directionX, 0f);
     }
 
     private static float GetFacingDirection(Transform selfTransform)

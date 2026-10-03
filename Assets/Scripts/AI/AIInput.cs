@@ -29,7 +29,7 @@ public sealed class AIInput : IInputProvider
         WasJumpReleased = true;
     }
     public void PressAttack() => HasBufferedAttack = true;
-    public void PressGrab() => HasBufferedGrab = true;
+    public void PressGrab() { }
     public void PressParry() => HasBufferedParry = true;
     public void PressShield() => HasBufferedShield = true;
     public void PressEvade() => HasBufferedEvade = true;

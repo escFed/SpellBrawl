@@ -87,6 +87,10 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        if (p1_energySlider != null) p1_energySlider.gameObject.SetActive(false);
+        if (p2_energySlider != null) p2_energySlider.gameObject.SetActive(false);
+        if (p1EnergyText != null) p1EnergyText.gameObject.SetActive(false);
+        if (p2EnergyText != null) p2EnergyText.gameObject.SetActive(false);
         // Inicializa el color de las barras de daño al valor inicial (0)
         UpdateDamageUI(0, 0);
         UpdateDamageUI(1, 0);
@@ -97,7 +101,6 @@ public class UIManager : MonoBehaviour
     {
         UIEvents.OnDamageChanged += UpdateDamageUI;
         UIEvents.OnLivesChanged += UpdateLivesUI;
-        UIEvents.OnEnergyChanged += UpdateEnergyUI;
         UIEvents.OnDeckCountChanged += UpdateDeckCountUI;
         UIEvents.OnIconSet += UpdateIconUI;
         UIEvents.OnHandChanged += UpdateHandUI;
@@ -111,7 +114,6 @@ public class UIManager : MonoBehaviour
         p2CooldownNotifications = null;
         UIEvents.OnDamageChanged -= UpdateDamageUI;
         UIEvents.OnLivesChanged -= UpdateLivesUI;
-        UIEvents.OnEnergyChanged -= UpdateEnergyUI;
         UIEvents.OnDeckCountChanged -= UpdateDeckCountUI;
         UIEvents.OnIconSet -= UpdateIconUI;
         UIEvents.OnHandChanged -= UpdateHandUI;
@@ -199,15 +201,6 @@ public class UIManager : MonoBehaviour
         {
             if (icons[i] != null) icons[i].SetActive(i < lives);
         }
-    }
-
-    private void UpdateEnergyUI(int playerIndex, int energy)
-    {
-        Slider slider = (playerIndex == 0) ? p1_energySlider : p2_energySlider;
-        if (slider != null) slider.value = energy;
-
-        TextMeshProUGUI text = (playerIndex == 0) ? p1EnergyText : p2EnergyText;
-        if (text != null) text.text = energy.ToString();
     }
 
     private void UpdateDeckCountUI(int playerIndex, int count, int redrawsRemaining)

@@ -61,7 +61,8 @@ public class CharacterCoordinator : MonoBehaviour
     public bool JumpPressed => ActiveInput != null && ActiveInput.HasBufferedJump;
     public bool IsGrounded => Movement.IsGrounded;
     public bool AttackInput => ActiveInput != null && ActiveInput.HasBufferedAttack;
-    public bool GrabInput => ActiveInput != null && ActiveInput.HasBufferedGrab;
+    // Kept for legacy grab animation states; gameplay no longer buffers grabs.
+    public bool GrabInput => false;
     public bool EvadePressed => ActiveInput != null && ActiveInput.HasBufferedEvade;
     public bool DashPressed => ActiveInput != null && ActiveInput.HasBufferedDash;
     public bool HeavyAttackPressed => ActiveInput != null && ActiveInput.HasBufferedHeavyAttack;
@@ -114,8 +115,6 @@ public class CharacterCoordinator : MonoBehaviour
         actionRouter = new CharacterActionRouter(this, deck, Parry);
         jumpController = new CharacterJumpController(this);
 
-        if (GetComponent<IGrabbable>() == null)
-            gameObject.AddComponent<CharacterGrabbable>();
     }
 
     private void Start()
@@ -243,7 +242,7 @@ public class CharacterCoordinator : MonoBehaviour
     private bool HasBufferedLocomotionInput(ICharacterState state)
     {
         if (state == States.Idle || state == States.Move)
-            return input.HasBufferedGrab || input.HasBufferedAttack ||
+            return input.HasBufferedAttack ||
                 (input.HasBufferedJump && CanJump);
 
         if (state == States.Crouch)

@@ -909,6 +909,8 @@ MonoBehaviour:
   arrowImage: {fileID: 5878554205493849336}
   p1Name: P1
   p1Color: {r: 1, g: 1, b: 1, a: 1}
+  p2Name: P2
+  p2Color: {r: 0.2, g: 0.4, b: 1, a: 1}
   iaName: IA
   iaColor: {r: 1, g: 0, b: 0.009498596, a: 1}
 --- !u!1 &6999972211173830063
@@ -1504,6 +1506,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   groundCheckRadius: 0.2
+  wallJumpLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  wallCheckDistance: 0.08
+  minimumWallNormalX: 0.7
   moveSpeedMultiplier: 1
 --- !u!114 &9208369854405864837
 MonoBehaviour:

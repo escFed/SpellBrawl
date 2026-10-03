@@ -11,14 +11,12 @@ public class StarThrowCard : MonoBehaviour, ICardable
     [Header("Settings")]
     [SerializeField] private GameObject starPrefab;
     [SerializeField] private float spawnHeight = 12f;
-    [SerializeField] private int energyCost = 20;
 
     [Header("Visual")]
     [SerializeField] private Sprite cardSprite;
     [SerializeField] private Image cardUI;
 
     public string DamageableOrNot => damageOrNot;
-    public int EnergyCost => energyCost;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
     public CardType Type => CardType.Offensive;

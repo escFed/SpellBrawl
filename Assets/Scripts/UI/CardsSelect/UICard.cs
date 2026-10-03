@@ -110,7 +110,7 @@ public class UICard : Selectable, ISubmitHandler, ICancelHandler
         ICardable cardData = cardPrefab.GetComponent<ICardable>();
         if (cardData != null)
         {
-            deckBuilder.ShowCardDescription(cardData.CardName, cardData.CardDescription, cardData.EnergyCost, cardData.DamageableOrNot, cardData.Type);
+            deckBuilder.ShowCardDescription(cardData.CardName, cardData.CardDescription, cardData.DamageableOrNot, cardData.Type);
         }
     }
 
@@ -119,7 +119,7 @@ public class UICard : Selectable, ISubmitHandler, ICancelHandler
         cardPrefab = prefab;
         deckBuilder = builder;
         UpdateVisuals();
-        deckBuilder.ShowCardDescription(cardData.CardName, cardData.CardDescription, cardData.EnergyCost, cardData.DamageableOrNot, cardData.Type);
+        deckBuilder.ShowCardDescription(cardData.CardName, cardData.CardDescription, cardData.DamageableOrNot, cardData.Type);
     }
     public void ShowSpecificUICard()
     {

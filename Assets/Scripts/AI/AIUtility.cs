@@ -13,13 +13,6 @@ public class AIUtility
     {
         AIActionScore best = AIActionScore.Idle();
 
-        if (context.HasGrabbedTarget)
-        {
-            TryChoose(ref best, ScorePummel(context, profile), profile, currentDecision, memory, now);
-            TryChoose(ref best, ScoreThrow(context, profile), profile, currentDecision, memory, now);
-            return best;
-        }
-
         // Recovery is an emergency movement plan, not a competing combat option.
         if (context.ShouldRecover)
             return ScoreRecover(context, profile);
@@ -29,8 +22,6 @@ public class AIUtility
         TryChoose(ref best, ScoreEvade(context, profile), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreShield(context, profile), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreParry(context, profile), profile, currentDecision, memory, now);
-        TryChoose(ref best, ScoreDashGrab(context, profile, idealSpacing), profile, currentDecision, memory, now);
-        TryChoose(ref best, ScoreGrab(context, profile), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreHeavyAttack(context, profile), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreDashAttack(context, profile, attackRange, idealSpacing), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreAttack(context, profile), profile, currentDecision, memory, now);
@@ -215,13 +206,6 @@ public class AIUtility
             : new AIActionScore(AIDecision.DashAttack, 0f);
     }
 
-    private static AIActionScore ScoreDashGrab(AIContext context, AIProfile profile, float idealSpacing)
-    {
-        return context.CanDash && context.CanDashSafely && context.TargetShielding && context.DistanceX <= idealSpacing * 2f
-            ? new AIActionScore(AIDecision.DashGrab, 88f * profile.grabSkill)
-            : new AIActionScore(AIDecision.DashGrab, 0f);
-    }
-
     private static AIActionScore ScoreHeavyAttack(AIContext context, AIProfile profile)
     {
         if (!context.CanHeavyAttack || !context.PredictedHeavyHit || context.TargetThreatening || context.IncomingHazard)
@@ -229,41 +213,6 @@ public class AIUtility
 
         float score = 65f + Math.Min(30f, context.TargetDamage * 0.25f);
         return new AIActionScore(AIDecision.HeavyAttack, score * profile.heavyAttackUsage);
-    }
-
-    private static AIActionScore ScoreGrab(AIContext context, AIProfile profile)
-    {
-        if (!context.CanGrab || !context.TargetInAttackRange)
-            return new AIActionScore(AIDecision.Grab, 0f);
-
-        float score = 58f;
-        if (context.TargetShielding)
-            score += 30f;
-        if (context.TargetThreatening)
-            score -= 20f;
-
-        return new AIActionScore(AIDecision.Grab, score * profile.grabSkill);
-    }
-
-    private static AIActionScore ScorePummel(AIContext context, AIProfile profile)
-    {
-        if (!context.HasGrabbedTarget)
-            return new AIActionScore(AIDecision.Pummel, 0f);
-
-        float score = context.TargetDamage < 75f ? 90f : 30f;
-        return new AIActionScore(AIDecision.Pummel, score * profile.grabSkill);
-    }
-
-    private static AIActionScore ScoreThrow(AIContext context, AIProfile profile)
-    {
-        if (!context.HasGrabbedTarget)
-            return new AIActionScore(AIDecision.Throw, 0f);
-
-        float score = 70f + Math.Min(40f, context.TargetDamage * 0.35f);
-        if (context.InDanger || context.NearEdge)
-            score += 20f;
-
-        return new AIActionScore(AIDecision.Throw, score * profile.grabSkill);
     }
 
     private static AIActionScore ScoreShield(AIContext context, AIProfile profile)
@@ -316,8 +265,6 @@ public class AIUtility
             score += 20f;
         if (context.IncomingHazard)
             score += 25f;
-        if (context.Energy < 40f)
-            score += 15f;
 
         return new AIActionScore(AIDecision.Parry, score * profile.parrySkill);
     }
@@ -328,7 +275,7 @@ public class AIUtility
             return new AIActionScore(AIDecision.DrawCards, 0f);
         if (context.EmptyHand)
             return new AIActionScore(AIDecision.DrawCards, 80f);
-        if (!cardSelector.HasUsefulCard(context) && context.Energy >= 100f)
+        if (!cardSelector.HasUsefulCard(context))
             return new AIActionScore(AIDecision.DrawCards, 45f);
 
         return new AIActionScore(AIDecision.DrawCards, 0f);
@@ -347,8 +294,6 @@ public class AIUtility
             score += 15f;
         if (context.TargetDamage >= 80f)
             score += 20f;
-        if (context.Energy >= 80f)
-            score += 10f;
 
         return score * profile.cardUsage;
     }

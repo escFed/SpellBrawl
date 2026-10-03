@@ -4,7 +4,6 @@ public struct AIContext
     public float DistanceY { get; }
     public float SelfDamage { get; }
     public float TargetDamage { get; }
-    public float Energy { get; }
     public bool TargetInAttackRange { get; }
     public bool TargetInCardRange { get; }
     public bool TargetAbove { get; }
@@ -22,12 +21,10 @@ public struct AIContext
     public bool CanEvade { get; }
     public bool CanShield { get; }
     public bool CanParry { get; }
-    public bool CanGrab { get; }
     public bool CanHeavyAttack { get; }
     public bool CanCrouch { get; }
     public bool CanFastFall { get; }
     public bool CanUseCards { get; }
-    public bool HasGrabbedTarget { get; }
     public bool TargetThreatening { get; }
     public bool TargetShielding { get; }
     public float SelfVelocityY { get; }
@@ -47,7 +44,6 @@ public struct AIContext
         float distanceY,
         float selfDamage,
         float targetDamage,
-        float energy,
         bool targetInAttackRange,
         bool targetInCardRange,
         bool targetAbove,
@@ -65,12 +61,10 @@ public struct AIContext
         bool canEvade = false,
         bool canShield = false,
         bool canParry = false,
-        bool canGrab = false,
         bool canHeavyAttack = false,
         bool canCrouch = false,
         bool canFastFall = false,
         bool canUseCards = false,
-        bool hasGrabbedTarget = false,
         bool targetThreatening = false,
         bool targetShielding = false,
         float selfVelocityY = 0f,
@@ -89,7 +83,6 @@ public struct AIContext
         DistanceY = distanceY;
         SelfDamage = selfDamage;
         TargetDamage = targetDamage;
-        Energy = energy;
         TargetInAttackRange = targetInAttackRange;
         TargetInCardRange = targetInCardRange;
         TargetAbove = targetAbove;
@@ -107,12 +100,10 @@ public struct AIContext
         CanEvade = canEvade;
         CanShield = canShield;
         CanParry = canParry;
-        CanGrab = canGrab;
         CanHeavyAttack = canHeavyAttack;
         CanCrouch = canCrouch;
         CanFastFall = canFastFall;
         CanUseCards = canUseCards;
-        HasGrabbedTarget = hasGrabbedTarget;
         TargetThreatening = targetThreatening;
         TargetShielding = targetShielding;
         SelfVelocityY = selfVelocityY;

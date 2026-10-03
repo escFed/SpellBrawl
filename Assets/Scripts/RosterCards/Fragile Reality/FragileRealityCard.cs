@@ -10,7 +10,6 @@
 //    [SerializeField] private string cardName = "FragileReality Card";
 //    [SerializeField, TextArea(3, 5)] private string cardDescription = "Creates random platforms";
 //    [SerializeField] private string damageOrNot = "no";
-//    public int EnergyCost => 15;
 
 //    [SerializeField] private GameObject fragileRealityPrefab;
 //    public CardType Type => CardType.Utility;

@@ -48,6 +48,7 @@ public class CharacterMovement : MonoBehaviour
     private Vector2 standingColliderSize;
     private Vector2 standingColliderOffset;
     private float activeJumpGravityMultiplier = 1f;
+    private float levitationGravityMultiplier = 1f;
     private float aerialSuspensionRemaining;
     private float aerialSuspensionGravityMultiplier = 1f;
     private bool fastFallInputArmed = true;
@@ -120,7 +121,7 @@ public class CharacterMovement : MonoBehaviour
             return;
         }
 
-        float gravityMultiplier = activeJumpGravityMultiplier;
+        float gravityMultiplier = activeJumpGravityMultiplier * levitationGravityMultiplier;
         if (aerialSuspensionRemaining > 0f)
         {
             gravityMultiplier *= aerialSuspensionGravityMultiplier;
@@ -146,6 +147,19 @@ public class CharacterMovement : MonoBehaviour
 
         if (suspension.MaximumDownwardSpeed > 0f && OrdinaryVelocity.y < -suspension.MaximumDownwardSpeed)
             SetOrdinaryVelocity(new Vector2(OrdinaryVelocity.x, -suspension.MaximumDownwardSpeed));
+    }
+
+    public void SetLevitationGravityMultiplier(float multiplier)
+    {
+        levitationGravityMultiplier = Mathf.Clamp01(multiplier);
+    }
+
+    public void ApplyLevitationPulse(float upwardSpeed)
+    {
+        if (rb == null || rb.bodyType != RigidbodyType2D.Dynamic)
+            return;
+
+        SetOrdinaryVelocity(OrdinaryVelocity + Vector2.up * Mathf.Max(0f, upwardSpeed));
     }
 
     public void ApplyHorizontalMovement()

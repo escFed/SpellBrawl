@@ -46,10 +46,6 @@ public class CharacterStats : ScriptableObject
     public float dashGrabSpeed = 9f;
     public float dashGrabSlideDuration = 0.16f;
 
-    [Header("Energy Stats")]
-    public int maxEnergy = 100;
-    public int startingEnergy = 50;
-
     [Header("Ground Normal Attacks")]
     public GroundAttackStats jabAttack;
     public GroundAttackStats fTiltAttack;

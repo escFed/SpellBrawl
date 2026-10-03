@@ -3,21 +3,19 @@ using UnityEngine;
 public class AICardSelector : IAICardSelector
 {
     private CharacterCoordinator selfController;
-    private EnergyManager selfEnergy;
     private CharacterDeck selfDeck;
     private AITarget targetTracker;
 
-    public void Initialize(CharacterCoordinator controller, EnergyManager energy, CharacterDeck deck, AITarget target)
+    public void Initialize(CharacterCoordinator controller, CharacterDeck deck, AITarget target)
     {
         selfController = controller;
-        selfEnergy = energy;
         selfDeck = deck;
         targetTracker = target;
     }
 
     public AICardChoice FindBestUsableCard(CardType targetType, AIContext context, AIActionMemory memory, float now)
     {
-        if (selfDeck == null || selfEnergy == null)
+        if (selfDeck == null)
             return new AICardChoice(-1, 0f);
 
         AICardChoice best = new AICardChoice(-1, 0f);
@@ -33,8 +31,6 @@ public class AICardSelector : IAICardSelector
             if (card == null)
                 continue;
 
-            if (selfEnergy.currentEnergy < card.EnergyCost)
-                continue;
 
             if (!card.CanBeUsed(selfController))
                 continue;
@@ -57,7 +53,7 @@ public class AICardSelector : IAICardSelector
 
     public bool HasUsefulCard(AIContext context)
     {
-        if (selfDeck == null || selfEnergy == null)
+        if (selfDeck == null)
             return false;
 
         for (int i = 0; i < selfDeck.HandSlotCount; i++)
@@ -70,8 +66,6 @@ public class AICardSelector : IAICardSelector
             if (card == null)
                 continue;
 
-            if (selfEnergy.currentEnergy < card.EnergyCost)
-                continue;
 
             if (!card.CanBeUsed(selfController))
                 continue;
@@ -100,12 +94,12 @@ public class AICardSelector : IAICardSelector
 
     public bool CanRedraw()
     {
-        return selfDeck != null && selfEnergy != null && selfDeck.CanFullRedraw && selfEnergy.currentEnergy >= selfDeck.EnergyCost;
+        return selfDeck != null && selfDeck.CanFullRedraw;
     }
 
     private float ScoreCard(ICardable card, AIContext context)
     {
-        float score = -card.EnergyCost * 0.1f;
+        float score = 0f;
         if (card is HealCard)
             return context.SelfDamage >= 20f ? score + Mathf.Min(45f, context.SelfDamage * 0.5f) : -100f;
         if (card is FortifyCard)

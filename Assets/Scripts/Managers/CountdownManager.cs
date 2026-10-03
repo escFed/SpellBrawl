@@ -12,6 +12,7 @@ public class CountdownManager : MonoBehaviour
 
     [Header("Audio")]
     public AudioSource battleMusic;
+    private Coroutine roundStartRoutine;
     
 
     private void Awake()
@@ -27,14 +28,18 @@ public class CountdownManager : MonoBehaviour
 
     public void StartNextRound()
     {
-        StartCoroutine(StartMatchRoutine());
+        bool restartingCountdown = roundStartRoutine != null;
+        if (restartingCountdown)
+            StopCoroutine(roundStartRoutine);
+
+        roundStartRoutine = StartCoroutine(StartMatchRoutine(!restartingCountdown));
     }
 
-    private IEnumerator StartMatchRoutine()
+    private IEnumerator StartMatchRoutine(bool playCardAnimation)
     {
         DisablePlayers();
 
-        if (cardAnimation != null)
+        if (playCardAnimation && cardAnimation != null)
         {
             cardAnimation.PlayDrawAnimation();
         }
@@ -64,6 +69,7 @@ public class CountdownManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         if (countdownText != null) countdownText.gameObject.SetActive(false);
+        roundStartRoutine = null;
     }
 
     private void DisablePlayers()

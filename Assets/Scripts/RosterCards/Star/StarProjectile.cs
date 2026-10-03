@@ -47,7 +47,8 @@ public class StarProjectile : MonoBehaviour
         ICombatHitReceiver hitTarget = collision.GetComponentInParent<ICombatHitReceiver>();
         if (hitTarget != null)
         {
-            hitTarget.ReceiveHit(new CombatHit(damage, knockback, hitStun, HitReaction.Hit, collision.ClosestPoint(transform.position), attackerPlayerIndex, launch));
+            hitTarget.ReceiveHit(new CombatHit(damage, knockback, hitStun, HitReaction.Hit, collision.ClosestPoint(transform.position), attackerPlayerIndex, launch,
+                attacker: caster != null ? caster.GetComponent<CharacterCoordinator>() : null));
 
             Destroy(gameObject);
         }

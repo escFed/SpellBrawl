@@ -73,7 +73,7 @@ public class AttackHitbox : MonoBehaviour
             : default;
 
         Vector2 hitPoint = other.ClosestPoint(hitCollider.bounds.center);
-        CombatHit hit = new CombatHit(currentDamage, directedKnockback, currentHitStun, currentHitReaction, hitPoint, attackerPlayerIndex, currentStats.launch, currentGrowth, defenderSuspension);
+        CombatHit hit = new CombatHit(currentDamage, directedKnockback, currentHitStun, currentHitReaction, hitPoint, attackerPlayerIndex, currentStats.launch, currentGrowth, defenderSuspension, owner);
 
         CharacterCoordinator defender = other.GetComponentInParent<CharacterCoordinator>();
         AttackContact contact = new AttackContact(this ,owner ,defender ,target ,hit ,currentStats ,aerialStats ,targetGroundedBeforeHit, suspensionStrength, Time.fixedTimeAsDouble, IsEligibleForGroundClash(defender));
@@ -104,7 +104,6 @@ public class AttackHitbox : MonoBehaviour
                 contact.Attacker.Combat.RegisterAerialHit(contact.Target, contact.TargetGroundedBeforeHit);
             }
 
-            contact.Attacker?.GetComponent<EnergyManager>()?.AddEnergy(contact.Stats.energyGain);
             CombatFeedback.PlayHitSound(contact.Stats.hitSound);
         }
     }

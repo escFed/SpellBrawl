@@ -102,7 +102,6 @@ public class CharacterGrab : MonoBehaviour
         target.OnThrown(new CombatHit(throwStats.damage,
             GetDirectedThrowKnockback(direction, throwStats.knockback), throwStats.hitStun,
             HitReaction.Hit, target.GrabTransform.position, controller.PlayerIndex, throwStats.launch));
-        GetComponent<EnergyManager>()?.AddEnergy(throwStats.energyGain);
     }
 
     public void ApplyPummel(GrabStats stats)
@@ -111,7 +110,6 @@ public class CharacterGrab : MonoBehaviour
             return;
 
         grabbedTarget.TakePummelDamage(stats.pummelDamage);
-        GetComponent<EnergyManager>()?.AddEnergy(stats.pummelEnergyGain);
     }
 
     public void ReleaseGrabbedTarget()

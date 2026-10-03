@@ -10,18 +10,15 @@ public class CharacterDeck : MonoBehaviour
     [SerializeField] private CardCatalog catalog;
 
     private CharacterCoordinator controller;
-    private EnergyManager energy;
     private DeckRuntime runtime;
     private HandSlotView[] handSnapshot;
 
     public int HandSlotCount => runtime != null ? runtime.HandSlotCount : 0;
-    public int EnergyCost => rules != null ? rules.EnergyCost : 0;
     public bool CanFullRedraw => runtime != null && runtime.CanFullRedraw;
 
     private void Awake()
     {
         controller = GetComponent<CharacterCoordinator>();
-        energy = GetComponent<EnergyManager>();
 
         if (rules == null || catalog == null)
         {
@@ -71,12 +68,9 @@ public class CharacterDeck : MonoBehaviour
         ICardable cardData = runtime.GetCardAt(handIndex);
         if (!cardData.CanBeUsed(controller))
             return CardActions.CardConditionFailed;
-        if (energy.currentEnergy < cardData.EnergyCost)
-            return CardActions.NotEnoughEnergy;
 
         GameObject cardPrefab = runtime.ConsumeAndRefill(handIndex, Time.time + rules.DrawnCardCooldown);
 
-        energy.TrySpendEnergy(cardData.EnergyCost);
         ExecuteCard(cardPrefab);
         UIEvents.OnCardUsed?.Invoke(controller.PlayerIndex, handIndex);
         PublishState();
@@ -87,13 +81,10 @@ public class CharacterDeck : MonoBehaviour
     {
         if (runtime == null || !runtime.CanFullRedraw)
             return CardActions.RedrawUnavailable;
-        if (energy.currentEnergy < rules.EnergyCost)
-            return CardActions.NotEnoughEnergy;
         if (!runtime.TryFullRedraw(Time.time + rules.DrawnCardCooldown))
        
         return CardActions.RedrawUnavailable;
 
-        energy.TrySpendEnergy(rules.EnergyCost);
         PublishState();
         return CardActions.Success;
     }

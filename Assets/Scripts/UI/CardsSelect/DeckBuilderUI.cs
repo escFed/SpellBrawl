@@ -234,11 +234,11 @@ public class DeckBuilderUI : MonoBehaviour
         }
     }
 
-    public void ShowCardDescription(string cardName, string description, int cost, string damage, CardType type)
+    public void ShowCardDescription(string cardName, string description, string damage, CardType type)
     {
         if (tooltipTitleText != null) tooltipTitleText.text = cardName;
         if (tooltipDescText != null) tooltipDescText.text = description;
-        if (cost > 0 && costText != null) costText.text = cost.ToString();
+        if (costText != null) costText.gameObject.SetActive(false);
         if (cardTypeText != null) cardTypeText.text = type.ToString();
         if (tooltipPanel != null) tooltipPanel.SetActive(true);
     }

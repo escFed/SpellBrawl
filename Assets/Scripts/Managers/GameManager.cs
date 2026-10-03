@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     private int p2RoundsWon = 0;
 
     private bool isRoundTransitioning = false;
+    private Coroutine roundResetRoutine;
+    private int transitioningRoundWinner = -1;
 
     [Header("Victory UI")]
     public GameObject victoryPanel;
@@ -26,6 +28,9 @@ public class GameManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        if (Instance == this && !TryGetComponent<CheatCodes>(out _))
+            gameObject.AddComponent<CheatCodes>();
     }
 
     private void Start()
@@ -33,11 +38,61 @@ public class GameManager : MonoBehaviour
         UpdateWinsUI();
     }
 
+    public void DebugResetRound()
+    {
+        if (RespawnManager.Instance == null || CountdownManager.Instance == null)
+        {
+            Debug.LogWarning("[GameManager] Cannot reset the round without respawn and countdown managers.", this);
+            return;
+        }
+
+        if (roundResetRoutine != null)
+        {
+            StopCoroutine(roundResetRoutine);
+            roundResetRoutine = null;
+        }
+
+        // If a knockout was already counted, restart that same round.
+        if (isRoundTransitioning && transitioningRoundWinner == 0)
+        {
+            p1RoundsWon = Mathf.Max(0, p1RoundsWon - 1);
+            p1Wins = Mathf.Max(0, p1Wins - 1);
+        }
+        else if (isRoundTransitioning && transitioningRoundWinner == 1)
+        {
+            p2RoundsWon = Mathf.Max(0, p2RoundsWon - 1);
+            p2Wins = Mathf.Max(0, p2Wins - 1);
+        }
+
+        transitioningRoundWinner = -1;
+        isRoundTransitioning = false;
+        UpdateWinsUI();
+        if (PauseMenu.isPaused)
+        {
+            PauseMenu pauseMenu = FindAnyObjectByType<PauseMenu>();
+            if (pauseMenu != null)
+                pauseMenu.ResumeGame();
+            else
+                PauseMenu.isPaused = false;
+        }
+
+        if (victoryPanel != null)
+            victoryPanel.SetActive(false);
+        UIFocus.Clear();
+        Time.timeScale = 1f;
+        AudioListener.pause = false;
+
+        RespawnManager.Instance.ResetRoundPositionsAndHealth();
+        CountdownManager.Instance.StartNextRound();
+        Debug.Log("[Cheat] Round reset; score preserved.", this);
+    }
+
     public void PlayerDied(int deadPlayerIndex)
     {
         if (isRoundTransitioning) return;
 
         isRoundTransitioning = true;
+        transitioningRoundWinner = deadPlayerIndex == 0 ? 1 : 0;
 
         TargetGroup camUpdater = FindAnyObjectByType<TargetGroup>();
         if (camUpdater != null)
@@ -69,7 +124,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            StartCoroutine(ResetRoundRoutine());
+            roundResetRoutine = StartCoroutine(ResetRoundRoutine());
         }
     }
 
@@ -94,6 +149,8 @@ public class GameManager : MonoBehaviour
         }
 
         isRoundTransitioning = false;
+        transitioningRoundWinner = -1;
+        roundResetRoutine = null;
 
         CountdownManager.Instance.StartNextRound();
     }

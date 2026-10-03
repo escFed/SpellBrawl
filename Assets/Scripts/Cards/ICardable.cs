@@ -5,7 +5,6 @@ public interface ICardable
 {
     string CardName { get; }
     string CardDescription { get; }
-    int EnergyCost { get; }
     CardType Type { get; }
 
     Sprite CardVisual { get; }

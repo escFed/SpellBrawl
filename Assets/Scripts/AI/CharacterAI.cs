@@ -23,7 +23,6 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
     public float recoveryHeightThreshold = -3f;
 
     public CharacterCoordinator SelfController { get; private set; }
-    public EnergyManager SelfEnergy { get; private set; }
     public CharacterHealth SelfHealth { get; private set; }
     public CharacterDeck SelfDeck { get; private set; }
     public Transform Target => targetTracker?.Target;
@@ -42,6 +41,17 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
     private bool hazardSeen;
     private float nextHazardCheck;
     private float thinkTimer;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+    public bool IsDebugFrozen { get; private set; }
+
+    public void SetDebugFrozen(bool frozen)
+    {
+        IsDebugFrozen = frozen;
+        ResetExecution();
+        thinkTimer = 0f;
+        currentDecision = AIDecision.Idle;
+    }
+#endif
 
     public Vector2 CurrentDirection => input.CurrentDirection;
     public bool HasBufferedJump => input.HasBufferedJump;
@@ -79,7 +89,6 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
     private void Awake()
     {
         SelfController = GetComponent<CharacterCoordinator>();
-        SelfEnergy = GetComponent<EnergyManager>();
         SelfHealth = GetComponent<CharacterHealth>();
         SelfDeck = GetComponent<CharacterDeck>();
         selfBody = GetComponent<Rigidbody2D>();
@@ -98,12 +107,11 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
             recoveryHeightThreshold);
 
         cardSelector = new AICardSelector();
-        cardSelector.Initialize(SelfController, SelfEnergy, SelfDeck, targetTracker);
+        cardSelector.Initialize(SelfController, SelfDeck, targetTracker);
 
         contextBuilder = new AIContextBuilder(
             transform,
             SelfController,
-            SelfEnergy,
             SelfHealth,
             targetTracker,
             navigation,
@@ -150,6 +158,10 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
 
     private void Update()
     {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        if (IsDebugFrozen)
+            return;
+#endif
         if (SelfController == null || SelfController.IsDead || SelfController.IsHitStunned)
         {
             ResetExecution();
@@ -256,8 +268,7 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
         return state == SelfController.States.Idle ||
             state == SelfController.States.Move ||
             state == SelfController.States.Crouch ||
-            state == SelfController.States.Jump ||
-            state == SelfController.States.GrabHold;
+            state == SelfController.States.Jump;
     }
 
     private void ResetExecution()
@@ -275,7 +286,6 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
 
         if (profileVersion < 1)
         {
-            profile.grabSkill = 0.55f;
             profile.shieldUsage = 0.55f;
             profile.evadeSkill = 0.6f;
             profile.dashUsage = 0.55f;

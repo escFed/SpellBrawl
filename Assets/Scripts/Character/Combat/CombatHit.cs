@@ -15,8 +15,9 @@ public struct CombatHit
     public HitReaction Reaction;
     public Vector2 Point;
     public int AttackerPlayerIndex;
+    public CharacterCoordinator Attacker;
 
-    public CombatHit(int damage, Vector2 baseKnockback, float hitStun = 0.3f, HitReaction reaction = HitReaction.Hit, Vector2 point = default, int attackerPlayerIndex = -1, KnockbackProfile profile = null, float growthOverride = -1f, AerialSuspension defenderSuspension = default)
+    public CombatHit(int damage, Vector2 baseKnockback, float hitStun = 0.3f, HitReaction reaction = HitReaction.Hit, Vector2 point = default, int attackerPlayerIndex = -1, KnockbackProfile profile = null, float growthOverride = -1f, AerialSuspension defenderSuspension = default, CharacterCoordinator attacker = null)
     {
         Damage = Mathf.Max(0, damage);
         BaseKnockback = baseKnockback;
@@ -30,6 +31,7 @@ public struct CombatHit
         Reaction = reaction;
         Point = point;
         AttackerPlayerIndex = attackerPlayerIndex;
+        Attacker = attacker;
     }
 }
 

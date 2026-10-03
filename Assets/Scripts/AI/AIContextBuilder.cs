@@ -4,7 +4,6 @@ public class AIContextBuilder
 {
     private Transform selfTransform;
     private CharacterCoordinator selfController;
-    private EnergyManager selfEnergy;
     private CharacterHealth selfHealth;
     private Rigidbody2D selfBody;
     private AITarget targetTracker;
@@ -14,11 +13,10 @@ public class AIContextBuilder
     private float cardRange;
     private float heavyChargeTime;
 
-    public AIContextBuilder(Transform selfTransform, CharacterCoordinator selfController, EnergyManager selfEnergy, CharacterHealth selfHealth, AITarget targetTracker, AINavigation navigation, IAICardSelector cardSelector, float attackRange, float cardRange, float heavyChargeTime)
+    public AIContextBuilder(Transform selfTransform, CharacterCoordinator selfController, CharacterHealth selfHealth, AITarget targetTracker, AINavigation navigation, IAICardSelector cardSelector, float attackRange, float cardRange, float heavyChargeTime)
     {
         this.selfTransform = selfTransform;
         this.selfController = selfController;
-        this.selfEnergy = selfEnergy;
         this.selfHealth = selfHealth;
         selfBody = selfTransform != null ? selfTransform.GetComponent<Rigidbody2D>() : null;
         this.targetTracker = targetTracker;
@@ -76,7 +74,6 @@ public class AIContextBuilder
             distanceY,
             selfHealth != null ? selfHealth.currentDamage : 0f,
             targetHealth != null ? targetHealth.currentDamage : 0f,
-            selfEnergy != null ? selfEnergy.currentEnergy : 0f,
             distanceX <= attackRange && Mathf.Abs(distanceY) < 1f,
             distanceX <= cardRange,
             distanceY > navigation.VerticalJumpThreshold,
@@ -95,15 +92,12 @@ public class AIContextBuilder
             isGroundLocomotion && selfController.Shield != null && selfController.Shield.CanActivate,
             selfController != null &&
                 (currentState == selfController.States.Idle || currentState == selfController.States.Move),
-            isGrounded && selfController != null &&
-                (currentState == selfController.States.Idle || currentState == selfController.States.Move),
             isGroundLocomotion && hasCompleteHeavySet,
             isGroundLocomotion,
             !isGrounded && currentState == selfController?.States.Jump &&
                 selfVelocityY < 0f && selfController != null && !selfController.Movement.IsFastFalling,
             selfController != null && selfController.cardsEnabled &&
                 (currentState == selfController.States.Idle || currentState == selfController.States.Move),
-            selfController != null && selfController.Grab != null && selfController.Grab.HasGrabbedTarget,
             IsTargetThreatening(targetTracker.TargetController),
             targetTracker.TargetController != null && targetTracker.TargetController.Shield != null &&
                 targetTracker.TargetController.Shield.IsActive,
@@ -126,7 +120,7 @@ public class AIContextBuilder
             return false;
 
         ICharacterState state = target.GetCurrentState();
-        return state is AttackState || state is GrabState ||
+        return state is AttackState ||
             state == target.States.HeavyCharge || state == target.States.Dash;
     }
 }

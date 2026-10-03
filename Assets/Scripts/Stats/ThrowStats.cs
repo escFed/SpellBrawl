@@ -12,5 +12,4 @@ public class ThrowStats : ScriptableObject
     public Vector2 knockback = new Vector2(6f, 3f);
     public float hitStun = 0.3f;
     public KnockbackProfile launch = new KnockbackProfile();
-    public int energyGain = 10;
 }

@@ -10,7 +10,6 @@ public class TsunamiCard : MonoBehaviour, ICardable
     [SerializeField] private string damageableOrNot = "Damage";
 
     [Header("Card Settings")]
-    [SerializeField] private int energyCost = 30;
     [SerializeField] private CardType type = CardType.Offensive;
     [SerializeField] private Sprite cardVisual;
     [SerializeField] private Image cardUI;
@@ -19,7 +18,6 @@ public class TsunamiCard : MonoBehaviour, ICardable
 
     public string CardName => cardName;
     public string CardDescription => cardDescription;
-    public int EnergyCost => energyCost;
     public CardType Type => type;
     public Sprite CardVisual => cardVisual;
     public string DamageableOrNot => damageableOrNot;

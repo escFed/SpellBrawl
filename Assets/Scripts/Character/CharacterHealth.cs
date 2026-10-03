@@ -54,7 +54,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
         if (parry != null && parry.IsParrying)
         {
-            parry.OnSuccessfulParry();
+            parry.OnSuccessfulParry(hit.Attacker);
             return false;
         }
 
@@ -347,12 +347,13 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         }
 
         deck?.ResetDeckForNewRound();
-        GetComponent<EnergyManager>()?.ResetEnergy();
     }
 
     private void ResetTransientCharacterState()
     {
         IsIntangible = false;
+
+        GetComponent<AntiGravityEffect>()?.CancelEffect();
 
         if (controller == null)
             return;

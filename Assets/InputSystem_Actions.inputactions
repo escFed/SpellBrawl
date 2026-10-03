@@ -97,15 +97,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Grab",
-                    "type": "Button",
-                    "id": "10492344-e6f6-46ba-8108-82f0314bd92e",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Shield",
                     "type": "Button",
                     "id": "60d9abbe-7c98-455d-a2d0-3a10427912c8",
@@ -529,33 +520,11 @@
                 {
                     "name": "",
                     "id": "be931cfa-9a36-4e00-a543-f46a2727e6f6",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Parry",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "27afa4ef-3be2-486e-a056-32b9e710c850",
-                    "path": "<Keyboard>/u",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Grab",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "11c9187e-8c1a-440c-818e-c83977ca81d3",
                     "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Grab",
+                    "action": "Parry",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -651,6 +620,17 @@
                     "name": "",
                     "id": "8f02d9fa-b3c9-4ea6-8616-dfee7645032b",
                     "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HeavyAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8d42557e-ae54-419c-9959-c4c49e52323d",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1138,6 +1118,94 @@
                     "processors": "",
                     "groups": "",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Cheats",
+            "id": "fb161a96-9a97-42d1-9553-95e84dadfb43",
+            "actions": [
+                {
+                    "name": "RoundReset",
+                    "type": "Button",
+                    "id": "3925c658-e5d0-430f-a833-fc5c25074754",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MatchRestart",
+                    "type": "Button",
+                    "id": "8d73e994-98e2-4397-8cab-1830830cba30",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "StocksP1One",
+                    "type": "Button",
+                    "id": "f68a5e60-d9da-42d7-b85a-f88ef9a5887f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AIFreezeP2",
+                    "type": "Button",
+                    "id": "6ed95e10-e02b-4ed8-ac05-da84cfe047ce",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "baf7f396-e1fc-48d0-a2e8-9fce2a86eaa5",
+                    "path": "<Keyboard>/f9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RoundReset",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "84d15ffa-0468-487c-8c98-6183e8cdc830",
+                    "path": "<Keyboard>/f10",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MatchRestart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "58ed630b-b785-46ec-998b-9c403ca61796",
+                    "path": "<Keyboard>/f11",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StocksP1One",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a542234a-148d-4a8b-b25a-e85777b7cf37",
+                    "path": "<Keyboard>/f12",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AIFreezeP2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

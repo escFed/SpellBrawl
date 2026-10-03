@@ -23,10 +23,10 @@ public class LoadingScreen : MonoBehaviour
     [Header("Tips")]
     [SerializeField] private string[] tips =
     {
-        "TIP: SAVE ENERGY TO PLAY YOUR CARDS AT THE RIGHT MOMENT.",
+        "TIP: USE YOUR CARDS AT THE RIGHT MOMENT.",
         "TIP: A WELL-TIMED DODGE CAN TURN THE TIDE OF BATTLE.",
         "TIP: TRY OUT DIFFERENT CARDS TO FIND YOUR STRATEGY.",
-        "TIP: USE YOUR SHIELD TO WITHSTAND ATTACKS, BUT WATCH OUT FOR GRABS."
+        "TIP: USE YOUR SHIELD TO WITHSTAND ATTACKS."
     };
 
     private static string pendingStage;

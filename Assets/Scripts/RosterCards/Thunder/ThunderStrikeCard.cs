@@ -10,9 +10,7 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
 
     [Header("Settings")]
     [SerializeField] private GameObject tsPrefab;
-    [SerializeField] private int energyCost = 20;
 
-    public int EnergyCost => energyCost;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
     public CardType Type => CardType.Offensive;

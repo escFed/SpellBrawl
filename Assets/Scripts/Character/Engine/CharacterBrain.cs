@@ -9,7 +9,6 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
 
     [Header("Input Buffer Settings")]
     [SerializeField] private float attackBufferTime = 0.15f;
-    [SerializeField] private float grabBufferTime = 0.15f;
     [SerializeField] private float jumpBufferTime = 0.15f;
     [SerializeField] private float cardBufferTime = 0.15f;
     [SerializeField] private float evadeBufferTime = 0.15f;
@@ -26,7 +25,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     public bool HasBufferedJump => jumpTimer > 0;
     public bool WasJumpReleased { get; private set; }
     public bool HasBufferedAttack => attackTimer > 0;
-    public bool HasBufferedGrab => grabTimer > 0;
+    public bool HasBufferedGrab => false;
     public bool HasBufferedHand1 => hand1Timer > 0;
     public bool HasBufferedHand2 => hand2Timer > 0;
     public bool HasBufferedHand3 => hand3Timer > 0;
@@ -41,7 +40,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     public bool IsHeavyAttackHeld { get; private set; }
     public bool WasHeavyAttackReleased => heavyAttackReleaseTimer > 0f;
 
-    private float attackTimer, grabTimer, jumpTimer;
+    private float attackTimer, jumpTimer;
     private float hand1Timer, hand2Timer, hand3Timer, hand4Timer;
     private float drawCardsTimer;
     private float parryTimer;
@@ -89,7 +88,6 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
 
         if (jumpTimer > 0) jumpTimer -= Time.deltaTime;
         if (attackTimer > 0) attackTimer -= Time.deltaTime;
-        if (grabTimer > 0) grabTimer -= Time.deltaTime;
         if (hand1Timer > 0) hand1Timer -= Time.deltaTime;
         if (hand2Timer > 0) hand2Timer -= Time.deltaTime;
         if (hand3Timer > 0) hand3Timer -= Time.deltaTime;
@@ -105,7 +103,6 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
 
     public void OnMove(InputValue value) => CurrentDirection = value.Get<Vector2>();
     public void OnAttack(InputValue value) { if (value.isPressed) attackTimer = attackBufferTime; }
-    public void OnGrab(InputValue value) { if (value.isPressed) grabTimer = grabBufferTime; }
     public void OnDrawCards(InputValue value) { if (value.isPressed) drawCardsTimer = cardBufferTime; }
     public void OnHand1(InputValue value) { if (value.isPressed) hand1Timer = cardBufferTime; }
     public void OnHand2(InputValue value) { if (value.isPressed) hand2Timer = cardBufferTime; }
@@ -131,7 +128,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     public void ConsumeJump() => jumpTimer = 0;
     public void ConsumeJumpRelease() => WasJumpReleased = false;
     public void ConsumeAttack() => attackTimer = 0;
-    public void ConsumeGrab() => grabTimer = 0;
+    public void ConsumeGrab() { }
     public void ConsumeHand1() => hand1Timer = 0;
     public void ConsumeHand2() => hand2Timer = 0;
     public void ConsumeHand3() => hand3Timer = 0;
