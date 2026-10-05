@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class CharacterParry : MonoBehaviour
 {
+    private const float SuccessfulParryStunDuration = 1f;
+
     [Header("Audio")]
     public AudioClip parrySuccessSound;
     private AudioSource audioSource;
 
     private CharacterCoordinator controller;
-    private EnergyManager energy;
 
     private bool hasParriedThisHit = false;
     public bool IsParrying { get; private set; }
@@ -15,7 +16,6 @@ public class CharacterParry : MonoBehaviour
     private void Awake()
     {
         controller = GetComponent<CharacterCoordinator>();
-        energy = GetComponent<EnergyManager>();
         audioSource = GetComponent<AudioSource>();
         GameSettings.RegisterSource(audioSource, GameSound.SoundEffects);
     }
@@ -36,14 +36,9 @@ public class CharacterParry : MonoBehaviour
         IsParrying = active;
     }
 
-    public void OnSuccessfulParry()
+    public void OnSuccessfulParry(CharacterCoordinator attacker)
     {
         if (hasParriedThisHit) return;
-
-        if (energy != null)
-        {
-            energy.AddEnergy(50);
-        }
 
         if (audioSource != null && parrySuccessSound != null)
         {
@@ -51,5 +46,8 @@ public class CharacterParry : MonoBehaviour
         }
 
         hasParriedThisHit = true;
+
+        if (attacker != null && attacker != controller && !attacker.IsDead && attacker.Combat != null)
+            attacker.Combat.TakeHit(SuccessfulParryStunDuration, HitReaction.Stunned);
     }
 }

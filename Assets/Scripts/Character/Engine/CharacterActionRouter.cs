@@ -73,11 +73,6 @@ public sealed class CharacterActionRouter
             input.ConsumeAttack();
             machine.ChangeState(States.DashAttack);
         }
-        else if (!cancellingHeavyCharge && input.HasBufferedGrab)
-        {
-            input.ConsumeGrab();
-            machine.ChangeState(States.DashGrab);
-        }
         else
         {
             machine.ChangeState(States.Dash);

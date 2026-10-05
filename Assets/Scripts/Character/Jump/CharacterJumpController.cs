@@ -10,12 +10,20 @@ public sealed class CharacterJumpController
     private bool groundJumpAvailable;
     private bool wasStablyGrounded;
     private float coyoteTimeRemaining;
+    private int currentWallSurfaceId;
+    private int lastWallJumpSurfaceId;
+    private int wallJumpSide;
+    private float wallCoyoteTimeRemaining;
 
     public int JumpsRemaining => airJumpsRemaining + (CanGroundJump ? 1 : 0);
     public bool CanGroundJump => groundJumpAvailable &&
         (movement.HasStableGroundContact || coyoteTimeRemaining > 0f);
-    public bool CanJump => CanGroundJump || (!character.IsGrounded && airJumpsRemaining > 0);
+    public bool CanWallJump => !character.IsGrounded && wallCoyoteTimeRemaining > 0f &&
+        currentWallSurfaceId != 0 && currentWallSurfaceId != lastWallJumpSurfaceId;
+    public bool CanJump => CanGroundJump || CanWallJump ||
+        (!character.IsGrounded && airJumpsRemaining > 0);
     public float CoyoteTimeRemaining => coyoteTimeRemaining;
+    public float WallCoyoteTimeRemaining => wallCoyoteTimeRemaining;
 
     public CharacterJumpController(CharacterCoordinator character)
     {
@@ -33,6 +41,7 @@ public sealed class CharacterJumpController
     public bool Tick()
     {
         bool landedThisFrame = UpdateJumpAvailability();
+        UpdateWallJumpAvailability();
         EnterAirborneLocomotionIfNeeded();
         return TryHandleBufferedLandingJump(landedThisFrame);
     }
@@ -43,10 +52,17 @@ public sealed class CharacterJumpController
         if (input == null || !CanJump)
             return false;
 
+        bool isWallJump = CanWallJump && !CanGroundJump;
+
         if (CanGroundJump)
         {
             groundJumpAvailable = false;
             coyoteTimeRemaining = 0f;
+        }
+        else if (isWallJump)
+        {
+            lastWallJumpSurfaceId = currentWallSurfaceId;
+            wallCoyoteTimeRemaining = 0f;
         }
         else
         {
@@ -54,7 +70,11 @@ public sealed class CharacterJumpController
         }
 
         input.ConsumeJump();
-        movement.ApplyJumpForce();
+        if (isWallJump)
+            movement.ApplyWallJumpForce(wallJumpSide);
+        else
+            movement.ApplyJumpForce();
+
         return true;
     }
 
@@ -79,6 +99,10 @@ public sealed class CharacterJumpController
         airJumpsRemaining = Mathf.Max(0, maxJumps - 1);
         groundJumpAvailable = maxJumps > 0;
         coyoteTimeRemaining = 0f;
+        currentWallSurfaceId = 0;
+        lastWallJumpSurfaceId = 0;
+        wallJumpSide = 0;
+        wallCoyoteTimeRemaining = 0f;
     }
 
     public void CancelGroundJumpAvailability()
@@ -127,6 +151,34 @@ public sealed class CharacterJumpController
 
         stateMachine.ChangeState(character.States.Jump);
         return stateMachine.Is(character.States.Jump) && !input.HasBufferedJump;
+    }
+
+    private void UpdateWallJumpAvailability()
+    {
+        if (character.IsGrounded)
+        {
+            currentWallSurfaceId = 0;
+            wallJumpSide = 0;
+            wallCoyoteTimeRemaining = 0f;
+            return;
+        }
+
+        if (movement.IsTouchingWall)
+        {
+            currentWallSurfaceId = movement.WallCollider.GetInstanceID();
+            wallJumpSide = movement.WallSide;
+            wallCoyoteTimeRemaining = character.stats != null
+                ? Mathf.Max(0f, character.stats.wallCoyoteTime)
+                : 0.08f;
+            return;
+        }
+
+        wallCoyoteTimeRemaining = Mathf.Max(0f, wallCoyoteTimeRemaining - Time.deltaTime);
+        if (wallCoyoteTimeRemaining <= 0f)
+        {
+            currentWallSurfaceId = 0;
+            wallJumpSide = 0;
+        }
     }
 
     private bool CanArmCoyoteTime()

@@ -29,13 +29,6 @@ public class DashState : CharacterState
             return;
         }
 
-        if (character.GrabInput)
-        {
-            character.ActiveInput?.ConsumeGrab();
-            stateMachine.ChangeState(character.States.DashGrab);
-            return;
-        }
-
         if (timer >= character.stats.dashDuration + character.stats.dashRecovery)
             ReturnToLocomotion();
     }

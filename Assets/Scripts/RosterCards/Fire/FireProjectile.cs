@@ -27,6 +27,7 @@ public class FireProjectile : MonoBehaviour
             ? controller.PlayerIndex
             : -1;
         rb.linearVelocity = direction.normalized * speed;
+        AIDangerSource.Attach(gameObject, caster, 0.5f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -40,7 +41,8 @@ public class FireProjectile : MonoBehaviour
             Vector2 directedKnockback = new Vector2(knockback.x * dir, knockback.y);
 
             target.ReceiveHit(new CombatHit(damage, directedKnockback, hitStun,
-                HitReaction.Hit, collision.ClosestPoint(transform.position), attackerPlayerIndex, launch));
+                HitReaction.Hit, collision.ClosestPoint(transform.position), attackerPlayerIndex, launch,
+                attacker: caster != null ? caster.GetComponent<CharacterCoordinator>() : null));
 
             Destroy(gameObject);
         }

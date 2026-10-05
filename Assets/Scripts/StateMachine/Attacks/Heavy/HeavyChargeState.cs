@@ -29,10 +29,10 @@ public sealed class HeavyChargeState : CharacterState
         charge.Begin(stats.maxChargeTime);
         character.Movement.StopHorizontalMovement();
         character.Animation.TryPlay(stats.chargeAnimationState, "Idle");
-        character.Animation.TrySetInt(HeavyAttackTypeParameter, (int)attackType);
-        character.Animation.TrySetFloat(HeavyChargeRatioParameter, 0f);
-        character.Animation.TrySetBool(HeavyChargeMaxParameter, false);
-        character.Animation.TrySetInt(HeavyAttackPhaseParameter, 1);
+        character.Animation.TrySetInt(HeavyAttackTypeParameter, (int)attackType, optional: true);
+        character.Animation.TrySetFloat(HeavyChargeRatioParameter, 0f, optional: true);
+        character.Animation.TrySetBool(HeavyChargeMaxParameter, false, optional: true);
+        character.Animation.TrySetInt(HeavyAttackPhaseParameter, 1, optional: true);
     }
 
     public override void Update()
@@ -51,12 +51,12 @@ public sealed class HeavyChargeState : CharacterState
         }
 
         charge.Tick(Time.deltaTime);
-        character.Animation.TrySetFloat(HeavyChargeRatioParameter, charge.ChargeRatio);
+        character.Animation.TrySetFloat(HeavyChargeRatioParameter, charge.ChargeRatio, optional: true);
 
         if (charge.IsFullyCharged)
         {
-            character.Animation.TrySetBool(HeavyChargeMaxParameter, true);
-            character.Animation.TrySetTrigger(HeavyChargeReachedMaxTrigger);
+            character.Animation.TrySetBool(HeavyChargeMaxParameter, true, optional: true);
+            character.Animation.TrySetTrigger(HeavyChargeReachedMaxTrigger, optional: true);
             ExecuteAttack(1f);
             return;
         }
@@ -78,9 +78,9 @@ public sealed class HeavyChargeState : CharacterState
 
         if (!isExecuting)
         {
-            character.Animation.TrySetBool(HeavyChargeMaxParameter, false);
-            character.Animation.TrySetInt(HeavyAttackPhaseParameter, 5);
-            character.Animation.TrySetTrigger(HeavyChargeCancelledTrigger);
+            character.Animation.TrySetBool(HeavyChargeMaxParameter, false, optional: true);
+            character.Animation.TrySetInt(HeavyAttackPhaseParameter, 5, optional: true);
+            character.Animation.TrySetTrigger(HeavyChargeCancelledTrigger, optional: true);
         }
     }
 

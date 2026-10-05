@@ -19,6 +19,7 @@ public class ThunderProjectile : MonoBehaviour
             ? controller.PlayerIndex
             : -1;
         Destroy(gameObject, lifeTime);
+        AIDangerSource.Attach(gameObject, caster, 1f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -28,7 +29,8 @@ public class ThunderProjectile : MonoBehaviour
         ICombatHitReceiver target = collision.GetComponentInParent<ICombatHitReceiver>();
         if (target != null)
         {
-            target.ReceiveHit(new CombatHit(damage, knockback, hitStun, HitReaction.Hit, collision.ClosestPoint(transform.position), attackerPlayerIndex, launch));
+            target.ReceiveHit(new CombatHit(damage, knockback, hitStun, HitReaction.Hit, collision.ClosestPoint(transform.position), attackerPlayerIndex, launch,
+                attacker: caster != null ? caster.GetComponent<CharacterCoordinator>() : null));
         }
     }
 }

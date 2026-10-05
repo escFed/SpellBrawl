@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Unity.VisualScripting;
 
 [RequireComponent(typeof(Graphic))]
-public class UICard : Selectable, ISubmitHandler, ICancelHandler
+public class UICard : Selectable, ISubmitHandler
 {
 
  
@@ -46,13 +46,6 @@ public class UICard : Selectable, ISubmitHandler, ICancelHandler
         if (deckBuilder != null && deckBuilder.AddCardToDeck(cardPrefab))
             UpdateVisuals();
     }
-
-    public void OnCancel(BaseEventData eventData)
-    {
-        if (deckBuilder != null && deckBuilder.TryRemoveCard(cardPrefab))
-            UpdateVisuals();
-    }
-
 
 
     public override void OnSelect(BaseEventData eventData)
@@ -110,7 +103,7 @@ public class UICard : Selectable, ISubmitHandler, ICancelHandler
         ICardable cardData = cardPrefab.GetComponent<ICardable>();
         if (cardData != null)
         {
-            deckBuilder.ShowCardDescription(cardData.CardName, cardData.CardDescription, cardData.EnergyCost, cardData.DamageableOrNot, cardData.Type);
+            deckBuilder.ShowCardDescription(cardData.CardName, cardData.CardDescription, cardData.DamageableOrNot, cardData.Type);
         }
     }
 
@@ -119,7 +112,7 @@ public class UICard : Selectable, ISubmitHandler, ICancelHandler
         cardPrefab = prefab;
         deckBuilder = builder;
         UpdateVisuals();
-        deckBuilder.ShowCardDescription(cardData.CardName, cardData.CardDescription, cardData.EnergyCost, cardData.DamageableOrNot, cardData.Type);
+        deckBuilder.ShowCardDescription(cardData.CardName, cardData.CardDescription, cardData.DamageableOrNot, cardData.Type);
     }
     public void ShowSpecificUICard()
     {

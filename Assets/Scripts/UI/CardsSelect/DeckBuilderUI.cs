@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -52,6 +53,23 @@ public class DeckBuilderUI : MonoBehaviour
         ClearDeck();
     }
 
+    public bool TryReturnToPlayerOneDeck()
+    {
+        if (selectingSlot != PlayerSlot.PlayerTwo)
+            return false;
+
+        BeginSelection(PlayerSlot.PlayerOne);
+        IReadOnlyList<GameObject> savedDeck = DeckManager.Instance?.GetDeck(PlayerSlot.PlayerOne);
+        if (savedDeck != null)
+        {
+            for (int i = 0; i < savedDeck.Count; i++)
+                AddCardToDeck(savedDeck[i], false);
+        }
+
+        RefreshAllUICards();
+        return true;
+    }
+
     private void Initialize()
     {
         if (initialized)
@@ -86,6 +104,11 @@ public class DeckBuilderUI : MonoBehaviour
 
     public bool AddCardToDeck(GameObject cardPrefab)
     {
+        return AddCardToDeck(cardPrefab, true);
+    }
+
+    private bool AddCardToDeck(GameObject cardPrefab, bool playSound)
+    {
         if (rules == null || cardPrefab == null || selectedCards.Count >= rules.DeckSize)
             return false;
 
@@ -113,7 +136,7 @@ public class DeckBuilderUI : MonoBehaviour
             cardVisuals[cardPrefab] = cardVisual;
             RepositionCards();
 
-            if (source != null && aCardSelectedClip != null)
+            if (playSound && source != null && aCardSelectedClip != null)
                 source.PlayOneShot(aCardSelectedClip);
         }
         
@@ -139,6 +162,23 @@ public class DeckBuilderUI : MonoBehaviour
         }
 
         UpdateUI();
+        return true;
+    }
+
+    public bool TryRemoveLastCard()
+    {
+        if (selectedCards.Count == 0)
+            return false;
+
+        GameObject lastCard = selectedCards[selectedCards.Count - 1];
+        bool focusWillBeDestroyed = cardVisuals.TryGetValue(lastCard, out GameObject visual) &&
+            EventSystem.current != null && EventSystem.current.currentSelectedGameObject == visual;
+        if (!TryRemoveCard(lastCard))
+            return false;
+
+        RefreshAllUICards();
+        if (focusWillBeDestroyed)
+            UIFocus.SelectFirst(gameObject);
         return true;
     }
 
@@ -234,11 +274,11 @@ public class DeckBuilderUI : MonoBehaviour
         }
     }
 
-    public void ShowCardDescription(string cardName, string description, int cost, string damage, CardType type)
+    public void ShowCardDescription(string cardName, string description, string damage, CardType type)
     {
         if (tooltipTitleText != null) tooltipTitleText.text = cardName;
         if (tooltipDescText != null) tooltipDescText.text = description;
-        if (cost > 0 && costText != null) costText.text = cost.ToString();
+        if (costText != null) costText.gameObject.SetActive(false);
         if (cardTypeText != null) cardTypeText.text = type.ToString();
         if (tooltipPanel != null) tooltipPanel.SetActive(true);
     }

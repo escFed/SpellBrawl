@@ -33,6 +33,7 @@ public sealed class CharacterStates
     public DieState Die { get; }
     public ParryState Parry { get; }
     public HitStunState HitStun { get; }
+    public ClashSequenceState ClashSequence { get; }
 
     public CharacterStates(CharacterCoordinator character, CharacterStateMachine machine)
     {
@@ -69,5 +70,6 @@ public sealed class CharacterStates
         Die = new DieState(character, machine);
         Parry = new ParryState(character, machine);
         HitStun = new HitStunState(character, machine);
+        ClashSequence = new ClashSequenceState(character, machine);
     }
 }

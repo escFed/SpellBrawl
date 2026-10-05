@@ -13,7 +13,6 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
     [SerializeField] private int damage = 8;
     [SerializeField] private float slowAmount = 0.4f;
     [SerializeField] private float duration = 2f;
-    [SerializeField] private int energyCost = 20;
     [SerializeField] private Vector2 knockback = Vector2.up;
     [SerializeField, Min(0f)] private float hitStun = 0.3f;
     [SerializeField] private KnockbackProfile launch = new KnockbackProfile { growth = 0f, hitStunPerSpeed = 0f, directionalInfluence = 0f };
@@ -23,7 +22,6 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
     [SerializeField] private Sprite cardIcon;
     [SerializeField] private Image cardVisual; // añadido: referencia a la imagen UI
 
-    public int EnergyCost => energyCost;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
 
@@ -79,7 +77,8 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
 
             if (opponent.TryGetComponent(out CharacterHealth opponentHealth))
             {
-                opponentHealth.ReceiveHit(new CombatHit(damage, knockback, hitStun, HitReaction.Hit, opponent.transform.position, character.PlayerIndex, launch));
+                opponentHealth.ReceiveHit(new CombatHit(damage, knockback, hitStun, HitReaction.Hit, opponent.transform.position, character.PlayerIndex, launch,
+                    attacker: character));
             }
 
             opponent.Movement.moveSpeedMultiplier = slowAmount;

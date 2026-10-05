@@ -15,7 +15,6 @@ public class BlackHoleCard : MonoBehaviour, ICardable
 
 
     [SerializeField] private int damage = 25;
-    [SerializeField] private int energyCost = 20;
     [SerializeField] private Vector2 knockback = Vector2.up;
     [SerializeField, Min(0f)] private float hitStun = 0.3f;
     [SerializeField] private KnockbackProfile launch = new KnockbackProfile { growth = 0f, hitStunPerSpeed = 0f, directionalInfluence = 0f };
@@ -27,7 +26,6 @@ public class BlackHoleCard : MonoBehaviour, ICardable
     [SerializeField] private Image cardVisual;
 
 
-    public int EnergyCost => energyCost;
 
     public CardType Type => CardType.Utility;
     public string CardName => cardName;
@@ -103,7 +101,8 @@ public class BlackHoleCard : MonoBehaviour, ICardable
 
                 if (opponent.TryGetComponent(out CharacterHealth opponentHealth))
                 {
-                    opponentHealth.ReceiveHit(new CombatHit(damage, knockback, hitStun, HitReaction.Hit, opponent.transform.position, character.PlayerIndex, launch));
+                    opponentHealth.ReceiveHit(new CombatHit(damage, knockback, hitStun, HitReaction.Hit, opponent.transform.position, character.PlayerIndex, launch,
+                        attacker: character));
                 }
 
                 opponent.Movement.moveSpeedMultiplier = 0.2f;

@@ -18,12 +18,6 @@ public class IdleState : CharacterState
             return;
         }
 
-        if (character.GrabInput)
-        {
-            stateMachine.ChangeState(character.Grab.ResolveGrabState());
-            return;
-        }
-
         if (character.AttackInput)
         {
             stateMachine.ChangeState(character.Combat.ResolveAttackState());

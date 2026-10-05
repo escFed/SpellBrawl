@@ -92,6 +92,30 @@ public class SettingsController : MonoBehaviour
         Select(gamepadInitialSelection, gamepadControlsPanel);
     }
 
+    public bool TryGoBack()
+    {
+        if ((keyboardControlsPanel != null && keyboardControlsPanel.activeSelf) ||
+            (gamepadControlsPanel != null && gamepadControlsPanel.activeSelf))
+        {
+            ShowControls();
+            return true;
+        }
+
+        if ((audioPanel != null && audioPanel.activeSelf) ||
+            (controlsPanel != null && controlsPanel.activeSelf))
+        {
+            ShowSettingsHome();
+            return true;
+        }
+
+        return false;
+    }
+
+    public void Back()
+    {
+        TryGoBack();
+    }
+
     public void SetMasterVolume(float value)
     {
         GameSettings.SetMasterVolume(value);

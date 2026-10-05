@@ -12,14 +12,12 @@ public class HasteCard : MonoBehaviour, ICardable
     [Header("Haste Settings")]
     [SerializeField] private float speedMultiplier = 1.5f;
     [SerializeField] private float duration = 5f;
-    [SerializeField] private int energyCost = 20;
     [SerializeField] private Sprite cardIcon;
 
     // Nuevo campo para cumplir la interfaz
     [SerializeField] private Image cardVisual;
 
     public string DamageableOrNot => damageOrNot;
-    public int EnergyCost => energyCost;
     public string CardName => cardName;
     public string CardDescription => cardDescription;
     public CardType Type => CardType.Boost;

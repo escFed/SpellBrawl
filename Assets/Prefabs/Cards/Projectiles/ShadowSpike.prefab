@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 302303966522070179}
   - component: {fileID: -5063995480748655516}
   - component: {fileID: 6406492715636759838}
+  - component: {fileID: 3542593999460178201}
   m_Layer: 0
   m_Name: ShadowSpike
   m_TagString: Untagged
@@ -82,12 +83,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7640557729247605205, guid: 6360e3b766c078f4dbc43b3b50ad1810, type: 3}
+  m_Sprite: {fileID: -4908467881491540401, guid: a539916fcedfcee4ab1af1db08c6ab52, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.109375, y: 2.734375}
+  m_Size: {x: 2.453125, y: 0.727272}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -105,3 +106,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShadowProjectile
   lifeTime: 1
+--- !u!95 &3542593999460178201
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4468951265254541048}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9a1c9b1e618309e4a8dcfdf117a09d71, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

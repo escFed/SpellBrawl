@@ -17,20 +17,49 @@ MonoBehaviour:
   characterIcon: {fileID: -6620623385148806820, guid: 862f8ffd448ebaf448c4aaa180719cce, type: 3}
   moveSpeed: 5
   jumpForce: 9
+  jumpSpeedMultiplier: 1
+  shortHopVelocityMultiplier: 0.6
   maxJumps: 2
   coyoteTime: 0.1
   weight: 100
   maxFallSpeed: -15
   fastFallSpeed: -20
+  wallJumpHorizontalSpeed: 8
+  wallJumpVerticalSpeed: 11
+  wallJumpControlLockTime: 0.12
+  wallCoyoteTime: 0.08
   tiltThreshold: 0.3
-  parryWindow: 0.2
   defenseMultiplier: 1
+  strongHitStunThreshold: 0.5
   directionalInfluenceDegrees: 12
   knockbackAirDeceleration: 10
   knockbackGroundDeceleration: 40
+  dodgeSpeed: 14
+  dashSpeed: 15
+  dashDuration: 0.18
+  dashRecovery: 0.12
+  dashCooldown: 3
+  dashAttackSpeed: 12
+  dashGrabSpeed: 9
+  dashGrabSlideDuration: 0.16
   maxEnergy: 100
   startingEnergy: 50
   jabAttack: {fileID: 11400000, guid: 44e77717bb639cc41947661e52caf25c, type: 2}
   fTiltAttack: {fileID: 11400000, guid: 92efd899db910784d8877a7790584f14, type: 2}
   upTiltAttack: {fileID: 11400000, guid: 8f17051f3f0f64b4c84fc7a54054b8b0, type: 2}
   dTiltAttack: {fileID: 11400000, guid: 15b0250bc1031cd4a892f7399dd7d177, type: 2}
+  dashAttack: {fileID: 0}
+  neutralAirAttack: {fileID: 0}
+  forwardAirAttack: {fileID: 0}
+  upAirAttack: {fileID: 0}
+  downAirAttack: {fileID: 0}
+  forwardHeavyAttack: {fileID: 0}
+  upHeavyAttack: {fileID: 0}
+  downHeavyAttack: {fileID: 0}
+  grabStats: {fileID: 0}
+  pivotGrabStats: {fileID: 0}
+  dashGrabStats: {fileID: 0}
+  forwardThrow: {fileID: 0}
+  backThrow: {fileID: 0}
+  upThrow: {fileID: 0}
+  downThrow: {fileID: 0}

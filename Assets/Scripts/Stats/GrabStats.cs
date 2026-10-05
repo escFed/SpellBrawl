@@ -11,6 +11,5 @@ public class GrabStats : ScriptableObject
     [Header("Pummel")]
     public int pummelDamage = 2;
     public float pummelCooldown = 0.35f;
-    public int pummelEnergyGain = 2;
     public float maxHoldDuration = 2f;
 }

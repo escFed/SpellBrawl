@@ -1,4 +1,8 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
@@ -13,9 +17,82 @@ public class MenuManager : MonoBehaviour
     public GameObject mapSelectPanel;
     public GameObject settingsPanel;
 
+    private InputAction cancelAction;
+    private bool backQueued;
+
     private void Start()
     {
+        if (EventSystem.current != null &&
+            EventSystem.current.TryGetComponent(out InputSystemUIInputModule inputModule))
+            cancelAction = inputModule.cancel?.action;
+
         ShowMainMenu();
+    }
+
+    private void Update()
+    {
+        if (backQueued || cancelAction == null || !cancelAction.WasPressedThisFrame())
+            return;
+
+        if (cardsSelectPanel != null && cardsSelectPanel.activeInHierarchy)
+        {
+            DeckBuilderUI deckBuilder = cardsSelectPanel.GetComponent<DeckBuilderUI>();
+            deckBuilder?.TryRemoveLastCard();
+            return;
+        }
+
+        StartCoroutine(BackAfterUiCancel());
+    }
+
+    private IEnumerator BackAfterUiCancel()
+    {
+        backQueued = true;
+        // Let the EventSystem finish dispatching Cancel before changing the selected panel.
+        yield return null;
+        backQueued = false;
+        Back();
+    }
+
+    public void Back()
+    {
+        if (settingsPanel != null && settingsPanel.activeSelf)
+        {
+            SettingsController settings = settingsPanel.GetComponent<SettingsController>();
+            if (settings == null || !settings.TryGoBack())
+                HideSettings();
+        }
+        else if (controlsPanel != null && controlsPanel.activeSelf)
+            HideControls();
+        else if (howToPlayPanel != null && howToPlayPanel.activeSelf)
+            ShowMainMenu();
+        else if (mapSelectPanel != null && mapSelectPanel.activeSelf)
+            BackToCardsSelect();
+        else if (cardsSelectPanel != null && cardsSelectPanel.activeSelf)
+            BackFromCardsSelect();
+        else if (characterSelectPanel != null && characterSelectPanel.activeSelf)
+        {
+            if (SelectionManager.Instance != null && SelectionManager.Instance.isTrainingMode)
+                ShowMainMenu();
+            else
+                ShowGameModeSelect();
+        }
+        else if (gameModePanel != null && gameModePanel.activeSelf)
+            ShowMainMenu();
+    }
+
+    public void BackFromCardsSelect()
+    {
+        if (cardsSelectPanel == null || !cardsSelectPanel.activeSelf)
+            return;
+
+        DeckBuilderUI deckBuilder = cardsSelectPanel.GetComponent<DeckBuilderUI>();
+        if (deckBuilder != null && deckBuilder.TryReturnToPlayerOneDeck())
+        {
+            Focus(cardsSelectPanel);
+            return;
+        }
+
+        BackToCharacterSelect();
     }
 
     public void ShowMainMenu()
@@ -172,7 +249,7 @@ public class MenuManager : MonoBehaviour
 
     public void GoToStage1()
     {
-        SceneManager.LoadScene("Stage1");
+        LoadingScreen.LoadStage("Stage1");
     }
 
     public void ShowControls()

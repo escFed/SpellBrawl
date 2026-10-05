@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1763833502732079352}
   - component: {fileID: 8993434062336680524}
+  - component: {fileID: 4692674383013063285}
   m_Layer: 7
   m_Name: FireCard
   m_TagString: Untagged
@@ -48,6 +49,27 @@ MonoBehaviour:
   cardDescription: CAST A FIREBALL
   damageOrNot: DAMAGEABLE
   fbPrefab: {fileID: 2221465273619720722, guid: f0973e9c22a6a32458aa00c1a5d8d237, type: 3}
-  energyCost: 0
   cardSprite: {fileID: 755929074753127798, guid: 2eb86d250183cd14186104aa12639832, type: 3}
   cardUI: {fileID: 0}
+--- !u!95 &4692674383013063285
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052908611097359236}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 32af652a2cd10cf4f94aae0566db5a42, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

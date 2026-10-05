@@ -1,46 +1,7 @@
 using UnityEngine;
 
+// Retained so existing character prefabs keep a valid script reference.
+// Energy is no longer a gameplay resource.
 public class EnergyManager : MonoBehaviour
 {
-    public int currentEnergy;
-    private CharacterCoordinator Controller;
-
-    private void Awake()
-    {
-        Controller = GetComponent<CharacterCoordinator>();
-    }
-
-    private void Start()
-    {
-        currentEnergy = Controller.stats.startingEnergy;
-        UpdateUI();
-    }
-    public void AddEnergy(int amount)
-    {
-        currentEnergy = Mathf.Clamp(currentEnergy + amount, 0, Controller.stats.maxEnergy);
-        UpdateUI();
-    }
-
-    public bool TrySpendEnergy(int amount)
-    {
-        if (currentEnergy >= amount)
-        {
-            currentEnergy -= amount;
-            UpdateUI();
-            return true;
-        }
-        return false;
-    }
-
-    public void ResetEnergy()
-    {
-        currentEnergy = Controller.stats.startingEnergy;
-        UpdateUI();
-    }
-
-    public void UpdateUI()
-    {
-        if (Controller != null)
-            UIEvents.OnEnergyChanged?.Invoke(Controller.PlayerIndex, currentEnergy);
-    }
 }

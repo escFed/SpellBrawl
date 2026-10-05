@@ -42,36 +42,36 @@ public class CharacterAnimationController
         return TryPlayStateName(stateName) || TryPlayStateName(fallbackStateName);
     }
 
-    public bool TrySetFloat(int parameterHash, float value)
+    public bool TrySetFloat(int parameterHash, float value, bool optional = false)
     {
-        if (!HasParameter(parameterHash, AnimatorControllerParameterType.Float))
+        if (!HasParameter(parameterHash, AnimatorControllerParameterType.Float, optional))
             return false;
 
         animator.SetFloat(parameterHash, value);
         return true;
     }
 
-    public bool TrySetInt(int parameterHash, int value)
+    public bool TrySetInt(int parameterHash, int value, bool optional = false)
     {
-        if (!HasParameter(parameterHash, AnimatorControllerParameterType.Int))
+        if (!HasParameter(parameterHash, AnimatorControllerParameterType.Int, optional))
             return false;
 
         animator.SetInteger(parameterHash, value);
         return true;
     }
 
-    public bool TrySetBool(int parameterHash, bool value)
+    public bool TrySetBool(int parameterHash, bool value, bool optional = false)
     {
-        if (!HasParameter(parameterHash, AnimatorControllerParameterType.Bool))
+        if (!HasParameter(parameterHash, AnimatorControllerParameterType.Bool, optional))
             return false;
 
         animator.SetBool(parameterHash, value);
         return true;
     }
 
-    public bool TrySetTrigger(int parameterHash)
+    public bool TrySetTrigger(int parameterHash, bool optional = false)
     {
-        if (!HasParameter(parameterHash, AnimatorControllerParameterType.Trigger))
+        if (!HasParameter(parameterHash, AnimatorControllerParameterType.Trigger, optional))
             return false;
 
         animator.SetTrigger(parameterHash);
@@ -101,16 +101,17 @@ public class CharacterAnimationController
             parameterTypes[parameter.nameHash] = parameter.type;
     }
 
-    private bool HasParameter(int parameterHash, AnimatorControllerParameterType expectedType)
+    private bool HasParameter(int parameterHash, AnimatorControllerParameterType expectedType, bool optional = false)
     {
         if (!CanUseAnimator())
             return false;
 
         if (!parameterTypes.TryGetValue(parameterHash, out AnimatorControllerParameterType actualType))
         {
-            ReportOnce(
-                $"parameter:{parameterHash}",
-                $"Animator parameter hash '{parameterHash}' is not configured on '{animator.name}'.");
+            if (!optional)
+                ReportOnce(
+                    $"parameter:{parameterHash}",
+                    $"Animator parameter hash '{parameterHash}' is not configured on '{animator.name}'.");
             return false;
         }
 

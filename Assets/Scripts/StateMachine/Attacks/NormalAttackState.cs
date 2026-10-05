@@ -19,6 +19,17 @@ public sealed class NormalAttackState : AttackState
         character.Animation.TryPlay(animationState);
     }
 
+    public override void Update()
+    {
+        if (isAerial && character.Movement.HasStableGroundContact)
+        {
+            stateMachine.ChangeState(GetRecoveryState());
+            return;
+        }
+
+        base.Update();
+    }
+
     protected override void ReadyHitbox() => character.Combat.SetupNormalAttack(attackType, (NormalAttackStats)stats);
     protected override void OpenHitbox() => character.Combat.SetNormalAttackHitbox(attackType, true);
     protected override void CloseHitbox() => character.Combat.SetNormalAttackHitbox(attackType, false);

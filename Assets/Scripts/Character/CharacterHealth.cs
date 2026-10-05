@@ -1,10 +1,9 @@
 using System.Collections;
 using UnityEngine;
-using SmoothShakeFree;
 
 public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 {
-    private const float RespawnBlinkInterval = 0.1f;
+    private float RespawnBlinkInterval = 0.1f;
 
     [Header("Health Settings")]
     public int currentDamage = 0;
@@ -20,14 +19,14 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
     private CharacterCoordinator controller;
     private CharacterParry parry;
     private CharacterDeck deck;
-    private bool isDead = false;
-    private bool isWaitingToRespawn;
     private float lastFallTime = -2f;
     private Coroutine respawnRoutine;
 
-    public bool IsDead => isDead;
+    public RespawnPhase Phase { get; private set; } = RespawnPhase.Active;
+    public bool IsDead => Phase == RespawnPhase.Eliminated;
     public bool IsIntangible { get; private set; }
-    public bool IsRespawnProtected { get; private set; }
+    public bool IsRespawnProtected => Phase == RespawnPhase.RespawnProtected;
+    public bool ShouldCameraTrack => Phase == RespawnPhase.Active || Phase == RespawnPhase.RespawnProtected;
 
     private void Awake()
     {
@@ -51,11 +50,11 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
     public bool ReceiveHit(CombatHit hit)
     {
-        if (isDead || IsRespawnProtected || IsIntangible) return false;
+        if (Phase != RespawnPhase.Active || IsIntangible) return false;
 
         if (parry != null && parry.IsParrying)
         {
-            parry.OnSuccessfulParry();
+            parry.OnSuccessfulParry(hit.Attacker);
             return false;
         }
 
@@ -76,6 +75,8 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
         // Capture held direction before TakeHit clears action buffers.
         Vector2 influence = controller.ActiveInput != null ? controller.ActiveInput.CurrentDirection : Vector2.zero;
+        if (controller.ActiveInput is IDirectionalInfluenceProvider influenceProvider)
+            influence = influenceProvider.DirectionalInfluence;
         Vector2 finalKnockback = KnockbackCalculation.CalculateVelocity(hit, currentDamage, controller.stats.weight,
             influence, controller.stats.directionalInfluenceDegrees);
         float stun = KnockbackCalculation.CalculateHitStun(hit, finalKnockback);
@@ -95,7 +96,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
     public void TakePummelDamage(int amount)
     {
-        if (isDead || IsRespawnProtected || amount <= 0)
+        if (Phase != RespawnPhase.Active || amount <= 0)
             return;
 
         float defenseMultiplier = controller != null && controller.stats != null ? controller.stats.defenseMultiplier : 1f;
@@ -107,7 +108,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
     public void HealDamage(int amount)
     {
-        if (isDead) return;
+        if (IsDead) return;
 
         currentDamage -= amount;
 
@@ -121,29 +122,17 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
     public void FallPenalty()
     {
-
-        if (!isActiveAndEnabled || isDead || isWaitingToRespawn) return;
+        bool canLoseStock = Phase == RespawnPhase.Active || Phase == RespawnPhase.RespawnProtected;
+        if (!isActiveAndEnabled || !canLoseStock) return;
 
         if (Time.time - lastFallTime < 1f) return;
         lastFallTime = Time.time;
 
         fallLives--;
 
-        controller.Movement.ResetKnockback();
-
-        // Shakear la cámara cuando se pierde una vida usando Cinemachine
-        CombatFeedback.ShakeCameraForLoseLife();
-
-        if (UIManager.Instance != null && UIManager.Instance.shakeLoseLife != null)
-        {
-            Debug.Log("✅ Invocando shake: " + UIManager.Instance.shakeLoseLife.name);
-            UIManager.Instance.OnSmoothShake(UIManager.Instance.shakeLoseLife);
-        }
-
         if (fallLives > 0)
         {
-            currentDamage = 0;
-            deck?.HandleLifeLost();
+            ApplyStockRespawnResetPolicy();
             UpdateUI();
 
             if (RespawnManager.Instance != null && controller != null)
@@ -160,7 +149,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
     public void InstantGameOver()
     {
-        if (isDead) return;
+        if (IsDead) return;
 
         fallLives = 0;
         UpdateUI();
@@ -170,28 +159,9 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
     public void ResetHealth()
     {
         CancelRespawnSequence();
-        isDead = false;
-        IsIntangible = false;
-        currentDamage = 0;
-        fallLives = 3;
-        activeDefenseMultiplier = 1f;
-
-        CharacterCoordinator controller = GetComponent<CharacterCoordinator>();
-        if (controller != null)
-        {
-            controller.Shield?.ResetShield();
-            controller.Roll?.ResetRolls();
-            controller.Dodge?.ResetDodges();
-            controller.Dash?.ResetDash();
-            Respawn(transform.position);
-            deck?.ResetDeckForNewRound();
-        }
-
-        EnergyManager energy = GetComponent<EnergyManager>();
-        if (energy != null) energy.ResetEnergy();
-
-        if (rb != null) rb.linearVelocity = Vector2.zero;
-
+        ApplyNewRoundResetPolicy();
+        Respawn(transform.position);
+        SetPhase(RespawnPhase.Active);
         UpdateUI();
     }
 
@@ -206,9 +176,9 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
     private void Die()
     {
-        this.controller.Movement.ResetKnockback();
         CancelRespawnSequence();
-        isDead = true;
+        ResetTransientCharacterState();
+        SetPhase(RespawnPhase.Eliminated);
 
         CharacterCoordinator controller = GetComponent<CharacterCoordinator>();
         if (controller != null)
@@ -219,7 +189,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
     public void OnDeath()
     {
-        isDead = true;
+        SetPhase(RespawnPhase.Eliminated);
         IsIntangible = false;
 
         if (rb != null)
@@ -233,14 +203,11 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
         if (GameManager.Instance != null && controller != null)
             GameManager.Instance.PlayerDied(controller.PlayerIndex);
-        UIEvents.ShakeScreen?.Invoke(UIManager.Instance.shake);
-        Debug.Log("Shake screen invoked on death?" + UIEvents.ShakeScreen);
     }
 
     public void Respawn(Vector3 position)
     {
         controller.Movement.ResetKnockback();
-        isDead = false;
         IsIntangible = false;
 
         if (rb != null) rb.bodyType = RigidbodyType2D.Dynamic;
@@ -254,18 +221,16 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
             controller.ActiveInput?.ClearAllInputs();
             controller.ChangeState(controller.States.Idle);
             controller.ResetJumps();
-
-            controller.Movement.moveSpeedMultiplier = 1f;
-            controller.Combat.attackSpeedMultiplier = 1f;
         }
     }
 
     public void BeginRespawnSequence(Vector3 position, float delay, float protectionDuration)
     {
-        if (!isActiveAndEnabled || isDead)
+        if (!isActiveAndEnabled || Phase == RespawnPhase.RespawnDelay || IsDead)
             return;
 
         CancelRespawnSequence();
+        SetPhase(RespawnPhase.RespawnDelay);
         respawnRoutine = StartCoroutine(RespawnSequence(position, Mathf.Max(0f, delay), Mathf.Max(0f, protectionDuration)));
     }
 
@@ -274,26 +239,24 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         if (!IsRespawnProtected)
             return;
 
-        IsRespawnProtected = false;
+        SetPhase(RespawnPhase.Active);
         SetCharacterVisible(true);
     }
 
     private IEnumerator RespawnSequence(Vector3 position, float delay, float protectionDuration)
     {
-        isWaitingToRespawn = true;
         PrepareForRespawnDelay(position);
 
         if (delay > 0f)
             yield return new WaitForSeconds(delay);
 
-        if (isDead)
+        if (IsDead)
         {
             respawnRoutine = null;
             yield break;
         }
 
         Respawn(position);
-        isWaitingToRespawn = false;
 
         if (controller != null)
         {
@@ -301,7 +264,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
             controller.SetControlsEnabled(true);
         }
 
-        IsRespawnProtected = protectionDuration > 0f;
+        SetPhase(protectionDuration > 0f ? RespawnPhase.RespawnProtected : RespawnPhase.Active);
         float elapsed = 0f;
         float blinkTimer = 0f;
 
@@ -325,13 +288,11 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
     private void PrepareForRespawnDelay(Vector3 position)
     {
-        controller?.Grab?.ReleaseGrabbedTarget();
+        ResetTransientCharacterState();
 
         if (controller != null)
         {
             controller.SetControlsEnabled(false);
-            controller.ActiveInput?.ClearAllInputs();
-            controller.ChangeState(controller.States.Idle);
         }
 
         if (rb != null)
@@ -356,8 +317,60 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
             respawnRoutine = null;
         }
 
-        isWaitingToRespawn = false;
-        CancelRespawnProtection();
+        if (IsRespawnProtected)
+            SetCharacterVisible(true);
+    }
+
+    private void ApplyStockRespawnResetPolicy()
+    {
+        // Stock loss resets transient combat state while preserving strategic resources:
+        // energy, deck order/hand, card cooldowns, and movement-ability cooldowns.
+        currentDamage = 0;
+        activeDefenseMultiplier = 1f;
+        ResetTransientCharacterState();
+        deck?.HandleLifeLost();
+    }
+
+    private void ApplyNewRoundResetPolicy()
+    {
+        currentDamage = 0;
+        fallLives = 3;
+        activeDefenseMultiplier = 1f;
+        ResetTransientCharacterState();
+
+        if (controller != null)
+        {
+            controller.Shield?.ResetShield();
+            controller.Roll?.ResetRolls();
+            controller.Dodge?.ResetDodges();
+            controller.Dash?.ResetDash();
+        }
+
+        deck?.ResetDeckForNewRound();
+    }
+
+    private void ResetTransientCharacterState()
+    {
+        IsIntangible = false;
+
+        GetComponent<AntiGravityEffect>()?.CancelEffect();
+
+        if (controller == null)
+            return;
+
+        controller.Grab?.ReleaseGrabbedTarget();
+        controller.ActiveInput?.ClearAllInputs();
+        controller.ChangeState(controller.States.Idle);
+        controller.ResetJumps();
+        controller.Movement.ResetKnockback();
+        controller.Movement.moveSpeedMultiplier = 1f;
+        controller.Combat.attackSpeedMultiplier = 1f;
+        controller.Shield?.Deactivate();
+    }
+
+    private void SetPhase(RespawnPhase phase)
+    {
+        Phase = phase;
     }
 
     private void SetCharacterVisible(bool visible)
@@ -365,6 +378,5 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         if (sprite != null)
             sprite.enabled = visible;
     }
-
 
 }

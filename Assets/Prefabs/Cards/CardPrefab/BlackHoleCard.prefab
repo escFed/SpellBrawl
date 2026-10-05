@@ -46,8 +46,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BlackHoleCard
   cardName: BLACK HOLE
   cardDescription: 'KEEPS THE OPPONENT STICKED WITH YOU IN A 5-SECONDS LAPSE '
-  damageOrNot: DAMAGEABLE
-  damage: 60
-  energyCost: 0
+  damageOrNot: NON DAMAGEABLE
+  damage: 0
+  knockback: {x: 0, y: 1}
+  hitStun: 0.3
+  launch:
+    growth: 0
+    hitStunPerSpeed: 0
+    maxHitStun: 0.8
+    directionalInfluence: 0
+    airDecelerationMultiplier: 1
   prefab: {fileID: 476479125303352666, guid: 1868117e8fbe6b54397ed0c51d1473cc, type: 3}
   cardIcon: {fileID: -9159290476152328279, guid: d839b33ffc5a36a4cbd4d04bf5fa11f8, type: 3}
+  cardVisual: {fileID: 0}

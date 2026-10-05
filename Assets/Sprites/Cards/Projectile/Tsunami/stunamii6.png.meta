@@ -1,0 +1,832 @@
+fileFormatVersion: 2
+guid: ceeb3e33287d07a40b8fb6c27f6965ae
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2278981975526238029
+    second: stunamii6_0
+  - first:
+      213: -1011258163445333353
+    second: stunamii6_1
+  - first:
+      213: -6285286592578103266
+    second: stunamii6_2
+  - first:
+      213: -842250489722220662
+    second: stunamii6_3
+  - first:
+      213: -8447572406004301642
+    second: stunamii6_4
+  - first:
+      213: 7960761334112582776
+    second: stunamii6_5
+  - first:
+      213: -980097627275478464
+    second: stunamii6_6
+  - first:
+      213: -2884454289071848736
+    second: stunamii6_7
+  - first:
+      213: -1341125637689198029
+    second: stunamii6_8
+  - first:
+      213: -6530657632058161652
+    second: stunamii6_9
+  - first:
+      213: 798049187773977411
+    second: stunamii6_10
+  - first:
+      213: 5102571863175121771
+    second: stunamii6_11
+  - first:
+      213: -3135044393556727989
+    second: stunamii6_12
+  - first:
+      213: -681053093565077552
+    second: stunamii6_13
+  - first:
+      213: -5926275847386226857
+    second: stunamii6_14
+  - first:
+      213: -903188042659446523
+    second: stunamii6_15
+  - first:
+      213: -4376931179738069399
+    second: stunamii6_16
+  - first:
+      213: 4081202854927306657
+    second: stunamii6_17
+  - first:
+      213: 7330519270416194605
+    second: stunamii6_18
+  - first:
+      213: 7716070900624618909
+    second: stunamii6_19
+  - first:
+      213: -4846266290408558144
+    second: stunamii6_20
+  - first:
+      213: -2424948415895016209
+    second: stunamii6_21
+  - first:
+      213: 9127984481908477830
+    second: stunamii6_22
+  - first:
+      213: 8674628643604731668
+    second: stunamii6_23
+  - first:
+      213: 2306891804611590784
+    second: stunamii6_24
+  - first:
+      213: -8935892343940089513
+    second: stunamii6_25
+  - first:
+      213: -960471704764708416
+    second: stunamii6_26
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 256
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: stunamii6_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 455
+        width: 27
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b89d33c7fd6f50e0800000000000000
+      internalID: -2278981975526238029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_1
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 455
+        width: 37
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79280a7ee0a47f1f0800000000000000
+      internalID: -1011258163445333353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_2
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 429
+        width: 77
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e185bd9152d26c8a0800000000000000
+      internalID: -6285286592578103266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_3
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 465
+        width: 35
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8f453c54a9bf44f0800000000000000
+      internalID: -842250489722220662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_4
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 433
+        width: 48
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b0c8b567a134ca80800000000000000
+      internalID: -8447572406004301642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_5
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 478
+        width: 33
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87cf175614e4a7e60800000000000000
+      internalID: 7960761334112582776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_6
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 453
+        width: 134
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04aba09966ef562f0800000000000000
+      internalID: -980097627275478464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_7
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 480
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e245094b1c58f7d0800000000000000
+      internalID: -2884454289071848736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_8
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 450
+        width: 68
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33abd5e865d536de0800000000000000
+      internalID: -1341125637689198029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_9
+      rect:
+        serializedVersion: 2
+        x: 443
+        y: 482
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c06ca7b0c717e55a0800000000000000
+      internalID: -6530657632058161652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_10
+      rect:
+        serializedVersion: 2
+        x: 453
+        y: 424
+        width: 47
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3439e8e028d331b00800000000000000
+      internalID: 798049187773977411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_11
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 440
+        width: 34
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6bc471331affc640800000000000000
+      internalID: 5102571863175121771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_12
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 469
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b47a8f6fbb51e74d0800000000000000
+      internalID: -3135044393556727989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_13
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 462
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d76fdcd1d96c86f0800000000000000
+      internalID: -681053093565077552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_14
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 447
+        width: 16
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75f119bf383a1cda0800000000000000
+      internalID: -5926275847386226857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_15
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 445
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50147efa24b3773f0800000000000000
+      internalID: -903188042659446523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_16
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 179
+        width: 484
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 966816138440243c0800000000000000
+      internalID: -4376931179738069399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_17
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 371
+        width: 48
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1af80489f5853a830800000000000000
+      internalID: 4081202854927306657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_18
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 429
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2c105c007c3bb560800000000000000
+      internalID: 7330519270416194605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_19
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 419
+        width: 29
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9575754a9df41b60800000000000000
+      internalID: 7716070900624618909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_20
+      rect:
+        serializedVersion: 2
+        x: 466
+        y: 414
+        width: 13
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c17f394c7a9ebcb0800000000000000
+      internalID: -4846266290408558144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_21
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 411
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fec6eef734ad85ed0800000000000000
+      internalID: -2424948415895016209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_22
+      rect:
+        serializedVersion: 2
+        x: 445
+        y: 419
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68fce6f268d1dae70800000000000000
+      internalID: 9127984481908477830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_23
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 363
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4171d7c8ac8726870800000000000000
+      internalID: 8674628643604731668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_24
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 191
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08a3225bfd9b30020800000000000000
+      internalID: 2306891804611590784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_25
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 191
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7597150f1455df380800000000000000
+      internalID: -8935892343940089513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stunamii6_26
+      rect:
+        serializedVersion: 2
+        x: 353
+        y: 180
+        width: 11
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c98fa4c218bba2f0800000000000000
+      internalID: -960471704764708416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      stunamii6_0: -2278981975526238029
+      stunamii6_1: -1011258163445333353
+      stunamii6_10: 798049187773977411
+      stunamii6_11: 5102571863175121771
+      stunamii6_12: -3135044393556727989
+      stunamii6_13: -681053093565077552
+      stunamii6_14: -5926275847386226857
+      stunamii6_15: -903188042659446523
+      stunamii6_16: -4376931179738069399
+      stunamii6_17: 4081202854927306657
+      stunamii6_18: 7330519270416194605
+      stunamii6_19: 7716070900624618909
+      stunamii6_2: -6285286592578103266
+      stunamii6_20: -4846266290408558144
+      stunamii6_21: -2424948415895016209
+      stunamii6_22: 9127984481908477830
+      stunamii6_23: 8674628643604731668
+      stunamii6_24: 2306891804611590784
+      stunamii6_25: -8935892343940089513
+      stunamii6_26: -960471704764708416
+      stunamii6_3: -842250489722220662
+      stunamii6_4: -8447572406004301642
+      stunamii6_5: 7960761334112582776
+      stunamii6_6: -980097627275478464
+      stunamii6_7: -2884454289071848736
+      stunamii6_8: -1341125637689198029
+      stunamii6_9: -6530657632058161652
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Bootstrap.unity
+    guid: 3dc345a00b0e1ea43a0ec66de0732230
+  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: b7ba99abbb1fdfb48a223204c1c0a2ca
   - enabled: 1
@@ -16,7 +19,10 @@ EditorBuildSettings:
     guid: 26bdad9f5ec8ea84f8271366882d41c1
   - enabled: 1
     path: Assets/Scenes/TrainingRoom.unity
-    guid: ccbca29e1d2289f48916b88651617e78
+    guid: b715d66eba4583e48adec981e12a6c51
+  - enabled: 1
+    path: Assets/Scenes/CombatLoading.unity
+    guid: c0e51913aa08dcd4c850d6a2b949948f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
