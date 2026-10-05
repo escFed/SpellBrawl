@@ -12575,7 +12575,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2064470375}
         m_TargetAssemblyTypeName: SettingsController, Assembly-CSharp
-        m_MethodName: ShowSettingsHome
+        m_MethodName: Back
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14853,7 +14853,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2064470375}
         m_TargetAssemblyTypeName: SettingsController, Assembly-CSharp
-        m_MethodName: ShowSettingsHome
+        m_MethodName: Back
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

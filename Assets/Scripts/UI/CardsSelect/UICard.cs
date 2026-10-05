@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Unity.VisualScripting;
 
 [RequireComponent(typeof(Graphic))]
-public class UICard : Selectable, ISubmitHandler, ICancelHandler
+public class UICard : Selectable, ISubmitHandler
 {
 
  
@@ -46,13 +46,6 @@ public class UICard : Selectable, ISubmitHandler, ICancelHandler
         if (deckBuilder != null && deckBuilder.AddCardToDeck(cardPrefab))
             UpdateVisuals();
     }
-
-    public void OnCancel(BaseEventData eventData)
-    {
-        if (deckBuilder != null && deckBuilder.TryRemoveCard(cardPrefab))
-            UpdateVisuals();
-    }
-
 
 
     public override void OnSelect(BaseEventData eventData)

@@ -22,12 +22,15 @@ public class PauseMenu : MonoBehaviour
     {
         bool keyboardPause = Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame;
         bool gamepadPause = Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame;
+        bool gamepadBack = isPaused && Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame;
 
-        if (keyboardPause || gamepadPause)
+        if (keyboardPause || gamepadPause || gamepadBack)
         {
             if (settingsPanel != null && settingsPanel.activeSelf)
             {
-                HideSettings();
+                SettingsController settings = settingsPanel.GetComponent<SettingsController>();
+                if (settings == null || !settings.TryGoBack())
+                    HideSettings();
                 return;
             }
 
@@ -56,6 +59,8 @@ public class PauseMenu : MonoBehaviour
     {
         if (settingsPanel != null) settingsPanel.SetActive(false);
         pausePanel.SetActive(false);
+        foreach (CharacterCoordinator character in FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None))
+            character.Controller?.ClearAllInputs();
         Time.timeScale = 1f;
         isPaused = false;
         AudioListener.pause = false;
