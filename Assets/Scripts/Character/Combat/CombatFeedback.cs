@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -49,6 +49,20 @@ public class CombatFeedback : MonoBehaviour
     public static void PlayImpact(Vector2 position, Vector2 knockback, HitReaction reaction, Color impactColor)
     {
         PlayImpact(position, knockback, reaction, (Color?)impactColor);
+    }
+
+    public static void ShakeCameraForLoseLife()
+    {
+        CombatFeedback feedback = GetOrCreate();
+        if (feedback.impulseSource == null)
+            return;
+
+        // Shake más fuerte que un hit normal
+        feedback.impulseSource.ImpulseDefinition.ImpulseDuration = 0.15f;
+        feedback.impulseSource.GenerateImpulseAtPositionWithVelocity(
+            Vector2.zero, Vector2.up * 2f
+        );
+        Debug.Log("💥 Shake para pérdida de vida activado");
     }
 
     private static void PlayImpact(Vector2 position, Vector2 knockback, HitReaction reaction, Color? impactColor)

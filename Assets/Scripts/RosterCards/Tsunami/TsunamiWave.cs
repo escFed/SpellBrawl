@@ -4,8 +4,11 @@ public class TsunamiWave : MonoBehaviour
 {
 
     [Header("Stats")]
-    [SerializeField] public int knockBackAmount = 35;
+    [SerializeField] public int damage = 10;
+    [SerializeField] public Vector2 knockback = new Vector2(15f, 5f);
     [SerializeField] private float speed = 10f;
+    [SerializeField] public float hitStun = 0.2f;
+    [SerializeField] private int attackerPlayerIndex = -1;
 
      private float lifeTime;
 
@@ -37,12 +40,14 @@ public class TsunamiWave : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == caster) return;
+        if (caster != null && collision.transform.root == caster.transform.root) return;
 
-        if (collision.TryGetComponent(out HitReactionComponent hitTarget))
+        ICombatHitReceiver hitTarget = collision.GetComponentInParent<ICombatHitReceiver>();
+        if (hitTarget != null)
         {
             Vector2 knockbackDirection = (collision.transform.position - caster.transform.position).normalized;
-            hitTarget.React(HitReaction.StrongHit, knockbackDirection * knockBackAmount);
+            Vector2 adjustedKnockback = knockbackDirection * knockback.magnitude;
+            hitTarget.ReceiveHit(new CombatHit(damage, adjustedKnockback, hitStun, HitReaction.StrongHit, collision.ClosestPoint(transform.position), attackerPlayerIndex));
             Destroy(gameObject);
         }
     }

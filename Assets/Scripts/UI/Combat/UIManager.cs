@@ -2,7 +2,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-
+using SmoothShakeFree;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
@@ -28,6 +28,8 @@ public class UIManager : MonoBehaviour
     public GameObject[] p1_life = new GameObject[3];
     public GameObject[] p2_life = new GameObject[3];
 
+    public ShakeBase shake;
+    public ShakeBase shakeLoseLife;
     [Header("Energy")]
     public Slider p1_energySlider;
     public Slider p2_energySlider;
@@ -103,6 +105,7 @@ public class UIManager : MonoBehaviour
         UIEvents.OnHandChanged += UpdateHandUI;
         UIEvents.OnCardUsed += PlayCardUseAnimation;
         UIEvents.OnCardReward += AddACardOnFallDown;
+        UIEvents.ShakeScreen += OnSmoothShake;
     }
 
     private void OnDisable()
@@ -117,6 +120,7 @@ public class UIManager : MonoBehaviour
         UIEvents.OnHandChanged -= UpdateHandUI;
         UIEvents.OnCardUsed -= PlayCardUseAnimation;
         UIEvents.OnCardReward -= AddACardOnFallDown;
+        UIEvents.ShakeScreen -= OnSmoothShake; // <--- desuscribir aquí
     }
 
     private void Update()
@@ -198,6 +202,9 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < icons.Length; i++)
         {
             if (icons[i] != null) icons[i].SetActive(i < lives);
+
+           
+
         }
     }
 
@@ -469,6 +476,20 @@ public class UIManager : MonoBehaviour
     public void HideControlsImageAfterTheFirstTimeYouPlay()
     {
         controlsImageScript.gameObject.SetActive(false);
+    }
+
+
+    public void OnSmoothShake(ShakeBase shakeEvent)
+    {
+        if (shakeEvent != null)
+        {
+            Debug.Log("🎥 Shake Activado: " + shakeEvent.gameObject.name);
+            shakeEvent.StartShake();
+        }
+        else
+        {
+            Debug.LogWarning("⚠️ ShakeEvent es null");
+        }
     }
 
 

@@ -11,7 +11,7 @@ public class TsunamiCard : MonoBehaviour, ICardable
 
     [Header("Card Settings")]
     [SerializeField] private int energyCost = 30;
-    [SerializeField] private CardType type = CardType.Offensive;
+    [SerializeField] private CardType type = CardType.Utility;
     [SerializeField] private Sprite cardVisual;
     [SerializeField] private Image cardUI;
 

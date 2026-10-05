@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using SmoothShakeFree;
 
 public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 {
@@ -129,6 +130,16 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         fallLives--;
 
         controller.Movement.ResetKnockback();
+
+        // Shakear la cámara cuando se pierde una vida usando Cinemachine
+        CombatFeedback.ShakeCameraForLoseLife();
+
+        if (UIManager.Instance != null && UIManager.Instance.shakeLoseLife != null)
+        {
+            Debug.Log("✅ Invocando shake: " + UIManager.Instance.shakeLoseLife.name);
+            UIManager.Instance.OnSmoothShake(UIManager.Instance.shakeLoseLife);
+        }
+
         if (fallLives > 0)
         {
             currentDamage = 0;
@@ -222,6 +233,8 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
         if (GameManager.Instance != null && controller != null)
             GameManager.Instance.PlayerDied(controller.PlayerIndex);
+        UIEvents.ShakeScreen?.Invoke(UIManager.Instance.shake);
+        Debug.Log("Shake screen invoked on death?" + UIEvents.ShakeScreen);
     }
 
     public void Respawn(Vector3 position)
@@ -352,5 +365,6 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         if (sprite != null)
             sprite.enabled = visible;
     }
+
 
 }
