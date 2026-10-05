@@ -60,7 +60,7 @@ public class CombatFeedback : MonoBehaviour
         // Shake más fuerte que un hit normal
         feedback.impulseSource.ImpulseDefinition.ImpulseDuration = 0.15f;
         feedback.impulseSource.GenerateImpulseAtPositionWithVelocity(
-            Vector2.zero, Vector2.up * 2f
+            Vector2.zero, Vector2.up * 3f
         );
         Debug.Log("💥 Shake para pérdida de vida activado");
     }
