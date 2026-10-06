@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragonCard
   cardName: DRAGON BREATH
-  cardDescription: Invokes a continuous fire breath attack
+  cardDescription: INVOKES A CONTINUOUS FIRE BREATH ATTACK
   type: 0
   cardVisual: {fileID: -1512679551582936979, guid: 2306e20620b0ab2479d89a0ffae6fd56, type: 3}
   damageableOrNot: DAMAGEABLE
