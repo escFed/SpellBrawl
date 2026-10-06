@@ -54,7 +54,7 @@ MonoBehaviour:
   cardName: DRAGON BREATH
   cardDescription: INVOKES A CONTINUOUS FIRE BREATH ATTACK
   type: 0
-  cardVisual: {fileID: -1512679551582936979, guid: 2306e20620b0ab2479d89a0ffae6fd56, type: 3}
+  cardVisual: {fileID: 0}
   damageableOrNot: DAMAGEABLE
   cardSprite: {fileID: -6999659707931048531, guid: be4fd47cec91e3d46b559b265d7f51af, type: 3}
   cardUI: {fileID: 5096273829772342689, guid: 22dc21ba189e3584ab5d40c15ee79c72, type: 3}
