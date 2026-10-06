@@ -94,7 +94,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         return true;
     }
 
-    public void TakePummelDamage(int amount)
+    public void TakePummelDamage(int amount) 
     {
         if (Phase != RespawnPhase.Active || amount <= 0)
             return;

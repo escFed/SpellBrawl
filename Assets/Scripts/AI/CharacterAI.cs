@@ -41,7 +41,7 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
     private bool hazardSeen;
     private float nextHazardCheck;
     private float thinkTimer;
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+
     public bool IsDebugFrozen { get; private set; }
 
     public void SetDebugFrozen(bool frozen)
@@ -51,7 +51,7 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
         thinkTimer = 0f;
         currentDecision = AIDecision.Idle;
     }
-#endif
+
 
     public Vector2 CurrentDirection => input.CurrentDirection;
     public bool HasBufferedJump => input.HasBufferedJump;
