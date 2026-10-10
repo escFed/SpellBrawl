@@ -552,13 +552,13 @@ public class UIManager : MonoBehaviour
             slotImage.transform.localScale = Vector3.zero;
 
             LeanTween.cancel(slotImage.gameObject);
-            LeanTween.scale(slotImage.gameObject, Vector3.one * 1.2f, 0.3f)
-                .setEase(LeanTweenType.easeOutBack)
-                .setOnComplete(() =>
-                {
-                    LeanTween.scale(slotImage.gameObject, Vector3.one, 0.2f)
-                        .setEase(LeanTweenType.easeInOutQuad);
-                });
+
+
+            LeanTween.scale(slotImage.gameObject, Vector3.one * 3f, 0.7f).setEase(LeanTweenType.easeOutQuad).setOnComplete(() =>
+            {
+                LeanTween.scale(slotImage.gameObject, Vector3.one, 0.2f).setEase(LeanTweenType.easeInQuad);
+            });
+
         }
     }
 

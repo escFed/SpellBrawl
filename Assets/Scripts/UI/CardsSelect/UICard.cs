@@ -45,6 +45,8 @@ public class UICard : Selectable, ISubmitHandler
     {
         if (deckBuilder != null && deckBuilder.AddCardToDeck(cardPrefab))
             UpdateVisuals();
+
+
     }
 
 
@@ -88,7 +90,7 @@ public class UICard : Selectable, ISubmitHandler
 
 
             int count = deckBuilder.GetCardCount(cardPrefab);
-
+         
 
             if (cardCopiesText != null)
                 cardCopiesText.text = count > 0 ? "SELECTED" : string.Empty;
@@ -127,9 +129,12 @@ public class UICard : Selectable, ISubmitHandler
                 if (imgSprite != null)
                 {
                     cardVisualPrefabInstance.sprite = imgSprite;
+                    
                 }
+                
 
             }
+
         }
     }
 

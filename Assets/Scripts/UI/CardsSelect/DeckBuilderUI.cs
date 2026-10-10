@@ -297,7 +297,12 @@ public class DeckBuilderUI : MonoBehaviour
         }
 
         for (int i = 0; i < selectedCards.Count; i++)
+        {
+
+
             selectedCardSet.Add(selectedCards[i]);
+
+        }
 
         foreach (var cardPrefab in selectedCards)
         {
@@ -319,6 +324,8 @@ public class DeckBuilderUI : MonoBehaviour
                     {
                         genImage.sprite = genericCard;
                     }
+
+                    
                 }
                 // Guardar referencia
                 cardVisuals[cardPrefab] = cardVisual;

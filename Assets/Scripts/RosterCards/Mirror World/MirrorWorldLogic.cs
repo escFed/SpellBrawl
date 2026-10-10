@@ -28,7 +28,16 @@ public class MirrorWorldLogic : MonoBehaviour
             yield break;
         }
 
-        yield return new WaitForSeconds(effectDuration > 0f ? effectDuration : 3f);
-        Destroy(gameObject);
+        if (targetController != null)
+        {
+            CharacterMovement targetMovement = targetController.GetComponent<CharacterMovement>();
+            if (targetMovement != null)
+            {
+                targetMovement.moveSpeedMultiplier *= -1;
+                yield return new WaitForSeconds(effectDuration > 0f ? effectDuration : 3f);
+                Destroy(gameObject);
+            }
+        }
     }
 }
+

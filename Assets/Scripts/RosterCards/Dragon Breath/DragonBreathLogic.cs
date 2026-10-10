@@ -22,7 +22,7 @@ public class DragonBreathLogic : MonoBehaviour
             CharacterMovement movement = character.GetComponent<CharacterMovement>();
             if (movement != null)
             {
-                movement.ApplyKnockback(new Vector2(0, 30), 10);
+                movement.ApplyKnockback(new Vector2(0, -30), 2);
             }
 
             elapsed += Time.deltaTime;
