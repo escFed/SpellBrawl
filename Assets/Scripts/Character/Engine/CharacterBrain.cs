@@ -35,14 +35,12 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     public bool HasBufferedEvade => evadeTimer > 0;
     public bool HasBufferedDash => dashTimer > 0;
     public bool IsShieldHeld { get; private set; }
-    public bool HasBufferedDrawCards => drawCardsTimer > 0;
     public bool HasBufferedHeavyAttack => heavyAttackTimer > 0f;
     public bool IsHeavyAttackHeld { get; private set; }
     public bool WasHeavyAttackReleased => heavyAttackReleaseTimer > 0f;
 
     private float attackTimer, jumpTimer;
     private float hand1Timer, hand2Timer, hand3Timer, hand4Timer;
-    private float drawCardsTimer;
     private float parryTimer;
     private float shieldTimer;
     private float evadeTimer;
@@ -53,8 +51,11 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     private InputAction jumpAction;
     private InputAction moveAction;
     private InputAction shieldAction;
+    private InputAction leftTriggerAction;
+    private InputAction rightTriggerAction;
     private InputAction heavyAttackAction;
     private bool heavyAttackRequiresRelease;
+    private TriggerChord defenseTriggers = new TriggerChord();
 
     private void Awake()
     {
@@ -70,6 +71,7 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
         bool isHeavyAttackPressed = heavyAttackAction != null && heavyAttackAction.IsPressed();
         IsHeavyAttackHeld = isHeavyAttackPressed;
         heavyAttackRequiresRelease = isHeavyAttackPressed;
+        ResetDefenseTriggers();
     }
 
     private void OnDisable()
@@ -80,8 +82,14 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
 
     private void Update()
     {
-        if (shieldAction != null)
-            IsShieldHeld = shieldAction.IsPressed();
+        bool leftTriggerHeld = leftTriggerAction != null && leftTriggerAction.IsPressed();
+        bool rightTriggerHeld = rightTriggerAction != null && rightTriggerAction.IsPressed();
+        if (defenseTriggers.Update(leftTriggerHeld, rightTriggerHeld, Time.unscaledDeltaTime))
+            parryTimer = cardBufferTime;
+
+        IsShieldHeld = (shieldAction != null && shieldAction.IsPressed()) || defenseTriggers.ShieldHeld;
+        if (defenseTriggers.ShieldHeld)
+            ConsumeParry();
 
         if (heavyAttackAction != null)
             UpdateHeavyAttackState(heavyAttackAction.IsPressed());
@@ -92,7 +100,6 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
         if (hand2Timer > 0) hand2Timer -= Time.deltaTime;
         if (hand3Timer > 0) hand3Timer -= Time.deltaTime;
         if (hand4Timer > 0) hand4Timer -= Time.deltaTime;
-        if (drawCardsTimer > 0) drawCardsTimer -= Time.deltaTime;
         if (parryTimer > 0) parryTimer -= Time.deltaTime;
         if (shieldTimer > 0) shieldTimer -= Time.deltaTime;
         if (evadeTimer > 0) evadeTimer -= Time.deltaTime;
@@ -103,23 +110,21 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
 
     public void OnMove(InputValue value) => CurrentDirection = value.Get<Vector2>();
     public void OnAttack(InputValue value) { if (value.isPressed) attackTimer = attackBufferTime; }
-    public void OnDrawCards(InputValue value) { if (value.isPressed) drawCardsTimer = cardBufferTime; }
     public void OnHand1(InputValue value) { if (value.isPressed) hand1Timer = cardBufferTime; }
     public void OnHand2(InputValue value) { if (value.isPressed) hand2Timer = cardBufferTime; }
     public void OnHand3(InputValue value) { if (value.isPressed) hand3Timer = cardBufferTime; }
     public void OnHand4(InputValue value) { if (value.isPressed) hand4Timer = cardBufferTime; }
     public void OnParry(InputValue value) { if (value.isPressed) parryTimer = cardBufferTime; }
-    public void OnEvade(InputValue value) => BufferEvade(value);
-    public void OnDash(InputValue value) { if (value.isPressed) dashTimer = dashBufferTime; }
+    public void OnEvade(InputValue value) => BufferMobility(value);
+    public void OnDash(InputValue value) => BufferMobility(value);
     public void OnHeavyAttack(InputValue value)
     {
         UpdateHeavyAttackState(value.isPressed);
     }
-    public void OnRoll(InputValue value) => BufferEvade(value);
-    public void OnDodge(InputValue value) => BufferEvade(value);
+    public void OnDodge(InputValue value) => BufferMobility(value);
     public void OnShield(InputValue value)
     {
-        IsShieldHeld = value.isPressed;
+        IsShieldHeld = value.isPressed || defenseTriggers.ShieldHeld;
 
         if (value.isPressed)
             shieldTimer = cardBufferTime;
@@ -135,16 +140,24 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
     public void ConsumeHand4() => hand4Timer = 0;
     public void ConsumeParry() => parryTimer = 0;
     public void ConsumeShield() => shieldTimer = 0;
-    public void ConsumeEvade() => evadeTimer = 0;
-    public void ConsumeDash() => dashTimer = 0;
+    public void ConsumeEvade()
+    {
+        evadeTimer = 0;
+        dashTimer = 0;
+    }
+    public void ConsumeDash()
+    {
+        dashTimer = 0;
+        evadeTimer = 0;
+    }
     public void ConsumeHeavyAttack() => heavyAttackTimer = 0f;
     public void ConsumeHeavyAttackRelease() => heavyAttackReleaseTimer = 0f;
-    public void ConsumeDrawCards() => drawCardsTimer = 0;
 
     public void ClearAllInputs()
     {
         heavyAttackRequiresRelease = IsHeavyAttackHeld ||
             (heavyAttackAction != null && heavyAttackAction.IsPressed());
+        ResetDefenseTriggers();
 
         CurrentDirection = Vector2.zero;
         ConsumeJump();
@@ -163,13 +176,15 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
         ConsumeHeavyAttackRelease();
         IsShieldHeld = false;
         IsHeavyAttackHeld = false;
-        ConsumeDrawCards();
     }
 
-    private void BufferEvade(InputValue value)
+    private void BufferMobility(InputValue value)
     {
         if (value.isPressed)
+        {
             evadeTimer = evadeBufferTime;
+            dashTimer = dashBufferTime;
+        }
     }
 
     private void UpdateHeavyAttackState(bool isPressed)
@@ -210,10 +225,16 @@ public class CharacterBrain : MonoBehaviour, IInputProvider
 
         jumpAction = playerInput != null? playerInput.actions?.FindAction(JumpActionName, false) : null;
 
-        shieldAction = playerInput != null? playerInput.actions?.FindAction(ShieldActionName, false)
-            : null;
+        shieldAction = playerInput != null? playerInput.actions?.FindAction(ShieldActionName, false) : null;
+        leftTriggerAction = playerInput != null ? playerInput.actions?.FindAction("LeftDefenseTrigger", false) : null;
+        rightTriggerAction = playerInput != null ? playerInput.actions?.FindAction("RightDefenseTrigger", false) : null;
 
         heavyAttackAction = playerInput != null? playerInput.actions?.FindAction(HeavyAttackActionName, false) : null;
+    }
+
+    private void ResetDefenseTriggers()
+    {
+        defenseTriggers.Reset(leftTriggerAction != null && leftTriggerAction.IsPressed(), rightTriggerAction != null && rightTriggerAction.IsPressed());
     }
 
     private void SubscribeInputActions()

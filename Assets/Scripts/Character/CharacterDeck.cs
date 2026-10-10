@@ -14,7 +14,12 @@ public class CharacterDeck : MonoBehaviour
     private HandSlotView[] handSnapshot;
 
     public int HandSlotCount => runtime != null ? runtime.HandSlotCount : 0;
-    public bool CanFullRedraw => runtime != null && runtime.CanFullRedraw;
+
+    public void RefreshUI()
+    {
+        if (runtime != null)
+            PublishState();
+    }
 
     private void Awake()
     {
@@ -73,18 +78,7 @@ public class CharacterDeck : MonoBehaviour
 
         ExecuteCard(cardPrefab);
         UIEvents.OnCardUsed?.Invoke(controller.PlayerIndex, handIndex);
-        PublishState();
-        return CardActions.Success;
-    }
-
-    public CardActions TryDrawNewHand()
-    {
-        if (runtime == null || !runtime.CanFullRedraw)
-            return CardActions.RedrawUnavailable;
-        if (!runtime.TryFullRedraw(Time.time + rules.DrawnCardCooldown))
-       
-        return CardActions.RedrawUnavailable;
-
+        UIEvents.OnLastCardUsed?.Invoke(controller.PlayerIndex, cardData.CardName);
         PublishState();
         return CardActions.Success;
     }
@@ -145,6 +139,6 @@ public class CharacterDeck : MonoBehaviour
             runtime.CopyHandSnapshotTo(handSnapshot);
 
         UIEvents.OnHandChanged?.Invoke(controller.PlayerIndex, handSnapshot);
-        UIEvents.OnDeckCountChanged?.Invoke(controller.PlayerIndex, runtime != null ? runtime.DrawStackCount : 0, runtime != null ? runtime.FullDraws : 0);
+        UIEvents.OnDeckCountChanged?.Invoke(controller.PlayerIndex, runtime != null ? runtime.DrawStackCount : 0);
     }
 }

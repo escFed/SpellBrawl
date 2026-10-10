@@ -2,13 +2,14 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using SmoothShakeFree;
+using UnityEngine.Serialization;
+
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
     [Header("Controls Image")]
-    public ControlsImageScript controlsImageScript;
+    public ControlsTutorial controlsTutorial;
 
     [Header("Character Icons")]
     public Image p1_icon;
@@ -24,12 +25,20 @@ public class UIManager : MonoBehaviour
     [Header("Cards P2")]
     public Image[] p2_cards = new Image[4];
 
+    [Header("Last Used Card")]
+    public TextMeshProUGUI p1LastCardText;
+    public TextMeshProUGUI p2LastCardText;
+
+    [Header("Ability Icons")]
+    public Image p1DashIcon;
+    public Image p1ShieldIcon;
+    public Image p2DashIcon;
+    public Image p2ShieldIcon;
+
     [Header("Life")]
     public GameObject[] p1_life = new GameObject[3];
     public GameObject[] p2_life = new GameObject[3];
 
-    public ShakeBase shake;
-    public ShakeBase shakeLoseLife;
     [Header("Energy")]
     public Slider p1_energySlider;
     public Slider p2_energySlider;
@@ -45,22 +54,24 @@ public class UIManager : MonoBehaviour
     [Header("Round Wins UI")]
     public TMPro.TextMeshProUGUI p1_winsText;
     public TMPro.TextMeshProUGUI p2_winsText;
-
-
     
     private HandSlotView[] p1HandSlots;
     private HandSlotView[] p2HandSlots;
     private CardCooldownNotification[] p1CooldownNotifications;
     private CardCooldownNotification[] p2CooldownNotifications;
+    private CharacterCoordinator p1Character;
+    private CharacterCoordinator p2Character;
+    private bool p1DashWasReady;
+    private bool p1ShieldWasReady;
+    private bool p2DashWasReady;
+    private bool p2ShieldWasReady;
 
     [Header("Card Placeholders")]
     [SerializeField] private Sprite emptySlotSprite;
 
-
     [Header("Card Reactivation Sound")]
     [SerializeField] private AudioClip cardReactivationSound;
     private AudioSource source;
-
 
     [Header("Damage Increase Sound")]
 
@@ -97,6 +108,9 @@ public class UIManager : MonoBehaviour
         UpdateDamageUI(0, 0);
         UpdateDamageUI(1, 0);
         HideAllCardSlots();
+        if (p1LastCardText != null) p1LastCardText.text = string.Empty;
+        if (p2LastCardText != null) p2LastCardText.text = string.Empty;
+        ApplyGameplayAids();
     }
 
     private void OnEnable()
@@ -107,8 +121,10 @@ public class UIManager : MonoBehaviour
         UIEvents.OnIconSet += UpdateIconUI;
         UIEvents.OnHandChanged += UpdateHandUI;
         UIEvents.OnCardUsed += PlayCardUseAnimation;
+        UIEvents.OnLastCardUsed += UpdateLastCardText;
         UIEvents.OnCardReward += AddACardOnFallDown;
-        UIEvents.ShakeScreen += OnSmoothShake;
+        GameplayAidSettings.Changed += ApplyGameplayAids;
+        ApplyGameplayAids();
     }
 
     private void OnDisable()
@@ -121,14 +137,17 @@ public class UIManager : MonoBehaviour
         UIEvents.OnIconSet -= UpdateIconUI;
         UIEvents.OnHandChanged -= UpdateHandUI;
         UIEvents.OnCardUsed -= PlayCardUseAnimation;
+        UIEvents.OnLastCardUsed -= UpdateLastCardText;
         UIEvents.OnCardReward -= AddACardOnFallDown;
-        UIEvents.ShakeScreen -= OnSmoothShake; // <--- desuscribir aquí
+        GameplayAidSettings.Changed -= ApplyGameplayAids;
     }
 
     private void Update()
     {
         UpdateCardCooldownVisuals(p1_cards, p1HandSlots);
         UpdateCardCooldownVisuals(p2_cards, p2HandSlots);
+        if (GameplayAidSettings.ShowAbilityIcons)
+            UpdateAbilityVisuals();
 
         if (Time.timeScale <= 0f)
             return;
@@ -204,22 +223,109 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < icons.Length; i++)
         {
             if (icons[i] != null) icons[i].SetActive(i < lives);
-
-           
-
         }
     }
 
-    private void UpdateDeckCountUI(int playerIndex, int count, int redrawsRemaining)
+    private void UpdateDeckCountUI(int playerIndex, int count)
     {
         TextMeshProUGUI text = (playerIndex == 0) ? p1_deckCountText : p2_deckCountText;
-        if (text != null) text.text = $"{count} | R:{redrawsRemaining}";
+        if (text != null) text.text = count.ToString();
     }
 
     private void UpdateIconUI(int playerIndex, Sprite iconSprite)
     {
         Image icon = (playerIndex == 0) ? p1_icon : p2_icon;
         if (icon != null) icon.sprite = iconSprite;
+    }
+
+    private void UpdateLastCardText(int playerIndex, string cardName)
+    {
+        TextMeshProUGUI label = playerIndex == 0 ? p1LastCardText : p2LastCardText;
+        if (label != null)
+            label.text = cardName ?? string.Empty;
+    }
+
+    private void ApplyGameplayAids()
+    {
+        SetVisible(p1LastCardText, GameplayAidSettings.ShowLastCard);
+        SetVisible(p2LastCardText, GameplayAidSettings.ShowLastCard);
+        SetVisible(p1DashIcon, GameplayAidSettings.ShowAbilityIcons);
+        SetVisible(p1ShieldIcon, GameplayAidSettings.ShowAbilityIcons);
+        SetVisible(p2DashIcon, GameplayAidSettings.ShowAbilityIcons);
+        SetVisible(p2ShieldIcon, GameplayAidSettings.ShowAbilityIcons);
+    }
+
+    private static void SetVisible(Component component, bool visible)
+    {
+        if (component != null && component.gameObject.activeSelf != visible)
+            component.gameObject.SetActive(visible);
+    }
+
+    private void UpdateAbilityVisuals()
+    {
+        RespawnManager spawner = RespawnManager.Instance;
+        GameObject p1Object = spawner != null ? spawner.p1Instance : null;
+        GameObject p2Object = spawner != null ? spawner.p2Instance : null;
+
+        BindCharacter(p1Object, ref p1Character, ref p1DashWasReady, ref p1ShieldWasReady);
+        BindCharacter(p2Object, ref p2Character, ref p2DashWasReady, ref p2ShieldWasReady);
+
+        UpdateAbilityIcons(p1Character, p1DashIcon, p1ShieldIcon,
+            ref p1DashWasReady, ref p1ShieldWasReady);
+        UpdateAbilityIcons(p2Character, p2DashIcon, p2ShieldIcon,
+            ref p2DashWasReady, ref p2ShieldWasReady);
+    }
+
+    private static void BindCharacter(GameObject instance, ref CharacterCoordinator character,
+        ref bool dashWasReady, ref bool shieldWasReady)
+    {
+        if (character != null && character.gameObject == instance)
+            return;
+
+        character = instance != null ? instance.GetComponent<CharacterCoordinator>() : null;
+        dashWasReady = character != null && character.Dash != null && character.Dash.CanDash;
+        shieldWasReady = character != null && character.Shield != null && character.Shield.CanActivate;
+    }
+
+    private static void UpdateAbilityIcons(CharacterCoordinator character, Image dashIcon, Image shieldIcon,
+        ref bool dashWasReady, ref bool shieldWasReady)
+    {
+        CharacterDash dash = character != null ? character.Dash : null;
+        CharacterShield shield = character != null ? character.Shield : null;
+
+        UpdateAbilityIcon(dashIcon, dash != null && dash.CanDash,
+            dash != null ? dash.CooldownRemaining : 0f,
+            dash != null ? dash.CooldownDuration : 0f, ref dashWasReady);
+        UpdateAbilityIcon(shieldIcon, shield != null && shield.CanActivate,
+            shield != null ? shield.RemainingCooldown : 0f,
+            shield != null ? shield.CooldownLength : 0f, ref shieldWasReady);
+    }
+
+    private static void UpdateAbilityIcon(Image icon, bool ready, float remaining, float duration,
+        ref bool wasReady)
+    {
+        if (icon == null)
+            return;
+
+        float progress = ready ? 1f : duration > 0f
+            ? LeanTween.easeInOutQuad(0f, 1f, Mathf.Clamp01(1f - remaining / duration))
+            : 0f;
+        // An active shield and the final dash in progress have no running cooldown yet.
+        if (!ready && remaining <= 0f)
+            progress = 0f;
+        icon.color = new Color(1f, 1f, 1f, Mathf.Lerp(0.25f, 1f, progress));
+
+        if (ready && !wasReady && icon.gameObject.activeInHierarchy)
+        {
+            LeanTween.cancel(icon.gameObject);
+            icon.transform.localScale = Vector3.one;
+            LeanTween.scale(icon.gameObject, Vector3.one * 1.25f, 0.16f)
+                .setEase(LeanTweenType.easeOutQuad)
+                .setOnComplete(() => LeanTween.scale(icon.gameObject, Vector3.one, 0.24f)
+                    .setEase(LeanTweenType.easeOutBack));
+        }
+
+        wasReady = ready;
     }
 
     private void UpdateHandUI(int playerIndex, HandSlotView[] hand)
@@ -287,6 +393,11 @@ public class UIManager : MonoBehaviour
     {
         HideCardSlots(p1_cards);
         HideCardSlots(p2_cards);
+    }
+
+    public void HideCardsForTutorial()
+    {
+        HideAllCardSlots();
     }
 
     private static void HideCardSlots(Image[] slots)
@@ -421,11 +532,8 @@ public class UIManager : MonoBehaviour
                 LeanTween.scale(uiSlots[i].gameObject, Vector3.one, 2.3f)
                     .setEase(LeanTweenType.easeOutBack)
                     .setDelay(0.2f * (i - 2)); // escalonado
-               
-
+                source.PlayOneShot(cardProgressionSound);
             }
-            source.PlayOneShot(cardProgressionSound);
-
         }
     }
 
@@ -464,21 +572,8 @@ public class UIManager : MonoBehaviour
 
     public void HideControlsImageAfterTheFirstTimeYouPlay()
     {
-        controlsImageScript.gameObject.SetActive(false);
-    }
-
-
-    public void OnSmoothShake(ShakeBase shakeEvent)
-    {
-        if (shakeEvent != null)
-        {
-            Debug.Log("🎥 Shake Activado: " + shakeEvent.gameObject.name);
-            shakeEvent.StartShake();
-        }
-        else
-        {
-            Debug.LogWarning("⚠️ ShakeEvent es null");
-        }
+        if (controlsTutorial != null)
+            controlsTutorial.gameObject.SetActive(false);
     }
 
 

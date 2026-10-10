@@ -22,7 +22,7 @@ public class DashGrabState : GrabState
     public override void FixedUpdate()
     {
         if (slideTimer < character.stats.dashGrabSlideDuration)
-            character.Movement.ApplyRoll(character.Dash.Direction, character.stats.dashGrabSpeed);
+            character.Movement.ApplyHorizontalDash(character.Dash.Direction, character.stats.dashGrabSpeed);
         else
             character.Movement.StopHorizontalMovement();
     }

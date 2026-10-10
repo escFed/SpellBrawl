@@ -79,15 +79,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "DrawCards",
-                    "type": "Button",
-                    "id": "2c4e4708-3750-425e-bacf-8b2db842d3d3",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Parry",
                     "type": "Button",
                     "id": "ff0e4f02-6c4d-4089-88d4-f19393c2b990",
@@ -106,9 +97,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Roll",
+                    "name": "LeftDefenseTrigger",
                     "type": "Button",
-                    "id": "98e221b8-73b2-4423-8252-766858105195",
+                    "id": "3983dd83-16dc-49e9-a848-7f2dc570f6ba",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RightDefenseTrigger",
+                    "type": "Button",
+                    "id": "aafc2537-6502-4519-9492-8149f64931f4",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -420,6 +420,17 @@
                 },
                 {
                     "name": "",
+                    "id": "cbc7534d-11ac-4715-9d68-d0ddaa69b026",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Hand1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "abfccf64-b6e7-4859-adb2-05ed9adf5540",
                     "path": "<Keyboard>/2",
                     "interactions": "",
@@ -436,6 +447,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
+                    "action": "Hand2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2019557c-78ac-4c24-8c98-c624ce85bfad",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
                     "action": "Hand2",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -464,6 +486,17 @@
                 },
                 {
                     "name": "",
+                    "id": "6f081905-0a05-4a2e-a321-a27b4941175d",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Hand3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "7c524332-b004-4910-9c27-a720ead8b968",
                     "path": "<Keyboard>/4",
                     "interactions": "",
@@ -486,23 +519,12 @@
                 },
                 {
                     "name": "",
-                    "id": "02c29f4d-5e3a-4e53-99d7-8a9f90f4c530",
-                    "path": "<Keyboard>/r",
+                    "id": "9b5a14de-457d-4891-afb3-72bfbd39afc4",
+                    "path": "<Gamepad>/dpad/right",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "DrawCards",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "cbc7534d-11ac-4715-9d68-d0ddaa69b026",
-                    "path": "<Gamepad>/rightStickPress",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DrawCards",
+                    "groups": "Gamepad",
+                    "action": "Hand4",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -524,7 +546,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Parry",
+                    "action": "Dodge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -535,7 +557,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Shield",
+                    "action": "LeftDefenseTrigger",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -547,28 +569,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Shield",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "320552a3-7873-444e-a1f3-2b80da1fdf86",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Roll",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3d8da2c8-96ec-46f8-a4ef-c3205f4d023b",
-                    "path": "<Keyboard>/o",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Roll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -596,8 +596,52 @@
                 },
                 {
                     "name": "",
-                    "id": "ebec148f-88f5-44d0-98d7-9fdee0e85789",
+                    "id": "ab5ffd22-0d36-48bf-b256-7be4e5baf2fb",
                     "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightDefenseTrigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fb6d00b8-f924-4bb6-babe-0fc52ecfcc07",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ebec148f-88f5-44d0-98d7-9fdee0e85789",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2407b579-70a8-4c26-b516-cf7a935f35bc",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aa294045-908e-4372-8633-74f6a03e915f",
+                    "path": "<Keyboard>/o",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -631,6 +675,17 @@
                     "name": "",
                     "id": "8d42557e-ae54-419c-9959-c4c49e52323d",
                     "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HeavyAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6b74ac49-e3e9-4830-b9cb-3a4adfdf74c1",
+                    "path": "<Keyboard>/k",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1140,7 +1195,7 @@
                     "name": "MatchRestart",
                     "type": "Button",
                     "id": "8d73e994-98e2-4397-8cab-1830830cba30",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -1158,7 +1213,7 @@
                     "name": "AIFreezeP2",
                     "type": "Button",
                     "id": "6ed95e10-e02b-4ed8-ac05-da84cfe047ce",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false

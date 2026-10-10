@@ -38,7 +38,6 @@ public class AIContextBuilder
         bool isGrounded = selfController != null && selfController.IsGrounded;
         bool isGroundLocomotion = selfController != null && (currentState == selfController.States.Idle || currentState == selfController.States.Move || currentState == selfController.States.Crouch);
         bool canUseNormalAttack = selfController != null && (currentState == selfController.States.Idle || currentState == selfController.States.Move || currentState == selfController.States.Jump);
-        bool canGroundRoll = selfController != null && selfController.Roll != null && selfController.Roll.CanRoll && isGrounded && (isGroundLocomotion || currentState == selfController.States.Jump);
         bool canAirDodge = selfController != null && selfController.Dodge != null && selfController.Dodge.CanDodge && !isGrounded && currentState == selfController.States.Jump;
         bool hasCompleteHeavySet = selfController != null && selfController.stats != null && selfController.stats.forwardHeavyAttack != null && selfController.stats.upHeavyAttack != null && selfController.stats.downHeavyAttack != null;
         float selfVelocityY = selfBody != null ? selfBody.linearVelocity.y : 0f;
@@ -87,8 +86,8 @@ public class AIContextBuilder
             isGrounded,
             isGroundLocomotion || currentState == selfController?.States.Jump,
             canUseNormalAttack,
-            isGroundLocomotion && selfController.Dash != null && selfController.Dash.CanDash,
-            canGroundRoll || canAirDodge,
+            isGrounded && (isGroundLocomotion || currentState == selfController.States.Jump) && selfController.Dash != null && selfController.Dash.CanDash,
+            canAirDodge,
             isGroundLocomotion && selfController.Shield != null && selfController.Shield.CanActivate,
             selfController != null &&
                 (currentState == selfController.States.Idle || currentState == selfController.States.Move),
@@ -97,7 +96,8 @@ public class AIContextBuilder
             !isGrounded && currentState == selfController?.States.Jump &&
                 selfVelocityY < 0f && selfController != null && !selfController.Movement.IsFastFalling,
             selfController != null && selfController.cardsEnabled &&
-                (currentState == selfController.States.Idle || currentState == selfController.States.Move),
+                (currentState == selfController.States.Idle || currentState == selfController.States.Move ||
+                 currentState == selfController.States.Jump),
             IsTargetThreatening(targetTracker.TargetController),
             targetTracker.TargetController != null && targetTracker.TargetController.Shield != null &&
                 targetTracker.TargetController.Shield.IsActive,

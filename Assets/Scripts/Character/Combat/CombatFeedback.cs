@@ -1,6 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CombatFeedback : MonoBehaviour
 {
@@ -16,6 +18,7 @@ public class CombatFeedback : MonoBehaviour
     private CombatAudioSettings audioSettings;
     private AudioSource hitAudioSource;
     private Coroutine hitStopRoutine;
+    private readonly Dictionary<Gamepad, Coroutine> rumbleRoutines = new();
     private float hitStopEndTime;
     private float timeScaleBeforeHitStop = 1f;
 
@@ -41,6 +44,73 @@ public class CombatFeedback : MonoBehaviour
         feedback.hitAudioSource.PlayOneShot(clip, volume);
     }
 
+    public static void PlayHitRumble(CharacterCoordinator defender, HitReaction reaction)
+    {
+        if (reaction == HitReaction.StrongHit || reaction == HitReaction.Stunned)
+            GetOrCreate().Rumble(defender, 0.55f, 0.8f, 0.18f);
+        else
+            GetOrCreate().Rumble(defender, 0.25f, 0.5f, 0.09f);
+    }
+
+    public static void PlayParryRumble(CharacterCoordinator defender)
+    {
+        GetOrCreate().Rumble(defender, 0.1f, 0.65f, 0.07f);
+    }
+
+    public static void PlayStockLossRumble(CharacterCoordinator defender)
+    {
+        GetOrCreate().Rumble(defender, 0.75f, 0.45f, 0.3f);
+    }
+
+    public static void StopAllRumble()
+    {
+        if (instance != null)
+            instance.StopRumble();
+    }
+
+    private void Rumble(CharacterCoordinator character, float low, float high, float duration)
+    {
+        if (character == null || character.Mode != PlayerMode.Player || GameSettings.RumbleIntensity <= 0f)
+            return;
+
+        PlayerInput playerInput = character.GetComponent<PlayerInput>();
+        if (playerInput == null)
+            return;
+
+        foreach (InputDevice device in playerInput.devices)
+        {
+            if (device is not Gamepad gamepad)
+                continue;
+
+            if (rumbleRoutines.TryGetValue(gamepad, out Coroutine previous))
+                StopCoroutine(previous);
+
+            gamepad.SetMotorSpeeds(low * GameSettings.RumbleIntensity, high * GameSettings.RumbleIntensity);
+            rumbleRoutines[gamepad] = StartCoroutine(StopRumbleAfter(gamepad, duration));
+            break;
+        }
+    }
+
+    private IEnumerator StopRumbleAfter(Gamepad gamepad, float duration)
+    {
+        yield return new WaitForSecondsRealtime(duration);
+        if (gamepad != null)
+            gamepad.ResetHaptics();
+        rumbleRoutines.Remove(gamepad);
+    }
+
+    private void StopRumble()
+    {
+        foreach (KeyValuePair<Gamepad, Coroutine> entry in rumbleRoutines)
+        {
+            StopCoroutine(entry.Value);
+            if (entry.Key != null)
+                entry.Key.ResetHaptics();
+        }
+
+        rumbleRoutines.Clear();
+    }
+
     public static void PlayImpact(Vector2 position, Vector2 knockback, HitReaction reaction)
     {
         PlayImpact(position, knockback, reaction, null);
@@ -49,20 +119,6 @@ public class CombatFeedback : MonoBehaviour
     public static void PlayImpact(Vector2 position, Vector2 knockback, HitReaction reaction, Color impactColor)
     {
         PlayImpact(position, knockback, reaction, (Color?)impactColor);
-    }
-
-    public static void ShakeCameraForLoseLife()
-    {
-        CombatFeedback feedback = GetOrCreate();
-        if (feedback.impulseSource == null)
-            return;
-
-        // Shake más fuerte que un hit normal
-        feedback.impulseSource.ImpulseDefinition.ImpulseDuration = 0.15f;
-        feedback.impulseSource.GenerateImpulseAtPositionWithVelocity(
-            Vector2.zero, Vector2.up * 3f
-        );
-        Debug.Log("💥 Shake para pérdida de vida activado");
     }
 
     private static void PlayImpact(Vector2 position, Vector2 knockback, HitReaction reaction, Color? impactColor)
@@ -270,8 +326,15 @@ public class CombatFeedback : MonoBehaviour
         if (instance != this)
             return;
 
+        StopRumble();
         RestoreTimeScale();
         instance = null;
+    }
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        if (!hasFocus)
+            StopRumble();
     }
 
     private static float GetHitStopDuration(HitReaction reaction)

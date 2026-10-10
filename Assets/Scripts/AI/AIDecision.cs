@@ -18,7 +18,6 @@ public enum AIDecision
     UseUtilityCard,
     UseBoostCard,
     Parry,
-    DrawCards,
     Jump,
     ShortHop,
     Crouch,

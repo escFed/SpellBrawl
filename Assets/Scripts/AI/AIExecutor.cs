@@ -110,10 +110,6 @@ public class AIExecutor
                 input.PressParry();
                 break;
 
-            case AIDecision.DrawCards:
-                input.PressDrawCards();
-                break;
-
             case AIDecision.UseOffensiveCard:
             case AIDecision.UseDefensiveCard:
             case AIDecision.UseUtilityCard:

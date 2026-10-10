@@ -9,7 +9,7 @@ public class AIUtility
         this.random = random ?? new Random();
     }
 
-    public AIActionScore ChooseDecision(AIContext context, AIProfile profile, IAICardSelector cardSelector, AIDecision currentDecision, float attackRange, float idealSpacing, AIActionMemory memory = null, float now = 0f)
+    public AIActionScore ChooseDecision(AIContext context, AIProfile profile, IAICardSelector cardSelector, AIDecision currentDecision, float attackRange, float idealSpacing, AIActionMemory memory = null, float now = 0f, bool allowCardActions = true)
     {
         AIActionScore best = AIActionScore.Idle();
 
@@ -18,7 +18,6 @@ public class AIUtility
             return ScoreRecover(context, profile);
 
         TryChoose(ref best, ScoreRecover(context, profile), profile, currentDecision, memory, now);
-        TryChoose(ref best, ScoreDrawCards(context, cardSelector), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreEvade(context, profile), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreShield(context, profile), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreParry(context, profile), profile, currentDecision, memory, now);
@@ -34,26 +33,29 @@ public class AIUtility
         TryChoose(ref best, ScoreReposition(context, attackRange, idealSpacing), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreChase(context, profile, attackRange, idealSpacing), profile, currentDecision, memory, now);
 
-        TryChoose(ref best, ScoreCard(AIDecision.UseDefensiveCard, CardType.Defensive, ScoreDefensiveCard(context, profile), cardSelector, context, memory, now), profile, currentDecision, memory, now);
-        TryChoose(ref best, ScoreCard(AIDecision.UseOffensiveCard, CardType.Offensive, ScoreOffensiveCard(context, profile, attackRange), cardSelector, context, memory, now), profile, currentDecision, memory, now);
-        TryChoose(
-            ref best,
-            ScoreCard(
-                AIDecision.UseUtilityCard,
-                CardType.Utility,
-                ScoreUtilityCard(context, profile, attackRange),
-                cardSelector, context, memory, now),
-            profile,
-            currentDecision, memory, now);
-        TryChoose(
-            ref best,
-            ScoreCard(
-                AIDecision.UseBoostCard,
-                CardType.Boost,
-                ScoreBoostCard(context, profile),
-                cardSelector, context, memory, now),
-            profile,
-            currentDecision, memory, now);
+        if (allowCardActions)
+        {
+            TryChoose(ref best, ScoreCard(AIDecision.UseDefensiveCard, CardType.Defensive, ScoreDefensiveCard(context, profile), cardSelector, context, memory, now), profile, currentDecision, memory, now);
+            TryChoose(ref best, ScoreCard(AIDecision.UseOffensiveCard, CardType.Offensive, ScoreOffensiveCard(context, profile, attackRange), cardSelector, context, memory, now), profile, currentDecision, memory, now);
+            TryChoose(
+                ref best,
+                ScoreCard(
+                    AIDecision.UseUtilityCard,
+                    CardType.Utility,
+                    ScoreUtilityCard(context, profile, attackRange),
+                    cardSelector, context, memory, now),
+                profile,
+                currentDecision, memory, now);
+            TryChoose(
+                ref best,
+                ScoreCard(
+                    AIDecision.UseBoostCard,
+                    CardType.Boost,
+                    ScoreBoostCard(context, profile),
+                    cardSelector, context, memory, now),
+                profile,
+                currentDecision, memory, now);
+        }
 
         if (context.CanMove && context.CanChaseSafely && !context.IncomingHazard &&
             !context.InDanger && !context.TargetThreatening &&
@@ -267,18 +269,6 @@ public class AIUtility
             score += 25f;
 
         return new AIActionScore(AIDecision.Parry, score * profile.parrySkill);
-    }
-
-    private static AIActionScore ScoreDrawCards(AIContext context, IAICardSelector cardSelector)
-    {
-        if (!context.CanUseCards || !cardSelector.CanRedraw())
-            return new AIActionScore(AIDecision.DrawCards, 0f);
-        if (context.EmptyHand)
-            return new AIActionScore(AIDecision.DrawCards, 80f);
-        if (!cardSelector.HasUsefulCard(context))
-            return new AIActionScore(AIDecision.DrawCards, 45f);
-
-        return new AIActionScore(AIDecision.DrawCards, 0f);
     }
 
     private static float ScoreOffensiveCard(

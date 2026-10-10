@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -27,6 +28,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
     public bool IsIntangible { get; private set; }
     public bool IsRespawnProtected => Phase == RespawnPhase.RespawnProtected;
     public bool ShouldCameraTrack => Phase == RespawnPhase.Active || Phase == RespawnPhase.RespawnProtected;
+    public event Action<CharacterHealth> CameraTrackingChanged;
 
     private void Awake()
     {
@@ -41,6 +43,16 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
     private void Start()
     {
         UpdateUI();
+    }
+
+    private void OnEnable()
+    {
+        CameraTrackingChanged?.Invoke(this);
+    }
+
+    private void OnDisable()
+    {
+        CameraTrackingChanged?.Invoke(this);
     }
 
     public void SetIntangible(bool intangible)
@@ -91,10 +103,11 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
             CombatFeedback.PlayImpact(hit.Point, finalKnockback, hit.Reaction, PlayerColors.Get(hit.AttackerPlayerIndex));
         else
             CombatFeedback.PlayImpact(hit.Point, finalKnockback, hit.Reaction);
+        CombatFeedback.PlayHitRumble(controller, hit.Reaction);
         return true;
     }
 
-    public void TakePummelDamage(int amount) 
+    public void TakePummelDamage(int amount)
     {
         if (Phase != RespawnPhase.Active || amount <= 0)
             return;
@@ -128,6 +141,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         if (Time.time - lastFallTime < 1f) return;
         lastFallTime = Time.time;
 
+        CombatFeedback.PlayStockLossRumble(controller);
         fallLives--;
 
         if (fallLives > 0)
@@ -151,6 +165,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
     {
         if (IsDead) return;
 
+        CombatFeedback.PlayStockLossRumble(controller);
         fallLives = 0;
         UpdateUI();
         Die();
@@ -341,7 +356,6 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         if (controller != null)
         {
             controller.Shield?.ResetShield();
-            controller.Roll?.ResetRolls();
             controller.Dodge?.ResetDodges();
             controller.Dash?.ResetDash();
         }
@@ -370,7 +384,11 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
     private void SetPhase(RespawnPhase phase)
     {
+        if (Phase == phase)
+            return;
+
         Phase = phase;
+        CameraTrackingChanged?.Invoke(this);
     }
 
     private void SetCharacterVisible(bool visible)

@@ -35,13 +35,11 @@ public class CharacterStats : ScriptableObject
     [Range(0f, 25f)] public float directionalInfluenceDegrees = 12f;
     [Min(0.01f)] public float knockbackAirDeceleration = 10f;
     [Min(0.01f)] public float knockbackGroundDeceleration = 40f;
-    public float dodgeSpeed = 14f;
-
     [Header("Dash Stats")]
-    public float dashSpeed = 15f;
+    public float dashSpeed = 14f;
     public float dashDuration = 0.18f;
-    public float dashRecovery = 0.12f;
-    public float dashCooldown = 3f;
+    public float dashRecovery = 0.14f;
+    public float dashCooldown = 5f;
     public float dashAttackSpeed = 12f;
     public float dashGrabSpeed = 9f;
     public float dashGrabSlideDuration = 0.16f;

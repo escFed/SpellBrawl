@@ -15,7 +15,6 @@ public sealed class AIInput : IInputProvider
     public bool HasBufferedEvade { get; private set; }
     public bool HasBufferedDash { get; private set; }
     public bool IsShieldHeld { get; private set; }
-    public bool HasBufferedDrawCards { get; private set; }
     public bool HasBufferedHeavyAttack { get; private set; }
     public bool IsHeavyAttackHeld { get; private set; }
     public bool WasHeavyAttackReleased { get; private set; }
@@ -34,8 +33,6 @@ public sealed class AIInput : IInputProvider
     public void PressShield() => HasBufferedShield = true;
     public void PressEvade() => HasBufferedEvade = true;
     public void PressDash() => HasBufferedDash = true;
-    public void PressDrawCards() => HasBufferedDrawCards = true;
-
     public void PressCardButton(int index)
     {
         if (index == 0) HasBufferedHand1 = true;
@@ -54,7 +51,6 @@ public sealed class AIInput : IInputProvider
     public void ConsumeDash() => HasBufferedDash = false;
     public void ConsumeHeavyAttack() => HasBufferedHeavyAttack = false;
     public void ConsumeHeavyAttackRelease() => WasHeavyAttackReleased = false;
-    public void ConsumeDrawCards() => HasBufferedDrawCards = false;
     public void ConsumeHand1() => HasBufferedHand1 = false;
     public void ConsumeHand2() => HasBufferedHand2 = false;
     public void ConsumeHand3() => HasBufferedHand3 = false;
@@ -96,7 +92,6 @@ public sealed class AIInput : IInputProvider
         ConsumeDash();
         ConsumeHeavyAttack();
         ConsumeHeavyAttackRelease();
-        ConsumeDrawCards();
         ConsumeHand1();
         ConsumeHand2();
         ConsumeHand3();

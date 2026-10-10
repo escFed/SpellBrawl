@@ -5,14 +5,17 @@ public static class GameSettings
     private const string MasterVolumeKey = "audio.masterVolume";
     private const string MusicVolumeKey = "audio.musicVolume";
     private const string SoundEffectsVolumeKey = "audio.soundEffectsVolume";
+    private const string RumbleIntensityKey = "gamepad.rumbleIntensity";
 
     private const float DefaultVolume = 1f;
+    private const float DefaultRumbleIntensity = 0.7f;
 
     public static event System.Action VolumesChanged;
 
     public static float MasterVolume { get; private set; } = DefaultVolume;
     public static float MusicVolume { get; private set; } = DefaultVolume;
     public static float SoundEffectsVolume { get; private set; } = DefaultVolume;
+    public static float RumbleIntensity { get; private set; } = DefaultRumbleIntensity;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetStaticState()
@@ -22,6 +25,7 @@ public static class GameSettings
         MasterVolume = DefaultVolume;
         MusicVolume = DefaultVolume;
         SoundEffectsVolume = DefaultVolume;
+        RumbleIntensity = DefaultRumbleIntensity;
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -30,6 +34,7 @@ public static class GameSettings
         MasterVolume = PlayerPrefs.GetFloat(MasterVolumeKey, DefaultVolume);
         MusicVolume = PlayerPrefs.GetFloat(MusicVolumeKey, DefaultVolume);
         SoundEffectsVolume = PlayerPrefs.GetFloat(SoundEffectsVolumeKey, DefaultVolume);
+        RumbleIntensity = Mathf.Clamp01(PlayerPrefs.GetFloat(RumbleIntensityKey, DefaultRumbleIntensity));
 
         ApplyMasterVolume();
 
@@ -59,15 +64,25 @@ public static class GameSettings
         VolumesChanged?.Invoke();
     }
 
+    public static void SetRumbleIntensity(float value)
+    {
+        RumbleIntensity = Mathf.Clamp01(value);
+        PlayerPrefs.SetFloat(RumbleIntensityKey, RumbleIntensity);
+        if (RumbleIntensity <= 0f)
+            CombatFeedback.StopAllRumble();
+    }
+
     public static void ResetToDefaults()
     {
         MasterVolume = DefaultVolume;
         MusicVolume = DefaultVolume;
         SoundEffectsVolume = DefaultVolume;
+        RumbleIntensity = DefaultRumbleIntensity;
 
         PlayerPrefs.SetFloat(MasterVolumeKey, MasterVolume);
         PlayerPrefs.SetFloat(MusicVolumeKey, MusicVolume);
         PlayerPrefs.SetFloat(SoundEffectsVolumeKey, SoundEffectsVolume);
+        PlayerPrefs.SetFloat(RumbleIntensityKey, RumbleIntensity);
 
         ApplyMasterVolume();
         VolumesChanged?.Invoke();

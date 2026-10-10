@@ -6,20 +6,19 @@ public class TsunamiCard : MonoBehaviour, ICardable
 
     [Header("Card Info")]
     [SerializeField] private string cardName = "Tsunami";
-    [SerializeField, TextArea(3, 5)] private string cardDescription = "Invokes a huge wave of water, causing significant damage to all enemies.";
-    [SerializeField] private string damageableOrNot = "Damage";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Sends a wave forward that pushes rivals while they remain inside it.";
+    [SerializeField] private string damageableOrNot = "NON DAMAGEABLE";
 
     [Header("Card Settings")]
-    [SerializeField] private int energyCost = 30;
     [SerializeField] private CardType type = CardType.Utility;
     [SerializeField] private Sprite cardVisual;
     [SerializeField] private Image cardUI;
 
     [SerializeField] private GameObject tsunamiPrefab;
+    [SerializeField, Min(0f)] private float spawnDistance = 3f;
 
     public string CardName => cardName;
     public string CardDescription => cardDescription;
-    public int EnergyCost => energyCost;
     public CardType Type => type;
     public Sprite CardVisual => cardVisual;
     public string DamageableOrNot => damageableOrNot;
@@ -37,52 +36,34 @@ public class TsunamiCard : MonoBehaviour, ICardable
         }
     }
 
-    public bool CanBeUsed(CharacterCoordinator user) => true;
+    public bool CanBeUsed(CharacterCoordinator user) => user != null && tsunamiPrefab != null;
 
     public void ExecuteCard(CharacterCoordinator character)
     {
-        CharacterCoordinator target = null;
-        CharacterCoordinator[] allPlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
+        if (!CanBeUsed(character))
+            return;
 
-        foreach (CharacterCoordinator p in allPlayers)
-        {
-            if (p.gameObject != character.gameObject)
-            {
-                target = p;
-                break;
-            }
-        }
+        CharacterHitBox hitBox = character.GetComponent<CharacterHitBox>();
+        if (hitBox != null && Mathf.Abs(character.MoveInput.x) > 0.1f)
+            hitBox.FaceDirection(character.MoveInput.x);
 
-        if (target != null)
-        {
-            int damageAmount = 50;
+        float direction = hitBox != null
+            ? (hitBox.IsFacingRight ? 1f : -1f)
+            : Mathf.Sign(character.transform.localScale.x);
+        if (direction == 0f)
+            direction = 1f;
 
-            if (tsunamiPrefab != null)
-            {
-                GameObject waveInstance = Instantiate(tsunamiPrefab, character.transform.position, Quaternion.identity);
-                TsunamiWave wave = waveInstance.GetComponent<TsunamiWave>();
-
-                if (wave != null)
-                {
-                    // Inicializamos la ola con caster, target y duración
-                    wave.Init(character.gameObject, target.transform, 5f);
-                }
-                else
-                {
-                    Debug.LogError("❌ El prefab Tsunami no tiene TsunamiWave adjunto.");
-                }
-            }
-            else
-            {
-                Debug.LogError("❌ Prefab Tsunami no asignado en TsunamiCard.");
-            }
-
-            Debug.Log($"{character.name} usó {cardName} contra {target.name}, causando {damageAmount} de daño!");
-        }
+        Vector3 spawnPosition = character.transform.position + Vector3.right * (direction * spawnDistance);
+        GameObject waveInstance = Instantiate(tsunamiPrefab, spawnPosition, Quaternion.identity);
+        if (waveInstance.TryGetComponent(out TsunamiWave wave))
+            wave.Init(character, direction);
         else
         {
-            Debug.Log($"{character.name} usó {cardName}, pero no había objetivos válidos.");
+            Debug.LogError("El prefab Tsunami no tiene TsunamiWave adjunto.", tsunamiPrefab);
+            Destroy(waveInstance);
         }
+
+        Destroy(gameObject);
     }
 
 

@@ -71,7 +71,6 @@ public class CombatInputHistory : MonoBehaviour
         new SpriteBinding("<Keyboard>/2"),
         new SpriteBinding("<Keyboard>/3"),
         new SpriteBinding("<Keyboard>/4"),
-        new SpriteBinding("<Keyboard>/r"),
         new SpriteBinding("<Keyboard>/l"),
         new SpriteBinding("<Keyboard>/u"),
         new SpriteBinding("<Keyboard>/i"),
@@ -89,7 +88,10 @@ public class CombatInputHistory : MonoBehaviour
         new SpriteBinding("<Gamepad>/rightStick/down"),
         new SpriteBinding("<Gamepad>/rightStick/left"),
         new SpriteBinding("<Gamepad>/rightStick/right"),
-        new SpriteBinding("<Gamepad>/rightStickPress")
+        new SpriteBinding("<Gamepad>/dpad/up"),
+        new SpriteBinding("<Gamepad>/dpad/left"),
+        new SpriteBinding("<Gamepad>/dpad/down"),
+        new SpriteBinding("<Gamepad>/dpad/right")
     };
 
     [Header("Gamepad left stick movement")]
@@ -108,19 +110,36 @@ public class CombatInputHistory : MonoBehaviour
 
     private void OnEnable()
     {
+        GameplayAidSettings.Changed += ApplyGameplayAid;
         ConfigureSlots();
         ClearHistory();
-        ConnectToCurrentPlayer();
+        ApplyGameplayAid();
     }
 
     private void Update()
     {
-        ConnectToCurrentPlayer();
+        if (GameplayAidSettings.ShowInputHistory)
+            ConnectToCurrentPlayer();
     }
 
     private void OnDisable()
     {
+        GameplayAidSettings.Changed -= ApplyGameplayAid;
         DisconnectFromPlayer();
+    }
+
+    private void ApplyGameplayAid()
+    {
+        if (GameplayAidSettings.ShowInputHistory)
+        {
+            ConnectToCurrentPlayer();
+            RefreshSlots();
+        }
+        else
+        {
+            DisconnectFromPlayer();
+            ClearHistory();
+        }
     }
 
     public void ClearHistory()
@@ -280,7 +299,7 @@ public class CombatInputHistory : MonoBehaviour
         if (sprite == null || slots == null || slots.Length == 0)
             return;
 
-        // Roll and Dodge share a binding; a single physical press gets one icon.
+        // Record a physical press only once if multiple actions share its binding.
         if (lastRecordedControl == control && lastRecordedFrame == Time.frameCount)
             return;
 
@@ -307,7 +326,7 @@ public class CombatInputHistory : MonoBehaviour
 
             // Empty slots stay at the top; the newest input occupies the bottom slot.
             int historyIndex = history.Count - slots.Length + i;
-            bool visible = historyIndex >= 0;
+            bool visible = GameplayAidSettings.ShowInputHistory && historyIndex >= 0;
             slot.sprite = visible ? history[historyIndex] : null;
 
             // Keep the GameObjects active so a Layout Group preserves all nine positions.

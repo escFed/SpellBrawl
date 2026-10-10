@@ -6,6 +6,5 @@ public enum CardActions
     EmptySlot,
     CooldownActive,
     CardConditionFailed,
-    RedrawUnavailable,
     DeckUnavailable
 }

@@ -51,6 +51,9 @@ public class TrainingManager : MonoBehaviour
         SpawnPlayer(database, playerSpawnPosition);
         SetupDummy(dummyPosition);
 
+        MatchCameraDirector cameraDirector = FindAnyObjectByType<MatchCameraDirector>();
+        cameraDirector?.RefreshTargets();
+
         if (helpText != null)
             helpText.text = "R: Repeat | F1: Damage | F2: Defender | F3: DI | ESC: Menu";
 

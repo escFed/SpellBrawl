@@ -17,6 +17,5 @@ MonoBehaviour:
   initialHandSize: 2
   maxHandSize: 4
   drawnCardCooldown: 5
-  drawCards: 1
   energyCost: 20
   recycleStack: 1

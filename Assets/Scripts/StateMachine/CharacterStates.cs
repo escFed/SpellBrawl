@@ -6,7 +6,6 @@ public sealed class CharacterStates
     public JumpState Jump { get; }
     public CrouchState Crouch { get; }
     public ShieldState Shield { get; }
-    public RollState Roll { get; }
     public DodgeState Dodge { get; }
     public DashState Dash { get; }
 
@@ -43,7 +42,6 @@ public sealed class CharacterStates
         Jump = new JumpState(character, machine);
         Crouch = new CrouchState(character, machine);
         Shield = new ShieldState(character, machine);
-        Roll = new RollState(character, machine);
         Dodge = new DodgeState(character, machine);
         Dash = new DashState(character, machine);
 

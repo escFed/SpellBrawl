@@ -1,0 +1,780 @@
+fileFormatVersion: 2
+guid: c544e40803ce7ee43b0207a0fc174c46
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1229428925090267025
+    second: ForwardStrong_0
+  - first:
+      213: 8744289015889141672
+    second: ForwardStrong_1
+  - first:
+      213: 8913526566502149
+    second: ForwardStrong_2
+  - first:
+      213: 6260384607528918156
+    second: ForwardStrong_3
+  - first:
+      213: -582612814497274477
+    second: ForwardStrong_4
+  - first:
+      213: 8118970829515651008
+    second: ForwardStrong_5
+  - first:
+      213: 3892155314462700095
+    second: ForwardStrong_6
+  - first:
+      213: 5299611132897896215
+    second: ForwardStrong_7
+  - first:
+      213: 2854110918288801805
+    second: ForwardStrong_8
+  - first:
+      213: 8635335006801803746
+    second: ForwardStrong_9
+  - first:
+      213: 7481543700492354949
+    second: ForwardStrong_10
+  - first:
+      213: 6040805855067056827
+    second: ForwardStrong_11
+  - first:
+      213: -1168072417093597799
+    second: ForwardStrong_12
+  - first:
+      213: -5900498734552806587
+    second: ForwardStrong_13
+  - first:
+      213: 2492855765955578850
+    second: ForwardStrong_14
+  - first:
+      213: 658509788644650468
+    second: ForwardStrong_15
+  - first:
+      213: 2317369942171487394
+    second: ForwardStrong_16
+  - first:
+      213: -7083239342516732471
+    second: ForwardStrong_17
+  - first:
+      213: -7234448736406737847
+    second: ForwardStrong_18
+  - first:
+      213: 8208372771004614155
+    second: ForwardStrong_19
+  - first:
+      213: -1043389019628172524
+    second: ForwardStrong_20
+  - first:
+      213: -4656686811888398108
+    second: ForwardStrong_21
+  - first:
+      213: -4045158762320382159
+    second: ForwardStrong_22
+  - first:
+      213: -2950775193925049503
+    second: ForwardStrong_23
+  - first:
+      213: 7196046021578239558
+    second: ForwardStrong_24
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ForwardStrong_0
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 28
+        width: 40
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19f7894f71fcf0110800000000000000
+      internalID: 1229428925090267025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_1
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 28
+        width: 46
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8af1c6dd784f95970800000000000000
+      internalID: 8744289015889141672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_2
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 28
+        width: 51
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50f31b02ecaaf1000800000000000000
+      internalID: 8913526566502149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_3
+      rect:
+        serializedVersion: 2
+        x: 367
+        y: 66
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8c9511b1aa51e650800000000000000
+      internalID: 6260384607528918156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_4
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 29
+        width: 58
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 395ac466bb42ae7f0800000000000000
+      internalID: -582612814497274477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_5
+      rect:
+        serializedVersion: 2
+        x: 467
+        y: 28
+        width: 72
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c7f90b04f06ca070800000000000000
+      internalID: 8118970829515651008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_6
+      rect:
+        serializedVersion: 2
+        x: 574
+        y: 25
+        width: 88
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f32b23113a6b30630800000000000000
+      internalID: 3892155314462700095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_7
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 24
+        width: 64
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 717a5103f300c8940800000000000000
+      internalID: 5299611132897896215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_8
+      rect:
+        serializedVersion: 2
+        x: 749
+        y: 74
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d000b2a22c6db9720800000000000000
+      internalID: 2854110918288801805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_9
+      rect:
+        serializedVersion: 2
+        x: 803
+        y: 28
+        width: 54
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e9baeccf6fd6d770800000000000000
+      internalID: 8635335006801803746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_10
+      rect:
+        serializedVersion: 2
+        x: 915
+        y: 28
+        width: 55
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 585886f4b58c3d760800000000000000
+      internalID: 7481543700492354949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_11
+      rect:
+        serializedVersion: 2
+        x: 1027
+        y: 28
+        width: 54
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bba2f5c6be045d350800000000000000
+      internalID: 6040805855067056827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_12
+      rect:
+        serializedVersion: 2
+        x: 1136
+        y: 28
+        width: 57
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 995443b435c2acfe0800000000000000
+      internalID: -1168072417093597799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_13
+      rect:
+        serializedVersion: 2
+        x: 1247
+        y: 22
+        width: 85
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54b8651c9a73d1ea0800000000000000
+      internalID: -5900498734552806587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_14
+      rect:
+        serializedVersion: 2
+        x: 1361
+        y: 23
+        width: 80
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2eb01168c17689220800000000000000
+      internalID: 2492855765955578850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_15
+      rect:
+        serializedVersion: 2
+        x: 1472
+        y: 24
+        width: 79
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ed2841f92f732900800000000000000
+      internalID: 658509788644650468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_16
+      rect:
+        serializedVersion: 2
+        x: 1604
+        y: 28
+        width: 60
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ac8c483fa3f82020800000000000000
+      internalID: 2317369942171487394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_17
+      rect:
+        serializedVersion: 2
+        x: 1717
+        y: 28
+        width: 51
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9cdf73ab85743bd90800000000000000
+      internalID: -7083239342516732471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_18
+      rect:
+        serializedVersion: 2
+        x: 1831
+        y: 29
+        width: 33
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94ce3b834331a9b90800000000000000
+      internalID: -7234448736406737847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_19
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 52
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0608bf9b8ff9e170800000000000000
+      internalID: 8208372771004614155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_20
+      rect:
+        serializedVersion: 2
+        x: 747
+        y: 31
+        width: 28
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41b058af6332581f0800000000000000
+      internalID: -1043389019628172524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_21
+      rect:
+        serializedVersion: 2
+        x: 963
+        y: 58
+        width: 32
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e0552b4400206fb0800000000000000
+      internalID: -4656686811888398108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_22
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 47
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 137b5dfa985bcd7c0800000000000000
+      internalID: -4045158762320382159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_23
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 39
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1632012589dbc07d0800000000000000
+      internalID: -2950775193925049503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ForwardStrong_24
+      rect:
+        serializedVersion: 2
+        x: 1359
+        y: 32
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64ea887fabd7dd360800000000000000
+      internalID: 7196046021578239558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      ForwardStrong_0: 1229428925090267025
+      ForwardStrong_1: 8744289015889141672
+      ForwardStrong_10: 7481543700492354949
+      ForwardStrong_11: 6040805855067056827
+      ForwardStrong_12: -1168072417093597799
+      ForwardStrong_13: -5900498734552806587
+      ForwardStrong_14: 2492855765955578850
+      ForwardStrong_15: 658509788644650468
+      ForwardStrong_16: 2317369942171487394
+      ForwardStrong_17: -7083239342516732471
+      ForwardStrong_18: -7234448736406737847
+      ForwardStrong_19: 8208372771004614155
+      ForwardStrong_2: 8913526566502149
+      ForwardStrong_20: -1043389019628172524
+      ForwardStrong_21: -4656686811888398108
+      ForwardStrong_22: -4045158762320382159
+      ForwardStrong_23: -2950775193925049503
+      ForwardStrong_24: 7196046021578239558
+      ForwardStrong_3: 6260384607528918156
+      ForwardStrong_4: -582612814497274477
+      ForwardStrong_5: 8118970829515651008
+      ForwardStrong_6: 3892155314462700095
+      ForwardStrong_7: 5299611132897896215
+      ForwardStrong_8: 2854110918288801805
+      ForwardStrong_9: 8635335006801803746
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

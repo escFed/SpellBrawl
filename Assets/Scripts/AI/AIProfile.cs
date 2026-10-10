@@ -30,8 +30,13 @@ public class AIProfile
     public float mistakeChance = 0.15f;
     [Min(0f)]
     public float randomness = 7f;
+    [Header("Decision Pacing")]
     [Min(0.05f)]
     public float reactionTime = 0.35f;
+    [Min(0f), Tooltip("Minimum seconds between AI card plays. Zero removes this limit.")]
+    public float cardUseInterval = 6f;
+    [Min(0.05f), Tooltip("Minimum seconds before reconsidering a movement decision.")]
+    public float movementDecisionInterval = 0.55f;
     [Min(0.02f)]
     public float shortHopHoldTime = 0.08f;
     [Min(0.05f)]
@@ -55,6 +60,8 @@ public class AIProfile
         mistakeChance = Mathf.Clamp01(mistakeChance);
         randomness = Mathf.Max(0f, randomness);
         reactionTime = Mathf.Max(0.05f, reactionTime);
+        cardUseInterval = Mathf.Max(0f, cardUseInterval);
+        movementDecisionInterval = Mathf.Max(0.05f, movementDecisionInterval);
         shortHopHoldTime = Mathf.Max(0.02f, shortHopHoldTime);
         heavyChargeTime = Mathf.Max(0.05f, heavyChargeTime);
         shieldHoldTime = Mathf.Max(0.05f, shieldHoldTime);

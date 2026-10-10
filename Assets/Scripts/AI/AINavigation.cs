@@ -42,8 +42,7 @@ public class AINavigation
     public bool CanFleeSafely => CanMoveDirection(-targetDirection);
     public bool CanDashSafely => self != null && self.IsGrounded &&
         IsGroundPathSafe(targetDirection, self.stats.dashSpeed * self.stats.dashDuration);
-    public bool CanEvadeSafely => self != null && self.IsGrounded &&
-        IsGroundPathSafe(-targetDirection, self.stats.dodgeSpeed * 0.18f);
+    public bool CanEvadeSafely => self != null && !self.IsGrounded;
     public bool CanFastFallSafely => selfTransform != null &&
         HasGroundBelow(selfTransform.position.x, FeetY, fallCheckDepth);
 

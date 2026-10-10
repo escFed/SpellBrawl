@@ -419,7 +419,11 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58d2075d035bf1943b93021113470239, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TargetGroup
+  m_EditorClassIdentifier: Assembly-CSharp::MatchCameraDirector
+  matchCamera: {fileID: 460468906}
+  targetRadius: 1.5
+  zoomOutDamping: 0.35
+  zoomInDamping: 1.2
 --- !u!114 &242863288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,10 +442,10 @@ MonoBehaviour:
   Targets:
   - Object: {fileID: 3262535833314222879, guid: a77aba504c334f642a1f2b061daa667a, type: 3}
     Weight: 1
-    Radius: 2
+    Radius: 1.5
   - Object: {fileID: 7704541438735409549, guid: 07be9d78391b0fa4984a4db28a6d4950, type: 3}
     Weight: 1
-    Radius: 2
+    Radius: 1.5
   m_LegacyTargets: []
 --- !u!1 &345464132
 GameObject:
@@ -562,14 +566,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineGroupFraming
   FramingMode: 2
-  FramingSize: 0.8
+  FramingSize: 0.75
   CenterOffset: {x: 0, y: 0}
-  Damping: 2
+  Damping: 1.2
   SizeAdjustment: 2
   LateralAdjustment: 0
   FovRange: {x: 1, y: 100}
   DollyRange: {x: -100, y: 100}
-  OrthoSizeRange: {x: 2, y: 5}
+  OrthoSizeRange: {x: 3, y: 6}
 --- !u!114 &460468905
 MonoBehaviour:
   m_ObjectHideFlags: 0
