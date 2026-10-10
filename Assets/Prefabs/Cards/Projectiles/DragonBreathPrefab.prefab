@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.0372, z: 1}
+  m_LocalScale: {x: 100, y: 100, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -84,12 +84,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -1512679551582936979, guid: 2306e20620b0ab2479d89a0ffae6fd56, type: 3}
+  m_Sprite: {fileID: -7293803181517503039, guid: 2306e20620b0ab2479d89a0ffae6fd56, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.18, y: 1.8}
+  m_Size: {x: 1.76, y: 0.98}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -104,7 +104,7 @@ Animator:
   m_GameObject: {fileID: 6564555053357165582}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a63889ec9f2f7ee43963f56f169a04c3, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -150,17 +150,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.012548327, y: -0.43956748}
+  m_Offset: {x: 0.012548327, y: -0.07491261}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.18, y: 1.8}
-    newSize: {x: 2.18, y: 1.8}
+    oldSize: {x: 1.76, y: 0.98}
+    newSize: {x: 1.76, y: 0.98}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 2.2050965, y: 0.920865}
+  m_Size: {x: 2.2050965, y: 1.6501747}
   m_EdgeRadius: 0
 --- !u!114 &5444259251438784805
 MonoBehaviour:
@@ -174,4 +174,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7963132a653565d499a01fee3566a4ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragonBreathLogic
-  breathDuration: 3
+  breathDuration: 2
+  visualPrefab: {fileID: 4448992838361051948, guid: 3d64e84ec46f3bf4dbdb9b2b6ce1a2eb, type: 3}

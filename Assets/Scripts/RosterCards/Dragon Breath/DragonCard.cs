@@ -56,19 +56,30 @@ public class DragonCard : MonoBehaviour, ICardable
             }
         }
 
+        if (target == null)
+        {
+            Debug.LogError("Dragon Breath: No se encontró enemigo!");
+            return;
+        }
+
         Transform spawnPoint = character.Grab.throwPoint != null ? character.Grab.throwPoint : character.transform;
 
+        // 📍 CORREGIDO: Calcular posición entre el que lanza y el target
+        Vector3 spawnPosition = Vector3.Lerp(spawnPoint.position, target.transform.position, 0.5f);
 
+        GameObject breath = Instantiate(dragonPrefab, spawnPosition, Quaternion.identity);
 
-        GameObject breath = Instantiate(dragonPrefab, spawnPoint.position, Quaternion.identity);
+        // 📏 CORREGIDO: Escalar el prefab para que sea visible
+        breath.transform.localScale = Vector3.one * 2f; // Tamaño 2x más grande
 
         if (breath.TryGetComponent(out DragonBreathLogic script))
         {
-            StartCoroutine(script.BreathCorroutine(character));
+            // ✅ Pasar el OBJETIVO (target) para causar daño
+            script.SetTargetAndPrefab(target, breath);
+            StartCoroutine(script.BreathCorroutine(target));
         }
 
-       
     }
 
-   
+
 }
