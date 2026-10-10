@@ -6,7 +6,7 @@ public class DragonCard : MonoBehaviour, ICardable
 {
     [SerializeField] private string cardName = "Dragon Breath";
     [SerializeField][TextArea] private string cardDescription = "Invokes a continuous fire breath attack";
-    [SerializeField] private CardType type = default;
+    [SerializeField] private CardType type = CardType.Offensive;
     [SerializeField] private Sprite cardVisual = null;
     [SerializeField] private string damageableOrNot = "Damageable";
 

@@ -11,9 +11,6 @@ public class DragonBreathLogic : MonoBehaviour
 
     public IEnumerator BreathCorroutine(CharacterCoordinator character)
     {
-        // Instanciar el efecto
-        GameObject breathEffect = Instantiate(gameObject, character.transform.position, Quaternion.identity);
-        breathEffect.transform.SetParent(character.transform);
 
       
 
@@ -32,7 +29,7 @@ public class DragonBreathLogic : MonoBehaviour
             yield return null; // pausa hasta el siguiente frame
         }
 
-        Destroy(breathEffect);
+       
     }
 
 
