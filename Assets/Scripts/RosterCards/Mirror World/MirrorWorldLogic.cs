@@ -28,18 +28,7 @@ public class MirrorWorldLogic : MonoBehaviour
             yield break;
         }
 
-        if (targetController != null)
-        {
-            // Apply knockback to the target
-            CharacterMovement movement = targetController.GetComponent<CharacterMovement>();
-            if (movement != null)
-            {
-                movement.moveSpeedMultiplier *= -1; // Invert the movement direction
-
-                yield return new WaitForSeconds(effectDuration > 0f ? effectDuration : 3f);
-                Destroy(gameObject);
-            }
-        }
+        yield return new WaitForSeconds(effectDuration > 0f ? effectDuration : 3f);
+        Destroy(gameObject);
     }
 }
-

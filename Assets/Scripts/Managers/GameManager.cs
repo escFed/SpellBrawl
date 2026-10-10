@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections;
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
@@ -92,12 +93,6 @@ public class GameManager : MonoBehaviour
 
         isRoundTransitioning = true;
         transitioningRoundWinner = deadPlayerIndex == 0 ? 1 : 0;
-
-        TargetGroup camUpdater = FindAnyObjectByType<TargetGroup>();
-        if (camUpdater != null)
-        {
-            camUpdater.RefreshTargets();
-        }
 
         if (deadPlayerIndex == 0)
         {

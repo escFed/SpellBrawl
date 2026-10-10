@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterCoordinator))]
 public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInfluenceProvider
 {
-    private const int CurrentProfileVersion = 1;
+    private const int CurrentProfileVersion = 2;
 
     [Header("AI Profile")]
     public AIProfile profile = new AIProfile();
@@ -41,7 +41,7 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
     private bool hazardSeen;
     private float nextHazardCheck;
     private float thinkTimer;
-
+    private float nextCardAllowedAt;
     public bool IsDebugFrozen { get; private set; }
 
     public void SetDebugFrozen(bool frozen)
@@ -51,7 +51,6 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
         thinkTimer = 0f;
         currentDecision = AIDecision.Idle;
     }
-
 
     public Vector2 CurrentDirection => input.CurrentDirection;
     public bool HasBufferedJump => input.HasBufferedJump;
@@ -67,7 +66,6 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
     public bool HasBufferedEvade => input.HasBufferedEvade;
     public bool HasBufferedDash => input.HasBufferedDash;
     public bool IsShieldHeld => input.IsShieldHeld;
-    public bool HasBufferedDrawCards => input.HasBufferedDrawCards;
     public bool HasBufferedHeavyAttack => input.HasBufferedHeavyAttack;
     public bool IsHeavyAttackHeld => input.IsHeavyAttackHeld;
     public bool WasHeavyAttackReleased => input.WasHeavyAttackReleased;
@@ -158,10 +156,8 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
 
     private void Update()
     {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
         if (IsDebugFrozen)
             return;
-#endif
         if (SelfController == null || SelfController.IsDead || SelfController.IsHitStunned)
         {
             ResetExecution();
@@ -206,7 +202,6 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
         if (thinkTimer > 0f)
             return;
 
-        thinkTimer = profile.reactionTime;
         targetTracker.UpdatePerception();
         navigation.Refresh(SelfController, transform, targetTracker.PerceivedTargetPosition);
 
@@ -219,9 +214,15 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
             attackRange,
             idealSpacing,
             memory,
-            Time.time);
+            Time.time,
+            Time.time >= nextCardAllowedAt);
 
         currentDecision = action.Decision;
+        thinkTimer = IsMovementDecision(action.Decision)
+            ? Mathf.Max(profile.reactionTime, profile.movementDecisionInterval)
+            : profile.reactionTime;
+        if (action.HasCard)
+            nextCardAllowedAt = Time.time + profile.cardUseInterval;
         executor.Execute(
             action,
             input,
@@ -247,7 +248,6 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
     public void ConsumeDash() => input.ConsumeDash();
     public void ConsumeHeavyAttack() => input.ConsumeHeavyAttack();
     public void ConsumeHeavyAttackRelease() => input.ConsumeHeavyAttackRelease();
-    public void ConsumeDrawCards() => input.ConsumeDrawCards();
     public void ConsumeHand1() => input.ConsumeHand1();
     public void ConsumeHand2() => input.ConsumeHand2();
     public void ConsumeHand3() => input.ConsumeHand3();
@@ -280,6 +280,15 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
         navigation?.Reset();
     }
 
+    private static bool IsMovementDecision(AIDecision decision)
+    {
+        return decision == AIDecision.Chase || decision == AIDecision.Flee ||
+            decision == AIDecision.Reposition || decision == AIDecision.Jump ||
+            decision == AIDecision.ShortHop || decision == AIDecision.Crouch ||
+            decision == AIDecision.FastFall || decision == AIDecision.Dash ||
+            decision == AIDecision.DashAttack || decision == AIDecision.Evade;
+    }
+
     private void UpgradeProfile()
     {
         profile ??= new AIProfile();
@@ -294,6 +303,13 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
             profile.shortHopHoldTime = 0.08f;
             profile.heavyChargeTime = 0.65f;
             profile.shieldHoldTime = 0.75f;
+            profileVersion = 1;
+        }
+
+        if (profileVersion < 2)
+        {
+            profile.cardUseInterval = 6f;
+            profile.movementDecisionInterval = 0.55f;
             profileVersion = CurrentProfileVersion;
         }
 

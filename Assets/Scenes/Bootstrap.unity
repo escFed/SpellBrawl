@@ -432,6 +432,7 @@ MonoBehaviour:
   titleGroup: {fileID: 585130807}
   blackCover: {fileID: 123225193}
   loadingIcon: {fileID: 915250112}
+  menuMusicClip: {fileID: 8300000, guid: d81d3cecf59e92d49932025dc37b095d, type: 3}
 --- !u!225 &813478353
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -735,9 +736,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 585130808}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.56}
-  m_AnchorMax: {x: 0.5, y: 0.56}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 100}
   m_SizeDelta: {x: 720, y: 480}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1611782801
@@ -810,10 +811,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 585130808}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.13}
-  m_AnchorMax: {x: 0.5, y: 0.13}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1600, y: 110}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -300}
+  m_SizeDelta: {x: 1600, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1749648162
 MonoBehaviour:
@@ -835,10 +836,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press any button
+  m_text: PRESS ANY BUTTON
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1436ec038612fe24b8b7e1fa9428ea50, type: 2}
+  m_sharedMaterial: {fileID: -7102175868771563135, guid: 1436ec038612fe24b8b7e1fa9428ea50, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -868,7 +869,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

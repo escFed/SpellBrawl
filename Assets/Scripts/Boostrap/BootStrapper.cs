@@ -17,6 +17,9 @@ public class BootStrapper : MonoBehaviour
     [SerializeField] private CanvasGroup blackCover;
     [SerializeField] private Image loadingIcon;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip menuMusicClip;
+
     private IDisposable buttonListener;
     private bool continueRequested;
 
@@ -52,6 +55,8 @@ public class BootStrapper : MonoBehaviour
 
         while (menuLoad.progress < 0.9f || Time.realtimeSinceStartup - startedAt < minimumBlackSeconds)
             yield return null;
+
+        MenuMusic.StartFromBootstrap(menuMusicClip);
 
         float elapsed = 0f;
         while (elapsed < titleFadeSeconds)

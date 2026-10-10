@@ -22,7 +22,7 @@ public class DashAttackState : GroundAttackState
     public override void FixedUpdate()
     {
         if (dashTimer < character.stats.dashDuration)
-            character.Movement.ApplyRoll(character.Dash.Direction, character.stats.dashAttackSpeed);
+            character.Movement.ApplyHorizontalDash(character.Dash.Direction, character.stats.dashAttackSpeed);
         else
             character.Movement.StopHorizontalMovement();
     }
@@ -30,6 +30,7 @@ public class DashAttackState : GroundAttackState
     public override void Exit()
     {
         base.Exit();
+        character.Dash.CompleteDash();
         character.Movement.StopHorizontalMovement();
     }
 

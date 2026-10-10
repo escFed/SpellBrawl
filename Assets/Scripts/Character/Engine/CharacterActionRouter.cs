@@ -48,9 +48,10 @@ public sealed class CharacterActionRouter
             input.ConsumeShield();
 
         if (!input.IsShieldHeld || !character.Shield.CanActivate || !character.IsGrounded ||
-            !IsGroundLocomotion())
+            !(IsGroundLocomotion() || machine.Is(States.Parry)))
             return false;
 
+        input.ConsumeParry();
         machine.ChangeState(States.Shield);
         return true;
     }
@@ -61,9 +62,8 @@ public sealed class CharacterActionRouter
             return false;
 
         bool cancellingHeavyCharge = machine.Is(States.HeavyCharge);
-        bool canStart = IsGroundLocomotion() || cancellingHeavyCharge;
-        bool hasDirection = Mathf.Abs(character.MoveInput.x) >= character.stats.tiltThreshold;
-        if (!canStart || !character.IsGrounded || !hasDirection ||
+        bool canStart = IsGroundLocomotion() || cancellingHeavyCharge || machine.Is(States.Jump);
+        if (!canStart || !character.IsGrounded ||
             !character.Dash.TryStartDash(character.MoveInput.x))
             return false;
 
@@ -83,20 +83,15 @@ public sealed class CharacterActionRouter
 
     private bool TryHandleEvade(IInputProvider input)
     {
-        if (!input.HasBufferedEvade || machine.Is(States.Roll) || machine.Is(States.Dodge))
+        if (!input.HasBufferedEvade || machine.Is(States.Dodge))
             return false;
 
-        bool canRoll = character.Roll.CanRoll && character.IsGrounded &&
-            (IsGroundLocomotion() || machine.Is(States.HeavyCharge) || machine.Is(States.Jump));
         bool canDodge = character.Dodge.CanDodge && !character.IsGrounded && machine.Is(States.Jump);
-        if (!canRoll && !canDodge)
+        if (!canDodge)
             return false;
 
         input.ConsumeEvade();
-        if (canRoll)
-            machine.ChangeState(States.Roll);
-        else
-            machine.ChangeState(States.Dodge);
+        machine.ChangeState(States.Dodge);
         return true;
     }
 
@@ -130,14 +125,9 @@ public sealed class CharacterActionRouter
 
     private bool TryHandleCards(IInputProvider input)
     {
-        if (!character.cardsEnabled || !(machine.Is(States.Idle) || machine.Is(States.Move)))
+        if (!character.cardsEnabled ||
+            !(machine.Is(States.Idle) || machine.Is(States.Move) || machine.Is(States.Jump)))
             return false;
-
-        if (input.HasBufferedDrawCards)
-        {
-            deck.TryDrawNewHand();
-            input.ConsumeDrawCards();
-        }
 
         return TryUseBufferedCard(input);
     }

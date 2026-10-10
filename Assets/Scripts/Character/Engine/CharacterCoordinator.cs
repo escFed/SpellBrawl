@@ -47,7 +47,6 @@ public class CharacterCoordinator : MonoBehaviour
     public CharacterMovement Movement { get; private set; }
     public CharacterHealth Health { get; private set; }
     public CharacterShield Shield { get; private set; }
-    public CharacterRoll Roll { get; private set; }
     public CharacterDodge Dodge { get; private set; }
     public CharacterDash Dash { get; private set; }
     public CharacterHitFeedback HitFeedback { get; private set; }
@@ -80,7 +79,6 @@ public class CharacterCoordinator : MonoBehaviour
         Anim = GetComponentInChildren<Animator>();
         Animation = new CharacterAnimationController(Anim, this);
         Shield = GetComponent<CharacterShield>();
-        Roll = GetComponent<CharacterRoll>();
         Dodge = GetComponent<CharacterDodge>();
         Dash = GetComponent<CharacterDash>();
         HitFeedback = GetComponent<CharacterHitFeedback>();
@@ -91,9 +89,6 @@ public class CharacterCoordinator : MonoBehaviour
 
         if (Shield == null)
             Shield = gameObject.AddComponent<CharacterShield>();
-
-        if (Roll == null)
-            Roll = gameObject.AddComponent<CharacterRoll>();
 
         if (Dodge == null)
             Dodge = gameObject.AddComponent<CharacterDodge>();

@@ -19,7 +19,8 @@ public class CardState : CharacterState
         character.Health.CancelRespawnProtection();
         _timer = 0f;
 
-        character.Movement.StopHorizontalMovement();
+        if (character.IsGrounded)
+            character.Movement.StopHorizontalMovement();
 
         if (_cardToUse != null)
         {
@@ -35,10 +36,18 @@ public class CardState : CharacterState
             return;
         }
 
+        character.HandleAirborneMovementInput();
         _timer += Time.deltaTime;
 
         if (_timer >= _recoveryTime)
         {
+            if (!character.IsGrounded)
+            {
+                character.States.Jump.PrepareReentry();
+                stateMachine.ChangeState(character.States.Jump);
+                return;
+            }
+
             if (Mathf.Abs(character.MoveInput.x) > 0.01f)
             {
                 stateMachine.ChangeState(character.States.Move);
@@ -47,6 +56,17 @@ public class CardState : CharacterState
             {
                 stateMachine.ChangeState(character.States.Idle);
             }
+        }
+    }
+
+    public override void FixedUpdate()
+    {
+        if (character.IsGrounded)
+            character.Movement.StopHorizontalMovement();
+        else
+        {
+            character.Movement.ApplyHorizontalMovement();
+            character.Movement.ClampFallSpeed();
         }
     }
 }

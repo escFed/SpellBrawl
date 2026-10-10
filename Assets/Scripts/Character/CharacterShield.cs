@@ -12,6 +12,7 @@ public class CharacterShield : MonoBehaviour
     public bool CanActivate => !IsActive && Time.time >= cooldownEndsAt;
     public int RemainingResistance { get; private set; }
     public float RemainingCooldown => Mathf.Max(0f, cooldownEndsAt - Time.time);
+    public float CooldownLength => CooldownDuration;
 
     private SpriteRenderer characterSprite;
     private Color colorBeforeShield;

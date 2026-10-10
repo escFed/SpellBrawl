@@ -33,6 +33,8 @@ public class DeckBuilderUI : MonoBehaviour
     private HashSet<GameObject> selectedCardSet = new HashSet<GameObject>();
     private PlayerSlot selectingSlot = PlayerSlot.PlayerOne;
     private bool initialized;
+    private readonly List<Selectable> fightNavigationSources = new List<Selectable>();
+    private readonly List<Navigation> fightNavigationLinks = new List<Navigation>();
 
     [Header("UI Audio")]
     private AudioSource source;
@@ -98,6 +100,7 @@ public class DeckBuilderUI : MonoBehaviour
         if (source != null)
             GameSettings.RegisterSource(source, GameSound.SoundEffects);
 
+        CacheFightNavigation();
         UpdateUI();
         initialized = true;
     }
@@ -193,7 +196,66 @@ public class DeckBuilderUI : MonoBehaviour
             deckSizeText.text = rules != null ? $"{GetParticipantLabel()} {selectedCards.Count}/{rules.DeckSize}" : "0/0";
 
         if (startMatchButton != null)
-            startMatchButton.interactable = rules != null && selectedCards.Count == rules.DeckSize;
+        {
+            bool canStart = rules != null && selectedCards.Count == rules.DeckSize;
+            EventSystem eventSystem = EventSystem.current;
+            bool fightWasSelected = !canStart && eventSystem != null &&
+                eventSystem.currentSelectedGameObject == startMatchButton.gameObject;
+            startMatchButton.interactable = canStart;
+            SetFightNavigation(canStart);
+
+            if (fightWasSelected)
+            {
+                Selectable previous = startMatchButton.navigation.selectOnUp;
+                if (previous != null && previous.IsActive() && previous.IsInteractable())
+                    eventSystem.SetSelectedGameObject(previous.gameObject);
+                else
+                    UIFocus.SelectFirst(gameObject);
+            }
+        }
+    }
+
+    private void CacheFightNavigation()
+    {
+        if (startMatchButton == null)
+            return;
+
+        // Explicit uGUI links can select a non-interactable button, so remember every incoming link.
+        foreach (Selectable selectable in GetComponentsInChildren<Selectable>(true))
+        {
+            Navigation navigation = selectable.navigation;
+            if (navigation.mode != Navigation.Mode.Explicit || selectable == startMatchButton)
+                continue;
+
+            if (navigation.selectOnUp == startMatchButton ||
+                navigation.selectOnDown == startMatchButton ||
+                navigation.selectOnLeft == startMatchButton ||
+                navigation.selectOnRight == startMatchButton)
+            {
+                fightNavigationSources.Add(selectable);
+                fightNavigationLinks.Add(navigation);
+            }
+        }
+    }
+
+    private void SetFightNavigation(bool canStart)
+    {
+        for (int i = 0; i < fightNavigationSources.Count; i++)
+        {
+            Selectable selectable = fightNavigationSources[i];
+            if (selectable == null)
+                continue;
+
+            Navigation navigation = selectable.navigation;
+            Navigation original = fightNavigationLinks[i];
+            Selectable target = canStart ? startMatchButton : null;
+            if (original.selectOnUp == startMatchButton) navigation.selectOnUp = target;
+            if (original.selectOnDown == startMatchButton) navigation.selectOnDown = target;
+            if (original.selectOnLeft == startMatchButton) navigation.selectOnLeft = target;
+            if (original.selectOnRight == startMatchButton) navigation.selectOnRight = target;
+
+            selectable.navigation = navigation;
+        }
     }
 
     public void ClearDeck()

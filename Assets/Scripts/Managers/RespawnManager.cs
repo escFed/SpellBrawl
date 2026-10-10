@@ -55,6 +55,9 @@ public class RespawnManager : MonoBehaviour
             out p2Instance);
 
         ConfigureInitialControls(selection.matchMode, p1Controller, p2Controller);
+
+        MatchCameraDirector cameraDirector = FindAnyObjectByType<MatchCameraDirector>();
+        cameraDirector?.RefreshTargets();
     }
 
     private bool ValidateSetup(out SelectionManager selection)

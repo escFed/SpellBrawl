@@ -92,11 +92,6 @@ public class AICardSelector : IAICardSelector
         return true;
     }
 
-    public bool CanRedraw()
-    {
-        return selfDeck != null && selfDeck.CanFullRedraw;
-    }
-
     private float ScoreCard(ICardable card, AIContext context)
     {
         float score = 0f;

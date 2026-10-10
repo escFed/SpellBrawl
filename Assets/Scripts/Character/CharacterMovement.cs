@@ -286,7 +286,7 @@ public class CharacterMovement : MonoBehaviour
     }
 
 
-    public void ApplyRoll(float directionSign, float speed)
+    public void ApplyHorizontalDash(float directionSign, float speed)
     {
         SetOrdinaryVelocity(new Vector2(directionSign * speed, OrdinaryVelocity.y));
     }

@@ -46,6 +46,7 @@ public class CharacterParry : MonoBehaviour
         }
 
         hasParriedThisHit = true;
+        CombatFeedback.PlayParryRumble(controller);
 
         if (attacker != null && attacker != controller && !attacker.IsDead && attacker.Combat != null)
             attacker.Combat.TakeHit(SuccessfulParryStunDuration, HitReaction.Stunned);

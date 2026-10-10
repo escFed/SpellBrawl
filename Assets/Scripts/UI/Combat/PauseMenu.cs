@@ -20,6 +20,9 @@ public class PauseMenu : MonoBehaviour
 
     private void Update()
     {
+        if (CountdownManager.Instance != null && CountdownManager.Instance.IsTutorialOpen)
+            return;
+
         bool keyboardPause = Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame;
         bool gamepadPause = Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame;
         bool gamepadBack = isPaused && Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame;
@@ -51,6 +54,7 @@ public class PauseMenu : MonoBehaviour
         pausePanel.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
+        CombatFeedback.StopAllRumble();
         AudioListener.pause = true;
         UIFocus.SelectFirst(pausePanel);
     }

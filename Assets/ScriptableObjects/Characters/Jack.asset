@@ -34,11 +34,10 @@ MonoBehaviour:
   directionalInfluenceDegrees: 12
   knockbackAirDeceleration: 10
   knockbackGroundDeceleration: 40
-  dodgeSpeed: 14
-  dashSpeed: 15
+  dashSpeed: 14
   dashDuration: 0.18
-  dashRecovery: 0.12
-  dashCooldown: 3
+  dashRecovery: 0.14
+  dashCooldown: 5
   dashAttackSpeed: 12
   dashGrabSpeed: 9
   dashGrabSlideDuration: 0.16

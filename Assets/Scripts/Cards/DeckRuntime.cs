@@ -12,12 +12,9 @@ public class DeckRuntime
     private HandSlot[] handSlots;
 
     private int activeHandSize;
-    private int fullDraws;
 
     public int HandSlotCount => handSlots.Length;
     public int DrawStackCount => drawStack.Count;
-    public int FullDraws => fullDraws;
-    public bool CanFullRedraw => fullDraws > 0;
 
     public DeckRuntime(DeckRules rules, IReadOnlyList<GameObject> deckTemplate)
     {
@@ -69,7 +66,6 @@ public class DeckRuntime
         Shuffle(drawStack);
 
         activeHandSize = rules.InitialHandSize;
-        fullDraws = rules.FullDraws;
 
         for (int i = 0; i < handSlots.Length; i++)
         {
@@ -95,15 +91,6 @@ public class DeckRuntime
         TryDrawIntoHandSlot(handIndex, replacementReadyAt);
 
         return usedPrefab;
-    }
-
-    public bool TryFullRedraw(float readyAt)
-    {
-        if (!CanFullRedraw || !TryReplaceActiveHand(readyAt))
-            return false;
-
-        fullDraws--;
-        return true;
     }
 
     public bool TryForceRedraw(float readyAt)

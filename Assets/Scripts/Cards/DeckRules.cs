@@ -12,8 +12,7 @@ public class DeckRules : ScriptableObject
     [SerializeField] private int maxHandSize = 4;
     [SerializeField] private float drawnCardCooldown = 5f;
 
-    [Header("Full Redraw")]
-    [SerializeField] private int fullDraws = 1;
+    [Header("Discard Pile")]
     [SerializeField] private bool recycleStack = true;
 
     public int DeckSize => deckSize;
@@ -21,7 +20,6 @@ public class DeckRules : ScriptableObject
     public int InitialHandSize => initialHandSize;
     public int MaxHandSize => maxHandSize;
     public float DrawnCardCooldown => drawnCardCooldown;
-    public int FullDraws => fullDraws;
     public bool RecycleStack => recycleStack;
 
     private void OnValidate()
@@ -31,6 +29,5 @@ public class DeckRules : ScriptableObject
         maxHandSize = Mathf.Clamp(maxHandSize, 1, 4);
         initialHandSize = Mathf.Clamp(initialHandSize, 1, maxHandSize);
         drawnCardCooldown = Mathf.Max(0f, drawnCardCooldown);
-        fullDraws = Mathf.Max(0, fullDraws);
     }
 }

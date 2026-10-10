@@ -157,7 +157,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'TIP:'
+  m_text: 'Tip:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1436ec038612fe24b8b7e1fa9428ea50, type: 2}
   m_sharedMaterial: {fileID: -7102175868771563135, guid: 1436ec038612fe24b8b7e1fa9428ea50, type: 2}
@@ -184,13 +184,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -254,7 +254,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.18}
   m_AnchorMax: {x: 0.5, y: 0.18}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1550, y: 160}
+  m_SizeDelta: {x: 1800, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &455309502
 GameObject:
@@ -418,7 +418,7 @@ GameObject:
   - component: {fileID: 458793637}
   - component: {fileID: 458793636}
   m_Layer: 0
-  m_Name: Black Transition
+  m_Name: BlackTransition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -505,7 +505,7 @@ GameObject:
   - component: {fileID: 1030578975}
   - component: {fileID: 1030578974}
   m_Layer: 0
-  m_Name: Dark Shade
+  m_Name: DarkShade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -865,7 +865,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1884078648}
   m_Layer: 0
-  m_Name: Stage Backgrounds
+  m_Name: Backgrounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
