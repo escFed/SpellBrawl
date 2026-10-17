@@ -7,6 +7,10 @@ public class DragonBreathLogic : MonoBehaviour
     [SerializeField] private float breathDuration = 2f; // Duration of the breath effect
     [SerializeField] private GameObject visualPrefab; // Prefab visual separado si lo necesitas
 
+    [SerializeField] private AudioClip breathClip; // Audio clip for the breath sound
+
+
+    [SerializeField] private AudioSource s; // Audio source to play the sound
     private GameObject breathVisualInstance;
     private CharacterCoordinator target;
 
@@ -59,6 +63,8 @@ public class DragonBreathLogic : MonoBehaviour
                 }
 
                 lastDamageTime = elapsed;
+                s.GetComponent<AudioSource>().PlayOneShot(breathClip);
+               
             }
 
             elapsed += Time.deltaTime;
