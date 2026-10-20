@@ -35,6 +35,7 @@ public class MirrorWorldLogic : MonoBehaviour
             {
                 targetMovement.moveSpeedMultiplier *= -1;
                 yield return new WaitForSeconds(effectDuration > 0f ? effectDuration : 3f);
+                
                 Destroy(gameObject);
             }
         }

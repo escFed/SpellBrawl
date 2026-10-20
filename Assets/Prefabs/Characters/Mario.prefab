@@ -913,6 +913,7 @@ MonoBehaviour:
   p2Color: {r: 0.2, g: 0.4, b: 1, a: 1}
   iaName: IA
   iaColor: {r: 1, g: 0, b: 0.009498596, a: 1}
+  viewportMargin: 0.08
 --- !u!1 &6999972211173830063
 GameObject:
   m_ObjectHideFlags: 0
@@ -1444,7 +1445,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FightingInputManager
   attackBufferTime: 0.15
-  grabBufferTime: 0.15
   jumpBufferTime: 0.15
   cardBufferTime: 0.15
   evadeBufferTime: 0.15
@@ -1462,6 +1462,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3360f1401af2e81408b4b4da89ccade4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAI
+  profile:
+    aggression: 0.7
+    defense: 0.6
+    cardUsage: 0.5
+    parrySkill: 0.25
+    grabSkill: 0.55
+    shieldUsage: 0.55
+    evadeSkill: 0.6
+    dashUsage: 0.55
+    heavyAttackUsage: 0.5
+    boostUsage: 0.65
+    recoveryFocus: 1
+    mistakeChance: 0.15
+    randomness: 7
+    reactionTime: 0.35
+    cardUseInterval: 6
+    movementDecisionInterval: 0.55
+    shortHopHoldTime: 0.08
+    heavyChargeTime: 0.65
+    shieldHoldTime: 0.75
+  profileVersion: 2
   attackRange: 1.2
   cardRange: 6
   idealSpacing: 1.5
@@ -1508,7 +1529,7 @@ MonoBehaviour:
   groundCheckRadius: 0.2
   wallJumpLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 0
   wallCheckDistance: 0.08
   minimumWallNormalX: 0.7
   moveSpeedMultiplier: 1
@@ -1578,7 +1599,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb129c2505d1329478de6fe892690a26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnergyManager
-  currentEnergy: 0
 --- !u!114 &2516625732806329253
 MonoBehaviour:
   m_ObjectHideFlags: 0

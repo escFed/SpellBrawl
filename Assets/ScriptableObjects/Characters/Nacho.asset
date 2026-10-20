@@ -41,8 +41,6 @@ MonoBehaviour:
   dashAttackSpeed: 12
   dashGrabSpeed: 9
   dashGrabSlideDuration: 0.16
-  maxEnergy: 100
-  startingEnergy: 50
   jabAttack: {fileID: 11400000, guid: 44e77717bb639cc41947661e52caf25c, type: 2}
   fTiltAttack: {fileID: 11400000, guid: 92efd899db910784d8877a7790584f14, type: 2}
   upTiltAttack: {fileID: 11400000, guid: 8f17051f3f0f64b4c84fc7a54054b8b0, type: 2}

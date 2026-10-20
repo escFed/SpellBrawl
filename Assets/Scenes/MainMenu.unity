@@ -10231,7 +10231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UISelectionIndicator
   offset: {x: 0, y: -80}
-  smoothTime: 0.04
+  smoothTime: 0.1
   matchSelectionSize: 0
   sizePadding: {x: 0, y: 0}
 --- !u!114 &828281096

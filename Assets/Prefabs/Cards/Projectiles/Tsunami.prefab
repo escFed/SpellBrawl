@@ -109,7 +109,7 @@ MonoBehaviour:
   speed: 6
   pushSpeed: 9
   windUpDuration: 0.25
-  travelDuration: 2.5
+  travelDuration: 0.25
 --- !u!61 &7701938941554856964
 BoxCollider2D:
   m_ObjectHideFlags: 0
