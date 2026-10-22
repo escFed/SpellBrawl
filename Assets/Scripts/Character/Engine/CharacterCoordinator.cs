@@ -172,6 +172,11 @@ public class CharacterCoordinator : MonoBehaviour
             wasPaused = false;
         }
 
+        // Keep the human Move action readable while the character is suspended.
+        // No gameplay state or buffered action may run before the drop.
+        if (Health != null && Health.Phase == RespawnPhase.WaitingToDrop)
+            return;
+
         if (!Controller.InputEnabled)
         {
             input.ClearAllInputs();
@@ -230,8 +235,7 @@ public class CharacterCoordinator : MonoBehaviour
 
     private bool IsLocomotionState(ICharacterState state)
     {
-        return state == States.Idle || state == States.Move ||
-            state == States.Crouch || state == States.Jump;
+        return state == States.Idle || state == States.Move || state == States.Jump;
     }
 
     private bool HasBufferedLocomotionInput(ICharacterState state)
@@ -239,9 +243,6 @@ public class CharacterCoordinator : MonoBehaviour
         if (state == States.Idle || state == States.Move)
             return input.HasBufferedAttack ||
                 (input.HasBufferedJump && CanJump);
-
-        if (state == States.Crouch)
-            return input.HasBufferedJump && CanJump;
 
         if (state == States.Jump)
             return input.HasBufferedAttack ||
@@ -255,7 +256,7 @@ public class CharacterCoordinator : MonoBehaviour
         if (IsDead) return;
         if (PauseMenu.isPaused) return;
         Movement.StepPhysics();
-        if (Controller.InputEnabled)
+        if (Controller.InputEnabled && (Health == null || Health.Phase != RespawnPhase.WaitingToDrop))
             stateMachine.FixedUpdate();
         Movement.ApplyExternalHorizontalPushes();
     }

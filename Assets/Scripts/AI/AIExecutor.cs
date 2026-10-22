@@ -70,13 +70,12 @@ public class AIExecutor
                     jumpReleaseAt = currentTime + profile.shortHopHoldTime;
                 break;
 
-            case AIDecision.Crouch:
             case AIDecision.FastFall:
                 input.SetDirection(Vector2.down);
                 break;
 
             case AIDecision.Attack:
-                ExecuteAttack(input, selfTransform, perceivedTargetPosition, directionX, attackRange);
+                ExecuteAttack(input, selfController, selfTransform, perceivedTargetPosition, directionX, attackRange);
                 break;
 
             case AIDecision.Dash:
@@ -120,9 +119,16 @@ public class AIExecutor
         }
     }
 
-    private static void ExecuteAttack(AIInput input, Transform selfTransform, Vector3 perceivedTargetPosition, float directionX, float attackRange)
+    private static void ExecuteAttack(AIInput input, CharacterCoordinator selfController, Transform selfTransform, Vector3 perceivedTargetPosition, float directionX, float attackRange)
     {
-        SetAttackDirection(input, selfTransform, perceivedTargetPosition, directionX, attackRange);
+        float distanceY = perceivedTargetPosition.y - selfTransform.position.y;
+        float distanceX = Mathf.Abs(perceivedTargetPosition.x - selfTransform.position.x);
+        if (selfController != null && !selfController.IsGrounded &&
+            selfController.stats.diagonalDownAirAttack != null &&
+            distanceY < -0.2f && distanceX > attackRange * 0.5f)
+            input.SetDirection(new Vector2(directionX * 0.7071f, -0.7071f));
+        else
+            SetAttackDirection(input, selfTransform, perceivedTargetPosition, directionX, attackRange);
         input.PressAttack();
     }
 

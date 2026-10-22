@@ -31,6 +31,7 @@ public class MatchTutorialView : MonoBehaviour
     private int currentPage;
     private int lastAdvanceFrame = -1;
     private bool isOpen;
+    private InputAction advanceAction;
     private int visiblePreviewCards;
     private ControlsTutorial controls;
     private readonly Vector3[] targetCorners = new Vector3[4];
@@ -50,6 +51,11 @@ public class MatchTutorialView : MonoBehaviour
 
             return true;
         }
+    }
+
+    private void OnEnable()
+    {
+        advanceAction = InputSystem.actions?.FindAction("UI/TutorialAdvance");
     }
 
     public void Open(UIManager uiManager, Action<bool> finished)
@@ -82,10 +88,7 @@ public class MatchTutorialView : MonoBehaviour
         if (!isOpen)
             return;
 
-        bool keyboardAdvance = Keyboard.current != null &&
-            (Keyboard.current.enterKey.wasPressedThisFrame || Keyboard.current.numpadEnterKey.wasPressedThisFrame);
-        bool gamepadAdvance = Gamepad.current != null && Gamepad.current.buttonWest.wasPressedThisFrame;
-        if (keyboardAdvance || gamepadAdvance)
+        if (advanceAction != null && advanceAction.WasPressedThisFrame())
             Advance();
     }
 

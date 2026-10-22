@@ -36,7 +36,7 @@ public class AIContextBuilder
         CharacterHealth targetHealth = targetTracker.TargetHealth;
         ICharacterState currentState = selfController != null ? selfController.GetCurrentState() : null;
         bool isGrounded = selfController != null && selfController.IsGrounded;
-        bool isGroundLocomotion = selfController != null && (currentState == selfController.States.Idle || currentState == selfController.States.Move || currentState == selfController.States.Crouch);
+        bool isGroundLocomotion = selfController != null && (currentState == selfController.States.Idle || currentState == selfController.States.Move);
         bool canUseNormalAttack = selfController != null && (currentState == selfController.States.Idle || currentState == selfController.States.Move || currentState == selfController.States.Jump);
         bool canAirDodge = selfController != null && selfController.Dodge != null && selfController.Dodge.CanDodge && !isGrounded && currentState == selfController.States.Jump;
         bool hasCompleteHeavySet = selfController != null && selfController.stats != null && selfController.stats.forwardHeavyAttack != null && selfController.stats.upHeavyAttack != null && selfController.stats.downHeavyAttack != null;
@@ -55,6 +55,7 @@ public class AIContextBuilder
                     distanceX > attackRange * 0.5f ? stats.fTiltAttack : stats.jabAttack;
             else
                 normalStats = distanceY > 0.5f ? stats.upAirAttack :
+                    distanceY < -0.2f && distanceX > attackRange * 0.5f && stats.diagonalDownAirAttack != null ? stats.diagonalDownAirAttack :
                     distanceY < -0.2f ? stats.downAirAttack :
                     distanceX > attackRange * 0.5f ? stats.forwardAirAttack : stats.neutralAirAttack;
         }
@@ -92,7 +93,6 @@ public class AIContextBuilder
             selfController != null &&
                 (currentState == selfController.States.Idle || currentState == selfController.States.Move),
             isGroundLocomotion && hasCompleteHeavySet,
-            isGroundLocomotion,
             !isGrounded && currentState == selfController?.States.Jump &&
                 selfVelocityY < 0f && selfController != null && !selfController.Movement.IsFastFalling,
             selfController != null && selfController.cardsEnabled &&

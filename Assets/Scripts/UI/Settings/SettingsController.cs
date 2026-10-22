@@ -17,20 +17,21 @@ public class SettingsController : MonoBehaviour
     [SerializeField] private Slider masterVolumeSlider;
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider soundEffectsVolumeSlider;
+    [SerializeField] private Slider rumbleIntensitySlider;
+    [SerializeField] private Slider screenShakeIntensitySlider;
 
     [Header("Optional Value Labels")]
     [SerializeField] private TextMeshProUGUI masterVolumeText;
     [SerializeField] private TextMeshProUGUI musicVolumeText;
     [SerializeField] private TextMeshProUGUI soundEffectsVolumeText;
+    [SerializeField] private TextMeshProUGUI rumbleIntensityText;
+    [SerializeField] private TextMeshProUGUI screenShakeIntensityText;
 
     [Header("Gameplay Aids")]
     [SerializeField] private Toggle lastCardToggle;
     [SerializeField] private Toggle abilityIconsToggle;
     [SerializeField] private Toggle inputHistoryToggle;
     [SerializeField] private Toggle matchTutorialToggle;
-
-    private Slider rumbleIntensitySlider;
-    private TextMeshProUGUI rumbleIntensityText;
 
     [Header("Optional Initial Selection")]
     [SerializeField] private Selectable settingsInitialSelection;
@@ -42,7 +43,6 @@ public class SettingsController : MonoBehaviour
 
     private void OnEnable()
     {
-        EnsureRumbleControl();
         RefreshAudioControls();
         RefreshGameplayControls();
         SubscribeToSliders();
@@ -184,6 +184,12 @@ public class SettingsController : MonoBehaviour
         SetPercent(rumbleIntensityText, value);
     }
 
+    public void SetScreenShakeIntensity(float value)
+    {
+        GameSettings.SetScreenShakeIntensity(value);
+        SetPercent(screenShakeIntensityText, value);
+    }
+
     public void ResetAudioToDefaults()
     {
         GameSettings.ResetToDefaults();
@@ -196,11 +202,13 @@ public class SettingsController : MonoBehaviour
         SetSliderValue(musicVolumeSlider, GameSettings.MusicVolume);
         SetSliderValue(soundEffectsVolumeSlider, GameSettings.SoundEffectsVolume);
         SetSliderValue(rumbleIntensitySlider, GameSettings.RumbleIntensity);
+        SetSliderValue(screenShakeIntensitySlider, GameSettings.ScreenShakeIntensity);
 
         SetPercent(masterVolumeText, GameSettings.MasterVolume);
         SetPercent(musicVolumeText, GameSettings.MusicVolume);
         SetPercent(soundEffectsVolumeText, GameSettings.SoundEffectsVolume);
         SetPercent(rumbleIntensityText, GameSettings.RumbleIntensity);
+        SetPercent(screenShakeIntensityText, GameSettings.ScreenShakeIntensity);
     }
 
     public void RefreshGameplayControls()
@@ -233,42 +241,6 @@ public class SettingsController : MonoBehaviour
             toggle.SetIsOnWithoutNotify(value);
     }
 
-    private void EnsureRumbleControl()
-    {
-        if (rumbleIntensitySlider != null || audioPanel == null || soundEffectsVolumeSlider == null)
-            return;
-
-        // Both settings screens use the same authored three-row layout.
-        // Clone its last row so the new option has the existing visuals and navigation.
-        rumbleIntensitySlider = Instantiate(soundEffectsVolumeSlider, audioPanel.transform);
-        rumbleIntensitySlider.name = "RumbleSlider";
-        rumbleIntensitySlider.onValueChanged.RemoveAllListeners();
-
-        TextMeshProUGUI[] sourceTexts = soundEffectsVolumeSlider.GetComponentsInChildren<TextMeshProUGUI>(true);
-        TextMeshProUGUI[] rumbleTexts = rumbleIntensitySlider.GetComponentsInChildren<TextMeshProUGUI>(true);
-        for (int i = 0; i < Mathf.Min(sourceTexts.Length, rumbleTexts.Length); i++)
-        {
-            if (sourceTexts[i] == soundEffectsVolumeText)
-                rumbleIntensityText = rumbleTexts[i];
-            else
-                rumbleTexts[i].text = "VIBRATION";
-        }
-
-        SetRowPosition(masterVolumeSlider, 225f);
-        SetRowPosition(musicVolumeSlider, 75f);
-        SetRowPosition(soundEffectsVolumeSlider, -75f);
-        SetRowPosition(rumbleIntensitySlider, -225f);
-    }
-
-    private static void SetRowPosition(Slider slider, float y)
-    {
-        if (slider != null && slider.transform is RectTransform rect)
-        {
-            Vector2 position = rect.anchoredPosition;
-            rect.anchoredPosition = new Vector2(position.x, y);
-        }
-    }
-
     private void SubscribeToSliders()
     {
         if (masterVolumeSlider != null)
@@ -289,6 +261,11 @@ public class SettingsController : MonoBehaviour
         if (rumbleIntensitySlider != null)
         {
             rumbleIntensitySlider.onValueChanged.AddListener(SetRumbleIntensity);
+        }
+
+        if (screenShakeIntensitySlider != null)
+        {
+            screenShakeIntensitySlider.onValueChanged.AddListener(SetScreenShakeIntensity);
         }
     }
 
@@ -312,6 +289,11 @@ public class SettingsController : MonoBehaviour
         if (rumbleIntensitySlider != null)
         {
             rumbleIntensitySlider.onValueChanged.RemoveListener(SetRumbleIntensity);
+        }
+
+        if (screenShakeIntensitySlider != null)
+        {
+            screenShakeIntensitySlider.onValueChanged.RemoveListener(SetScreenShakeIntensity);
         }
     }
 

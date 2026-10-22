@@ -16,6 +16,7 @@ public class RespawnManager : MonoBehaviour
 
     [Header("Life Respawn")]
     [SerializeField] private float respawnDelay = 1.5f;
+    [SerializeField] private float respawnDropWindow = 5f;
     [SerializeField] private float respawnProtectionDuration = 2f;
     [HideInInspector] public GameObject p1Instance;
     [HideInInspector] public GameObject p2Instance;
@@ -178,7 +179,7 @@ public class RespawnManager : MonoBehaviour
 
         if (targetSpawn == null) return;
 
-        health.BeginRespawnSequence(targetSpawn.position, respawnDelay, respawnProtectionDuration);
+        health.BeginRespawnSequence(targetSpawn.position, respawnDelay, respawnProtectionDuration, respawnDropWindow);
     }
 
     public void ResetRoundPositionsAndHealth()

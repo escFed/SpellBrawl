@@ -41,6 +41,9 @@ public class CharacterStats : ScriptableObject
     public float dashRecovery = 0.14f;
     public float dashCooldown = 5f;
     public float dashAttackSpeed = 12f;
+    [Tooltip("Extra forward movement after a dash attack actually hits. Zero disables the follow-through.")]
+    [Min(0f)] public float dashAttackHitFollowThroughDuration = 0.12f;
+    [Min(0f)] public float dashAttackHitFollowThroughSpeed = 7f;
     public float dashGrabSpeed = 9f;
     public float dashGrabSlideDuration = 0.16f;
 
@@ -56,6 +59,7 @@ public class CharacterStats : ScriptableObject
     public AerialAttackStats forwardAirAttack;
     public AerialAttackStats upAirAttack;
     public AerialAttackStats downAirAttack;
+    public AerialAttackStats diagonalDownAirAttack;
 
     [Header("Heavy Attacks")]
     public HeavyAttackStats forwardHeavyAttack;

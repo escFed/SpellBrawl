@@ -12,15 +12,32 @@ public class SelectionManager : MonoBehaviour
     public bool isTrainingMode;
 
     public CharacterDatabase characterDb;
+    [SerializeField] private MatchRules matchRules = new MatchRules();
+
+    public MatchRules Rules
+    {
+        get
+        {
+            if (matchRules == null)
+                matchRules = new MatchRules();
+            return matchRules;
+        }
+    }
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            Rules.Normalize();
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
+    }
+
+    private void OnValidate()
+    {
+        Rules.Normalize();
     }
 
     public void BeginMatchSetup(MatchMode mode)

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: be4fd47cec91e3d46b559b265d7f51af
+guid: 403fdeffad9fd274c9bceb4248e5075c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6999659707931048531
-    second: Copilot_20261006_131457_0
+      213: -439844855632847530
+    second: A_CardBreath_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Copilot_20261006_131457_0
+      name: A_CardBreath_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: da5c728d4963cde90800000000000000
-      internalID: -6999659707931048531
+      spriteID: 65d98b72f6b55e9f0800000000000000
+      internalID: -439844855632847530
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Copilot_20261006_131457_0: -6999659707931048531
+      A_CardBreath_0: -439844855632847530
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

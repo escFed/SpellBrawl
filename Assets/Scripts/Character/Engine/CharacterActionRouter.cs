@@ -154,5 +154,5 @@ public sealed class CharacterActionRouter
     }
 
     private bool IsGroundLocomotion() =>
-        machine.Is(States.Idle) || machine.Is(States.Move) || machine.Is(States.Crouch);
+        machine.Is(States.Idle) || machine.Is(States.Move);
 }

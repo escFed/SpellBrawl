@@ -7,5 +7,6 @@ public enum NormalAttackType
     NeutralAir,
     ForwardAir,
     UpAir,
-    DownAir
+    DownAir,
+    DiagonalDownAir
 }

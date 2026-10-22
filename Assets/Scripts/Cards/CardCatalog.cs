@@ -4,17 +4,31 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CardCatalog", menuName = "Cards/Card Catalog")]
 public class CardCatalog : ScriptableObject
 {
+    [SerializeField] private CardCategoryCatalog[] categories;
+    // Kept for existing catalogs that have not yet been moved into category assets.
     [SerializeField] private GameObject[] cards;
 
     public bool Contains(GameObject cardPrefab)
     {
-        if (cardPrefab == null || cards == null)
+        if (cardPrefab == null)
             return false;
 
-        for (int i = 0; i < cards.Length; i++)
+        if (categories != null)
         {
-            if (cards[i] == cardPrefab)
-                return cardPrefab.GetComponent<ICardable>() != null;
+            for (int i = 0; i < categories.Length; i++)
+            {
+                if (categories[i] != null && categories[i].Contains(cardPrefab))
+                    return true;
+            }
+        }
+
+        if (cards != null)
+        {
+            for (int i = 0; i < cards.Length; i++)
+            {
+                if (cards[i] == cardPrefab)
+                    return cardPrefab.GetComponent<ICardable>() != null;
+            }
         }
 
         return false;
@@ -24,15 +38,24 @@ public class CardCatalog : ScriptableObject
     {
         destination.Clear();
 
-        if (cards == null)
-            return 0;
-
         HashSet<GameObject> uniqueCards = new HashSet<GameObject>();
-        for (int i = 0; i < cards.Length; i++)
+        if (categories != null)
         {
-            GameObject card = cards[i];
-            if (card != null && card.GetComponent<ICardable>() != null && uniqueCards.Add(card))
-                destination.Add(card);
+            for (int i = 0; i < categories.Length; i++)
+            {
+                if (categories[i] != null)
+                    categories[i].CopyValidUniqueCardsTo(destination, uniqueCards);
+            }
+        }
+
+        if (cards != null)
+        {
+            for (int i = 0; i < cards.Length; i++)
+            {
+                GameObject card = cards[i];
+                if (card != null && card.GetComponent<ICardable>() != null && uniqueCards.Add(card))
+                    destination.Add(card);
+            }
         }
 
         return destination.Count;

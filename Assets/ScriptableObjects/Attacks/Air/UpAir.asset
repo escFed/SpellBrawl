@@ -24,9 +24,9 @@ MonoBehaviour:
     airDecelerationMultiplier: 1
   hitReaction: 0
   hitSound: {fileID: 8300000, guid: 14619561bda68f04bb2f176c827d813b, type: 3}
-  energyGain: 10
-  damage: 5
+  damage: 9
   knockback: {x: 2, y: 4.5}
+  activeMovementVelocity: {x: 0, y: 0}
   attackerSuspensionDuration: 0.1
   attackerGravityMultiplier: 0.4
   attackerMaximumDownwardSpeed: 1.5

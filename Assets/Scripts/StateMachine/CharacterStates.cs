@@ -4,19 +4,19 @@ public sealed class CharacterStates
     public IdleState Idle { get; }
     public MoveState Move { get; }
     public JumpState Jump { get; }
-    public CrouchState Crouch { get; }
     public ShieldState Shield { get; }
     public DodgeState Dodge { get; }
     public DashState Dash { get; }
 
     public NormalAttackState Jab { get; }
-    public NormalAttackState ForwardTilt { get; }
+    public ForwardTiltState ForwardTilt { get; }
     public NormalAttackState UpTilt { get; }
     public NormalAttackState DownTilt { get; }
     public NormalAttackState NeutralAir { get; }
     public NormalAttackState ForwardAir { get; }
     public NormalAttackState UpAir { get; }
     public NormalAttackState DownAir { get; }
+    public NormalAttackState DiagonalDownAir { get; }
 
     public HeavyChargeState HeavyCharge { get; }
     public HeavyAttackState HeavyAttack { get; }
@@ -40,19 +40,19 @@ public sealed class CharacterStates
         Idle = new IdleState(character, machine);
         Move = new MoveState(character, machine);
         Jump = new JumpState(character, machine);
-        Crouch = new CrouchState(character, machine);
         Shield = new ShieldState(character, machine);
         Dodge = new DodgeState(character, machine);
         Dash = new DashState(character, machine);
 
         Jab = new NormalAttackState(character, machine, NormalAttackType.Jab, stats.jabAttack, "Jab", false);
-        ForwardTilt = new NormalAttackState(character, machine, NormalAttackType.ForwardTilt, stats.fTiltAttack, "FTilt", false);
+        ForwardTilt = new ForwardTiltState(character, machine, stats.fTiltAttack);
         UpTilt = new NormalAttackState(character, machine, NormalAttackType.UpTilt, stats.upTiltAttack, "UpTilt", false);
         DownTilt = new NormalAttackState(character, machine, NormalAttackType.DownTilt, stats.dTiltAttack, "DownTilt", false);
         NeutralAir = new NormalAttackState(character, machine, NormalAttackType.NeutralAir, stats.neutralAirAttack, "Jab", true);
         ForwardAir = new NormalAttackState(character, machine, NormalAttackType.ForwardAir, stats.forwardAirAttack, "Jab", true);
         UpAir = new NormalAttackState(character, machine, NormalAttackType.UpAir, stats.upAirAttack, "Jab", true);
         DownAir = new NormalAttackState(character, machine, NormalAttackType.DownAir, stats.downAirAttack, "Jab", true);
+        DiagonalDownAir = new NormalAttackState(character, machine, NormalAttackType.DiagonalDownAir, stats.diagonalDownAirAttack, "Jab", true);
 
         HeavyCharge = new HeavyChargeState(character, machine);
         HeavyAttack = new HeavyAttackState(character, machine);

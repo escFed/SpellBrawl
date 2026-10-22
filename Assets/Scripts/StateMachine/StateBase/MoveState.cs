@@ -31,13 +31,7 @@ public class MoveState : CharacterState
         }
 
         if (Mathf.Abs(character.MoveInput.x) < 0.01f)
-        {
-            // Crouch: stopped horizontally and pressing down
-            if (character.MoveInput.y < -character.stats.tiltThreshold && character.IsGrounded)
-                stateMachine.ChangeState(character.States.Crouch);
-            else
-                stateMachine.ChangeState(character.States.Idle);
-        }
+            stateMachine.ChangeState(character.States.Idle);
     }
 
     public override void FixedUpdate()

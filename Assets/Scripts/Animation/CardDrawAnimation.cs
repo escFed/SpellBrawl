@@ -42,7 +42,10 @@ public class CardDrawAnimation : MonoBehaviour
         yield return StartCoroutine(MoveDeckToCenter());
         yield return new WaitForSeconds(delayBeforeCards);
 
-        for (int i = 0; i < cardsPerPlayer; i++)
+        int cardCount = SelectionManager.Instance != null && !SelectionManager.Instance.isTrainingMode
+            ? SelectionManager.Instance.Rules.InitialHandSize
+            : cardsPerPlayer;
+        for (int i = 0; i < cardCount; i++)
         {
             if (p1CardSlots != null && i < p1CardSlots.Length && p1CardSlots[i] != null)
             {

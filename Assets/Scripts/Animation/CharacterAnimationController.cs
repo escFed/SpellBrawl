@@ -19,12 +19,18 @@ public class CharacterAnimationController
 
     public bool TryPlay(int stateHash)
     {
+        return TryPlay(stateHash, false);
+    }
+
+    private bool TryPlay(int stateHash, bool optional)
+    {
         if (!CanUseAnimator())
             return false;
 
         if (!animator.HasState(BaseLayer, stateHash))
         {
-            ReportOnce($"state:{stateHash}",$"Animator state hash '{stateHash}' is not configured on '{animator.name}'.");
+            if (!optional)
+                ReportOnce($"state:{stateHash}",$"Animator state hash '{stateHash}' is not configured on '{animator.name}'.");
             return false;
         }
 
@@ -39,7 +45,7 @@ public class CharacterAnimationController
 
     public bool TryPlay(string stateName, string fallbackStateName)
     {
-        return TryPlayStateName(stateName) || TryPlayStateName(fallbackStateName);
+        return TryPlayStateName(stateName, true) || TryPlayStateName(fallbackStateName);
     }
 
     public bool TrySetFloat(int parameterHash, float value, bool optional = false)
@@ -124,10 +130,10 @@ public class CharacterAnimationController
         return false;
     }
 
-    private bool TryPlayStateName(string stateName)
+    private bool TryPlayStateName(string stateName, bool optional = false)
     {
         return !string.IsNullOrWhiteSpace(stateName) &&
-            TryPlay(Animator.StringToHash($"Base Layer.{stateName}"));
+            TryPlay(Animator.StringToHash($"Base Layer.{stateName}"), optional);
     }
 
     private bool CanUseAnimator()

@@ -267,7 +267,6 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
         ICharacterState state = SelfController.GetCurrentState();
         return state == SelfController.States.Idle ||
             state == SelfController.States.Move ||
-            state == SelfController.States.Crouch ||
             state == SelfController.States.Jump;
     }
 
@@ -284,7 +283,7 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
     {
         return decision == AIDecision.Chase || decision == AIDecision.Flee ||
             decision == AIDecision.Reposition || decision == AIDecision.Jump ||
-            decision == AIDecision.ShortHop || decision == AIDecision.Crouch ||
+            decision == AIDecision.ShortHop ||
             decision == AIDecision.FastFall || decision == AIDecision.Dash ||
             decision == AIDecision.DashAttack || decision == AIDecision.Evade;
     }

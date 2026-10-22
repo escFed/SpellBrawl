@@ -90,7 +90,11 @@ public sealed class CharacterJumpController
             input.ConsumeJumpRelease();
         }
 
-        movement.TryStartFastFall(character.MoveInput.y);
+        if (stateMachine.Is(character.States.DownAir) ||
+            stateMachine.Is(character.States.DiagonalDownAir))
+            return;
+
+        movement.TryStartFastFall(character.MoveInput);
     }
 
     public void ResetJumps()
@@ -184,15 +188,14 @@ public sealed class CharacterJumpController
     private bool CanArmCoyoteTime()
     {
         ICharacterState current = stateMachine.CurrentState;
-        return current == character.States.Idle || current == character.States.Move ||
-            current == character.States.Crouch;
+        return current == character.States.Idle || current == character.States.Move;
     }
 
     private bool IsLocomotionState()
     {
         ICharacterState current = stateMachine.CurrentState;
         return current == character.States.Idle || current == character.States.Move ||
-            current == character.States.Crouch || current == character.States.Jump;
+            current == character.States.Jump;
     }
 
     private void ForfeitGroundJump()

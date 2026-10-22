@@ -19,10 +19,7 @@ public abstract class AttackState : CharacterState
         if (StopsHorizontalMovement)
             character.Movement.StopHorizontalMovement();
 
-        timer = 0;
-        hitboxOpen = false;
-        hitboxClose = false;
-        ReadyHitbox();
+        RestartAttack();
     }
 
     public override void Update()
@@ -32,20 +29,23 @@ public abstract class AttackState : CharacterState
 
         timer += Time.deltaTime;
 
-        if (timer >= stats.startup && !hitboxOpen)
+        if (timer >= Startup && !hitboxOpen)
         {
             OpenHitbox();
             hitboxOpen = true;
         }
 
-        if (timer >= stats.startup + stats.active && !hitboxClose)
+        if (timer >= Startup + Active && !hitboxClose)
         {
             CloseHitbox();
             hitboxClose = true;
         }
 
-        if (timer >= stats.startup + stats.active + stats.recovery)
+        if (timer >= Startup + Active + Recovery)
         {
+            if (TryContinueAttack())
+                return;
+
             ICharacterState nextState = GetRecoveryState();
             if (nextState == character.States.Jump)
                 character.States.Jump.PrepareReentry();
@@ -75,7 +75,20 @@ public abstract class AttackState : CharacterState
 
     protected virtual bool StopsHorizontalMovement => true;
     protected virtual bool AllowsAirDrift => false;
+    protected virtual float Startup => stats.startup;
+    protected virtual float Active => stats.active;
+    protected virtual float Recovery => stats.recovery;
     protected float ElapsedTime => timer;
+
+    protected virtual bool TryContinueAttack() => false;
+
+    protected void RestartAttack()
+    {
+        timer = 0f;
+        hitboxOpen = false;
+        hitboxClose = false;
+        ReadyHitbox();
+    }
 
     protected virtual ICharacterState GetRecoveryState()
     {

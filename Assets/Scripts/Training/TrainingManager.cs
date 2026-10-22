@@ -23,6 +23,11 @@ public class TrainingManager : MonoBehaviour
     private Dummy dummy;
     private Vector3 playerSpawnPosition;
     private CharacterDatabase database;
+    private InputAction cycleDamageAction;
+    private InputAction cycleDefenderAction;
+    private InputAction cycleInfluenceAction;
+    private InputAction repeatAction;
+    private InputAction exitAction;
     [SerializeField, Range(0, 9999)] private int startingDamage;
     public int StartingDamage => startingDamage;
     public Dummy TrainingDummy => dummy;
@@ -30,6 +35,16 @@ public class TrainingManager : MonoBehaviour
     public bool CanEditSession => Application.isPlaying && player != null && dummy != null && !PauseMenu.isPaused;
     private static readonly int[] DamagePresets = { 0, 50, 100, 150, 200 };
     private static readonly Vector2[] InfluencePresets = { Vector2.zero, Vector2.up, Vector2.down, Vector2.left, Vector2.right };
+
+    private void OnEnable()
+    {
+        InputActionMap trainingActions = InputSystem.actions?.FindActionMap("Training");
+        cycleDamageAction = trainingActions?.FindAction("CycleDamage");
+        cycleDefenderAction = trainingActions?.FindAction("CycleDefender");
+        cycleInfluenceAction = trainingActions?.FindAction("CycleInfluence");
+        repeatAction = trainingActions?.FindAction("Repeat");
+        exitAction = trainingActions?.FindAction("Exit");
+    }
 
     private void Start()
     {
@@ -64,17 +79,11 @@ public class TrainingManager : MonoBehaviour
     {
         if (PauseMenu.isPaused)
             return;
-        if (Keyboard.current != null)
-        {
-            if (Keyboard.current.f1Key.wasPressedThisFrame) CycleStartingDamage();
-            if (Keyboard.current.f2Key.wasPressedThisFrame) CycleDefender();
-            if (Keyboard.current.f3Key.wasPressedThisFrame) CycleInfluence();
-            if (Keyboard.current.rKey.wasPressedThisFrame)
-                ResetTraining();
-
-            if (Keyboard.current.escapeKey.wasPressedThisFrame)
-                ReturnToMainMenu();
-        }
+        if (cycleDamageAction != null && cycleDamageAction.WasPressedThisFrame()) CycleStartingDamage();
+        if (cycleDefenderAction != null && cycleDefenderAction.WasPressedThisFrame()) CycleDefender();
+        if (cycleInfluenceAction != null && cycleInfluenceAction.WasPressedThisFrame()) CycleInfluence();
+        if (repeatAction != null && repeatAction.WasPressedThisFrame()) ResetTraining();
+        if (exitAction != null && exitAction.WasPressedThisFrame()) ReturnToMainMenu();
 
         UpdateDebugUI();
     }

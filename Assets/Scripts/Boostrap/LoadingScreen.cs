@@ -7,10 +7,11 @@ using UnityEngine.UI;
 public class LoadingScreen : MonoBehaviour
 {
     [Header("Timing")]
-    [SerializeField, Min(0f)] private float minimumDisplaySeconds = 5f;
+    [SerializeField, Min(0f)] private float minimumDisplaySeconds = 8f;
     [SerializeField, Min(0.1f)] private float imageIntervalSeconds = 2.4f;
     [SerializeField, Min(0f)] private float imageFadeSeconds = 0.7f;
     [SerializeField, Min(0f)] private float transitionSeconds = 0.4f;
+    [SerializeField, Min(0f)] private float versusDisplaySeconds = 3f;
 
     [Header("Canvas")]
     [SerializeField] private CanvasGroup screenGroup;
@@ -19,6 +20,7 @@ public class LoadingScreen : MonoBehaviour
     [SerializeField] private Sprite[] stageBackgrounds;
     [SerializeField] private TextMeshProUGUI tipText;
     [SerializeField] private CanvasGroup blackTransition;
+    [SerializeField] private VersusIntroUI versusIntro;
 
     [Header("Tips")]
     [SerializeField] private string[] tips =
@@ -76,7 +78,7 @@ public class LoadingScreen : MonoBehaviour
     private void Start()
     {
         if (string.IsNullOrEmpty(pendingStage) || screenGroup == null || firstBackground == null ||
-            secondBackground == null || blackTransition == null ||
+            secondBackground == null || blackTransition == null || versusIntro == null ||
             stageBackgrounds == null || stageBackgrounds.Length < 2)
         {
             Debug.LogError("[LoadingScreen] Complete the Canvas and background references.", this);
@@ -87,6 +89,8 @@ public class LoadingScreen : MonoBehaviour
         secondBackground.color = new Color(1f, 1f, 1f, 0f);
         if (tipText != null && tips != null && tips.Length > 0)
             tipText.text = tips[Random.Range(0, tips.Length)];
+
+        versusIntro.gameObject.SetActive(false);
 
         StartCoroutine(CycleBackgrounds());
         StartCoroutine(LoadStageRoutine(pendingStage));
@@ -126,14 +130,21 @@ public class LoadingScreen : MonoBehaviour
     private IEnumerator LoadStageRoutine(string sceneName)
     {
         float startedAt = Time.realtimeSinceStartup;
-        yield return FadeBlack(1f, 0f);
-
         AsyncOperation stageLoad = SceneManager.LoadSceneAsync(sceneName);
         stageLoad.allowSceneActivation = false;
+        yield return FadeBlack(1f, 0f);
+
         while (stageLoad.progress < 0.9f || Time.realtimeSinceStartup - startedAt < minimumDisplaySeconds)
             yield return null;
 
         yield return FadeBlack(0f, 1f);
+        if (versusIntro.Show(SelectionManager.Instance))
+        {
+            yield return FadeBlack(1f, 0f);
+            yield return new WaitForSecondsRealtime(versusDisplaySeconds);
+            yield return FadeBlack(0f, 1f);
+        }
+
         stageLoad.allowSceneActivation = true;
         while (!stageLoad.isDone)
             yield return null;

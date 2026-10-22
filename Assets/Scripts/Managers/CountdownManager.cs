@@ -10,13 +10,14 @@ public class CountdownManager : MonoBehaviour
     public TextMeshProUGUI countdownText;
     public CardDrawAnimation cardAnimation;
     [SerializeField] private MatchTutorialView tutorialView;
+    [SerializeField] private CountdownCameraFocus cameraFocus;
 
     [Header("Audio")]
     public AudioSource battleMusic;
     private Coroutine roundStartRoutine;
     private bool tutorialOpen;
     public bool IsTutorialOpen => tutorialOpen;
-    
+
 
     private void Awake()
     {
@@ -93,7 +94,10 @@ public class CountdownManager : MonoBehaviour
     {
         bool restartingCountdown = roundStartRoutine != null;
         if (restartingCountdown)
+        {
             StopCoroutine(roundStartRoutine);
+            cameraFocus?.EndIntro();
+        }
 
         roundStartRoutine = StartCoroutine(StartMatchRoutine(!restartingCountdown));
     }
@@ -112,15 +116,19 @@ public class CountdownManager : MonoBehaviour
             countdownText.gameObject.SetActive(true);
 
             countdownText.text = "3";
+            cameraFocus?.FocusOnPlayer(PlayerSlot.PlayerOne);
             yield return new WaitForSeconds(1f);
 
             countdownText.text = "2";
+            cameraFocus?.FocusOnPlayer(PlayerSlot.PlayerTwo);
             yield return new WaitForSeconds(1f);
 
             countdownText.text = "1";
+            cameraFocus?.ReturnToMatch();
             yield return new WaitForSeconds(1f);
 
             countdownText.text = "FIGHT!";
+            cameraFocus?.EndIntro();
 
             if (battleMusic != null && !battleMusic.isPlaying)
             {
@@ -128,6 +136,7 @@ public class CountdownManager : MonoBehaviour
             }
         }
 
+        UIManager.Instance?.ShowRoundWinsForNewRound();
         EnablePlayers();
 
         yield return new WaitForSeconds(1f);
@@ -151,6 +160,7 @@ public class CountdownManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        cameraFocus?.EndIntro();
         if (tutorialOpen)
             Time.timeScale = 1f;
     }

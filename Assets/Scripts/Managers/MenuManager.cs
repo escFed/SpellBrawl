@@ -10,6 +10,8 @@ public class MenuManager : MonoBehaviour
     [Header("Panels")]
     public GameObject mainMenuPanel;
     public GameObject gameModePanel;
+    public GameObject rulesPanel;
+    [SerializeField] private MatchRulesPanel rulesView;
     public GameObject howToPlayPanel;
     public GameObject controlsPanel;
     public GameObject characterSelectPanel;
@@ -18,10 +20,12 @@ public class MenuManager : MonoBehaviour
     public GameObject settingsPanel;
 
     private InputAction cancelAction;
+    private InputAction showRulesAction;
     private bool backQueued;
 
     private void Start()
     {
+        showRulesAction = InputSystem.actions?.FindAction("UI/ShowRules");
         if (EventSystem.current != null &&
             EventSystem.current.TryGetComponent(out InputSystemUIInputModule inputModule))
             cancelAction = inputModule.cancel?.action;
@@ -31,15 +35,15 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
-        if (backQueued || cancelAction == null || !cancelAction.WasPressedThisFrame())
-            return;
-
-        if (cardsSelectPanel != null && cardsSelectPanel.activeInHierarchy)
+        if (gameModePanel != null && gameModePanel.activeSelf && rulesView != null &&
+            showRulesAction != null && showRulesAction.WasPressedThisFrame())
         {
-            DeckBuilderUI deckBuilder = cardsSelectPanel.GetComponent<DeckBuilderUI>();
-            deckBuilder?.TryRemoveLastCard();
+            ShowRules();
             return;
         }
+
+        if (backQueued || cancelAction == null || !cancelAction.WasPressedThisFrame())
+            return;
 
         StartCoroutine(BackAfterUiCancel());
     }
@@ -50,12 +54,23 @@ public class MenuManager : MonoBehaviour
         // Let the EventSystem finish dispatching Cancel before changing the selected panel.
         yield return null;
         backQueued = false;
+
+        if (cardsSelectPanel != null && cardsSelectPanel.activeInHierarchy)
+        {
+            DeckBuilderUI deckBuilder = cardsSelectPanel.GetComponent<DeckBuilderUI>();
+            if (deckBuilder != null &&
+                (deckBuilder.CloseCardInfo() || deckBuilder.TryRemoveLastCard()))
+                yield break;
+        }
+
         Back();
     }
 
     public void Back()
     {
-        if (settingsPanel != null && settingsPanel.activeSelf)
+        if (rulesPanel != null && rulesPanel.activeSelf)
+            ShowGameModeSelect();
+        else if (settingsPanel != null && settingsPanel.activeSelf)
         {
             SettingsController settings = settingsPanel.GetComponent<SettingsController>();
             if (settings == null || !settings.TryGoBack())
@@ -66,9 +81,17 @@ public class MenuManager : MonoBehaviour
         else if (howToPlayPanel != null && howToPlayPanel.activeSelf)
             ShowMainMenu();
         else if (mapSelectPanel != null && mapSelectPanel.activeSelf)
-            BackToCardsSelect();
+        {
+            StageSelectionUI stageSelection = mapSelectPanel.GetComponent<StageSelectionUI>();
+            if (stageSelection == null || !stageSelection.TryReturnToMapSelection())
+                BackToCardsSelect();
+        }
         else if (cardsSelectPanel != null && cardsSelectPanel.activeSelf)
-            BackFromCardsSelect();
+        {
+            DeckBuilderUI deckBuilder = cardsSelectPanel.GetComponent<DeckBuilderUI>();
+            if (deckBuilder == null || !deckBuilder.CloseCardInfo())
+                BackFromCardsSelect();
+        }
         else if (characterSelectPanel != null && characterSelectPanel.activeSelf)
         {
             if (SelectionManager.Instance != null && SelectionManager.Instance.isTrainingMode)
@@ -98,6 +121,7 @@ public class MenuManager : MonoBehaviour
     public void ShowMainMenu()
     {
         CloseSettings();
+        if (rulesPanel != null) rulesPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
         if (gameModePanel != null) gameModePanel.SetActive(false);
         characterSelectPanel.SetActive(false);
@@ -112,6 +136,7 @@ public class MenuManager : MonoBehaviour
     public void ShowHowToPlay()
     {
         CloseSettings();
+        if (rulesPanel != null) rulesPanel.SetActive(false);
         mainMenuPanel.SetActive(false);
         if (gameModePanel != null) gameModePanel.SetActive(false);
         controlsPanel.SetActive(false);
@@ -123,6 +148,7 @@ public class MenuManager : MonoBehaviour
     public void ShowGameModeSelect()
     {
         CloseSettings();
+        if (rulesPanel != null) rulesPanel.SetActive(false);
         mainMenuPanel.SetActive(false);
         if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
         if (controlsPanel != null) controlsPanel.SetActive(false);
@@ -131,6 +157,16 @@ public class MenuManager : MonoBehaviour
         if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
         if (gameModePanel != null) gameModePanel.SetActive(true);
         Focus(gameModePanel);
+    }
+
+    public void ShowRules()
+    {
+        if (rulesView == null || rulesPanel == null || gameModePanel == null)
+            return;
+
+        gameModePanel.SetActive(false);
+        rulesPanel.SetActive(true);
+        Focus(rulesPanel);
     }
 
     public void SelectPlayerVsPlayer()
@@ -151,6 +187,7 @@ public class MenuManager : MonoBehaviour
     public void CharacterSelect()
     {
         CloseSettings();
+        if (rulesPanel != null) rulesPanel.SetActive(false);
         if (SelectionManager.Instance != null)
             SelectionManager.Instance.isTrainingMode = false;
 
@@ -167,6 +204,7 @@ public class MenuManager : MonoBehaviour
     public void TrainingRoom()
     {
         CloseSettings();
+        if (rulesPanel != null) rulesPanel.SetActive(false);
         if (SelectionManager.Instance != null)
             SelectionManager.Instance.isTrainingMode = true;
 
@@ -212,6 +250,7 @@ public class MenuManager : MonoBehaviour
     public void ShowMapSelect()
     {
         CloseSettings();
+        if (rulesPanel != null) rulesPanel.SetActive(false);
 
         if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
         if (gameModePanel != null) gameModePanel.SetActive(false);
@@ -227,6 +266,7 @@ public class MenuManager : MonoBehaviour
     {
         CloseSettings();
         cardsSelectPanel.SetActive(false);
+        if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
         characterSelectPanel.SetActive(true);
         BeginCharacterSelection();
         Focus(characterSelectPanel);
@@ -273,6 +313,7 @@ public class MenuManager : MonoBehaviour
 
     public void ShowSettings()
     {
+        if (rulesPanel != null) rulesPanel.SetActive(false);
         mainMenuPanel.SetActive(false);
         if (gameModePanel != null) gameModePanel.SetActive(false);
         if (howToPlayPanel != null) howToPlayPanel.SetActive(false);

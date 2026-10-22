@@ -12,21 +12,26 @@ public class DeckRuntime
     private HandSlot[] handSlots;
 
     private int activeHandSize;
+    private readonly int initialHandSize;
 
     public int HandSlotCount => handSlots.Length;
     public int DrawStackCount => drawStack.Count;
 
-    public DeckRuntime(DeckRules rules, IReadOnlyList<GameObject> deckTemplate)
+    public DeckRuntime(DeckRules rules, IReadOnlyList<GameObject> deckTemplate,
+        int initialHandSize = -1, int maxHandSize = -1)
     {
         this.rules = rules ?? throw new ArgumentNullException(nameof(rules));
         if (deckTemplate == null)
             throw new ArgumentNullException(nameof(deckTemplate));
 
+        int handCapacity = maxHandSize < 0 ? rules.MaxHandSize : Mathf.Clamp(maxHandSize, 1, MatchRules.MaxHandSlots);
+        this.initialHandSize = Mathf.Clamp(initialHandSize < 0 ? rules.InitialHandSize : initialHandSize, 1, handCapacity);
+
         this.deckTemplate = new List<GameObject>(deckTemplate);
         drawStack = new List<GameObject>(deckTemplate.Count);
         discardStack = new List<GameObject>(deckTemplate.Count);
-        redrawBuffer = new List<GameObject>(rules.MaxHandSize);
-        handSlots = new HandSlot[rules.MaxHandSize];
+        redrawBuffer = new List<GameObject>(handCapacity);
+        handSlots = new HandSlot[handCapacity];
 
         for (int i = 0; i < handSlots.Length; i++)
             handSlots[i] = new HandSlot();
@@ -65,7 +70,7 @@ public class DeckRuntime
         discardStack.Clear();
         Shuffle(drawStack);
 
-        activeHandSize = rules.InitialHandSize;
+        activeHandSize = initialHandSize;
 
         for (int i = 0; i < handSlots.Length; i++)
         {

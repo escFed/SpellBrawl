@@ -44,13 +44,13 @@ public class JumpState : CharacterState
         }
 
         airTimer += Time.deltaTime;
-        character.HandleAirborneMovementInput();
-
         if (character.AttackInput)
         {
             stateMachine.ChangeState(character.Combat.ResolveAttackState());
             return;
         }
+
+        character.HandleAirborneMovementInput();
 
         if (character.JumpPressed && character.CanJump)
         {

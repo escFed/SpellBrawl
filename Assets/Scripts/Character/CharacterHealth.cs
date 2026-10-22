@@ -22,16 +22,24 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
     private CharacterDeck deck;
     private float lastFallTime = -2f;
     private Coroutine respawnRoutine;
+    private float remainingRespawnDropTime;
+    private int initialStocks;
 
     public RespawnPhase Phase { get; private set; } = RespawnPhase.Active;
     public bool IsDead => Phase == RespawnPhase.Eliminated;
     public bool IsIntangible { get; private set; }
     public bool IsRespawnProtected => Phase == RespawnPhase.RespawnProtected;
-    public bool ShouldCameraTrack => Phase == RespawnPhase.Active || Phase == RespawnPhase.RespawnProtected;
+    public bool IsWaitingToDrop => Phase == RespawnPhase.WaitingToDrop;
+    public float RemainingRespawnDropTime => remainingRespawnDropTime;
+    public bool ShouldCameraTrack => Phase == RespawnPhase.Active || Phase == RespawnPhase.WaitingToDrop || Phase == RespawnPhase.RespawnProtected;
     public event Action<CharacterHealth> CameraTrackingChanged;
 
     private void Awake()
     {
+        initialStocks = SelectionManager.Instance != null && !SelectionManager.Instance.isTrainingMode
+            ? SelectionManager.Instance.Rules.Stocks
+            : fallLives;
+        fallLives = initialStocks;
         rb = GetComponent<Rigidbody2D>();
         bodyCollider = GetComponent<Collider2D>();
         sprite = GetComponentInChildren<SpriteRenderer>();
@@ -82,6 +90,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         if (finalDamage <= 0 && (hit.Damage > 0 || hit.BaseKnockback.sqrMagnitude < 0.000001f))
             return false;
 
+        int damageBeforeHit = currentDamage;
         currentDamage += finalDamage;
         UpdateUI();
 
@@ -89,7 +98,8 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         Vector2 influence = controller.ActiveInput != null ? controller.ActiveInput.CurrentDirection : Vector2.zero;
         if (controller.ActiveInput is IDirectionalInfluenceProvider influenceProvider)
             influence = influenceProvider.DirectionalInfluence;
-        Vector2 finalKnockback = KnockbackCalculation.CalculateVelocity(hit, currentDamage, controller.stats.weight,
+        int launchDamage = hit.GrowthUsesPreHitDamage ? damageBeforeHit : currentDamage;
+        Vector2 finalKnockback = KnockbackCalculation.CalculateVelocity(hit, launchDamage, controller.stats.weight,
             influence, controller.stats.directionalInfluenceDegrees);
         float stun = KnockbackCalculation.CalculateHitStun(hit, finalKnockback);
 
@@ -99,10 +109,14 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         controller.Movement.BeginAerialSuspension(hit.DefenderSuspension);
         controller.HitFeedback?.Flash(hit.Reaction);
 
+        int visualChainStep = hit.Attacker != null && hit.Attacker.Combat != null
+            ? hit.Attacker.Combat.RegisterVisualHit(this)
+            : 0;
+
         if (hit.AttackerPlayerIndex >= 0)
-            CombatFeedback.PlayImpact(hit.Point, finalKnockback, hit.Reaction, PlayerColors.Get(hit.AttackerPlayerIndex));
+            CombatFeedback.PlayImpact(hit.Point, finalKnockback, hit.Reaction, PlayerColors.Get(hit.AttackerPlayerIndex), visualChainStep);
         else
-            CombatFeedback.PlayImpact(hit.Point, finalKnockback, hit.Reaction);
+            CombatFeedback.PlayImpact(hit.Point, finalKnockback, hit.Reaction, visualChainStep);
         CombatFeedback.PlayHitRumble(controller, hit.Reaction);
         return true;
     }
@@ -239,14 +253,14 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         }
     }
 
-    public void BeginRespawnSequence(Vector3 position, float delay, float protectionDuration)
+    public void BeginRespawnSequence(Vector3 position, float delay, float protectionDuration, float dropWindow = 0f)
     {
-        if (!isActiveAndEnabled || Phase == RespawnPhase.RespawnDelay || IsDead)
+        if (!isActiveAndEnabled || Phase == RespawnPhase.RespawnDelay || IsWaitingToDrop || IsDead)
             return;
 
         CancelRespawnSequence();
         SetPhase(RespawnPhase.RespawnDelay);
-        respawnRoutine = StartCoroutine(RespawnSequence(position, Mathf.Max(0f, delay), Mathf.Max(0f, protectionDuration)));
+        respawnRoutine = StartCoroutine(RespawnSequence(position, Mathf.Max(0f, delay), Mathf.Max(0f, protectionDuration), Mathf.Max(0f, dropWindow)));
     }
 
     public void CancelRespawnProtection()
@@ -258,7 +272,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         SetCharacterVisible(true);
     }
 
-    private IEnumerator RespawnSequence(Vector3 position, float delay, float protectionDuration)
+    private IEnumerator RespawnSequence(Vector3 position, float delay, float protectionDuration, float dropWindow)
     {
         PrepareForRespawnDelay(position);
 
@@ -271,6 +285,63 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
             yield break;
         }
 
+        bool jumpOnExit = false;
+        bool moveOnExit = false;
+        if (dropWindow > 0f)
+        {
+            SetPhase(RespawnPhase.WaitingToDrop);
+            SetCharacterVisible(true);
+            remainingRespawnDropTime = dropWindow;
+            float waitingBlinkTimer = 0f;
+
+            bool human = controller != null && controller.Mode == PlayerMode.Player;
+            if (human)
+                controller.SetControlsEnabled(true);
+
+            float automaticDropTime = human ? dropWindow : Mathf.Min(dropWindow, 1f);
+            // Let PlayerInput sample its newly enabled Move action before deciding
+            // whether a direction was already held when the waiting phase began.
+            yield return null;
+            TickRespawnBlink(ref waitingBlinkTimer);
+            remainingRespawnDropTime = Mathf.Max(0f, remainingRespawnDropTime - Time.deltaTime);
+            automaticDropTime -= Time.deltaTime;
+            bool directionArmed = human && !IsRespawnExitDirectionPressed();
+            while (IsWaitingToDrop && remainingRespawnDropTime > 0f && automaticDropTime > 0f)
+            {
+                if (human && !PauseMenu.isPaused)
+                {
+                    if (controller.JumpPressed)
+                    {
+                        jumpOnExit = true;
+                        break;
+                    }
+
+                    Vector2 direction = controller.MoveInput;
+                    bool horizontalPressed = Mathf.Abs(direction.x) >= 0.5f;
+                    bool downPressed = direction.y <= -0.5f;
+                    if (!horizontalPressed && !downPressed)
+                        directionArmed = true;
+                    else if (directionArmed)
+                    {
+                        moveOnExit = horizontalPressed;
+                        break;
+                    }
+                }
+
+                yield return null;
+                TickRespawnBlink(ref waitingBlinkTimer);
+                remainingRespawnDropTime = Mathf.Max(0f, remainingRespawnDropTime - Time.deltaTime);
+                automaticDropTime -= Time.deltaTime;
+            }
+
+            remainingRespawnDropTime = 0f;
+            if (!IsWaitingToDrop)
+            {
+                respawnRoutine = null;
+                yield break;
+            }
+        }
+
         Respawn(position);
 
         if (controller != null)
@@ -280,25 +351,46 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         }
 
         SetPhase(protectionDuration > 0f ? RespawnPhase.RespawnProtected : RespawnPhase.Active);
+        if (controller != null)
+        {
+            if (jumpOnExit)
+                controller.ChangeState(controller.States.Jump);
+            else if (moveOnExit)
+                controller.ChangeState(controller.States.Move);
+        }
+
         float elapsed = 0f;
         float blinkTimer = 0f;
 
         while (IsRespawnProtected && elapsed < protectionDuration)
         {
             elapsed += Time.deltaTime;
-            blinkTimer += Time.deltaTime;
-
-            if (blinkTimer >= RespawnBlinkInterval)
-            {
-                blinkTimer -= RespawnBlinkInterval;
-                SetCharacterVisible(sprite == null || !sprite.enabled);
-            }
+            TickRespawnBlink(ref blinkTimer);
 
             yield return null;
         }
 
         CancelRespawnProtection();
         respawnRoutine = null;
+    }
+
+    private void TickRespawnBlink(ref float blinkTimer)
+    {
+        blinkTimer += Time.deltaTime;
+        if (blinkTimer < RespawnBlinkInterval)
+            return;
+
+        blinkTimer -= RespawnBlinkInterval;
+        SetCharacterVisible(sprite == null || !sprite.enabled);
+    }
+
+    private bool IsRespawnExitDirectionPressed()
+    {
+        if (controller == null || controller.ActiveInput == null)
+            return false;
+
+        Vector2 direction = controller.ActiveInput.CurrentDirection;
+        return Mathf.Abs(direction.x) >= 0.5f || direction.y <= -0.5f;
     }
 
     private void PrepareForRespawnDelay(Vector3 position)
@@ -326,6 +418,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
     private void CancelRespawnSequence()
     {
+        remainingRespawnDropTime = 0f;
         if (respawnRoutine != null)
         {
             StopCoroutine(respawnRoutine);
@@ -349,7 +442,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
     private void ApplyNewRoundResetPolicy()
     {
         currentDamage = 0;
-        fallLives = 3;
+        fallLives = initialStocks;
         activeDefenseMultiplier = 1f;
         ResetTransientCharacterState();
 

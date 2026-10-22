@@ -29,6 +29,9 @@ public class GameManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
+        if (SelectionManager.Instance != null && !SelectionManager.Instance.isTrainingMode)
+            roundsToWin = SelectionManager.Instance.Rules.RoundsToWin;
+
         if (Instance == this && !TryGetComponent<CheatCodes>(out _))
             gameObject.AddComponent<CheatCodes>();
     }

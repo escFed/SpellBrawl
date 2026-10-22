@@ -106,17 +106,21 @@ public class Dummy : MonoBehaviour, ICombatHitReceiver, IGrabbable
         if (isGrabbed || body == null || body.bodyType != RigidbodyType2D.Dynamic)
             return true;
 
-        Vector2 velocity = KnockbackCalculation.CalculateVelocity(hit, currentDamage,
+        Vector2 velocity = KnockbackCalculation.CalculateVelocity(hit, hit.GrowthUsesPreHitDamage ? before : currentDamage,
             targetCharacter != null ? targetCharacter.weight : weight, directionalInput,
             targetCharacter != null ? targetCharacter.directionalInfluenceDegrees : 12f);
         HitStunRemaining = Mathf.Max(HitStunRemaining, KnockbackCalculation.CalculateHitStun(hit, velocity));
         Trace.Begin(transform.position, velocity, HitStunRemaining, before, currentDamage);
         motion.Launch(body, velocity, hit.AirDecelerationMultiplier);
         BeginAerialSuspension(hit.DefenderSuspension);
+
+        int visualChainStep = hit.Attacker != null && hit.Attacker.Combat != null
+            ? hit.Attacker.Combat.RegisterVisualHit(this)
+            : 0;
         if (hit.AttackerPlayerIndex >= 0)
-            CombatFeedback.PlayImpact(hit.Point, velocity, hit.Reaction, PlayerColors.Get(hit.AttackerPlayerIndex));
+            CombatFeedback.PlayImpact(hit.Point, velocity, hit.Reaction, PlayerColors.Get(hit.AttackerPlayerIndex), visualChainStep);
         else
-            CombatFeedback.PlayImpact(hit.Point, velocity, hit.Reaction);
+            CombatFeedback.PlayImpact(hit.Point, velocity, hit.Reaction, visualChainStep);
         return true;
     }
 

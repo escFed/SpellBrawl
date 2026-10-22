@@ -11,6 +11,7 @@ public class CharacterHitBox : MonoBehaviour
     [SerializeField] private AttackHitbox forwardAirHitbox;
     [SerializeField] private AttackHitbox upAirHitbox;
     [SerializeField] private AttackHitbox downAirHitbox;
+    [SerializeField] private AttackHitbox diagonalDownAirHitbox;
     [SerializeField] private AttackHitbox forwardHeavyHitbox;
     [SerializeField] private AttackHitbox upHeavyHitbox;
     [SerializeField] private AttackHitbox downHeavyHitbox;
@@ -19,6 +20,7 @@ public class CharacterHitBox : MonoBehaviour
 
     [SerializeField] private bool originalSpriteFacesRight = true;
     public bool IsFacingRight { get; private set; }
+    private bool facingLocked;
 
     private void Awake()
     {
@@ -32,6 +34,8 @@ public class CharacterHitBox : MonoBehaviour
 
     public void CheckAndFlip(float directionX)
     {
+        if (facingLocked)
+            return;
         if (directionX > 0 && !IsFacingRight)
             Flip();
         else if (directionX < 0 && IsFacingRight)
@@ -40,6 +44,8 @@ public class CharacterHitBox : MonoBehaviour
 
     public void FaceDirection(float directionX)
     {
+        if (facingLocked)
+            return;
         if (Mathf.Abs(directionX) < 0.01f)
             return;
 
@@ -57,11 +63,34 @@ public class CharacterHitBox : MonoBehaviour
         transform.localScale = localScale;
     }
 
+    public bool HasDiagonalDownAirHitbox => diagonalDownAirHitbox != null;
+    public void LockFacing() => facingLocked = true;
+    public void UnlockFacing() => facingLocked = false;
+
+    private void OnDisable() => facingLocked = false;
+
     public void SetupJab(GroundAttackStats stats)
     {
         if (jabHitbox == null) { Debug.LogError($"[CharacterHitBox] jabHitbox no está asignado en el Inspector del objeto '{gameObject.name}'"); return; }
         if (stats == null) { Debug.LogError($"[CharacterHitBox] jabAttack stats es null en CharacterStats de '{gameObject.name}'"); return; }
         jabHitbox.Setup(stats);
+    }
+    public void SetupJabStage(GroundAttackStats stats, int stage)
+    {
+        if (jabHitbox == null) { Debug.LogError($"[CharacterHitBox] jabHitbox no está asignado en el Inspector del objeto '{gameObject.name}'"); return; }
+        if (stats == null) { Debug.LogError($"[CharacterHitBox] jabAttack stats es null en CharacterStats de '{gameObject.name}'"); return; }
+
+        if (stage >= 2)
+        {
+            jabHitbox.Setup(stats);
+            return;
+        }
+
+        // The first two contacts hold the defender close; only the finisher launches.
+        int damage = Mathf.Max(1, Mathf.CeilToInt(stats.damage * 0.5f));
+        Vector2 knockback = new Vector2(Mathf.Max(0.4f, stats.knockback.x * 0.25f), 0f);
+        float hitStun = Mathf.Max(0.24f, stats.hitStun);
+        jabHitbox.Setup(stats, damage, knockback, hitStun, 0f);
     }
     public void SetupFTilt(GroundAttackStats stats)
     {
@@ -69,6 +98,24 @@ public class CharacterHitBox : MonoBehaviour
         if (stats == null) { Debug.LogError($"[CharacterHitBox] fTiltAttack stats es null en CharacterStats de '{gameObject.name}'"); return; }
         fTiltHitbox.Setup(stats);
     }
+    public void SetupForwardTiltStage(GroundAttackStats stats, int stage)
+    {
+        if (fTiltHitbox == null) { Debug.LogError($"[CharacterHitBox] fTiltHitbox no está asignado en el Inspector de '{gameObject.name}'"); return; }
+        if (stats == null) { Debug.LogError($"[CharacterHitBox] fTiltAttack stats es null en CharacterStats de '{gameObject.name}'"); return; }
+
+        if (stage == 0)
+        {
+            int damage = Mathf.Max(1, Mathf.RoundToInt(stats.damage * 0.375f));
+            Vector2 knockback = new Vector2(Mathf.Max(0.5f, stats.knockback.x * 0.15f), 0f);
+            fTiltHitbox.Setup(stats, damage, knockback, Mathf.Max(0.3f, stats.hitStun), 0f);
+        }
+        else
+        {
+            int damage = Mathf.Max(1, stats.damage - Mathf.Max(1, Mathf.RoundToInt(stats.damage * 0.375f)));
+            fTiltHitbox.Setup(stats, damage, stats.knockback);
+        }
+    }
+    public bool IsForwardTiltHitbox(AttackHitbox source) => source == fTiltHitbox;
     public void SetupUTilt(GroundAttackStats stats)
     {
         if (upTiltHitbox == null) { Debug.LogError($"[CharacterHitBox] upTiltHitbox no está asignado en el Inspector de '{gameObject.name}'"); return; }
@@ -85,6 +132,7 @@ public class CharacterHitBox : MonoBehaviour
     public void SetupForwardAir(AerialAttackStats stats) => SetupHitbox(GetForwardAirHitbox(), stats, "forwardAirHitbox", "forwardAirAttack");
     public void SetupUpAir(AerialAttackStats stats) => SetupHitbox(GetUpAirHitbox(), stats, "upAirHitbox", "upAirAttack");
     public void SetupDownAir(AerialAttackStats stats) => SetupHitbox(GetDownAirHitbox(), stats, "downAirHitbox", "downAirAttack");
+    public void SetupDiagonalDownAir(AerialAttackStats stats) => SetupHitbox(diagonalDownAirHitbox, stats, "diagonalDownAirHitbox", "diagonalDownAirAttack");
     public void SetupHeavyAttack(HeavyAttackType type, HeavyAttackStats stats, int damage, Vector2 knockback, float hitStun, float growthOverride = -1f)
     {
         AttackHitbox attackHitbox = GetHeavyHitbox(type);
@@ -124,6 +172,7 @@ public class CharacterHitBox : MonoBehaviour
     public void SetForwardAirHitbox(bool active) => SetHitboxActive(GetForwardAirHitbox(), active);
     public void SetUpAirHitbox(bool active) => SetHitboxActive(GetUpAirHitbox(), active);
     public void SetDownAirHitbox(bool active) => SetHitboxActive(GetDownAirHitbox(), active);
+    public void SetDiagonalDownAirHitbox(bool active) => SetHitboxActive(diagonalDownAirHitbox, active);
     public void SetHeavyHitbox(HeavyAttackType type, bool active) => SetHitboxActive(GetHeavyHitbox(type), active);
     public void CloseAllHeavyHitboxes()
     {
@@ -141,6 +190,7 @@ public class CharacterHitBox : MonoBehaviour
         SetHitboxActive(forwardAirHitbox, false);
         SetHitboxActive(upAirHitbox, false);
         SetHitboxActive(downAirHitbox, false);
+        SetHitboxActive(diagonalDownAirHitbox, false);
         CloseAllHeavyHitboxes();
     }
     public void SetGrabbox(bool active) => SetGrabboxActive(GetGrabbox(), active);

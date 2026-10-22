@@ -28,7 +28,6 @@ public class AIUtility
         TryChoose(ref best, ScoreShortHop(context), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreJump(context), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreFastFall(context), profile, currentDecision, memory, now);
-        TryChoose(ref best, ScoreCrouch(context, profile), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreFlee(context, profile), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreReposition(context, attackRange, idealSpacing), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreChase(context, profile, attackRange, idealSpacing), profile, currentDecision, memory, now);
@@ -178,13 +177,6 @@ public class AIUtility
         return context.CanFastFall && context.CanFastFallSafely && context.TargetBelow
             ? new AIActionScore(AIDecision.FastFall, 52f)
             : new AIActionScore(AIDecision.FastFall, 0f);
-    }
-
-    private static AIActionScore ScoreCrouch(AIContext context, AIProfile profile)
-    {
-        return context.CanCrouch && context.TargetThreatening && context.TargetAbove
-            ? new AIActionScore(AIDecision.Crouch, 48f * profile.defense)
-            : new AIActionScore(AIDecision.Crouch, 0f);
     }
 
     private static AIActionScore ScoreDash(AIContext context, AIProfile profile, float idealSpacing)

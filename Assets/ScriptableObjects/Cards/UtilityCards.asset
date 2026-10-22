@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 220b5cb7d6114a8d97fbca4e7c21c786, type: 3}
+  m_Name: UtilityCards
+  m_EditorClassIdentifier: Assembly-CSharp::CardCategoryCatalog
+  type: 2
+  cards:
+  - {fileID: 5701111109364838219, guid: 6d218a8803a192c4981363d71199cf67, type: 3}
+  - {fileID: 5246520119532629478, guid: 461b187b1bdeac543b029d22f80e838c, type: 3}
+  - {fileID: 8020222836146473951, guid: a1e23b8fc63d99a44b5dd66e83c8d8c3, type: 3}
+  - {fileID: 4282770336491579012, guid: 28f803e4034c9cb438d95ea5b925f4d6, type: 3}

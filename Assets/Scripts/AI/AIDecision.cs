@@ -20,8 +20,8 @@ public enum AIDecision
     Parry,
     Jump,
     ShortHop,
-    Crouch,
-    FastFall,
+    // Preserve serialized values after removing the former Crouch decision (20).
+    FastFall = 21,
     Reposition,
     Recover
 }

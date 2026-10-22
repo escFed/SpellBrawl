@@ -8,6 +8,14 @@ public class PauseMenu : MonoBehaviour
     public GameObject settingsPanel;
 
     public static bool isPaused = false;
+    private InputAction pauseAction;
+    private InputAction cancelAction;
+
+    private void Awake()
+    {
+        pauseAction = InputSystem.actions?.FindAction("UI/Pause");
+        cancelAction = InputSystem.actions?.FindAction("UI/Cancel");
+    }
 
     private void Start()
     {
@@ -23,11 +31,10 @@ public class PauseMenu : MonoBehaviour
         if (CountdownManager.Instance != null && CountdownManager.Instance.IsTutorialOpen)
             return;
 
-        bool keyboardPause = Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame;
-        bool gamepadPause = Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame;
-        bool gamepadBack = isPaused && Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame;
+        bool pausePressed = pauseAction != null && pauseAction.WasPressedThisFrame();
+        bool backPressed = isPaused && cancelAction != null && cancelAction.WasPressedThisFrame();
 
-        if (keyboardPause || gamepadPause || gamepadBack)
+        if (pausePressed || backPressed)
         {
             if (settingsPanel != null && settingsPanel.activeSelf)
             {

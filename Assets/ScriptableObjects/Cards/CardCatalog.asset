@@ -12,16 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37d6641c4fea25247bd2099c9ca93431, type: 3}
   m_Name: CardCatalog
   m_EditorClassIdentifier: Assembly-CSharp::CardCatalog
-  cards:
-  - {fileID: 5701111109364838219, guid: 6d218a8803a192c4981363d71199cf67, type: 3}
-  - {fileID: 2052908611097359236, guid: b65cb8e6896a3a0489b3906511503c53, type: 3}
-  - {fileID: 8626042553062594018, guid: a5ffda282a8266e41a26b5594762a5ab, type: 3}
-  - {fileID: 8020222836146473951, guid: a1e23b8fc63d99a44b5dd66e83c8d8c3, type: 3}
-  - {fileID: 8266632702581206144, guid: 836afddc1d8c95a43b7bd9099076fa8d, type: 3}
-  - {fileID: 8020222836146473951, guid: 6f7f7eeec9ac338469710aac8d7f00b7, type: 3}
-  - {fileID: 4282770336491579012, guid: 28f803e4034c9cb438d95ea5b925f4d6, type: 3}
-  - {fileID: 2077598287845426619, guid: 0a5c15f64f078634ca9f48541953e978, type: 3}
-  - {fileID: 7787666514362569338, guid: d52e531f554fb924da7faa414e98e18a, type: 3}
-  - {fileID: 3111288841274506641, guid: e8047da05a8773842894874f21cb14a4, type: 3}
-  - {fileID: 5246520119532629478, guid: 461b187b1bdeac543b029d22f80e838c, type: 3}
-  - {fileID: 1610812437613193906, guid: e8fd51343164bdf4f9d9d529b3b70b01, type: 3}
+  categories:
+  - {fileID: 11400000, guid: a9c6579e8902452bb1d7cee6a2198c62, type: 2}
+  - {fileID: 11400000, guid: 4b98a0a6de8d46d198d0b4e12b3f8378, type: 2}
+  - {fileID: 11400000, guid: 8a9266a83dde4b0eb5ba30ab8f262078, type: 2}
+  cards: []

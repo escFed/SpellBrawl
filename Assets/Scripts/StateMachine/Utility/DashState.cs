@@ -18,6 +18,7 @@ public class DashState : CharacterState
         if (character.Sprite != null)
             originalSpriteColor = character.Sprite.color;
 
+        character.Combat.LockFacing();
         BeginDash();
     }
 
@@ -90,6 +91,7 @@ public class DashState : CharacterState
     {
         character.Dash.EndCharacterCollisionPassThrough();
         SetIntangible(false);
+        character.Combat.UnlockFacing();
         character.Dash.CompleteDash();
         character.Movement.StopHorizontalMovement();
     }
@@ -99,7 +101,7 @@ public class DashState : CharacterState
         phase = Phase.Startup;
         timer = 0f;
         SetIntangible(false);
-        character.Animation.TryPlay("Move");
+        character.Animation.TryPlay("Dash", "Move");
     }
 
     private void ReturnToLocomotion()

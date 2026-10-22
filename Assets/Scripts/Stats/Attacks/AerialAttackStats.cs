@@ -3,6 +3,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AerialAttackStats", menuName = "Character/Attacks/Aerial Attack")]
 public class AerialAttackStats : NormalAttackStats
 {
+    [Header("Active Attack Movement")]
+    [Tooltip("Local velocity during active frames. Positive X follows facing; Y uses world up. Zero leaves normal air movement.")]
+    public Vector2 activeMovementVelocity;
+
     [Header("Aerial Hit Suspension")]
     [Min(0f)] public float attackerSuspensionDuration = 0.1f;
     [Range(0f, 1f)] public float attackerGravityMultiplier = 0.4f;

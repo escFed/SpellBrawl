@@ -93,6 +93,8 @@ public class AttackHitbox : MonoBehaviour
         bool applied = contact.Target.ReceiveHit(contact.Hit);
         if (applied)
         {
+            contact.Attacker?.Combat.RegisterForwardTiltHit(contact.Source, contact.Stats);
+
             if (contact.Attacker != null && contact.Stats is GroundAttackStats groundStats && groundStats.startsAerialCombo)
                 contact.Attacker.Combat.BeginAerialCombo(contact.Target);
 

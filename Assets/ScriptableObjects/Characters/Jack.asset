@@ -39,6 +39,8 @@ MonoBehaviour:
   dashRecovery: 0.14
   dashCooldown: 5
   dashAttackSpeed: 12
+  dashAttackHitFollowThroughDuration: 0.12
+  dashAttackHitFollowThroughSpeed: 7
   dashGrabSpeed: 9
   dashGrabSlideDuration: 0.16
   maxEnergy: 100

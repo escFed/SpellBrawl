@@ -15,6 +15,8 @@ public class CharacterSelectUI : MonoBehaviour
     private PlayerSlot selectingSlot = PlayerSlot.PlayerOne;
     private bool buttonsCreated;
 
+    public PlayerSlot SelectingSlot => selectingSlot;
+
     private void Start()
     {
         CreateCharacterButtons();
@@ -113,13 +115,8 @@ public class CharacterSelectUI : MonoBehaviour
             return;
 
         SelectionManager selection = SelectionManager.Instance;
-        if (selection == null || selection.isTrainingMode)
-        {
-            selectText.text = "SELECT YOUR CHARACTER";
-            return;
-        }
-
-        string participant = selection.GetDisplayName(selectingSlot).ToUpperInvariant();
-        selectText.text = $"SELECT {participant} CHARACTER";
+        bool isAI = selection != null && !selection.isTrainingMode &&
+            selection.GetControlMode(selectingSlot) == PlayerMode.AI;
+        selectText.text = isAI ? "IA SELECT" : "PLAYER SELECT";
     }
 }

@@ -45,7 +45,7 @@ public static class UIFocus
 
     public static bool IsMenuOption(Selectable selectable)
     {
-        return selectable is Button || selectable is UICard || selectable is Slider;
+        return selectable is Button || selectable is UICard || selectable is Slider || selectable is Toggle;
     }
 
     public static RectTransform GetSelectionFrameTarget(Selectable selectable)

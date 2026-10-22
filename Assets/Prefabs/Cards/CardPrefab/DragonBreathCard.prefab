@@ -55,11 +55,11 @@ MonoBehaviour:
   cardName: DRAGON BREATH
   cardDescription: INVOKES A CONTINUOUS FIRE BREATH ATTACK
   type: 0
-  cardVisual: {fileID: -6999659707931048531, guid: be4fd47cec91e3d46b559b265d7f51af, type: 3}
+  cardVisual: {fileID: -439844855632847530, guid: 403fdeffad9fd274c9bceb4248e5075c, type: 3}
   damageableOrNot: DAMAGEABLE
-  cardSprite: {fileID: -6999659707931048531, guid: be4fd47cec91e3d46b559b265d7f51af, type: 3}
-  cardUI: {fileID: 5096273829772342689, guid: 22dc21ba189e3584ab5d40c15ee79c72, type: 3}
-  dragonPrefab: {fileID: 6564555053357165582, guid: 8ed268a1b594fb64b95b4e4ed572f99c, type: 3}
+  cardSprite: {fileID: -439844855632847530, guid: 403fdeffad9fd274c9bceb4248e5075c, type: 3}
+  cardUI: {fileID: 0}
+  dragonPrefab: {fileID: 6564555053357165582, guid: 3332d6ebd25f89f409868b1050b1025a, type: 3}
 --- !u!95 &-3261153566099375775
 Animator:
   serializedVersion: 7
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6999659707931048531, guid: be4fd47cec91e3d46b559b265d7f51af, type: 3}
+  m_Sprite: {fileID: -439844855632847530, guid: 403fdeffad9fd274c9bceb4248e5075c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -133,7 +133,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0

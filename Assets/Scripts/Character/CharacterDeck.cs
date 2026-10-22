@@ -32,7 +32,9 @@ public class CharacterDeck : MonoBehaviour
             return;
         }
 
-        handSnapshot = new HandSlotView[rules.MaxHandSize];
+        handSnapshot = new HandSlotView[SelectionManager.Instance != null && !SelectionManager.Instance.isTrainingMode
+            ? SelectionManager.Instance.Rules.MaxHandSize
+            : rules.MaxHandSize];
     }
 
     private void Start()
@@ -47,7 +49,12 @@ public class CharacterDeck : MonoBehaviour
             return;
         }
 
-        runtime = new DeckRuntime(rules, deckTemplate);
+        MatchRules matchRules = SelectionManager.Instance != null && !SelectionManager.Instance.isTrainingMode
+            ? SelectionManager.Instance.Rules
+            : null;
+        runtime = matchRules != null
+            ? new DeckRuntime(rules, deckTemplate, matchRules.InitialHandSize, matchRules.MaxHandSize)
+            : new DeckRuntime(rules, deckTemplate);
         ResetDeckForNewRound();
     }
 

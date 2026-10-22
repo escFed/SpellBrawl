@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class DeckBuilderUI : MonoBehaviour
@@ -15,6 +16,7 @@ public class DeckBuilderUI : MonoBehaviour
     [SerializeField] public Transform selectedCardsPanel;
     [SerializeField] private GameObject cardVisualPrefab;
     [SerializeField] private TextMeshProUGUI deckSizeText;
+    [SerializeField] private TextMeshProUGUI selectingPlayerText;
     private Dictionary<GameObject, GameObject> cardVisuals = new Dictionary<GameObject, GameObject>();
 
     [Header("UI Settings")]
@@ -29,10 +31,31 @@ public class DeckBuilderUI : MonoBehaviour
     public Sprite genericCard;
     public TextMeshProUGUI cardTypeText;
 
+    [Header("Card Info Overlay")]
+    [SerializeField] private GameObject infoPanel;
+    [SerializeField] private Image infoCardImage;
+    [SerializeField] private TextMeshProUGUI infoNameText;
+    [SerializeField] private TextMeshProUGUI infoDescriptionText;
+    [SerializeField] private RectTransform cardActionHints;
+    [SerializeField, Min(0f)] private float infoZoomDuration = 0.25f;
+
+    private CanvasGroup infoCanvasGroup;
+    private RectTransform infoCardRect;
+    private Vector3 infoCardPosition;
+    private Vector3 infoCardScale;
+    private UICard infoSourceCard;
+    private Coroutine infoAnimation;
+    private InputAction infoAction;
+    private readonly Vector3[] cardCorners = new Vector3[4];
+
+    public bool IsCardInfoOpen => infoPanel != null && infoPanel.activeSelf;
+
     private List<GameObject> selectedCards = new List<GameObject>();
     private HashSet<GameObject> selectedCardSet = new HashSet<GameObject>();
     private PlayerSlot selectingSlot = PlayerSlot.PlayerOne;
     private bool initialized;
+
+    public PlayerSlot SelectingSlot => selectingSlot;
     private readonly List<Selectable> fightNavigationSources = new List<Selectable>();
     private readonly List<Navigation> fightNavigationLinks = new List<Navigation>();
 
@@ -45,12 +68,59 @@ public class DeckBuilderUI : MonoBehaviour
         Initialize();
     }
 
+    private void OnEnable()
+    {
+        infoAction = InputSystem.actions?.FindAction("UI/CardInfo");
+    }
+
+    private void OnDisable()
+    {
+        CloseCardInfo(false);
+        if (cardActionHints != null)
+            cardActionHints.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (initialized && !IsCardInfoOpen && infoAction != null && infoAction.WasPressedThisFrame() &&
+            EventSystem.current != null &&
+            EventSystem.current.currentSelectedGameObject != null &&
+            EventSystem.current.currentSelectedGameObject.TryGetComponent(out UICard card))
+            OpenCardInfo(card);
+    }
+
+    private void LateUpdate()
+    {
+        if (cardActionHints == null)
+            return;
+
+        GameObject focused = EventSystem.current != null ? EventSystem.current.currentSelectedGameObject : null;
+        UICard card = focused != null ? focused.GetComponent<UICard>() : null;
+        bool show = !IsCardInfoOpen && card != null && card.deckBuilder == this &&
+            card.cardPrefab != null && card.IsActive() && card.IsInteractable();
+        if (cardActionHints.gameObject.activeSelf != show)
+            cardActionHints.gameObject.SetActive(show);
+        if (!show)
+            return;
+
+        RectTransform parent = cardActionHints.parent as RectTransform;
+        RectTransform cardRect = card.transform as RectTransform;
+        if (parent == null || cardRect == null)
+            return;
+
+        cardRect.GetWorldCorners(cardCorners);
+        Vector3 bottomCenter = (cardCorners[0] + cardCorners[3]) * 0.5f;
+        Vector3 localPosition = parent.InverseTransformPoint(bottomCenter);
+        cardActionHints.anchoredPosition = new Vector2(localPosition.x, localPosition.y - 28f);
+    }
+
     public void BeginSelection(PlayerSlot slot)
     {
         Initialize();
         if (!initialized)
             return;
 
+        CloseCardInfo(false);
         selectingSlot = slot;
         ClearDeck();
     }
@@ -92,10 +162,15 @@ public class DeckBuilderUI : MonoBehaviour
             return;
         }
 
-        if (deckSizeText != null)
-            deckSizeText.text = $"{selectedCards.Count}/{rules.DeckSize}";
-
         source = GetComponent<AudioSource>();
+
+        if (infoPanel != null && infoCardImage != null)
+        {
+            infoCanvasGroup = infoPanel.GetComponent<CanvasGroup>();
+            infoCardRect = infoCardImage.rectTransform;
+            infoCardPosition = infoCardRect.localPosition;
+            infoCardScale = infoCardRect.localScale;
+        }
 
         if (source != null)
             GameSettings.RegisterSource(source, GameSound.SoundEffects);
@@ -103,6 +178,89 @@ public class DeckBuilderUI : MonoBehaviour
         CacheFightNavigation();
         UpdateUI();
         initialized = true;
+    }
+
+    public bool OpenCardInfo(UICard card)
+    {
+        if (IsCardInfoOpen || card == null || card.deckBuilder != this || card.cardPrefab == null ||
+            infoPanel == null || infoCardImage == null || infoNameText == null ||
+            infoDescriptionText == null || infoCanvasGroup == null || infoCardRect == null)
+            return false;
+
+        ICardable cardData = card.cardPrefab.GetComponent<ICardable>();
+        if (cardData == null)
+            return false;
+
+        infoSourceCard = card;
+        infoCardImage.sprite = cardData.CardVisual;
+        infoNameText.text = cardData.CardName;
+        infoDescriptionText.text = cardData.CardDescription;
+
+        RectTransform sourceRect = card.transform as RectTransform;
+        Bounds sourceBounds = RectTransformUtility.CalculateRelativeRectTransformBounds(infoPanel.transform, sourceRect);
+        float widthRatio = sourceBounds.size.x / Mathf.Max(1f, infoCardRect.rect.width);
+        float heightRatio = sourceBounds.size.y / Mathf.Max(1f, infoCardRect.rect.height);
+        float startScale = Mathf.Clamp(Mathf.Min(widthRatio, heightRatio), 0.05f, 1f);
+
+        infoPanel.SetActive(true);
+        infoCanvasGroup.alpha = 0f;
+        infoCardRect.localPosition = sourceBounds.center;
+        infoCardRect.localScale = infoCardScale * startScale;
+        if (EventSystem.current != null)
+            EventSystem.current.SetSelectedGameObject(null);
+
+        infoAnimation = StartCoroutine(AnimateCardInfo());
+        return true;
+    }
+
+    public bool CloseCardInfo(bool restoreFocus = true)
+    {
+        if (!IsCardInfoOpen)
+            return false;
+
+        if (infoAnimation != null)
+        {
+            StopCoroutine(infoAnimation);
+            infoAnimation = null;
+        }
+
+        infoPanel.SetActive(false);
+        if (infoCanvasGroup != null)
+            infoCanvasGroup.alpha = 1f;
+        if (infoCardRect != null)
+        {
+            infoCardRect.localPosition = infoCardPosition;
+            infoCardRect.localScale = infoCardScale;
+        }
+
+        if (restoreFocus && infoSourceCard != null && EventSystem.current != null &&
+            infoSourceCard.IsActive() && infoSourceCard.IsInteractable())
+            EventSystem.current.SetSelectedGameObject(infoSourceCard.gameObject);
+
+        infoSourceCard = null;
+        return true;
+    }
+
+    private IEnumerator AnimateCardInfo()
+    {
+        Vector3 startPosition = infoCardRect.localPosition;
+        Vector3 startScale = infoCardRect.localScale;
+        float elapsed = 0f;
+        float duration = Mathf.Max(0.01f, infoZoomDuration);
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / duration));
+            infoCardRect.localPosition = Vector3.LerpUnclamped(startPosition, infoCardPosition, t);
+            infoCardRect.localScale = Vector3.LerpUnclamped(startScale, infoCardScale, t);
+            infoCanvasGroup.alpha = t;
+            yield return null;
+        }
+
+        infoCardRect.localPosition = infoCardPosition;
+        infoCardRect.localScale = infoCardScale;
+        infoCanvasGroup.alpha = 1f;
+        infoAnimation = null;
     }
 
     public bool AddCardToDeck(GameObject cardPrefab)
@@ -120,21 +278,11 @@ public class DeckBuilderUI : MonoBehaviour
 
         selectedCards.Add(cardPrefab);
 
-        if (deckSizeText != null)
-            deckSizeText.text = $"{selectedCards.Count}/{rules.DeckSize}";
-
         if (selectedCardsPanel != null && cardVisualPrefab != null)
         {
-            cardVisualPrefab.SetActive(true);
             GameObject cardVisual = Instantiate(cardVisualPrefab, selectedCardsPanel);
-            UICard ui = cardVisual.GetComponent<UICard>();
-            if (ui != null)
-            {
-                ui.cardPrefab = cardPrefab;
-                ui.deckBuilder = this;
-                ui.UpdateVisuals();
-
-            }
+            cardVisual.SetActive(true);
+            ConfigureSelectedCardVisual(cardVisual, cardPrefab, false);
 
             cardVisuals[cardPrefab] = cardVisual;
             RepositionCards();
@@ -153,12 +301,9 @@ public class DeckBuilderUI : MonoBehaviour
 
         selectedCards.Remove(cardPrefab);
 
-        if (deckSizeText != null)
-
-            deckSizeText.text = $"{selectedCards.Count}/{rules.DeckSize}";
-
         if (cardVisuals.TryGetValue(cardPrefab, out GameObject cardVisual))
         {
+            cardVisual.SetActive(false);
             Destroy(cardVisual);
             cardVisuals.Remove(cardPrefab);
             RepositionCards();
@@ -193,7 +338,10 @@ public class DeckBuilderUI : MonoBehaviour
     private void UpdateUI()
     {
         if (deckSizeText != null)
-            deckSizeText.text = rules != null ? $"{GetParticipantLabel()} {selectedCards.Count}/{rules.DeckSize}" : "0/0";
+            deckSizeText.text = rules != null ? $"{selectedCards.Count}/{rules.DeckSize}" : "0/0";
+
+        if (selectingPlayerText != null)
+            selectingPlayerText.text = GetParticipantLabel();
 
         if (startMatchButton != null)
         {
@@ -266,7 +414,10 @@ public class DeckBuilderUI : MonoBehaviour
         foreach (var kvp in cardVisuals)
         {
             if (kvp.Value != null)
+            {
+                kvp.Value.SetActive(false);
                 Destroy(kvp.Value);
+            }
         }
         cardVisuals.Clear();
         UpdateUI();
@@ -284,7 +435,10 @@ public class DeckBuilderUI : MonoBehaviour
         foreach (var kvp in cardVisuals)
         {
             if (kvp.Value != null)
+            {
+                kvp.Value.SetActive(false);
                 Destroy(kvp.Value);
+            }
         }
         cardVisuals.Clear();
 
@@ -297,41 +451,47 @@ public class DeckBuilderUI : MonoBehaviour
         }
 
         for (int i = 0; i < selectedCards.Count; i++)
-        {
-
-
             selectedCardSet.Add(selectedCards[i]);
-
-        }
 
         foreach (var cardPrefab in selectedCards)
         {
-
-            selectedCardSet.Add(cardPrefab);
             if (selectedCardsPanel != null && cardVisualPrefab != null)
             {
-
                 GameObject cardVisual = Instantiate(cardVisualPrefab, selectedCardsPanel);
                 cardVisual.SetActive(true);
-                UICard ui = cardVisual.GetComponent<UICard>();
-                if (ui != null)
-                {
-                    ui.cardPrefab = cardPrefab;
-                    ui.deckBuilder = this;
-
-                    Image genImage = cardVisual.GetComponentInChildren<Image>();
-                    if (genImage != null && genericCard != null)
-                    {
-                        genImage.sprite = genericCard;
-                    }
-
-                    
-                }
-                // Guardar referencia
+                ConfigureSelectedCardVisual(cardVisual, cardPrefab, true);
                 cardVisuals[cardPrefab] = cardVisual;
             }
         }
+        RepositionCards();
         UpdateUI();
+        RefreshAllUICards();
+    }
+
+    private void ConfigureSelectedCardVisual(GameObject visual, GameObject cardPrefab, bool faceDown)
+    {
+        UICard ui = visual.GetComponent<UICard>();
+        if (ui != null)
+        {
+            ui.cardPrefab = cardPrefab;
+            ui.deckBuilder = this;
+            ui.transition = Selectable.Transition.None;
+            ui.UpdateVisuals();
+        }
+
+        Image image = visual.GetComponent<Image>();
+        ICardable cardData = cardPrefab.GetComponent<ICardable>();
+        Sprite cardSprite = faceDown ? genericCard : cardData?.CardVisual;
+        if (image != null && cardSprite != null)
+        {
+            image.sprite = cardSprite;
+            image.preserveAspect = true;
+            image.color = Color.white;
+        }
+        else
+        {
+            Debug.LogError($"[DeckBuilderUI] Missing selected-card Image or sprite on {cardPrefab.name}.", visual);
+        }
     }
 
     private void RefreshAllUICards()
@@ -384,26 +544,12 @@ public class DeckBuilderUI : MonoBehaviour
 
     private string GetParticipantLabel()
     {
-        if (SelectionManager.Instance != null)
-            return SelectionManager.Instance.GetDisplayName(selectingSlot);
-
-        return selectingSlot == PlayerSlot.PlayerOne ? "Player 1" : "Player 2";
+        return selectingSlot == PlayerSlot.PlayerOne ? "P1" : "P2";
     }
 
     private void RepositionCards()
     {
-        int index = 0;
-        foreach (var kvp in cardVisuals)
-        {
-            GameObject cardVisual = kvp.Value;
-            if (cardVisual != null)
-            {
-                float offsetX = index * 13f; // separación horizontal
-                Vector3 targetPos = new Vector3(offsetX, 0f, 0f);
-
-                LeanTween.moveLocal(cardVisual, targetPos, 0.5f).setEase(LeanTweenType.easeOutQuint);
-                index++;
-            }
-        }
+        if (selectedCardsPanel is RectTransform panel)
+            LayoutRebuilder.MarkLayoutForRebuild(panel);
     }
 }

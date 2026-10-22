@@ -22,7 +22,6 @@ public struct AIContext
     public bool CanShield { get; }
     public bool CanParry { get; }
     public bool CanHeavyAttack { get; }
-    public bool CanCrouch { get; }
     public bool CanFastFall { get; }
     public bool CanUseCards { get; }
     public bool TargetThreatening { get; }
@@ -62,7 +61,6 @@ public struct AIContext
         bool canShield = false,
         bool canParry = false,
         bool canHeavyAttack = false,
-        bool canCrouch = false,
         bool canFastFall = false,
         bool canUseCards = false,
         bool targetThreatening = false,
@@ -101,7 +99,6 @@ public struct AIContext
         CanShield = canShield;
         CanParry = canParry;
         CanHeavyAttack = canHeavyAttack;
-        CanCrouch = canCrouch;
         CanFastFall = canFastFall;
         CanUseCards = canUseCards;
         TargetThreatening = targetThreatening;

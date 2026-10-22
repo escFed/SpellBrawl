@@ -1,13 +1,18 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 [DisallowMultipleComponent]
 public class StageSelectionUI : MonoBehaviour
 {
     [Header("Selection UI")]
     [SerializeField] private TextMeshProUGUI mapNameText;
+    [SerializeField] private UnityEngine.UI.Button map1Button;
+    [SerializeField] private UnityEngine.UI.Button map2Button;
+    [SerializeField] private UnityEngine.UI.Button randomMapButton;
+    [SerializeField] private UnityEngine.UI.Button fightButton;
+    [SerializeField] private string noSelectionDisplayName = "Select a stage";
 
     [Header("Transition")]
     [SerializeField] private CanvasGroup blackTransition;
@@ -23,11 +28,19 @@ public class StageSelectionUI : MonoBehaviour
     [SerializeField] private string randomDisplayName = "Random";
 
     private MapPool selectedMap = MapPool.Stage1;
+    private bool hasSelectedMap;
     private bool transitionStarted;
 
     private void OnEnable()
     {
-        RefreshSelection();
+        transitionStarted = false;
+        ResetSelection();
+    }
+
+    private void LateUpdate()
+    {
+        if (!hasSelectedMap)
+            RefreshSelection();
     }
 
     public void SelectMap1()
@@ -45,9 +58,31 @@ public class StageSelectionUI : MonoBehaviour
         SetSelection(MapPool.Random);
     }
 
+    public bool TryReturnToMapSelection()
+    {
+        if (!hasSelectedMap)
+            return false;
+
+        if (transitionStarted)
+            return true;
+
+        UnityEngine.UI.Button previousMapButton = selectedMap switch
+        {
+            MapPool.Stage1 => map1Button,
+            MapPool.Stage2 => map2Button,
+            MapPool.Random => randomMapButton,
+            _ => null
+        };
+
+        ResetSelection();
+        if (previousMapButton != null && EventSystem.current != null)
+            EventSystem.current.SetSelectedGameObject(previousMapButton.gameObject);
+        return true;
+    }
+
     public void StartMatch()
     {
-        if (transitionStarted)
+        if (transitionStarted || !hasSelectedMap)
             return;
 
         string sceneName = ResolveSelectedSceneName();
@@ -92,7 +127,39 @@ public class StageSelectionUI : MonoBehaviour
 
     private void SetSelection(MapPool choice)
     {
+        if (hasSelectedMap)
+            return;
+
+        if (fightButton == null)
+        {
+            Debug.LogError("[StageSelectionUI] Assign the Fight button.", this);
+            return;
+        }
+
         selectedMap = choice;
+        hasSelectedMap = true;
+        RefreshSelection();
+        SetMapButtonsInteractable(false);
+
+        fightButton.interactable = true;
+
+        if (EventSystem.current != null)
+            EventSystem.current.SetSelectedGameObject(fightButton.gameObject);
+    }
+
+    private void SetMapButtonsInteractable(bool interactable)
+    {
+        if (map1Button != null) map1Button.interactable = interactable;
+        if (map2Button != null) map2Button.interactable = interactable;
+        if (randomMapButton != null) randomMapButton.interactable = interactable;
+    }
+
+    private void ResetSelection()
+    {
+        hasSelectedMap = false;
+        SetMapButtonsInteractable(true);
+        if (fightButton != null)
+            fightButton.interactable = false;
         RefreshSelection();
     }
 
@@ -101,18 +168,40 @@ public class StageSelectionUI : MonoBehaviour
         if (mapNameText == null)
             return;
 
-        switch (selectedMap)
+        string displayName;
+        if (hasSelectedMap)
         {
-            case MapPool.Stage1:
-                mapNameText.text = map1DisplayName;
-                break;
-            case MapPool.Stage2:
-                mapNameText.text = map2DisplayName;
-                break;
-            case MapPool.Random:
-                mapNameText.text = randomDisplayName;
-                break;
+            displayName = GetMapDisplayName(selectedMap);
         }
+        else
+        {
+            GameObject focusedObject = EventSystem.current != null
+                ? EventSystem.current.currentSelectedGameObject
+                : null;
+
+            if (map1Button != null && map1Button.IsInteractable() && focusedObject == map1Button.gameObject)
+                displayName = map1DisplayName;
+            else if (map2Button != null && map2Button.IsInteractable() && focusedObject == map2Button.gameObject)
+                displayName = map2DisplayName;
+            else if (randomMapButton != null && randomMapButton.IsInteractable() && focusedObject == randomMapButton.gameObject)
+                displayName = randomDisplayName;
+            else
+                displayName = noSelectionDisplayName;
+        }
+
+        if (mapNameText.text != displayName)
+            mapNameText.text = displayName;
+    }
+
+    private string GetMapDisplayName(MapPool map)
+    {
+        return map switch
+        {
+            MapPool.Stage1 => map1DisplayName,
+            MapPool.Stage2 => map2DisplayName,
+            MapPool.Random => randomDisplayName,
+            _ => noSelectionDisplayName
+        };
     }
 
     private string ResolveSelectedSceneName()

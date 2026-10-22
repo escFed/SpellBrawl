@@ -6,9 +6,11 @@ public static class GameSettings
     private const string MusicVolumeKey = "audio.musicVolume";
     private const string SoundEffectsVolumeKey = "audio.soundEffectsVolume";
     private const string RumbleIntensityKey = "gamepad.rumbleIntensity";
+    private const string ScreenShakeIntensityKey = "camera.screenShakeIntensity";
 
     private const float DefaultVolume = 1f;
     private const float DefaultRumbleIntensity = 0.7f;
+    private const float DefaultScreenShakeIntensity = 1f;
 
     public static event System.Action VolumesChanged;
 
@@ -16,6 +18,7 @@ public static class GameSettings
     public static float MusicVolume { get; private set; } = DefaultVolume;
     public static float SoundEffectsVolume { get; private set; } = DefaultVolume;
     public static float RumbleIntensity { get; private set; } = DefaultRumbleIntensity;
+    public static float ScreenShakeIntensity { get; private set; } = DefaultScreenShakeIntensity;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetStaticState()
@@ -26,6 +29,7 @@ public static class GameSettings
         MusicVolume = DefaultVolume;
         SoundEffectsVolume = DefaultVolume;
         RumbleIntensity = DefaultRumbleIntensity;
+        ScreenShakeIntensity = DefaultScreenShakeIntensity;
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -35,6 +39,7 @@ public static class GameSettings
         MusicVolume = PlayerPrefs.GetFloat(MusicVolumeKey, DefaultVolume);
         SoundEffectsVolume = PlayerPrefs.GetFloat(SoundEffectsVolumeKey, DefaultVolume);
         RumbleIntensity = Mathf.Clamp01(PlayerPrefs.GetFloat(RumbleIntensityKey, DefaultRumbleIntensity));
+        ScreenShakeIntensity = Mathf.Clamp01(PlayerPrefs.GetFloat(ScreenShakeIntensityKey, DefaultScreenShakeIntensity));
 
         ApplyMasterVolume();
 
@@ -72,19 +77,29 @@ public static class GameSettings
             CombatFeedback.StopAllRumble();
     }
 
+    public static void SetScreenShakeIntensity(float value)
+    {
+        ScreenShakeIntensity = Mathf.Clamp01(value);
+        PlayerPrefs.SetFloat(ScreenShakeIntensityKey, ScreenShakeIntensity);
+        CombatFeedback.ApplyScreenShakeIntensity();
+    }
+
     public static void ResetToDefaults()
     {
         MasterVolume = DefaultVolume;
         MusicVolume = DefaultVolume;
         SoundEffectsVolume = DefaultVolume;
         RumbleIntensity = DefaultRumbleIntensity;
+        ScreenShakeIntensity = DefaultScreenShakeIntensity;
 
         PlayerPrefs.SetFloat(MasterVolumeKey, MasterVolume);
         PlayerPrefs.SetFloat(MusicVolumeKey, MusicVolume);
         PlayerPrefs.SetFloat(SoundEffectsVolumeKey, SoundEffectsVolume);
         PlayerPrefs.SetFloat(RumbleIntensityKey, RumbleIntensity);
+        PlayerPrefs.SetFloat(ScreenShakeIntensityKey, ScreenShakeIntensity);
 
         ApplyMasterVolume();
+        CombatFeedback.ApplyScreenShakeIntensity();
         VolumesChanged?.Invoke();
     }
 

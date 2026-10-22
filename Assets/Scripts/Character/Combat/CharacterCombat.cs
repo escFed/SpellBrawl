@@ -3,6 +3,8 @@ using UnityEngine;
 public class CharacterCombat : MonoBehaviour
 {
     private const float AerialComboWindow = 0.9f;
+    private const float VisualHitChainWindow = 0.75f;
+    private const int MaximumVisualHitChainStep = 2;
 
     [Header("Combat Settings")]
     public float attackSpeedMultiplier = 1f;
@@ -10,6 +12,9 @@ public class CharacterCombat : MonoBehaviour
     private CharacterCoordinator controller;
     private CharacterHitBox hitBox;
     private AerialTracker aerialCombo = new AerialTracker();
+    private ICombatHitReceiver lastVisualHitTarget;
+    private float lastVisualHitTime;
+    private int visualHitChainStep;
 
     private void Awake()
     {
@@ -22,6 +27,7 @@ public class CharacterCombat : MonoBehaviour
     public void TakeHit(float stunDuration, HitReaction reaction)
     {
         ResetAerialCombo();
+        ResetVisualHitChain();
         controller.Grab?.ReleaseGrabbedTarget();
         hitBox.CloseAllAttackHitboxes();
         Input?.ClearAllInputs();
@@ -31,6 +37,7 @@ public class CharacterCombat : MonoBehaviour
     public void PrepareForClash()
     {
         ResetAerialCombo();
+        ResetVisualHitChain();
         controller.Grab?.ReleaseGrabbedTarget();
         hitBox.CloseAllAttackHitboxes();
         Input?.ClearAllInputs();
@@ -46,7 +53,33 @@ public class CharacterCombat : MonoBehaviour
         controller.Movement.ApplyKnockback(velocity);
     }
 
-    private void OnDisable() => ResetAerialCombo();
+    private void OnDisable()
+    {
+        ResetAerialCombo();
+        ResetVisualHitChain();
+    }
+
+    public int RegisterVisualHit(ICombatHitReceiver target)
+    {
+        if (target == null)
+            return 0;
+
+        float now = Time.unscaledTime;
+        visualHitChainStep = ReferenceEquals(lastVisualHitTarget, target) &&
+            now - lastVisualHitTime <= VisualHitChainWindow
+            ? Mathf.Min(visualHitChainStep + 1, MaximumVisualHitChainStep)
+            : 0;
+        lastVisualHitTarget = target;
+        lastVisualHitTime = now;
+        return visualHitChainStep;
+    }
+
+    private void ResetVisualHitChain()
+    {
+        lastVisualHitTarget = null;
+        lastVisualHitTime = 0f;
+        visualHitChainStep = 0;
+    }
 
     public float GetAerialSuspensionStrength(ICombatHitReceiver target, AerialAttackStats stats,
         out bool targetGrounded)
@@ -95,6 +128,8 @@ public class CharacterCombat : MonoBehaviour
 
         if (!controller.IsGrounded)
         {
+            if (AerialInput.IsDownDiagonal(dir) && controller.stats.diagonalDownAirAttack != null && hitBox.HasDiagonalDownAirHitbox)
+                return controller.States.DiagonalDownAir;
             if (hasUp && (!hasHorizontal || dir.y >= Mathf.Abs(dir.x))) return controller.States.UpAir;
             if (hasDown && (!hasHorizontal || Mathf.Abs(dir.y) >= Mathf.Abs(dir.x))) return controller.States.DownAir;
             if (hasHorizontal) return controller.States.ForwardAir;
@@ -107,6 +142,11 @@ public class CharacterCombat : MonoBehaviour
         if (hasHorizontal) return controller.States.ForwardTilt;
 
         return controller.States.Jab;
+    }
+
+    public static bool IsDiagonalDownAirInput(Vector2 direction)
+    {
+        return AerialInput.IsDownDiagonal(direction);
     }
 
     public HeavyAttackType ResolveHeavyAttackType()
@@ -152,15 +192,32 @@ public class CharacterCombat : MonoBehaviour
 
     public void CheckAndFlip(float directionX) => hitBox.CheckAndFlip(directionX);
     public void FaceDirection(float directionX) => hitBox.FaceDirection(directionX);
+    public void LockFacing() => hitBox.LockFacing();
+    public void UnlockFacing() => hitBox.UnlockFacing();
 
     public void SetupJab(GroundAttackStats stats) => hitBox.SetupJab(stats);
+    public void SetupJabStage(GroundAttackStats stats, int stage) => hitBox.SetupJabStage(stats, stage);
     public void SetupFTilt(GroundAttackStats stats) => hitBox.SetupFTilt(stats);
+    public void SetupForwardTiltStage(GroundAttackStats stats, int stage) => hitBox.SetupForwardTiltStage(stats, stage);
+    public float FacingSign => hitBox.IsFacingRight ? 1f : -1f;
+    public void RegisterForwardTiltHit(AttackHitbox source, AttackStats attackStats)
+    {
+        if (source == null || !hitBox.IsForwardTiltHitbox(source))
+            return;
+
+        if (attackStats == controller.stats.fTiltAttack &&
+            controller.GetCurrentState() == controller.States.ForwardTilt)
+            controller.States.ForwardTilt.ConfirmHit();
+        else if (controller.GetCurrentState() == controller.States.DashAttack)
+            controller.States.DashAttack.ConfirmHit(attackStats);
+    }
     public void SetupUTilt(GroundAttackStats stats) => hitBox.SetupUTilt(stats);
     public void SetupDTilt(GroundAttackStats stats) => hitBox.SetupDTilt(stats);
     public void SetupNeutralAir(AerialAttackStats stats) => hitBox.SetupNeutralAir(stats);
     public void SetupForwardAir(AerialAttackStats stats) => hitBox.SetupForwardAir(stats);
     public void SetupUpAir(AerialAttackStats stats) => hitBox.SetupUpAir(stats);
     public void SetupDownAir(AerialAttackStats stats) => hitBox.SetupDownAir(stats);
+    public void SetupDiagonalDownAir(AerialAttackStats stats) => hitBox.SetupDiagonalDownAir(stats);
     public void SetupNormalAttack(NormalAttackType attackType, NormalAttackStats stats)
     {
         switch (attackType)
@@ -173,6 +230,7 @@ public class CharacterCombat : MonoBehaviour
             case NormalAttackType.ForwardAir: SetupForwardAir((AerialAttackStats)stats); break;
             case NormalAttackType.UpAir: SetupUpAir((AerialAttackStats)stats); break;
             case NormalAttackType.DownAir: SetupDownAir((AerialAttackStats)stats); break;
+            case NormalAttackType.DiagonalDownAir: SetupDiagonalDownAir((AerialAttackStats)stats); break;
             default: throw new System.ArgumentOutOfRangeException(nameof(attackType), attackType, "Not a normal attack.");
         }
     }
@@ -189,6 +247,7 @@ public class CharacterCombat : MonoBehaviour
             case NormalAttackType.ForwardAir: hitBox.SetForwardAirHitbox(active); break;
             case NormalAttackType.UpAir: hitBox.SetUpAirHitbox(active); break;
             case NormalAttackType.DownAir: hitBox.SetDownAirHitbox(active); break;
+            case NormalAttackType.DiagonalDownAir: hitBox.SetDiagonalDownAirHitbox(active); break;
             default: throw new System.ArgumentOutOfRangeException(nameof(attackType), attackType, "Not a normal attack.");
         }
     }

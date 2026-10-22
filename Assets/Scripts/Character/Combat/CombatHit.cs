@@ -6,6 +6,7 @@ public struct CombatHit
     public int Damage;
     public Vector2 BaseKnockback;
     public float Growth;
+    public bool GrowthUsesPreHitDamage;
     public float BaseHitStun;
     public float HitStunPerSpeed;
     public float MaxHitStun;
@@ -22,6 +23,7 @@ public struct CombatHit
         Damage = Mathf.Max(0, damage);
         BaseKnockback = baseKnockback;
         Growth = Mathf.Max(0f, growthOverride >= 0f ? growthOverride : profile?.growth ?? 3f);
+        GrowthUsesPreHitDamage = profile?.growthUsesPreHitDamage ?? false;
         BaseHitStun = Mathf.Max(0f, hitStun);
         HitStunPerSpeed = Mathf.Max(0f, profile?.hitStunPerSpeed ?? 0.006f);
         MaxHitStun = Mathf.Max(0f, profile?.maxHitStun ?? 0.8f);

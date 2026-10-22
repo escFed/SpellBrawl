@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    private float CrouchHeightRatio = 0.55f;
-
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
@@ -88,8 +86,6 @@ public class CharacterMovement : MonoBehaviour
 
     public void StopVerticalMovement() => SetOrdinaryVelocity(new Vector2(OrdinaryVelocity.x, 0f));
     private CapsuleCollider2D bodyCollider;
-    private Vector2 standingColliderSize;
-    private Vector2 standingColliderOffset;
     private float activeJumpGravityMultiplier = 1f;
     private float levitationGravityMultiplier = 1f;
     private float aerialSuspensionRemaining;
@@ -99,7 +95,6 @@ public class CharacterMovement : MonoBehaviour
     private ContactFilter2D wallContactFilter;
     private readonly RaycastHit2D[] wallCastResults = new RaycastHit2D[8];
 
-    public bool IsCrouching { get; private set; }
     public float AerialSuspensionRemaining => aerialSuspensionRemaining;
 
     private void Awake()
@@ -109,18 +104,12 @@ public class CharacterMovement : MonoBehaviour
         bodyCollider = GetComponent<CapsuleCollider2D>();
         ConfigureWallContactFilter();
 
-        if (bodyCollider != null)
-        {
-            standingColliderSize = bodyCollider.size;
-            standingColliderOffset = bodyCollider.offset;
-        }
     }
 
     private void OnDisable()
     {
         externalHorizontalPushes.Clear();
         ResetKnockback();
-        SetCrouching(false);
         ResetAirMovementState();
         ClearWallContact();
     }
@@ -228,7 +217,7 @@ public class CharacterMovement : MonoBehaviour
         IsFastFalling = false;
         CurrentJumpType = JumpType.Full;
         wallJumpControlLockRemaining = 0f;
-        fastFallInputArmed = controller.MoveInput.y >= -controller.stats.tiltThreshold;
+        fastFallInputArmed = !AerialInput.IsFastFall(controller.MoveInput, controller.stats.tiltThreshold);
         SetOrdinaryVelocity(new Vector2(OrdinaryVelocity.x, controller.stats.jumpForce * speedMultiplier));
     }
 
@@ -244,7 +233,7 @@ public class CharacterMovement : MonoBehaviour
         aerialSuspensionGravityMultiplier = 1f;
         IsFastFalling = false;
         CurrentJumpType = JumpType.Wall;
-        fastFallInputArmed = controller.MoveInput.y >= -controller.stats.tiltThreshold;
+        fastFallInputArmed = !AerialInput.IsFastFall(controller.MoveInput, controller.stats.tiltThreshold);
         wallJumpControlLockRemaining = Mathf.Max(0f, controller.stats.wallJumpControlLockTime);
 
         SetOrdinaryVelocity(new Vector2(
@@ -264,28 +253,6 @@ public class CharacterMovement : MonoBehaviour
         return true;
     }
 
-    public void SetCrouching(bool crouching)
-    {
-        if (bodyCollider == null || bodyCollider.direction != CapsuleDirection2D.Vertical || crouching == IsCrouching)
-            return;
-
-        if (crouching)
-        {
-            float crouchedHeight = Mathf.Max(standingColliderSize.x, standingColliderSize.y * CrouchHeightRatio);
-            float removedHeight = standingColliderSize.y - crouchedHeight;
-
-            bodyCollider.size = new Vector2(standingColliderSize.x, crouchedHeight);
-            bodyCollider.offset = standingColliderOffset + Vector2.down * (removedHeight * 0.5f);
-            IsCrouching = true;
-            return;
-        }
-
-        bodyCollider.size = standingColliderSize;
-        bodyCollider.offset = standingColliderOffset;
-        IsCrouching = false;
-    }
-
-
     public void ApplyHorizontalDash(float directionSign, float speed)
     {
         SetOrdinaryVelocity(new Vector2(directionSign * speed, OrdinaryVelocity.y));
@@ -297,6 +264,11 @@ public class CharacterMovement : MonoBehaviour
         SetOrdinaryVelocity(direction * speed);
     }
 
+    public void ApplyAerialAttackMovement(Vector2 velocity)
+    {
+        SetOrdinaryVelocity(velocity);
+    }
+
 
     public void StopAllMovement()
     {
@@ -304,10 +276,10 @@ public class CharacterMovement : MonoBehaviour
     }
 
 
-    public bool TryStartFastFall(float verticalInput)
+    public bool TryStartFastFall(Vector2 directionInput)
     {
         float inputThreshold = Mathf.Clamp01(controller.stats.tiltThreshold);
-        bool isPressingDown = verticalInput < -inputThreshold;
+        bool isPressingDown = AerialInput.IsFastFall(directionInput, inputThreshold);
 
         if (!isPressingDown)
         {
@@ -319,15 +291,14 @@ public class CharacterMovement : MonoBehaviour
             return false;
 
         if (rb.linearVelocity.y >= 0f)
-        {
-            fastFallInputArmed = false;
             return false;
-        }
 
         fastFallInputArmed = false;
         ApplyFastFall();
         return true;
     }
+
+    public void DisarmFastFallUntilDownReleased() => fastFallInputArmed = false;
 
     private void ApplyFastFall()
     {
@@ -360,7 +331,7 @@ public class CharacterMovement : MonoBehaviour
         IsFastFalling = false;
         CurrentJumpType = JumpType.None;
         wallJumpControlLockRemaining = 0f;
-        fastFallInputArmed = controller == null || controller.stats == null || controller.ActiveInput == null || controller.MoveInput.y >= -controller.stats.tiltThreshold;
+        fastFallInputArmed = controller == null || controller.stats == null || controller.ActiveInput == null || !AerialInput.IsFastFall(controller.MoveInput, controller.stats.tiltThreshold);
     }
 
     private void ConfigureWallContactFilter()

@@ -3,22 +3,34 @@ using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class CombatFeedback : MonoBehaviour
 {
     private const string ImpactParticleMaterialResourcePath = "HitImpactParticles";
     private const string AudioSettingsResourcePath = "CombatAudioSettings";
+    private const string CameraSettingsResourcePath = "CombatCameraSettings";
 
     private static CombatFeedback instance;
     private static Material impactParticleMaterial;
+    private static CombatCameraSettings cameraSettings;
 
     public static bool IsHitStopActive => instance != null && instance.hitStopRoutine != null;
 
     private CinemachineImpulseSource impulseSource;
+    private CinemachineImpulseManager.ImpulseEvent activeCameraImpulse;
+    private float activeCameraImpulseEndTime;
     private CombatAudioSettings audioSettings;
     private AudioSource hitAudioSource;
     private Coroutine hitStopRoutine;
+    private Coroutine impactFlashRoutine;
     private readonly Dictionary<Gamepad, Coroutine> rumbleRoutines = new();
+    private readonly List<CinemachineImpulseListener> impulseListeners = new();
+    private CinemachineBrain cameraBrain;
+    private CinemachineImpactZoom impactZoom;
+    private Image impactFlash;
+    private bool previousBrainIgnoreTimeScale;
+    private bool previousImpulseIgnoreTimeScale;
     private float hitStopEndTime;
     private float timeScaleBeforeHitStop = 1f;
 
@@ -68,6 +80,27 @@ public class CombatFeedback : MonoBehaviour
             instance.StopRumble();
     }
 
+    public static void ApplyScreenShakeIntensity()
+    {
+        if (instance == null)
+            return;
+
+        foreach (CinemachineImpulseListener listener in instance.impulseListeners)
+            if (listener != null)
+                listener.Gain = GameSettings.ScreenShakeIntensity;
+
+        if (GameSettings.ScreenShakeIntensity <= 0f)
+            instance.CancelCameraImpulse();
+
+        if (GameSettings.ScreenShakeIntensity <= 0f && instance.impactFlash != null)
+        {
+            if (instance.impactFlashRoutine != null)
+                instance.StopCoroutine(instance.impactFlashRoutine);
+            instance.impactFlashRoutine = null;
+            instance.impactFlash.color = Color.clear;
+        }
+    }
+
     private void Rumble(CharacterCoordinator character, float low, float high, float duration)
     {
         if (character == null || character.Mode != PlayerMode.Player || GameSettings.RumbleIntensity <= 0f)
@@ -113,19 +146,31 @@ public class CombatFeedback : MonoBehaviour
 
     public static void PlayImpact(Vector2 position, Vector2 knockback, HitReaction reaction)
     {
-        PlayImpact(position, knockback, reaction, null);
+        PlayImpact(position, knockback, reaction, null, 0);
     }
 
     public static void PlayImpact(Vector2 position, Vector2 knockback, HitReaction reaction, Color impactColor)
     {
-        PlayImpact(position, knockback, reaction, (Color?)impactColor);
+        PlayImpact(position, knockback, reaction, (Color?)impactColor, 0);
     }
 
-    private static void PlayImpact(Vector2 position, Vector2 knockback, HitReaction reaction, Color? impactColor)
+    public static void PlayImpact(Vector2 position, Vector2 knockback, HitReaction reaction, int visualChainStep)
+    {
+        PlayImpact(position, knockback, reaction, null, visualChainStep);
+    }
+
+    public static void PlayImpact(Vector2 position, Vector2 knockback, HitReaction reaction, Color impactColor, int visualChainStep)
+    {
+        PlayImpact(position, knockback, reaction, (Color?)impactColor, visualChainStep);
+    }
+
+    private static void PlayImpact(Vector2 position, Vector2 knockback, HitReaction reaction, Color? impactColor, int visualChainStep)
     {
         CombatFeedback feedback = GetOrCreate();
-        feedback.SpawnImpactParticles(position, knockback, reaction, impactColor);
-        feedback.ShakeCamera(position, knockback, reaction);
+        int step = Mathf.Clamp(visualChainStep, 0, 2);
+        feedback.SpawnImpactParticles(position, knockback, reaction, impactColor, step);
+        feedback.ShakeCamera(position, knockback, reaction, step);
+        feedback.PlayDecisiveImpact(position, knockback, reaction);
         feedback.RequestHitStop(GetHitStopDuration(reaction));
     }
 
@@ -149,6 +194,7 @@ public class CombatFeedback : MonoBehaviour
 
         instance = this;
         audioSettings = Resources.Load<CombatAudioSettings>(AudioSettingsResourcePath);
+        cameraSettings = Resources.Load<CombatCameraSettings>(CameraSettingsResourcePath);
         ConfigureCameraImpulse();
     }
 
@@ -160,6 +206,15 @@ public class CombatFeedback : MonoBehaviour
         impulseSource.ImpulseDefinition.ImpulseDuration = 0.14f;
         impulseSource.ImpulseDefinition.ImpulseType = CinemachineImpulseDefinition.ImpulseTypes.Uniform;
 
+        previousImpulseIgnoreTimeScale = CinemachineImpulseManager.Instance.IgnoreTimeScale;
+        CinemachineImpulseManager.Instance.IgnoreTimeScale = true;
+        cameraBrain = Camera.main != null ? Camera.main.GetComponent<CinemachineBrain>() : null;
+        if (cameraBrain != null)
+        {
+            previousBrainIgnoreTimeScale = cameraBrain.IgnoreTimeScale;
+            cameraBrain.IgnoreTimeScale = true;
+        }
+
         CinemachineCamera[] cameras = FindObjectsByType<CinemachineCamera>(FindObjectsSortMode.None);
         foreach (CinemachineCamera camera in cameras)
         {
@@ -169,33 +224,125 @@ public class CombatFeedback : MonoBehaviour
 
             listener.ApplyAfter = CinemachineCore.Stage.Noise;
             listener.ChannelMask = 1;
-            listener.Gain = 1f;
+            listener.Gain = GameSettings.ScreenShakeIntensity;
             listener.Use2DDistance = true;
             listener.UseCameraSpace = true;
             listener.SignalCombinationMode = CinemachineImpulseListener.SignalCombinationModes.UseLargest;
+            impulseListeners.Add(listener);
+
+            if (impactZoom == null)
+            {
+                impactZoom = camera.GetComponent<CinemachineImpactZoom>();
+                if (impactZoom == null)
+                    impactZoom = camera.gameObject.AddComponent<CinemachineImpactZoom>();
+            }
         }
     }
 
-    private void ShakeCamera(Vector2 position, Vector2 knockback, HitReaction reaction)
+    private void ShakeCamera(Vector2 position, Vector2 knockback, HitReaction reaction, int visualChainStep)
     {
-        if (impulseSource == null)
+        if (impulseSource == null || GameSettings.ScreenShakeIntensity <= 0f || PauseMenu.isPaused)
             return;
 
-        float strength = reaction switch
-        {
-            HitReaction.StrongHit => 0.18f,
-            HitReaction.Stunned => 0.24f,
-            _ => 0.08f
-        };
+        float strength = CalculateCameraShakeStrength(knockback.magnitude, reaction, visualChainStep);
         Vector2 direction = knockback.sqrMagnitude > 0.0001f
             ? -knockback.normalized
             : Random.insideUnitCircle.normalized;
 
-        impulseSource.ImpulseDefinition.ImpulseDuration = reaction == HitReaction.Hit ? 0.1f : 0.16f;
-        impulseSource.GenerateImpulseAtPositionWithVelocity(position, direction * strength);
+        float duration = reaction == HitReaction.Hit
+            ? cameraSettings != null ? cameraSettings.lightShakeDuration : 0.1f
+            : cameraSettings != null ? cameraSettings.strongShakeDuration : 0.16f;
+        CancelCameraImpulse();
+        impulseSource.ImpulseDefinition.ImpulseDuration = Mathf.Max(0f, duration);
+        activeCameraImpulse = impulseSource.ImpulseDefinition.CreateAndReturnEvent(position, direction * strength);
+        activeCameraImpulseEndTime = CinemachineImpulseManager.Instance.CurrentTime + duration;
     }
 
-    private void SpawnImpactParticles(Vector2 position, Vector2 knockback, HitReaction reaction, Color? impactColor)
+    private void CancelCameraImpulse()
+    {
+        CinemachineImpulseManager manager = CinemachineImpulseManager.Instance;
+        if (activeCameraImpulse != null && manager.CurrentTime < activeCameraImpulseEndTime)
+            activeCameraImpulse.Cancel(manager.CurrentTime, true);
+        activeCameraImpulse = null;
+    }
+
+    public static float CalculateCameraShakeStrength(float launchSpeed, HitReaction reaction, int visualChainStep)
+    {
+        if (cameraSettings == null)
+            cameraSettings = Resources.Load<CombatCameraSettings>(CameraSettingsResourcePath);
+
+        float lightStrength = cameraSettings != null ? cameraSettings.minimumShakeStrength : 0.045f;
+        float heavyStrength = cameraSettings != null ? cameraSettings.maximumShakeStrength : 0.14f;
+        float strengthCap = cameraSettings != null ? cameraSettings.shakeStrengthCap : 0.23f;
+        float chainBonus = cameraSettings != null ? cameraSettings.chainStepBonus : 0.18f;
+        float launchStrength = Mathf.Lerp(lightStrength, heavyStrength,
+            Mathf.InverseLerp(3f, 18f, launchSpeed));
+        float reactionMultiplier = reaction switch
+        {
+            HitReaction.StrongHit => 1.25f,
+            HitReaction.Stunned => 1.45f,
+            _ => 1f
+        };
+        return Mathf.Min(Mathf.Max(0f, strengthCap),
+            launchStrength * reactionMultiplier * (1f + chainBonus * Mathf.Clamp(visualChainStep, 0, 2)));
+    }
+
+    private void PlayDecisiveImpact(Vector2 position, Vector2 knockback, HitReaction reaction)
+    {
+        if (reaction != HitReaction.StrongHit || knockback.magnitude < 15f ||
+            impactZoom == null || GameSettings.ScreenShakeIntensity <= 0f || PauseMenu.isPaused)
+            return;
+
+        Camera camera = Camera.main;
+        if (camera == null)
+            return;
+
+        Vector3 viewport = camera.WorldToViewportPoint(position);
+        if (viewport.z <= 0f || viewport.x < 0.15f || viewport.x > 0.85f ||
+            viewport.y < 0.15f || viewport.y > 0.85f)
+            return;
+
+        impactZoom.Play();
+        if (impactFlashRoutine != null)
+            StopCoroutine(impactFlashRoutine);
+        impactFlashRoutine = StartCoroutine(FlashImpact());
+    }
+
+    private IEnumerator FlashImpact()
+    {
+        if (impactFlash == null)
+        {
+            GameObject canvasObject = new GameObject("Decisive Impact Flash", typeof(RectTransform), typeof(Canvas));
+            canvasObject.transform.SetParent(transform, false);
+            Canvas canvas = canvasObject.GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 500;
+
+            GameObject imageObject = new GameObject("Flash", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            imageObject.transform.SetParent(canvasObject.transform, false);
+            RectTransform rect = imageObject.GetComponent<RectTransform>();
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            impactFlash = imageObject.GetComponent<Image>();
+            impactFlash.raycastTarget = false;
+        }
+
+        const float duration = 0.10f;
+        float start = Time.realtimeSinceStartup;
+        do
+        {
+            float remaining = 1f - Mathf.Clamp01((Time.realtimeSinceStartup - start) / duration);
+            impactFlash.color = new Color(1f, 0.94f, 0.82f, 0.08f * remaining);
+            yield return null;
+        } while (Time.realtimeSinceStartup - start < duration);
+
+        impactFlash.color = Color.clear;
+        impactFlashRoutine = null;
+    }
+
+    private void SpawnImpactParticles(Vector2 position, Vector2 knockback, HitReaction reaction, Color? impactColor, int visualChainStep)
     {
         GameObject particleObject = new GameObject("HitImpactParticles");
         particleObject.transform.position = position;
@@ -207,8 +354,9 @@ public class CombatFeedback : MonoBehaviour
         main.playOnAwake = false;
         main.duration = 0.25f;
         main.startLifetime = new ParticleSystem.MinMaxCurve(0.12f, 0.28f);
-        main.startSpeed = new ParticleSystem.MinMaxCurve(1.5f, reaction == HitReaction.Hit ? 3f : 5f);
-        main.startSize = new ParticleSystem.MinMaxCurve(0.06f, reaction == HitReaction.Hit ? 0.14f : 0.22f);
+        main.startSpeed = new ParticleSystem.MinMaxCurve(1.5f, (reaction == HitReaction.Hit ? 3f : 5f) + 0.75f * visualChainStep);
+        main.startSize = new ParticleSystem.MinMaxCurve(0.06f + 0.01f * visualChainStep,
+            (reaction == HitReaction.Hit ? 0.14f : 0.22f) + 0.025f * visualChainStep);
         main.startColor = GetImpactParticleColors(reaction, impactColor);
         main.simulationSpace = ParticleSystemSimulationSpace.World;
         main.maxParticles = 24;
@@ -239,7 +387,7 @@ public class CombatFeedback : MonoBehaviour
             HitReaction.Stunned => 20,
             _ => 9
         };
-        particles.Emit(count);
+        particles.Emit(Mathf.Min(count + 4 * visualChainStep, main.maxParticles));
         particles.Play();
     }
 
@@ -327,7 +475,11 @@ public class CombatFeedback : MonoBehaviour
             return;
 
         StopRumble();
+        CancelCameraImpulse();
         RestoreTimeScale();
+        CinemachineImpulseManager.Instance.IgnoreTimeScale = previousImpulseIgnoreTimeScale;
+        if (cameraBrain != null)
+            cameraBrain.IgnoreTimeScale = previousBrainIgnoreTimeScale;
         instance = null;
     }
 

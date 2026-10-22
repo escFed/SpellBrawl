@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -54,6 +55,8 @@ public class UIManager : MonoBehaviour
     [Header("Round Wins UI")]
     public TMPro.TextMeshProUGUI p1_winsText;
     public TMPro.TextMeshProUGUI p2_winsText;
+    private const float RoundWinsVisibleSeconds = 5f;
+    private Coroutine hideRoundWinsRoutine;
     
     private HandSlotView[] p1HandSlots;
     private HandSlotView[] p2HandSlots;
@@ -129,6 +132,12 @@ public class UIManager : MonoBehaviour
 
     private void OnDisable()
     {
+        if (hideRoundWinsRoutine != null)
+        {
+            StopCoroutine(hideRoundWinsRoutine);
+            hideRoundWinsRoutine = null;
+        }
+
         p1CooldownNotifications = null;
         p2CooldownNotifications = null;
         UIEvents.OnDamageChanged -= UpdateDamageUI;
@@ -261,6 +270,24 @@ public class UIManager : MonoBehaviour
             component.gameObject.SetActive(visible);
     }
 
+    public void ShowRoundWinsForNewRound()
+    {
+        if (hideRoundWinsRoutine != null)
+            StopCoroutine(hideRoundWinsRoutine);
+
+        SetVisible(p1_winsText, true);
+        SetVisible(p2_winsText, true);
+        hideRoundWinsRoutine = StartCoroutine(HideRoundWinsAfterDelay());
+    }
+
+    private IEnumerator HideRoundWinsAfterDelay()
+    {
+        yield return new WaitForSeconds(RoundWinsVisibleSeconds);
+        SetVisible(p1_winsText, false);
+        SetVisible(p2_winsText, false);
+        hideRoundWinsRoutine = null;
+    }
+
     private void UpdateAbilityVisuals()
     {
         RespawnManager spawner = RespawnManager.Instance;
@@ -357,7 +384,7 @@ public class UIManager : MonoBehaviour
 
             // El slot está desbloqueado, lo mostramos
             slotImage.gameObject.SetActive(true);
-            if (i >= 2 && slotImage.transform.localScale == Vector3.zero)
+            if (slotImage.transform.localScale == Vector3.zero)
                 slotImage.transform.localScale = Vector3.one;
 
             // IMPORTANTE: Activar el Image antes de SetUI
@@ -520,8 +547,13 @@ public class UIManager : MonoBehaviour
     {
         Image[] uiSlots = (playerIndex == 0) ? p1_cards : p2_cards;
         HandSlotView[] hand = (playerIndex == 0) ? p1HandSlots : p2HandSlots;
+        if (hand == null)
+            return;
 
-        for (int i = 2; i < hand.Length; i++)
+        int startingHand = SelectionManager.Instance != null && !SelectionManager.Instance.isTrainingMode
+            ? SelectionManager.Instance.Rules.InitialHandSize
+            : 2;
+        for (int i = startingHand; i < Mathf.Min(hand.Length, uiSlots.Length); i++)
         {
             if (hand[i].IsUnlocked && hand[i].Card != null)
             {
@@ -541,10 +573,18 @@ public class UIManager : MonoBehaviour
     public void AnimateInitialCards(int playerIndex)
     {
         Image[] uiSlots = (playerIndex == 0) ? p1_cards : p2_cards;
-        int maxVisibleCards = 2;
+        HandSlotView[] hand = (playerIndex == 0) ? p1HandSlots : p2HandSlots;
+        if (hand == null)
+            return;
+
+        int maxVisibleCards = SelectionManager.Instance != null && !SelectionManager.Instance.isTrainingMode
+            ? SelectionManager.Instance.Rules.InitialHandSize
+            : 2;
+        maxVisibleCards = Mathf.Min(maxVisibleCards, hand.Length, uiSlots.Length);
 
         for (int i = 0; i < maxVisibleCards; i++)
         {
+            if (!hand[i].IsUnlocked) continue;
             Image slotImage = uiSlots[i];
             if (slotImage == null) continue;
 
@@ -552,13 +592,13 @@ public class UIManager : MonoBehaviour
             slotImage.transform.localScale = Vector3.zero;
 
             LeanTween.cancel(slotImage.gameObject);
-
-
-            LeanTween.scale(slotImage.gameObject, Vector3.one * 3f, 0.7f).setEase(LeanTweenType.easeOutQuad).setOnComplete(() =>
-            {
-                LeanTween.scale(slotImage.gameObject, Vector3.one, 0.2f).setEase(LeanTweenType.easeInQuad);
-            });
-
+            LeanTween.scale(slotImage.gameObject, Vector3.one * 1.2f, 0.3f)
+                .setEase(LeanTweenType.easeOutBack)
+                .setOnComplete(() =>
+                {
+                    LeanTween.scale(slotImage.gameObject, Vector3.one, 0.2f)
+                        .setEase(LeanTweenType.easeInOutQuad);
+                });
         }
     }
 
