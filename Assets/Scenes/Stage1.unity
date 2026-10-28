@@ -2156,6 +2156,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -150
       objectReference: {fileID: 0}
+    - target: {fileID: 3485306537573738459, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
+      propertyPath: cardProgressionSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 23206392637eaef4f9a23b809ed7c52a, type: 3}
     - target: {fileID: 3842538409020597418, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
       propertyPath: m_Name
       value: Canvas

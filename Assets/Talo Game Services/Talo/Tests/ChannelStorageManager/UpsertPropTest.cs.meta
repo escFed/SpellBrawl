@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 6458f1c7a6a5c4c9fb57f6772480865f
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Tests/ChannelStorageManager/UpsertPropTest.cs
+  uploadId: 1011522

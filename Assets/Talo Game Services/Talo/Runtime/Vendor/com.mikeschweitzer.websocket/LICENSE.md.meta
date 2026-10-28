@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: e7b003f6c0f5c40acbad157574ca20c2
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Runtime/Vendor/com.mikeschweitzer.websocket/LICENSE.md
+  uploadId: 1011522

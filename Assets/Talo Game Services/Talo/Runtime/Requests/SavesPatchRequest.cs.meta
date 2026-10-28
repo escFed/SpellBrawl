@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 1625aa2d349344e04a9cf00e9355dc37
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Runtime/Requests/SavesPatchRequest.cs
+  uploadId: 1011522

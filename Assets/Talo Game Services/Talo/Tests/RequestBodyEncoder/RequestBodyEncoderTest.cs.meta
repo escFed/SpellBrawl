@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: bca254dc4687347aeb155d0d0bc7c149
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Tests/RequestBodyEncoder/RequestBodyEncoderTest.cs
+  uploadId: 1011522

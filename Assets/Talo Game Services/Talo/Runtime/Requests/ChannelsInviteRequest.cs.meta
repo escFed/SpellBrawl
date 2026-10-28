@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 9fb70f64019a4460bbec2f6a7e71813a
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Runtime/Requests/ChannelsInviteRequest.cs
+  uploadId: 1011522

@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: cb63f807276964af696a3de00e8b7836
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Runtime/Responses/PlayerAuthRefreshResponse.cs
+  uploadId: 1011522

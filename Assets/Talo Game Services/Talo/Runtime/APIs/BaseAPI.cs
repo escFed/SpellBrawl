@@ -1,0 +1,177 @@
+using System;
+using UnityEngine;
+using System.Threading.Tasks;
+using UnityEngine.Networking;
+using System.Collections.Generic;
+
+namespace TaloGameServices
+{
+    public class BaseAPI
+    {
+        // automatically updated with a pre-commit hook
+        private const string ClientVersion = "1.2.0";
+
+        protected string baseUrl;
+
+        public BaseAPI(string service)
+        {
+            baseUrl = $"{Talo.Settings.apiUrl}/{service}";
+        }
+
+        public Uri GetUri()
+        {
+            return new Uri(baseUrl);
+        }
+
+        private List<HttpHeader> BuildHeaders(string requestBody = "")
+        {
+            var headers = new List<HttpHeader>
+            {
+                new HttpHeader("Authorization", $"Bearer {Talo.Settings.accessKey}"),
+                new HttpHeader("Content-Type", "application/json"),
+                new HttpHeader("Accept", "application/json"),
+                new HttpHeader("X-Talo-Dev-Build", Debug.isDebugBuild ? "1" : "0"),
+                new HttpHeader("X-Talo-Include-Dev-Data", Debug.isDebugBuild ? "1" : "0"),
+                new HttpHeader("X-Talo-Client", $"unity:{ClientVersion}")
+            };
+
+            if (Talo.CurrentAlias != null)
+            {
+                headers.Add(new HttpHeader("X-Talo-Player", Talo.CurrentPlayer.id));
+                headers.Add(new HttpHeader("X-Talo-Alias", Talo.CurrentAlias.id.ToString()));
+
+                if (Talo.Settings.verificationEnabled)
+                {
+                    headers.Add(new HttpHeader("X-Talo-Signature", CryptoManager.CreateRequestSignature(requestBody)));
+                }
+            }
+
+            var sessionToken = Talo.PlayerAuth.SessionManager.GetSessionToken();
+            if (!string.IsNullOrEmpty(sessionToken))
+            {
+                headers.Add(new HttpHeader("X-Talo-Session", sessionToken));
+            }
+
+            return headers;
+        }
+
+        protected async Task<string> Call(
+            Uri uri,
+            string method,
+            string content = "",
+            List<HttpHeader> headers = null,
+            bool continuity = false
+        )
+        {
+            if (Talo.TestMode)
+            {
+                return RequestMock.HandleCall(uri, method);
+            }
+
+            var continuityTimestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
+            var allHeaders = continuity ? headers : BuildHeaders(content);
+
+            if (Talo.Settings.logRequests && Debug.isDebugBuild)
+            {
+                Debug.Log($"<-- {method} {uri}{(continuity ? " [CONTINUITY]" : "")} {content}");
+            }
+
+            if (Talo.Settings.offlineMode)
+            {
+                return HandleOfflineRequest(uri, method, content, allHeaders);
+            }
+
+            byte[] json = RequestBodyEncoder.Encode(content, Talo.Settings.compressRequests, out var gzipped);
+
+            using (UnityWebRequest www = new(uri, method))
+            {
+                if (json.Length > 0) www.uploadHandler = new UploadHandlerRaw(json);
+                www.downloadHandler = new DownloadHandlerBuffer();
+
+                foreach (var header in allHeaders)
+                {
+                    www.SetRequestHeader(header.key, header.value);
+                }
+
+                if (gzipped)
+                {
+                    www.SetRequestHeader("Content-Encoding", RequestBodyEncoder.GzipEncoding);
+                }
+
+                var op = www.SendWebRequest();
+
+                while (!op.isDone)
+                {
+                    await Task.Yield();
+                }
+
+                if (Talo.Settings.logResponses && Debug.isDebugBuild)
+                {
+                    Debug.Log($"--> {method} {uri} [{www.responseCode}] {www.downloadHandler.text}");
+                }
+
+                await Talo.Continuity.HandlePostResponseHealthCheck(uri.ToString(), www.result);
+
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    return www.downloadHandler.text;
+                }
+                else
+                {
+                    if (www.responseCode > 500 || www.result != UnityWebRequest.Result.ProtocolError)
+                    {
+                        Talo.Continuity.PushRequest(uri, method, content, headers, continuityTimestamp);
+                    }
+
+                    string message = "";
+                    string errorCode = "";
+
+                    try
+                    {
+                        var jsonError = JsonUtility.FromJson<ErrorResponse>(www.downloadHandler.text);
+                        message = string.IsNullOrEmpty(jsonError.message) ? www.downloadHandler.text : jsonError.message;
+                        errorCode = jsonError.errorCode;
+                    }
+                    catch (Exception)
+                    {
+                        message = www.error;
+                    }
+
+                    if (string.IsNullOrEmpty(errorCode))
+                    {
+                        throw new RequestException(www.responseCode, new Exception(message), www.downloadHandler.text);
+                    }
+                    else
+                    {
+                        if (errorCode == "INVALID_SESSION" && Talo.CurrentAlias != null && !uri.AbsolutePath.EndsWith("/v1/players/auth/refresh"))
+                        {
+                            await Talo.PlayerAuth.Refresh();
+                            return await Call(uri, method, content, headers, continuity);
+                        }
+
+                        if (uri.AbsolutePath.Contains("/v1/players/auth/"))
+                        {
+                            throw new PlayerAuthException(errorCode, new Exception(message));
+                        }
+                        else
+                        {
+                            throw new RequestException(www.responseCode, new Exception(message), www.downloadHandler.text);
+                        }
+                    }
+                }
+            }
+        }
+
+        private string HandleOfflineRequest(
+            Uri uri,
+            string method,
+            string content = "",
+            List<HttpHeader> headers = null
+        )
+        {
+            Talo.Continuity.PushRequest(uri, method, content, headers, DateTimeOffset.Now.ToUnixTimeMilliseconds());
+            throw new RequestException(0, new Exception("Offline mode enabled"));
+        }
+    }
+}

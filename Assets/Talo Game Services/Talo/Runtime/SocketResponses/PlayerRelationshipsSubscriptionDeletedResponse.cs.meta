@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: f94ac5f1b5a7543b98d8aa851e3c296c
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Runtime/SocketResponses/PlayerRelationshipsSubscriptionDeletedResponse.cs
+  uploadId: 1011522

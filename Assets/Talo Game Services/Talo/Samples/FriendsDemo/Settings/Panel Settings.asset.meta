@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 227071aa7a6924fdf93576f323c32a39
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Samples/FriendsDemo/Settings/Panel Settings.asset
+  uploadId: 1011522

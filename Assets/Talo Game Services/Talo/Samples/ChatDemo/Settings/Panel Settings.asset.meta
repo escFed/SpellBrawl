@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c2e8d45d57e604cc78799650d215a02e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Samples/ChatDemo/Settings/Panel Settings.asset
+  uploadId: 1011522

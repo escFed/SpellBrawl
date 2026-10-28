@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 5544aca6e967d4df798d0628ea2a5dec
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Tests/TaloTests.asmdef
+  uploadId: 1011522

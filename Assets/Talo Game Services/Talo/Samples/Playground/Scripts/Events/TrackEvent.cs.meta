@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 2bf6d57d5663a334a857b5ab9be69900
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Samples/Playground/Scripts/Events/TrackEvent.cs
+  uploadId: 1011522

@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 38f2590b27f9047cca88a3eb81c2c470
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Tests/SessionManager/ClearSessionTest.cs
+  uploadId: 1011522

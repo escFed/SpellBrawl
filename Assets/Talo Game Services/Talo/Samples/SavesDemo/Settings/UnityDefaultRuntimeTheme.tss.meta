@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: e0377916dba174af38fd1be6e27c9cca
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 12388, guid: 0000000000000000e000000000000000, type: 0}
+  disableValidation: 0
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Samples/SavesDemo/Settings/UnityDefaultRuntimeTheme.tss
+  uploadId: 1011522

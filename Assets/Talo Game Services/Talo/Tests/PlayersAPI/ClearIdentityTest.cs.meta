@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 0205d8a1513404df3b96bd2f31b471ad
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Tests/PlayersAPI/ClearIdentityTest.cs
+  uploadId: 1011522

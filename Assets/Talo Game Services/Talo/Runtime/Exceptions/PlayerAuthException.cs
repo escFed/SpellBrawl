@@ -1,0 +1,57 @@
+using System;
+
+namespace TaloGameServices
+{
+    public enum PlayerAuthErrorCode {
+        API_ERROR,
+        INVALID_CREDENTIALS,
+        VERIFICATION_ALIAS_NOT_FOUND,
+        VERIFICATION_CODE_INVALID,
+        IDENTIFIER_TAKEN,
+        MISSING_SESSION,
+        INVALID_SESSION,
+        NEW_PASSWORD_MATCHES_CURRENT_PASSWORD,
+        NEW_EMAIL_MATCHES_CURRENT_EMAIL,
+        PASSWORD_RESET_CODE_INVALID,
+        VERIFICATION_EMAIL_REQUIRED,
+        INVALID_EMAIL,
+        NEW_IDENTIFIER_MATCHES_CURRENT_IDENTIFIER,
+        INVALID_MIGRATION_TARGET,
+        EMAIL_TAKEN,
+        IDENTIFIER_PROFANITY
+    }
+
+    public class PlayerAuthException : Exception
+    {
+        public PlayerAuthErrorCode ErrorCode { get; }
+
+        public PlayerAuthException()
+        {
+            ErrorCode = PlayerAuthErrorCode.API_ERROR;
+        }
+
+        public PlayerAuthException(string errorCode)
+            : base(errorCode)
+        {
+            ErrorCode = ParseErrorCode(errorCode);
+        }
+
+        public PlayerAuthException(string errorCode, Exception inner)
+            : base(errorCode, inner)
+        {
+            ErrorCode = ParseErrorCode(errorCode);
+        }
+
+        private static PlayerAuthErrorCode ParseErrorCode(string errorCode)
+        {
+            if (string.IsNullOrEmpty(errorCode))
+            {
+                return PlayerAuthErrorCode.API_ERROR;
+            }
+
+            return Enum.TryParse(errorCode, out PlayerAuthErrorCode code)
+                ? code
+                : PlayerAuthErrorCode.API_ERROR;
+        }
+    }
+}

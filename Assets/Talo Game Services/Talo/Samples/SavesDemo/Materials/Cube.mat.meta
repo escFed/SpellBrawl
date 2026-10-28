@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c309022195aafc94e8b1ab50666453d5
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Samples/SavesDemo/Materials/Cube.mat
+  uploadId: 1011522

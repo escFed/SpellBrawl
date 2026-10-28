@@ -556,7 +556,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 2
+  orthographic size: 3
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -765,6 +765,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3485306537573738459, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
+      propertyPath: cardProgressionSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 23206392637eaef4f9a23b809ed7c52a, type: 3}
     - target: {fileID: 3842538409020597418, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -1501,6 +1505,10 @@ MonoBehaviour:
   targetRadius: 1.5
   zoomOutDamping: 0.35
   zoomInDamping: 1.2
+  zoomInHoldTime: 0.35
+  stageCenter: {x: 0, y: 0}
+  fullFocusFraction: {x: 0.5, y: 0.8}
+  lostFocusFraction: {x: 1.15, y: 1.7}
 --- !u!114 &1274623481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1511,7 +1519,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cde6f9eac8214e9caa260d7138c44124, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CountdownCameraFocus
   matchCamera: {fileID: 584868449}
   playerOneSpawnPoint: {fileID: 1782678692}
@@ -1568,6 +1576,7 @@ MonoBehaviour:
   p1Mode: 0
   p2Mode: 1
   respawnDelay: 1.5
+  respawnDropWindow: 5
   respawnProtectionDuration: 2
   p1Instance: {fileID: 0}
   p2Instance: {fileID: 0}

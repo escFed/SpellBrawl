@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 62e8196fb82d0462ea8110f4dc770e3f
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Tests/SocketResponse/GetJsonDataTest.cs
+  uploadId: 1011522

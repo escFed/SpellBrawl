@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 29f6de4764c7c4ffe86d405c41861f18
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Samples/ChannelStorageDemo/Scenes/ChannelStorageDemo.unity
+  uploadId: 1011522

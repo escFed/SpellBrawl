@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 00511b2b602354c85a9820b77fc68b7f
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Runtime/Requests/ChannelsCreateRequest.cs
+  uploadId: 1011522

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 078686e98b454d8cb66194f121045bf8
+timeCreated: 1682924578
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Runtime/Vendor/com.mikeschweitzer.websocket/Runtime/Internal/DotNetWebSocket.cs
+  uploadId: 1011522

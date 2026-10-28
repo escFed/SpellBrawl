@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: d640068fb33c0483aa60fad5a96ad764
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Runtime/SocketResponses/ChannelMessageResponse.cs
+  uploadId: 1011522

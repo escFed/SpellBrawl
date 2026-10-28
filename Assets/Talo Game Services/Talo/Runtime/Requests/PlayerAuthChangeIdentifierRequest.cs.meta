@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 57cdb010475b8496f8a1f16fc88bb404
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Runtime/Requests/PlayerAuthChangeIdentifierRequest.cs
+  uploadId: 1011522

@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
     public TMPro.TextMeshProUGUI p2_winsText;
     private const float RoundWinsVisibleSeconds = 5f;
     private Coroutine hideRoundWinsRoutine;
-    
+
     private HandSlotView[] p1HandSlots;
     private HandSlotView[] p2HandSlots;
     private CardCooldownNotification[] p1CooldownNotifications;
@@ -180,32 +180,32 @@ public class UIManager : MonoBehaviour
             // Determina el color objetivo según el daño
             Color targetColor;
             if (damage < 25)
-            { 
+            {
                 targetColor = Color.green;
-                
+
             }
             else if (damage <= 50)
             {
                 targetColor = Color.yellow;
-                
+
             }
             else if (damage <= 75)
             {
                 targetColor = new Color(1f, 0.5f, 0f); // Naranja
 
-                if(source != null && damageIncreaseSound != null)
-                source.PlayOneShot(damageIncreaseSound);
+                if (source != null && damageIncreaseSound != null)
+                    source.PlayOneShot(damageIncreaseSound);
             }
             else if (damage <= 100)
             {
                 targetColor = Color.red;
-                if(source != null && damageIncreaseSound != null)
-                source.PlayOneShot(damageIncreaseSound);
+                if (source != null && damageIncreaseSound != null)
+                    source.PlayOneShot(damageIncreaseSound);
             }
             else
             {
                 targetColor = Color.darkRed;
-                
+
             }
 
             // Anima el color suavemente
@@ -362,11 +362,13 @@ public class UIManager : MonoBehaviour
         {
             p1HandSlots = hand;
             SyncCooldownNotifications(hand, ref p1CooldownNotifications);
+            StartCoroutine(AddedCardToSlotCoroutine(new Color(0f, 1f, 0f, 0.5f)));
         }
         else
         {
             p2HandSlots = hand;
             SyncCooldownNotifications(hand, ref p2CooldownNotifications);
+            StartCoroutine(AddedCardToSlotCoroutine(new Color(1f, 0f, 0f, 0.5f)));
         }
 
         // Itera sobre TODOS los slots UI disponibles (no solo los de la mano)
@@ -501,7 +503,7 @@ public class UIManager : MonoBehaviour
     }
 
     private static bool ConsumeCardReadyNotifications(Image[] images, HandSlotView[] hand,
-        ref CardCooldownNotification[] notifications) 
+        ref CardCooldownNotification[] notifications)
     {
         SyncCooldownNotifications(hand, ref notifications);
         if (notifications == null)
@@ -537,9 +539,9 @@ public class UIManager : MonoBehaviour
                         .setEase(LeanTweenType.easeOutQuint);
                 });
 
-            
 
-            
+
+
         }
     }
 
@@ -615,6 +617,42 @@ public class UIManager : MonoBehaviour
         if (controlsTutorial != null)
             controlsTutorial.gameObject.SetActive(false);
     }
+
+
+
+    private IEnumerator AddedCardToSlotCoroutine(Color targetColor)
+    {
+        float time = Time.deltaTime;
+        float elapsedTime = 0f;
+
+
+
+        while (elapsedTime < time)
+        {
+            elapsedTime += Time.deltaTime;
+
+            if (targetColor != null)
+            {
+                targetColor = new Color(targetColor.r, targetColor.g, targetColor.b, Mathf.Clamp01(targetColor.a));
+                if (targetColor.a > 0f)
+                {
+
+
+                    targetColor.a -= Time.deltaTime / time;
+
+                }
+                else
+                {
+                    targetColor.a = 0f;
+                }
+            }
+            source.PlayOneShot(cardProgressionSound);
+        }
+
+
+        yield return null;
+    }
+
 
 
 }

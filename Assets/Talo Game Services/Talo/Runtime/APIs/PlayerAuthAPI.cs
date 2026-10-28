@@ -1,0 +1,261 @@
+using System;
+using System.Threading.Tasks;
+using UnityEngine;
+
+namespace TaloGameServices
+{
+    public class PlayerAuthAPI : BaseAPI
+    {
+        private Task _sessionRefreshRequest;
+
+        private readonly SessionManager _sessionManager = new();
+
+        public SessionManager SessionManager => _sessionManager;
+        public event Action OnSessionFound;
+        public event Action OnSessionNotFound;
+
+        private Task _sessionStartTask;
+        
+        public PlayerAuthAPI() : base("v1/players/auth") {}
+
+
+        public Task StartSession()
+        {
+            if (_sessionStartTask != null)
+            {
+                var baseWarning = "StartSession() is already in progress.";
+                if (Talo.Settings.autoStartSession)
+                {
+                    Debug.LogWarning($"{baseWarning} With autoStartSession enabled, avoid calling it manually in Awake(), Start() or OnEnable().");
+                }
+                else
+                {
+                    Debug.LogWarning($"{baseWarning} Ignoring this call.");
+                }
+                return _sessionStartTask;
+            }
+
+            _sessionStartTask = DoStartSession();
+            return _sessionStartTask;
+        }
+
+        private async Task DoStartSession()
+        {
+            try
+            {
+                if (await _sessionManager.CheckForSession())
+                {
+                    OnSessionFound?.Invoke();
+                    await Talo.Players.Identify("talo", _sessionManager.GetSessionIdentifier());
+                }
+                else
+                {
+                    OnSessionNotFound?.Invoke();
+                }
+            }
+            finally
+            {
+                _sessionStartTask = null;
+            }
+        }
+
+        public Task Refresh()
+        {
+            if (_sessionRefreshRequest != null)
+            {
+                return _sessionRefreshRequest;
+            }
+
+            _sessionRefreshRequest = DoRefresh();
+            return _sessionRefreshRequest;
+        }
+
+        private async Task DoRefresh()
+        {
+            try
+            {
+                var refreshToken = _sessionManager.GetRefreshToken();
+                if (string.IsNullOrEmpty(refreshToken))
+                {
+                    throw new Exception("No refresh token found");
+                }
+
+                var uri = new Uri($"{baseUrl}/refresh");
+                string content = JsonUtility.ToJson(new PlayerAuthRefreshRequest
+                {
+                    refreshToken = refreshToken
+                });
+                var json = await Call(uri, "POST", content);
+
+                var res = JsonUtility.FromJson<PlayerAuthRefreshResponse>(json);
+                _sessionManager.HandleSessionRefreshed(res.sessionToken, res.refreshToken);
+            }
+            catch
+            {
+                await _sessionManager.ClearSession();
+                throw;
+            }
+            finally
+            {
+                _sessionRefreshRequest = null;
+            }
+        }
+
+        public async Task Register(string identifier, string password, string email = "", bool verificationEnabled = false)
+        {
+            if (verificationEnabled && string.IsNullOrEmpty(email))
+            {
+                throw new Exception("Email is required when verification is enabled");
+            }
+
+            var uri = new Uri($"{baseUrl}/register");
+            string content = JsonUtility.ToJson(new PlayerAuthRegisterRequest
+            {
+                identifier = identifier,
+                password = password,
+                email = email,
+                verificationEnabled = verificationEnabled,
+                withRefresh = true
+            });
+            var json = await Call(uri, "POST", content);
+
+            var res = JsonUtility.FromJson<PlayerAuthSessionResponse>(json);
+            _sessionManager.HandleSessionCreated(res);
+        }
+
+        public async Task<bool> Login(string identifier, string password)
+        {
+            var uri = new Uri($"{baseUrl}/login");
+            string content = JsonUtility.ToJson(new PlayerAuthLoginRequest {
+                identifier = identifier,
+                password = password,
+                withRefresh = true
+            });
+
+            var json = await Call(uri, "POST", content);
+
+            var res = JsonUtility.FromJson<PlayerAuthLoginResponse>(json);
+
+            if (res.verificationRequired)
+            {
+                _sessionManager.verificationAliasId = res.aliasId;
+                return true;
+            }
+            else
+            {
+                _sessionManager.HandleSessionCreated(res);
+                return false;
+            }
+        }
+
+        public async Task Verify(string code)
+        {
+            var uri = new Uri($"{baseUrl}/verify");
+            string content = JsonUtility.ToJson(new PlayerAuthVerifyRequest {
+                aliasId = _sessionManager.verificationAliasId,
+                code = code,
+                withRefresh = true
+            });
+            var json = await Call(uri, "POST", content);
+
+            var res = JsonUtility.FromJson<PlayerAuthSessionResponse>(json);
+            _sessionManager.HandleSessionCreated(res);
+        }
+
+        public async Task Logout()
+        {
+            var uri = new Uri($"{baseUrl}/logout");
+            await Call(uri, "POST");
+
+            await _sessionManager.ClearSession();
+        }
+
+        public async Task ChangePassword(string currentPassword, string newPassword)
+        {
+            var uri = new Uri($"{baseUrl}/change_password");
+            string content = JsonUtility.ToJson(new PlayerAuthChangePasswordRequest {
+                currentPassword = currentPassword,
+                newPassword = newPassword
+            });
+            await Call(uri, "POST", content);
+        }
+
+        public async Task ChangeEmail(string currentPassword, string newEmail)
+        {
+            var uri = new Uri($"{baseUrl}/change_email");
+            string content = JsonUtility.ToJson(new PlayerAuthChangeEmailRequest {
+                currentPassword = currentPassword,
+                newEmail = newEmail
+            });
+            await Call(uri, "POST", content);
+        }
+
+        public async Task ChangeIdentifier(string currentPassword, string newIdentifier)
+        {
+            var uri = new Uri($"{baseUrl}/change_identifier");
+            string content = JsonUtility.ToJson(new PlayerAuthChangeIdentifierRequest {
+                currentPassword = currentPassword,
+                newIdentifier = newIdentifier
+            });
+            var json = await Call(uri, "POST", content);
+
+            var res = JsonUtility.FromJson<PlayerAuthChangeIdentifierResponse>(json);
+            _sessionManager.HandleIdentifierUpdated(res);
+        }
+
+        public async Task ForgotPassword(string email)
+        {
+            var uri = new Uri($"{baseUrl}/forgot_password");
+            string content = JsonUtility.ToJson(new PlayerAuthForgotPasswordRequest {
+                email = email
+            });
+            await Call(uri, "POST", content);
+        }
+
+        public async Task ResetPassword(string code, string password)
+        {
+            var uri = new Uri($"{baseUrl}/reset_password");
+            string content = JsonUtility.ToJson(new PlayerAuthResetPasswordRequest {
+                code = code,
+                password = password
+            });
+            await Call(uri, "POST", content);
+        }
+
+        public async Task ToggleVerification(string currentPassword, bool verificationEnabled, string email = "")
+        {
+            var uri = new Uri($"{baseUrl}/toggle_verification");
+            string content = JsonUtility.ToJson(new PlayerAuthToggleVerificationRequest {
+                currentPassword = currentPassword,
+                verificationEnabled = verificationEnabled,
+                email = email
+            });
+            await Call(uri, "PATCH", content);
+        }
+
+        public async Task DeleteAccount(string currentPassword)
+        {
+            var uri = new Uri($"{baseUrl}/");
+            string content = JsonUtility.ToJson(new PlayerAuthDeleteAccountRequest {
+                currentPassword = currentPassword
+            });
+            await Call(uri, "DELETE", content);
+
+            await _sessionManager.ClearSession();
+        }
+
+        public async Task MigrateAccount(string currentPassword, string service, string identifier)
+        {
+            var uri = new Uri($"{baseUrl}/migrate");
+            string content = JsonUtility.ToJson(new PlayerAuthMigrateAccountRequest {
+                currentPassword = currentPassword,
+                service = service,
+                identifier = identifier
+            });
+            var json = await Call(uri, "POST", content);
+
+            var res = JsonUtility.FromJson<PlayerAuthMigrateAccountResponse>(json);
+            await _sessionManager.HandleAccountMigrated(res);
+        }
+    }
+}

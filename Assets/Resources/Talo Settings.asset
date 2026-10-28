@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49b9c417269f7cf408803966b024d3b8, type: 3}
+  m_Name: Talo Settings
+  m_EditorClassIdentifier: Talo.Runtime::TaloGameServices.TaloSettings
+  accessKey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjI1NDIsImFwaSI6dHJ1ZSwiaWF0IjoxNzkyODY3NDI2fQ.SM8YJmISk0jtmjDMOkZU7h4HHTy-kuIIRQ4cOruTj4Q
+  apiUrl: https://api.trytalo.com
+  socketUrl: wss://api.trytalo.com
+  webGLEventFlushRate: 30
+  continuityEnabled: 1
+  offlineMode: 0
+  autoConnectSocket: 1
+  logRequests: 1
+  logResponses: 1
+  autoStartSession: 1
+  cachePlayerOnIdentify: 1
+  debounceTimerSeconds: 0.5
+  verificationEnabled: 0
+  verificationKeyVersion: 
+  verificationKeyValue: 
+  compressRequests: 1

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 3d636da22b3489748bdd853bf34f6a83
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Samples/Playground/Scripts/Players/IdentifyPlayer.cs
+  uploadId: 1011522

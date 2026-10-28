@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: cdd5217a603964f54b3ca295b13d1b4c
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Runtime/SocketRequests/PlayerRelationshipsBroadcastRequest.cs
+  uploadId: 1011522

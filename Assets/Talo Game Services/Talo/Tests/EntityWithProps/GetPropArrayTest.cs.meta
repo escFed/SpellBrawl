@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: ae0e505d39dc34b1da859569bde11d4d
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292832
+  packageName: Talo Game Services
+  packageVersion: 1.2.0
+  assetPath: Assets/Talo Game Services/Talo/Tests/EntityWithProps/GetPropArrayTest.cs
+  uploadId: 1011522
