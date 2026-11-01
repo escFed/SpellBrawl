@@ -1613,6 +1613,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OtherAnimationsUI
   selectYourCharacterText: {fileID: 1167972448}
+--- !u!1 &91779500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 91779502}
+  - component: {fileID: 91779503}
+  m_Layer: 0
+  m_Name: MetricsConsentManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &91779502
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91779500}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 981.5688, y: 575.6232, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &91779503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91779500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0915bc94f6003148a58c98864ddcc11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MetricsConsentManager
 --- !u!1 &92644968
 GameObject:
   m_ObjectHideFlags: 0
@@ -10514,10 +10558,10 @@ MonoBehaviour:
   smoothTime: 0.025
   matchSelectionSize: 1
   sizePadding: {x: 20, y: 20}
-  p1Label: {fileID: 0}
-  p2Label: {fileID: 0}
-  aiP2Label: {fileID: 0}
-  aiP1Label: {fileID: 0}
+  p1Label: {fileID: 828281102}
+  p2Label: {fileID: 828281106}
+  aiP2Label: {fileID: 828281110}
+  aiP1Label: {fileID: 828281114}
 --- !u!114 &828281096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20889,7 +20933,6 @@ RectTransform:
   - {fileID: 1280807999}
   - {fileID: 41093228}
   - {fileID: 1126217793}
-  - {fileID: 1937116491}
   m_Father: {fileID: 1765720815}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -23499,6 +23542,7 @@ RectTransform:
   - {fileID: 729951383}
   - {fileID: 1202877617}
   - {fileID: 530736999}
+  - {fileID: 1937116491}
   - {fileID: 828281094}
   - {fileID: 915250112}
   m_Father: {fileID: 0}
@@ -25599,7 +25643,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1937116491}
-  - component: {fileID: 1937116492}
   - component: {fileID: 1937116494}
   - component: {fileID: 1937116493}
   - component: {fileID: 1937116495}
@@ -25626,25 +25669,13 @@ RectTransform:
   - {fileID: 1513769991}
   - {fileID: 915955318}
   - {fileID: 2076395999}
-  m_Father: {fileID: 1558893590}
+  m_Father: {fileID: 1765720815}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1937116492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1937116490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0915bc94f6003148a58c98864ddcc11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MetricsConsentManager
 --- !u!114 &1937116493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32938,3 +32969,4 @@ SceneRoots:
   - {fileID: 808389104}
   - {fileID: 478475428}
   - {fileID: 2096552448}
+  - {fileID: 91779502}

@@ -55,25 +55,27 @@ namespace TaloGameServices
 
         public async Task Track(string name, params (string, string)[] props)
         {
-            Talo.IdentityCheck();
+            Talo.IdentityCheck(); //Identifica si existe un alias y un player, si no existe lanza una excepción.
 
             var ev = new Event
             {
                 name = name
-            };
+            }; //Define el evento con el nombre proporcionado
 
             ev.props = props
                 .Select((propTuple) => new Prop(propTuple))
                 .Concat(BuildMetaProps())
-                .ToArray();
+                .ToArray(); //Inicializa las propiedades de ese evento con las propiedades proporcionadas y las propiedades meta del sistema, las cuales son: .Select ((propTuple)), que lo que hace es recorrer cada propiedad proporcionada y crear un objeto Prop a partir de ella, y luego concatena esas propiedades con las propiedades meta del sistema, que se obtienen llamando al método BuildMetaProps().
 
-            ev.timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            queue.Add(ev);
+
+
+            ev.timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds(); //Inicializa la propiedad timestamp del evento con el tiempo actual en milisegundos desde la época Unix, para registrar cuándo ocurrió el evento.
+            queue.Add(ev); //Agrega el evento a la cola de eventos pendientes de enviar, debido a que no se envía inmediatamente, sino que se acumulan varios eventos antes de enviarlos en un solo lote para optimizar el rendimiento y reducir la cantidad de solicitudes de red.
 
             if (queue.Count >= minQueueSize)
             {
                 await Flush();
-            }
+            } //Si la cantidad de eventos en la cola alcanza o supera el tamaño mínimo de la cola, se llama al método Flush() para enviar los eventos acumulados al servidor.
         }
 
         public async Task Flush()

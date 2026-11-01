@@ -1,48 +1,48 @@
-using System.Threading.Tasks;
-using TaloGameServices;
+using System.Collections;
 using UnityEngine;
 
 public class ConsentPopUp : MonoBehaviour
 {
-
     [SerializeField] private GameObject consentPopUp;
     [SerializeField] private MenuManager menuManager;
 
-    private void Start()
+    private IEnumerator Start()
     {
-        Debug.Log("ConsentPopUp Start() called.");
+        yield return null; // esperar a que MenuManager termine su Start
+
         if (MetricsConsentManager.Instance == null)
         {
             Debug.LogError("MetricsConsentManager no existe en la escena.");
-            return;
+            consentPopUp.SetActive(false);
+            yield break;
         }
 
         bool hasAnswered = MetricsConsentManager.Instance.Answered();
 
         consentPopUp.SetActive(!hasAnswered);
 
-        if(!hasAnswered)
+        if (!hasAnswered)
         {
             menuManager.mainMenuPanel.SetActive(false);
+            StartCoroutine(UIFocus.SelectFirstNextFrame(consentPopUp));
         }
     }
 
-
-    public async void OnAccept()
+    public void OnAccept()
     {
         MetricsConsentManager.Instance.Accept();
-        menuManager.mainMenuPanel.SetActive(true);
         consentPopUp.SetActive(false);
+        menuManager.ShowMainMenu();
     }
-
-
 
     public void OnDecline()
     {
         MetricsConsentManager.Instance.Decline();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
         Application.Quit();
+#endif
     }
-
-
-
 }
