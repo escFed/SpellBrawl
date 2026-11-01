@@ -9,15 +9,18 @@ public class DodgeState : CharacterState
     private float Startup = 0.04f;
     private float Active = 0.22f;
     private float Recovery = 0.18f;
-    private float ChainWindow = 0.08f;
     private float DirectionDeadzone = 0.2f;
     private float DashSpeed = 11f;
     private Phase phase;
     private float timer;
     private Vector2 dodgeDirection;
     private Color originalSpriteColor;
+    private readonly DirectionalDodgeTrail directionalTrail;
 
-    public DodgeState(CharacterCoordinator character, CharacterStateMachine sm) : base(character, sm) { }
+    public DodgeState(CharacterCoordinator character, CharacterStateMachine sm) : base(character, sm)
+    {
+        directionalTrail = character.GetComponent<DirectionalDodgeTrail>();
+    }
 
     public override void Enter()
     {
@@ -30,6 +33,7 @@ public class DodgeState : CharacterState
 
     public override void Exit()
     {
+        directionalTrail?.Stop();
         SetIntangible(false);
         character.Dodge.CompleteDodge();
     }
@@ -52,6 +56,7 @@ public class DodgeState : CharacterState
                     phase = Phase.Active;
                     timer = 0f;
                     SetIntangible(true);
+                    directionalTrail?.Play(Active);
                 }
                 break;
 
@@ -61,19 +66,12 @@ public class DodgeState : CharacterState
                     phase = Phase.Recovery;
                     timer = 0f;
                     SetIntangible(false);
+                    directionalTrail?.Stop();
                     character.Movement.StopAllMovement();
                 }
                 break;
 
             case Phase.Recovery:
-                if (timer >= Recovery - ChainWindow && character.EvadePressed)
-                {
-                    character.ConsumeEvadeInput();
-
-                    if (!character.IsGrounded && BeginDodge())
-                        return;
-                }
-
                 if (timer >= Recovery)
                     ReturnToLocomotion();
                 break;
@@ -106,6 +104,8 @@ public class DodgeState : CharacterState
         phase = Phase.Startup;
         timer = 0f;
         dodgeDirection = ResolveCardinalDirection(character.MoveInput);
+        directionalTrail?.SetDirection(dodgeDirection);
+        directionalTrail?.Stop();
         SetIntangible(false);
         character.Movement.StopAllMovement();
         character.Animation.TryPlay(AirDodgeAnimation);
@@ -116,8 +116,7 @@ public class DodgeState : CharacterState
     {
         if (input.magnitude < DirectionDeadzone)
         {
-            float facingDirection = Mathf.Sign(character.transform.localScale.x);
-            return new Vector2(Mathf.Approximately(facingDirection, 0f) ? 1f : facingDirection, 0f);
+            return new Vector2(character.Combat.FacingSign, 0f);
         }
 
         if (Mathf.Abs(input.x) >= Mathf.Abs(input.y))

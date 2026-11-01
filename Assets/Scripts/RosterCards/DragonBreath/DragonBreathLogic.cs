@@ -13,11 +13,13 @@ public class DragonBreathLogic : MonoBehaviour
     [SerializeField] private AudioSource s; // Audio source to play the sound
     private GameObject breathVisualInstance;
     private CharacterCoordinator target;
+    private int attackerPlayerIndex = -1;
 
-    public void SetTargetAndPrefab(CharacterCoordinator newTarget, GameObject breathEffect)
+    public void SetTargetAndPrefab(CharacterCoordinator newTarget, GameObject breathEffect, int ownerIndex)
     {
         target = newTarget;
         breathVisualInstance = breathEffect;
+        attackerPlayerIndex = ownerIndex;
     }
 
     public IEnumerator BreathCorroutine(CharacterCoordinator targetChar)
@@ -59,7 +61,10 @@ public class DragonBreathLogic : MonoBehaviour
                 // Aplicar daño
                 if (targetHealth != null)
                 {
-                    targetHealth.TakePummelDamage(3); 
+                    int before = targetHealth.currentDamage;
+                    targetHealth.TakePummelDamage(3, attackerPlayerIndex); 
+                    if (targetHealth.currentDamage > before)
+                        GetComponent<MatchCardUse>()?.MarkHit();
                 }
 
                 lastDamageTime = elapsed;

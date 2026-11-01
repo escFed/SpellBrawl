@@ -23,12 +23,12 @@ public sealed class CharacterActionRouter
         if (input == null)
             return false;
 
+        if (!machine.Is(States.HeavyAttack))
+            character.Combat.FaceDirection(character.MoveInput.x);
+
         // The first accepted action wins this frame.
         if (TryHandleShield(input))
             return true;
-
-        if (!machine.Is(States.HeavyAttack))
-            character.Combat.FaceDirection(character.MoveInput.x);
 
         if (TryHandleDash(input))
             return true;

@@ -12,6 +12,7 @@ public class ParryState : CharacterState
     private Phase _phase;
     private float _timer;
     private Color originalSpriteColor;
+    private bool tintCharacter;
 
     public ParryState(CharacterCoordinator character, CharacterStateMachine sm) : base(character, sm) { }
 
@@ -23,6 +24,7 @@ public class ParryState : CharacterState
 
         if (character.Sprite != null)
             originalSpriteColor = character.Sprite.color;
+        tintCharacter = character.GetComponent<AmiroGuardVisuals>() == null;
 
         _timer = 0f;
         _phase = Phase.Startup;
@@ -44,7 +46,7 @@ public class ParryState : CharacterState
                     _timer = 0f;
                     character.Parry.SetParryWindowActive(true);
 
-                    if (character.Sprite != null)
+                    if (tintCharacter && character.Sprite != null)
                         character.Sprite.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, originalSpriteColor.a);
                 }
                 break;
@@ -77,7 +79,7 @@ public class ParryState : CharacterState
 
     private void RestoreSpriteColor()
     {
-        if (character.Sprite != null)
+        if (tintCharacter && character.Sprite != null)
             character.Sprite.color = originalSpriteColor;
     }
 }

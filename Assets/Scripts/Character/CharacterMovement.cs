@@ -104,6 +104,9 @@ public class CharacterMovement : MonoBehaviour
         bodyCollider = GetComponent<CapsuleCollider2D>();
         ConfigureWallContactFilter();
 
+        if (GetComponent<CharacterBodyCollision>() == null)
+            gameObject.AddComponent<CharacterBodyCollision>();
+
     }
 
     private void OnDisable()

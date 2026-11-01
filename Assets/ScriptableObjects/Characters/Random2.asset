@@ -37,7 +37,7 @@ MonoBehaviour:
   dashSpeed: 14
   dashDuration: 0.18
   dashRecovery: 0.14
-  dashCooldown: 5
+  dashCooldown: 1
   dashAttackSpeed: 12
   dashAttackHitFollowThroughDuration: 0.12
   dashAttackHitFollowThroughSpeed: 7

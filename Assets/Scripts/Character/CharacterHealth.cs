@@ -24,6 +24,9 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
     private Coroutine respawnRoutine;
     private float remainingRespawnDropTime;
     private int initialStocks;
+    private int lastAttackerIndex = -1;
+    private float lastAttackerTime = float.NegativeInfinity;
+    private const float EliminationCreditSeconds = 5f;
 
     public RespawnPhase Phase { get; private set; } = RespawnPhase.Active;
     public bool IsDead => Phase == RespawnPhase.Eliminated;
@@ -84,8 +87,21 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
         int finalDamage = Mathf.Max(0, Mathf.RoundToInt(hit.Damage * controller.stats.defenseMultiplier * activeDefenseMultiplier));
 
+        int damageBeforeShield = finalDamage;
         if (controller != null && controller.Shield != null)
-            finalDamage = controller.Shield.AbsorbDamage(finalDamage);
+            finalDamage = controller.Shield.AbsorbDamage(finalDamage, hit.Point);
+
+        int blockedDamage = damageBeforeShield - finalDamage;
+        if (GameManager.Instance != null && controller != null)
+            GameManager.Instance.Statistics.RecordDamage(controller.PlayerIndex, hit.AttackerPlayerIndex,
+                finalDamage, blockedDamage);
+
+        if (hit.AttackerPlayerIndex >= 0 && hit.AttackerPlayerIndex != controller.PlayerIndex &&
+            (finalDamage > 0 || (blockedDamage == 0 && hit.BaseKnockback.sqrMagnitude > 0f)))
+        {
+            lastAttackerIndex = hit.AttackerPlayerIndex;
+            lastAttackerTime = Time.time;
+        }
 
         if (finalDamage <= 0 && (hit.Damage > 0 || hit.BaseKnockback.sqrMagnitude < 0.000001f))
             return false;
@@ -121,7 +137,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         return true;
     }
 
-    public void TakePummelDamage(int amount)
+    public void TakePummelDamage(int amount, int attackerPlayerIndex = -1)
     {
         if (Phase != RespawnPhase.Active || amount <= 0)
             return;
@@ -130,6 +146,13 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
         int finalDamage = Mathf.Max(0, Mathf.RoundToInt(amount * defenseMultiplier * activeDefenseMultiplier));
         currentDamage += finalDamage;
+        if (GameManager.Instance != null && controller != null)
+            GameManager.Instance.Statistics.RecordDamage(controller.PlayerIndex, attackerPlayerIndex, finalDamage, 0);
+        if (attackerPlayerIndex >= 0 && controller != null && attackerPlayerIndex != controller.PlayerIndex)
+        {
+            lastAttackerIndex = attackerPlayerIndex;
+            lastAttackerTime = Time.time;
+        }
         UpdateUI();
     }
 
@@ -157,6 +180,19 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
         CombatFeedback.PlayStockLossRumble(controller);
         fallLives--;
+        if (GameManager.Instance != null && controller != null)
+        {
+            int credited = Time.time - lastAttackerTime <= EliminationCreditSeconds ? lastAttackerIndex : -1;
+            GameManager.Instance.Statistics.RecordStockLost(controller.PlayerIndex, credited, Time.time);
+        }
+        lastAttackerIndex = -1;
+        lastAttackerTime = float.NegativeInfinity;
+        if (controller != null)
+        {
+            Vector2 exitVelocity = rb != null ? rb.linearVelocity : Vector2.zero;
+            CombatFeedback.PlayStockLoss(transform.position, exitVelocity, controller.PlayerIndex, fallLives == 0);
+            UIEvents.OnStockLost?.Invoke(controller.PlayerIndex, fallLives);
+        }
 
         if (fallLives > 0)
         {
@@ -236,6 +272,10 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
     public void Respawn(Vector3 position)
     {
+        if (GameManager.Instance != null && controller != null)
+            GameManager.Instance.Statistics.StartLife(controller.PlayerIndex, Time.time);
+        lastAttackerIndex = -1;
+        lastAttackerTime = float.NegativeInfinity;
         controller.Movement.ResetKnockback();
         IsIntangible = false;
 

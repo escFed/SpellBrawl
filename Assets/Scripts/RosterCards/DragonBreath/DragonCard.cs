@@ -68,6 +68,7 @@ public class DragonCard : MonoBehaviour, ICardable
         Vector3 spawnPosition = Vector3.Lerp(spawnPoint.position, target.transform.position, 0.5f);
 
         GameObject breath = Instantiate(dragonPrefab, spawnPosition, Quaternion.identity);
+        GetComponent<MatchCardUse>()?.CopyTo(breath);
 
         // 📏 CORREGIDO: Escalar el prefab para que sea visible
         breath.transform.localScale = Vector3.one * 2f; // Tamaño 2x más grande
@@ -75,7 +76,7 @@ public class DragonCard : MonoBehaviour, ICardable
         if (breath.TryGetComponent(out DragonBreathLogic script))
         {
             // ✅ Pasar el OBJETIVO (target) para causar daño
-            script.SetTargetAndPrefab(target, breath);
+            script.SetTargetAndPrefab(target, breath, character.PlayerIndex);
             StartCoroutine(script.BreathCorroutine(target));
         }
 

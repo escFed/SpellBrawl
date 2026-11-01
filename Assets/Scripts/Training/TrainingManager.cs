@@ -175,7 +175,8 @@ public class TrainingManager : MonoBehaviour
         }
 
         player.transform.position = playerSpawnPosition;
-        player.transform.localScale = new Vector3(Mathf.Abs(player.transform.localScale.x), player.transform.localScale.y, player.transform.localScale.z);
+        player.Combat.UnlockFacing();
+        player.Combat.FaceDirection(1f);
 
         player.ActiveInput?.ClearAllInputs();
         player.Health?.ResetHealth();

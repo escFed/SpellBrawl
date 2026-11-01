@@ -15,6 +15,7 @@ public class CountdownManager : MonoBehaviour
     [Header("Audio")]
     public AudioSource battleMusic;
     private Coroutine roundStartRoutine;
+    private bool firstRoundStarted;
     private bool tutorialOpen;
     public bool IsTutorialOpen => tutorialOpen;
 
@@ -92,14 +93,29 @@ public class CountdownManager : MonoBehaviour
 
     public void StartNextRound()
     {
-        bool restartingCountdown = roundStartRoutine != null;
-        if (restartingCountdown)
+        bool playIntro = !firstRoundStarted;
+        firstRoundStarted = true;
+        bool playCardAnimation = roundStartRoutine == null;
+        if (roundStartRoutine != null)
         {
             StopCoroutine(roundStartRoutine);
+            roundStartRoutine = null;
             cameraFocus?.EndIntro();
         }
 
-        roundStartRoutine = StartCoroutine(StartMatchRoutine(!restartingCountdown));
+        if (countdownText != null)
+            countdownText.gameObject.SetActive(false);
+
+        if (playIntro)
+        {
+            roundStartRoutine = StartCoroutine(StartMatchRoutine(playCardAnimation));
+            return;
+        }
+
+        DisablePlayers();
+        if (playCardAnimation && cardAnimation != null)
+            cardAnimation.PlayDrawAnimation();
+        EnablePlayers();
     }
 
     private IEnumerator StartMatchRoutine(bool playCardAnimation)
@@ -136,7 +152,6 @@ public class CountdownManager : MonoBehaviour
             }
         }
 
-        UIManager.Instance?.ShowRoundWinsForNewRound();
         EnablePlayers();
 
         yield return new WaitForSeconds(1f);

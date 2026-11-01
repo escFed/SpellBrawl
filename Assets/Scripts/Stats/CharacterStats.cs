@@ -39,7 +39,7 @@ public class CharacterStats : ScriptableObject
     public float dashSpeed = 14f;
     public float dashDuration = 0.18f;
     public float dashRecovery = 0.14f;
-    public float dashCooldown = 5f;
+    public float dashCooldown = 1f;
     public float dashAttackSpeed = 12f;
     [Tooltip("Extra forward movement after a dash attack actually hits. Zero disables the follow-through.")]
     [Min(0f)] public float dashAttackHitFollowThroughDuration = 0.12f;

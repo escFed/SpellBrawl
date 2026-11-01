@@ -10,6 +10,7 @@ public class CombatFeedback : MonoBehaviour
     private const string ImpactParticleMaterialResourcePath = "HitImpactParticles";
     private const string AudioSettingsResourcePath = "CombatAudioSettings";
     private const string CameraSettingsResourcePath = "CombatCameraSettings";
+    private const int MaxImpactVisuals = 12;
 
     private static CombatFeedback instance;
     private static Material impactParticleMaterial;
@@ -26,9 +27,11 @@ public class CombatFeedback : MonoBehaviour
     private Coroutine impactFlashRoutine;
     private readonly Dictionary<Gamepad, Coroutine> rumbleRoutines = new();
     private readonly List<CinemachineImpulseListener> impulseListeners = new();
+    private readonly List<HitImpactVisual> impactVisuals = new();
     private CinemachineBrain cameraBrain;
     private CinemachineImpactZoom impactZoom;
     private Image impactFlash;
+    private StockLossVisual stockLossVisual;
     private bool previousBrainIgnoreTimeScale;
     private bool previousImpulseIgnoreTimeScale;
     private float hitStopEndTime;
@@ -72,6 +75,16 @@ public class CombatFeedback : MonoBehaviour
     public static void PlayStockLossRumble(CharacterCoordinator defender)
     {
         GetOrCreate().Rumble(defender, 0.75f, 0.45f, 0.3f);
+    }
+
+    public static void PlayStockLoss(Vector2 position, Vector2 velocity, int playerIndex, bool finalStock)
+    {
+        CombatFeedback feedback = GetOrCreate();
+        if (feedback.stockLossVisual == null)
+            feedback.stockLossVisual = feedback.gameObject.AddComponent<StockLossVisual>();
+
+        feedback.stockLossVisual.Play(position, velocity, PlayerColors.Get(playerIndex), finalStock);
+        feedback.ShakeStockLossCamera(velocity, finalStock);
     }
 
     public static void StopAllRumble()
@@ -168,7 +181,7 @@ public class CombatFeedback : MonoBehaviour
     {
         CombatFeedback feedback = GetOrCreate();
         int step = Mathf.Clamp(visualChainStep, 0, 2);
-        feedback.SpawnImpactParticles(position, knockback, reaction, impactColor, step);
+        feedback.SpawnImpactVisual(position, knockback, reaction, impactColor, step);
         feedback.ShakeCamera(position, knockback, reaction, step);
         feedback.PlayDecisiveImpact(position, knockback, reaction);
         feedback.RequestHitStop(GetHitStopDuration(reaction));
@@ -258,6 +271,22 @@ public class CombatFeedback : MonoBehaviour
         activeCameraImpulseEndTime = CinemachineImpulseManager.Instance.CurrentTime + duration;
     }
 
+    private void ShakeStockLossCamera(Vector2 velocity, bool finalStock)
+    {
+        if (impulseSource == null || GameSettings.ScreenShakeIntensity <= 0f || PauseMenu.isPaused)
+            return;
+
+        Camera camera = Camera.main;
+        Vector2 position = camera != null ? camera.transform.position : Vector2.zero;
+        Vector2 direction = velocity.sqrMagnitude > 0.0001f ? -velocity.normalized : Vector2.up;
+        float duration = finalStock ? 0.24f : 0.18f;
+        float strength = finalStock ? 0.19f : 0.14f;
+        CancelCameraImpulse();
+        impulseSource.ImpulseDefinition.ImpulseDuration = duration;
+        activeCameraImpulse = impulseSource.ImpulseDefinition.CreateAndReturnEvent(position, direction * strength);
+        activeCameraImpulseEndTime = CinemachineImpulseManager.Instance.CurrentTime + duration;
+    }
+
     private void CancelCameraImpulse()
     {
         CinemachineImpulseManager manager = CinemachineImpulseManager.Instance;
@@ -342,53 +371,36 @@ public class CombatFeedback : MonoBehaviour
         impactFlashRoutine = null;
     }
 
-    private void SpawnImpactParticles(Vector2 position, Vector2 knockback, HitReaction reaction, Color? impactColor, int visualChainStep)
+    private void SpawnImpactVisual(Vector2 position, Vector2 knockback, HitReaction reaction, Color? impactColor, int visualChainStep)
     {
-        GameObject particleObject = new GameObject("HitImpactParticles");
-        particleObject.transform.position = position;
-
-        ParticleSystem particles = particleObject.AddComponent<ParticleSystem>();
-        particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        ParticleSystem.MainModule main = particles.main;
-        main.loop = false;
-        main.playOnAwake = false;
-        main.duration = 0.25f;
-        main.startLifetime = new ParticleSystem.MinMaxCurve(0.12f, 0.28f);
-        main.startSpeed = new ParticleSystem.MinMaxCurve(1.5f, (reaction == HitReaction.Hit ? 3f : 5f) + 0.75f * visualChainStep);
-        main.startSize = new ParticleSystem.MinMaxCurve(0.06f + 0.01f * visualChainStep,
-            (reaction == HitReaction.Hit ? 0.14f : 0.22f) + 0.025f * visualChainStep);
-        main.startColor = GetImpactParticleColors(reaction, impactColor);
-        main.simulationSpace = ParticleSystemSimulationSpace.World;
-        main.maxParticles = 24;
-        main.stopAction = ParticleSystemStopAction.Destroy;
-
-        ParticleSystem.ShapeModule shape = particles.shape;
-        shape.enabled = true;
-        shape.shapeType = ParticleSystemShapeType.Circle;
-        shape.radius = 0.12f;
-
-        ParticleSystem.VelocityOverLifetimeModule velocity = particles.velocityOverLifetime;
-        velocity.enabled = true;
-        Vector2 impactDirection = knockback.sqrMagnitude > 0.0001f ? knockback.normalized : Vector2.up;
-        velocity.x = impactDirection.x * 0.8f;
-        velocity.y = impactDirection.y * 0.8f;
-
-        ParticleSystemRenderer particleRenderer = particleObject.GetComponent<ParticleSystemRenderer>();
-        particleRenderer.sortingOrder = 20;
-
-        Material material = GetImpactParticleMaterial();
-        if (material != null)
-            // The shared material stays white so the owner's particle color remains authoritative.
-            particleRenderer.sharedMaterial = material;
-
-        int count = reaction switch
+        HitImpactVisual visual = null;
+        foreach (HitImpactVisual candidate in impactVisuals)
         {
-            HitReaction.StrongHit => 16,
-            HitReaction.Stunned => 20,
-            _ => 9
-        };
-        particles.Emit(Mathf.Min(count + 4 * visualChainStep, main.maxParticles));
-        particles.Play();
+            if (!candidate.IsPlaying)
+            {
+                visual = candidate;
+                break;
+            }
+        }
+
+        if (visual == null && impactVisuals.Count < MaxImpactVisuals)
+        {
+            GameObject effectObject = new GameObject("HitImpactVisual");
+            effectObject.transform.SetParent(transform, false);
+            visual = effectObject.AddComponent<HitImpactVisual>();
+            visual.Initialize(GetImpactParticleMaterial());
+            impactVisuals.Add(visual);
+        }
+
+        if (visual == null)
+        {
+            visual = impactVisuals[0];
+            foreach (HitImpactVisual candidate in impactVisuals)
+                if (candidate.LastPlayedAt < visual.LastPlayedAt)
+                    visual = candidate;
+        }
+
+        visual.Play(position, knockback, reaction, impactColor, visualChainStep);
     }
 
     private static Material GetImpactParticleMaterial()
@@ -419,22 +431,6 @@ public class CombatFeedback : MonoBehaviour
         impactParticleMaterial.SetFloat("_ZWrite", 0f);
         impactParticleMaterial.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
         return impactParticleMaterial;
-    }
-
-    private static ParticleSystem.MinMaxGradient GetImpactParticleColors(HitReaction reaction, Color? impactColor)
-    {
-        if (impactColor.HasValue)
-        {
-            Color ownerColor = impactColor.Value;
-            ownerColor.a = 1f;
-            float highlightAmount = reaction == HitReaction.Hit ? 0.2f : 0.35f;
-            Color highlightColor = Color.Lerp(ownerColor, Color.white, highlightAmount);
-            return new ParticleSystem.MinMaxGradient(ownerColor, highlightColor);
-        }
-
-        return reaction == HitReaction.Stunned
-            ? new ParticleSystem.MinMaxGradient(new Color(0.35f, 0.7f, 1f), Color.white)
-            : new ParticleSystem.MinMaxGradient(new Color(1f, 0.25f, 0.08f), new Color(1f, 0.9f, 0.25f));
     }
 
     private void RequestHitStop(float duration)

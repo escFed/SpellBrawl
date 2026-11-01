@@ -16,9 +16,17 @@ public class UIManager : MonoBehaviour
     public Image p1_icon;
     public Image p2_icon;
 
+    [Header("Control Labels")]
+    [SerializeField] private TextMeshProUGUI p1ControlLabel;
+    [SerializeField] private TextMeshProUGUI p2ControlLabel;
+
     [Header("Damage")]
     public TextMeshProUGUI p1_damagePercent;
     public TextMeshProUGUI p2_damagePercent;
+    [SerializeField] private Sprite damageFlameSprite;
+    private Image p1DamageFlame;
+    private Image p2DamageFlame;
+    private const int DamageFlameThreshold = 100;
 
     [Header("Cards P1")]
     public Image[] p1_cards = new Image[4];
@@ -53,13 +61,19 @@ public class UIManager : MonoBehaviour
     public TMPro.TextMeshProUGUI p2_deckCountText;
 
     [Header("Round Wins UI")]
-    public TMPro.TextMeshProUGUI p1_winsText;
-    public TMPro.TextMeshProUGUI p2_winsText;
+    [FormerlySerializedAs("p1_winsText")]
+    public TextMeshProUGUI roundScoreText;
     private const float RoundWinsVisibleSeconds = 5f;
     private Coroutine hideRoundWinsRoutine;
-
+    
     private HandSlotView[] p1HandSlots;
     private HandSlotView[] p2HandSlots;
+    private Image[] p1CooldownFills;
+    private Image[] p2CooldownFills;
+    private Image p1DashCooldownFill;
+    private Image p1ShieldCooldownFill;
+    private Image p2DashCooldownFill;
+    private Image p2ShieldCooldownFill;
     private CardCooldownNotification[] p1CooldownNotifications;
     private CardCooldownNotification[] p2CooldownNotifications;
     private CharacterCoordinator p1Character;
@@ -79,7 +93,7 @@ public class UIManager : MonoBehaviour
     [Header("Damage Increase Sound")]
 
     [SerializeField] private AudioClip damageIncreaseSound;
-    private static readonly Color CooldownColor = new Color(0.35f, 0.35f, 0.35f, 0.8f);
+    private static readonly Color CooldownColor = new Color(0.35f, 0.35f, 0.35f, 1f);
 
     [SerializeField] private AudioClip cardProgressionSound;
 
@@ -99,6 +113,16 @@ public class UIManager : MonoBehaviour
         source.loop = false;
         source.spatialBlend = 0f;
         GameSettings.RegisterSource(source, GameSound.SoundEffects);
+
+        p1CooldownFills = CreateCooldownFills(p1_cards);
+        p2CooldownFills = CreateCooldownFills(p2_cards);
+        p1DashCooldownFill = CreateCooldownFill(p1DashIcon);
+        p1ShieldCooldownFill = CreateCooldownFill(p1ShieldIcon);
+        p2DashCooldownFill = CreateCooldownFill(p2DashIcon);
+        p2ShieldCooldownFill = CreateCooldownFill(p2ShieldIcon);
+        p1DamageFlame = CreateDamageFlame(p1_damagePercent);
+        p2DamageFlame = CreateDamageFlame(p2_damagePercent);
+        HideRoundWins();
     }
 
     private void Start()
@@ -107,19 +131,42 @@ public class UIManager : MonoBehaviour
         if (p2_energySlider != null) p2_energySlider.gameObject.SetActive(false);
         if (p1EnergyText != null) p1EnergyText.gameObject.SetActive(false);
         if (p2EnergyText != null) p2EnergyText.gameObject.SetActive(false);
-        // Inicializa el color de las barras de daño al valor inicial (0)
+        // Inicializa el HUD de daño al valor inicial (0).
         UpdateDamageUI(0, 0);
         UpdateDamageUI(1, 0);
         HideAllCardSlots();
         if (p1LastCardText != null) p1LastCardText.text = string.Empty;
         if (p2LastCardText != null) p2LastCardText.text = string.Empty;
+        UpdateControlLabels();
         ApplyGameplayAids();
+    }
+
+    private void UpdateControlLabels()
+    {
+        SelectionManager selection = SelectionManager.Instance;
+        if (selection == null)
+            return;
+
+        if (p1ControlLabel != null)
+            p1ControlLabel.text = GetControlLabel(selection.matchMode, PlayerSlot.PlayerOne);
+        if (p2ControlLabel != null)
+            p2ControlLabel.text = GetControlLabel(selection.matchMode, PlayerSlot.PlayerTwo);
+    }
+
+    private static string GetControlLabel(MatchMode matchMode, PlayerSlot slot)
+    {
+        return ModeRules.GetControlMode(matchMode, slot) == PlayerMode.AI
+            ? matchMode == MatchMode.AIVsAI
+                ? (slot == PlayerSlot.PlayerOne ? "IA 1" : "IA 2")
+                : "IA"
+            : slot == PlayerSlot.PlayerOne ? "P1" : "P2";
     }
 
     private void OnEnable()
     {
         UIEvents.OnDamageChanged += UpdateDamageUI;
         UIEvents.OnLivesChanged += UpdateLivesUI;
+        UIEvents.OnStockLost += PlayLostLifePulse;
         UIEvents.OnDeckCountChanged += UpdateDeckCountUI;
         UIEvents.OnIconSet += UpdateIconUI;
         UIEvents.OnHandChanged += UpdateHandUI;
@@ -142,6 +189,7 @@ public class UIManager : MonoBehaviour
         p2CooldownNotifications = null;
         UIEvents.OnDamageChanged -= UpdateDamageUI;
         UIEvents.OnLivesChanged -= UpdateLivesUI;
+        UIEvents.OnStockLost -= PlayLostLifePulse;
         UIEvents.OnDeckCountChanged -= UpdateDeckCountUI;
         UIEvents.OnIconSet -= UpdateIconUI;
         UIEvents.OnHandChanged -= UpdateHandUI;
@@ -153,8 +201,10 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        UpdateCardCooldownVisuals(p1_cards, p1HandSlots);
-        UpdateCardCooldownVisuals(p2_cards, p2HandSlots);
+        AnimateDamageFlame(p1_damagePercent, p1DamageFlame, 0f);
+        AnimateDamageFlame(p2_damagePercent, p2DamageFlame, 1.7f);
+        UpdateCardCooldownVisuals(p1_cards, p1CooldownFills, p1HandSlots);
+        UpdateCardCooldownVisuals(p2_cards, p2CooldownFills, p2HandSlots);
         if (GameplayAidSettings.ShowAbilityIcons)
             UpdateAbilityVisuals();
 
@@ -171,47 +221,17 @@ public class UIManager : MonoBehaviour
     private void UpdateDamageUI(int playerIndex, int damage)
     {
         TextMeshProUGUI percent = (playerIndex == 0) ? p1_damagePercent : p2_damagePercent;
+        Image flame = playerIndex == 0 ? p1DamageFlame : p2DamageFlame;
 
         if (percent != null)
         {
             percent.text = $"{damage}";
             LeanTween.cancel(percent.gameObject);
+            percent.color = Color.red;
+            UpdateDamageFlame(percent, flame, damage >= DamageFlameThreshold);
 
-            // Determina el color objetivo según el daño
-            Color targetColor;
-            if (damage < 25)
-            {
-                targetColor = Color.green;
-
-            }
-            else if (damage <= 50)
-            {
-                targetColor = Color.yellow;
-
-            }
-            else if (damage <= 75)
-            {
-                targetColor = new Color(1f, 0.5f, 0f); // Naranja
-
-                if (source != null && damageIncreaseSound != null)
-                    source.PlayOneShot(damageIncreaseSound);
-            }
-            else if (damage <= 100)
-            {
-                targetColor = Color.red;
-                if (source != null && damageIncreaseSound != null)
-                    source.PlayOneShot(damageIncreaseSound);
-            }
-            else
-            {
-                targetColor = Color.darkRed;
-
-            }
-
-            // Anima el color suavemente
-            LeanTween.value(percent.gameObject, percent.color, targetColor, 1.2f)
-                .setEase(LeanTweenType.easeInOutQuad)
-                .setOnUpdate((Color c) => percent.color = c);
+            if (damage > 50 && damage <= 100 && source != null && damageIncreaseSound != null)
+                source.PlayOneShot(damageIncreaseSound);
 
             // Efecto visual: pequeña escala cuando recibe daño
             if (damage > 0)
@@ -226,6 +246,59 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private Image CreateDamageFlame(TextMeshProUGUI percent)
+    {
+        if (percent == null || damageFlameSprite == null)
+            return null;
+
+        GameObject flameObject = new GameObject("DamageFireCrown", typeof(RectTransform),
+            typeof(CanvasRenderer), typeof(Image));
+        RectTransform textRect = percent.rectTransform;
+        flameObject.transform.SetParent(textRect.parent, false);
+        flameObject.layer = percent.gameObject.layer;
+
+        RectTransform flameRect = (RectTransform)flameObject.transform;
+        flameRect.anchorMin = textRect.anchorMin;
+        flameRect.anchorMax = textRect.anchorMax;
+        flameRect.pivot = textRect.pivot;
+        flameRect.anchoredPosition = textRect.anchoredPosition + new Vector2(0f, 18f);
+        // The flame renders behind the digits, with its tips rising above them.
+        flameRect.SetSiblingIndex(textRect.GetSiblingIndex());
+
+        Image flame = flameObject.GetComponent<Image>();
+        flame.sprite = damageFlameSprite;
+        flame.preserveAspect = true;
+        flame.raycastTarget = false;
+        flame.enabled = false;
+        return flame;
+    }
+
+    private static void UpdateDamageFlame(TextMeshProUGUI percent, Image flame, bool visible)
+    {
+        if (flame == null)
+            return;
+
+        float width = Mathf.Clamp(percent.GetPreferredValues().x + 10f, 55f, 140f);
+        float height = width * 0.5f;
+        flame.rectTransform.sizeDelta = new Vector2(width, height);
+        flame.rectTransform.anchoredPosition = percent.rectTransform.anchoredPosition + new Vector2(0f, 18f);
+        if (flame.enabled != visible)
+            flame.enabled = visible;
+    }
+
+    private static void AnimateDamageFlame(TextMeshProUGUI percent, Image flame, float phase)
+    {
+        if (percent == null || flame == null || !flame.enabled)
+            return;
+
+        float flicker = Mathf.Sin(Time.time * 12f + phase);
+        flame.color = new Color(1f, 1f, 1f, 0.88f + 0.12f * flicker);
+        flame.rectTransform.anchoredPosition = percent.rectTransform.anchoredPosition
+            + new Vector2(0.8f * flicker, 18f + 1.5f * flicker);
+        flame.rectTransform.localScale = Vector3.Scale(percent.rectTransform.localScale,
+            new Vector3(1f + 0.03f * flicker, 1f + 0.07f * flicker, 1f));
+    }
+
     private void UpdateLivesUI(int playerIndex, int lives)
     {
         GameObject[] icons = (playerIndex == 0) ? p1_life : p2_life;
@@ -233,6 +306,73 @@ public class UIManager : MonoBehaviour
         {
             if (icons[i] != null) icons[i].SetActive(i < lives);
         }
+    }
+
+    private void PlayLostLifePulse(int playerIndex, int remainingLives)
+    {
+        GameObject[] icons = playerIndex == 0 ? p1_life : p2_life;
+        if (remainingLives < 0 || remainingLives >= icons.Length)
+            return;
+
+        GameObject icon = icons[remainingLives];
+        if (icon == null || !icon.activeInHierarchy || icon.transform.parent == null)
+            return;
+
+        UnityEngine.UI.Image source = icon.GetComponentInChildren<UnityEngine.UI.Image>();
+        RectTransform sourceRect = source != null ? source.rectTransform : icon.GetComponent<RectTransform>();
+        if (sourceRect == null)
+            return;
+
+        Canvas canvas = icon.GetComponentInParent<Canvas>();
+        Transform ghostParent = canvas != null ? canvas.transform : icon.transform.parent;
+        GameObject ghost = new GameObject("Lost Life Pulse", typeof(RectTransform), typeof(CanvasRenderer),
+            typeof(UnityEngine.UI.Image), typeof(LayoutElement));
+        RectTransform rect = ghost.GetComponent<RectTransform>();
+        rect.SetParent(ghostParent, false);
+        rect.position = sourceRect.position;
+        rect.rotation = sourceRect.rotation;
+        rect.sizeDelta = sourceRect.rect.size;
+        Vector3 parentScale = ghostParent.lossyScale;
+        Vector3 sourceScale = sourceRect.lossyScale;
+        rect.localScale = new Vector3(sourceScale.x / Mathf.Max(0.0001f, parentScale.x),
+            sourceScale.y / Mathf.Max(0.0001f, parentScale.y), 1f);
+        ghost.GetComponent<LayoutElement>().ignoreLayout = true;
+
+        UnityEngine.UI.Image image = ghost.GetComponent<UnityEngine.UI.Image>();
+        image.sprite = source != null ? source.sprite : null;
+        image.color = Color.white;
+        image.preserveAspect = true;
+        image.raycastTarget = false;
+        StartCoroutine(AnimateLostLifePulse(ghost, image, PlayerColors.Get(playerIndex)));
+    }
+
+    private IEnumerator AnimateLostLifePulse(GameObject ghost, UnityEngine.UI.Image image, Color playerColor)
+    {
+        RectTransform rect = ghost.GetComponent<RectTransform>();
+        Vector3 originalScale = rect.localScale;
+        const float duration = 0.45f;
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            if (PauseMenu.isPaused)
+            {
+                ghost.SetActive(false);
+                yield return null;
+                continue;
+            }
+
+            if (!ghost.activeSelf)
+                ghost.SetActive(true);
+            elapsed += Time.deltaTime;
+            float progress = Mathf.Clamp01(elapsed / duration);
+            rect.localScale = originalScale * Mathf.Lerp(1f, 2.1f, progress);
+            Color color = Color.Lerp(Color.white, playerColor, progress);
+            color.a = 1f - progress;
+            image.color = color;
+            yield return null;
+        }
+
+        Destroy(ghost);
     }
 
     private void UpdateDeckCountUI(int playerIndex, int count)
@@ -270,22 +410,31 @@ public class UIManager : MonoBehaviour
             component.gameObject.SetActive(visible);
     }
 
-    public void ShowRoundWinsForNewRound()
+    public void ShowRoundWinsForRoundResult()
     {
         if (hideRoundWinsRoutine != null)
             StopCoroutine(hideRoundWinsRoutine);
 
-        SetVisible(p1_winsText, true);
-        SetVisible(p2_winsText, true);
+        SetVisible(roundScoreText, true);
         hideRoundWinsRoutine = StartCoroutine(HideRoundWinsAfterDelay());
     }
 
     private IEnumerator HideRoundWinsAfterDelay()
     {
-        yield return new WaitForSeconds(RoundWinsVisibleSeconds);
-        SetVisible(p1_winsText, false);
-        SetVisible(p2_winsText, false);
+        yield return new WaitForSecondsRealtime(RoundWinsVisibleSeconds);
+        SetVisible(roundScoreText, false);
         hideRoundWinsRoutine = null;
+    }
+
+    public void HideRoundWins()
+    {
+        if (hideRoundWinsRoutine != null)
+        {
+            StopCoroutine(hideRoundWinsRoutine);
+            hideRoundWinsRoutine = null;
+        }
+
+        SetVisible(roundScoreText, false);
     }
 
     private void UpdateAbilityVisuals()
@@ -297,9 +446,11 @@ public class UIManager : MonoBehaviour
         BindCharacter(p1Object, ref p1Character, ref p1DashWasReady, ref p1ShieldWasReady);
         BindCharacter(p2Object, ref p2Character, ref p2DashWasReady, ref p2ShieldWasReady);
 
-        UpdateAbilityIcons(p1Character, p1DashIcon, p1ShieldIcon,
+        UpdateAbilityIcons(p1Character, p1DashIcon, p1DashCooldownFill,
+            p1ShieldIcon, p1ShieldCooldownFill,
             ref p1DashWasReady, ref p1ShieldWasReady);
-        UpdateAbilityIcons(p2Character, p2DashIcon, p2ShieldIcon,
+        UpdateAbilityIcons(p2Character, p2DashIcon, p2DashCooldownFill,
+            p2ShieldIcon, p2ShieldCooldownFill,
             ref p2DashWasReady, ref p2ShieldWasReady);
     }
 
@@ -314,33 +465,31 @@ public class UIManager : MonoBehaviour
         shieldWasReady = character != null && character.Shield != null && character.Shield.CanActivate;
     }
 
-    private static void UpdateAbilityIcons(CharacterCoordinator character, Image dashIcon, Image shieldIcon,
+    private static void UpdateAbilityIcons(CharacterCoordinator character, Image dashIcon, Image dashFill,
+        Image shieldIcon, Image shieldFill,
         ref bool dashWasReady, ref bool shieldWasReady)
     {
         CharacterDash dash = character != null ? character.Dash : null;
         CharacterShield shield = character != null ? character.Shield : null;
 
-        UpdateAbilityIcon(dashIcon, dash != null && dash.CanDash,
+        UpdateAbilityIcon(dashIcon, dashFill, dash != null && dash.CanDash,
             dash != null ? dash.CooldownRemaining : 0f,
             dash != null ? dash.CooldownDuration : 0f, ref dashWasReady);
-        UpdateAbilityIcon(shieldIcon, shield != null && shield.CanActivate,
+        UpdateAbilityIcon(shieldIcon, shieldFill, shield != null && shield.CanActivate,
             shield != null ? shield.RemainingCooldown : 0f,
             shield != null ? shield.CooldownLength : 0f, ref shieldWasReady);
     }
 
-    private static void UpdateAbilityIcon(Image icon, bool ready, float remaining, float duration,
+    private static void UpdateAbilityIcon(Image icon, Image fill, bool ready, float remaining, float duration,
         ref bool wasReady)
     {
         if (icon == null)
             return;
 
-        float progress = ready ? 1f : duration > 0f
-            ? LeanTween.easeInOutQuad(0f, 1f, Mathf.Clamp01(1f - remaining / duration))
-            : 0f;
-        // An active shield and the final dash in progress have no running cooldown yet.
-        if (!ready && remaining <= 0f)
-            progress = 0f;
-        icon.color = new Color(1f, 1f, 1f, Mathf.Lerp(0.25f, 1f, progress));
+        icon.color = ready ? Color.white : CooldownColor;
+        // An active shield or dash has no running cooldown yet.
+        SetCooldownFill(icon, fill, !ready && remaining > 0f && duration > 0f,
+            remaining, duration);
 
         if (ready && !wasReady && icon.gameObject.activeInHierarchy)
         {
@@ -362,13 +511,11 @@ public class UIManager : MonoBehaviour
         {
             p1HandSlots = hand;
             SyncCooldownNotifications(hand, ref p1CooldownNotifications);
-            StartCoroutine(AddedCardToSlotCoroutine(new Color(0f, 1f, 0f, 0.5f)));
         }
         else
         {
             p2HandSlots = hand;
             SyncCooldownNotifications(hand, ref p2CooldownNotifications);
-            StartCoroutine(AddedCardToSlotCoroutine(new Color(1f, 0f, 0f, 0.5f)));
         }
 
         // Itera sobre TODOS los slots UI disponibles (no solo los de la mano)
@@ -416,6 +563,9 @@ public class UIManager : MonoBehaviour
             LayoutRebuilder.ForceRebuildLayoutImmediate(rect);
             Canvas.ForceUpdateCanvases();
         }
+
+        UpdateCardCooldownVisuals(uiSlots,
+            playerIndex == 0 ? p1CooldownFills : p2CooldownFills, hand);
     }
 
     private void HideAllCardSlots()
@@ -444,43 +594,98 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private static void UpdateCardCooldownVisuals(Image[] uiSlots, HandSlotView[] hand)
+    private static Image[] CreateCooldownFills(Image[] slots)
     {
-        if (uiSlots == null || hand == null)
-            return;
+        if (slots == null)
+            return null;
 
-        int count = Mathf.Min(uiSlots.Length, hand.Length);
-
-        for (int i = 0; i < count; i++)
+        Image[] fills = new Image[slots.Length];
+        for (int i = 0; i < slots.Length; i++)
         {
-            Image slotImage = uiSlots[i];
-            if (slotImage == null || !slotImage.gameObject.activeSelf || hand[i].Card == null)
+            Image slot = slots[i];
+            if (slot == null)
                 continue;
 
+            fills[i] = CreateCooldownFill(slot);
+        }
+
+        return fills;
+    }
+
+    private static Image CreateCooldownFill(Image icon)
+    {
+        if (icon == null)
+            return null;
+
+        GameObject fillObject = new GameObject("CooldownFill", typeof(RectTransform),
+            typeof(CanvasRenderer), typeof(Image));
+        fillObject.transform.SetParent(icon.transform, false);
+
+        RectTransform rect = (RectTransform)fillObject.transform;
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.offsetMin = Vector2.zero;
+        rect.offsetMax = Vector2.zero;
+
+        Image fill = fillObject.GetComponent<Image>();
+        fill.type = Image.Type.Filled;
+        fill.fillMethod = Image.FillMethod.Vertical;
+        fill.fillOrigin = (int)Image.OriginVertical.Bottom;
+        fill.raycastTarget = false;
+        fill.enabled = false;
+        return fill;
+    }
+
+    private static void SetCooldownFill(Image icon, Image fill, bool coolingDown,
+        float remaining, float duration)
+    {
+        if (fill == null)
+            return;
+
+        if (!coolingDown)
+        {
+            fill.enabled = false;
+            return;
+        }
+
+        fill.sprite = icon.sprite;
+        fill.preserveAspect = icon.preserveAspect;
+        fill.fillAmount = Mathf.Clamp01(1f - remaining / duration);
+        fill.color = Color.white;
+        fill.enabled = fill.sprite != null;
+    }
+
+    private static void UpdateCardCooldownVisuals(Image[] uiSlots, Image[] fills, HandSlotView[] hand)
+    {
+        if (uiSlots == null || fills == null)
+            return;
+
+        for (int i = 0; i < uiSlots.Length; i++)
+        {
+            Image slotImage = uiSlots[i];
+            Image fill = fills[i];
+            if (slotImage == null || fill == null)
+                continue;
+
+            if (hand == null || i >= hand.Length || !slotImage.gameObject.activeSelf ||
+                !hand[i].IsUnlocked || hand[i].Card == null)
+            {
+                fill.enabled = false;
+                continue;
+            }
+
             float remaining = hand[i].ReadyAt - Time.time;
-            if (remaining <= 0f)
+            float duration = hand[i].CooldownDuration;
+            if (remaining <= 0f || duration <= 0f)
             {
-                // Carta lista: alpha completo
-                slotImage.color = new Color(1f, 1f, 1f, 1f);
+                slotImage.color = Color.white;
+                fill.enabled = false;
+                continue;
             }
-            else
-            {
-                // Cooldown activo: alpha se va llenando
-                float totalCooldown = hand[i].CooldownDuration;
-                if (totalCooldown <= 0f)
-                {
-                    slotImage.color = new Color(1f, 1f, 1f, 0.5f);
-                    continue;
-                }
 
-                float raw = 1f - (remaining / totalCooldown);
-                raw = Mathf.Clamp01(raw);
-
-                // Usar easing con start=0, end=1 y val=raw
-                float progress = LeanTween.easeInOutQuad(0f, 1f, raw);
-
-                slotImage.color = new Color(1f, 1f, 1f, progress);
-            }
+            // Keep the complete card visible in the dark while its full-color image rises.
+            slotImage.color = CooldownColor;
+            SetCooldownFill(slotImage, fill, true, remaining, duration);
         }
     }
 
@@ -503,7 +708,7 @@ public class UIManager : MonoBehaviour
     }
 
     private static bool ConsumeCardReadyNotifications(Image[] images, HandSlotView[] hand,
-        ref CardCooldownNotification[] notifications)
+        ref CardCooldownNotification[] notifications) 
     {
         SyncCooldownNotifications(hand, ref notifications);
         if (notifications == null)
@@ -539,9 +744,9 @@ public class UIManager : MonoBehaviour
                         .setEase(LeanTweenType.easeOutQuint);
                 });
 
+            
 
-
-
+            
         }
     }
 
@@ -617,42 +822,6 @@ public class UIManager : MonoBehaviour
         if (controlsTutorial != null)
             controlsTutorial.gameObject.SetActive(false);
     }
-
-
-
-    private IEnumerator AddedCardToSlotCoroutine(Color targetColor)
-    {
-        float time = Time.deltaTime;
-        float elapsedTime = 0f;
-
-
-
-        while (elapsedTime < time)
-        {
-            elapsedTime += Time.deltaTime;
-
-            if (targetColor != null)
-            {
-                targetColor = new Color(targetColor.r, targetColor.g, targetColor.b, Mathf.Clamp01(targetColor.a));
-                if (targetColor.a > 0f)
-                {
-
-
-                    targetColor.a -= Time.deltaTime / time;
-
-                }
-                else
-                {
-                    targetColor.a = 0f;
-                }
-            }
-            source.PlayOneShot(cardProgressionSound);
-        }
-
-
-        yield return null;
-    }
-
 
 
 }

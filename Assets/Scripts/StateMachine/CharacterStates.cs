@@ -52,7 +52,7 @@ public sealed class CharacterStates
         ForwardAir = new NormalAttackState(character, machine, NormalAttackType.ForwardAir, stats.forwardAirAttack, "Jab", true);
         UpAir = new NormalAttackState(character, machine, NormalAttackType.UpAir, stats.upAirAttack, "Jab", true);
         DownAir = new NormalAttackState(character, machine, NormalAttackType.DownAir, stats.downAirAttack, "Jab", true);
-        DiagonalDownAir = new NormalAttackState(character, machine, NormalAttackType.DiagonalDownAir, stats.diagonalDownAirAttack, "Jab", true);
+        DiagonalDownAir = new NormalAttackState(character, machine, NormalAttackType.DiagonalDownAir, stats.diagonalDownAirAttack, "DiagonalDownAir", true);
 
         HeavyCharge = new HeavyChargeState(character, machine);
         HeavyAttack = new HeavyAttackState(character, machine);

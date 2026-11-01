@@ -13,13 +13,15 @@ public sealed class HeavyChargeState : CharacterState
     private HeavyAttackType attackType;
     private HeavyAttackStats stats;
     private bool isExecuting;
+    private bool isJabFinisher;
 
     public HeavyChargeState(CharacterCoordinator character, CharacterStateMachine stateMachine) : base(character, stateMachine) { }
 
-    public void Prepare(HeavyAttackType selectedAttackType, HeavyAttackStats selectedStats)
+    public void Prepare(HeavyAttackType selectedAttackType, HeavyAttackStats selectedStats, bool fromJabCombo = false)
     {
         attackType = selectedAttackType;
         stats = selectedStats;
+        isJabFinisher = fromJabCombo;
     }
 
     public override void Enter()
@@ -86,7 +88,7 @@ public sealed class HeavyChargeState : CharacterState
 
     private void ExecuteAttack(float chargeRatio)
     {
-        character.States.HeavyAttack.Prepare(attackType, stats, chargeRatio);
+        character.States.HeavyAttack.Prepare(attackType, stats, chargeRatio, isJabFinisher);
         isExecuting = true;
         character.ActiveInput?.ConsumeHeavyAttackRelease();
         stateMachine.ChangeState(character.States.HeavyAttack);

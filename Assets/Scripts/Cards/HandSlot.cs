@@ -7,7 +7,7 @@ public class HandSlot
     public bool IsUnlocked { get; private set; }
     public float ReadyAt { get; private set; }
 
-    public float cooldownDuration { get; private set; }
+    public float CooldownDuration { get; private set; }
 
 
     public bool HasCard => Card != null;
@@ -23,11 +23,12 @@ public class HandSlot
         IsUnlocked = false;
     }
 
-    public void Assign(GameObject cardPrefab, ICardable card, float readyAt)
+    public void Assign(GameObject cardPrefab, ICardable card, float readyAt, float cooldownDuration)
     {
         CardPrefab = cardPrefab;
         Card = card;
         ReadyAt = readyAt;
+        CooldownDuration = cooldownDuration;
     }
 
     public void Clear()
@@ -35,6 +36,7 @@ public class HandSlot
         CardPrefab = null;
         Card = null;
         ReadyAt = 0f;
+        CooldownDuration = 0f;
     }
 
     public bool IsReady(float currentTime)
@@ -44,6 +46,6 @@ public class HandSlot
 
     public HandSlotView CreateView()
     {
-        return new HandSlotView(Card, IsUnlocked, ReadyAt, cooldownDuration);
+        return new HandSlotView(Card, IsUnlocked, ReadyAt, CooldownDuration);
     }
 }

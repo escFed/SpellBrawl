@@ -55,6 +55,7 @@ public class ThunderStrikeCard : MonoBehaviour, ICardable
         if (target != null)
         {
             GameObject th = Instantiate(tsPrefab, target.transform.position, Quaternion.identity);
+            GetComponent<MatchCardUse>()?.CopyTo(th);
 
             if (th.TryGetComponent(out ThunderProjectile tProj))
             {

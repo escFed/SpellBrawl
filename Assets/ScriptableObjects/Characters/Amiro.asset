@@ -37,13 +37,13 @@ MonoBehaviour:
   dashSpeed: 14
   dashDuration: 0.18
   dashRecovery: 0.14
-  dashCooldown: 5
+  dashCooldown: 0.5
   dashAttackSpeed: 12
   dashAttackHitFollowThroughDuration: 0.12
   dashAttackHitFollowThroughSpeed: 7
   dashGrabSpeed: 9
   dashGrabSlideDuration: 0.16
-  jabAttack: {fileID: 11400000, guid: 44e77717bb639cc41947661e52caf25c, type: 2}
+  jabAttack: {fileID: 11400000, guid: 3a3688d234a243e4e913f8cff80a9844, type: 2}
   fTiltAttack: {fileID: 11400000, guid: 92efd899db910784d8877a7790584f14, type: 2}
   upTiltAttack: {fileID: 11400000, guid: 8f17051f3f0f64b4c84fc7a54054b8b0, type: 2}
   dTiltAttack: {fileID: 11400000, guid: 15b0250bc1031cd4a892f7399dd7d177, type: 2}

@@ -48,6 +48,22 @@ public class CharacterAnimationController
         return TryPlayStateName(stateName, true) || TryPlayStateName(fallbackStateName);
     }
 
+    public bool TrySetPlaybackSpeed(float speed)
+    {
+        if (!CanUseAnimator())
+            return false;
+
+        animator.speed = Mathf.Max(0f, speed);
+        return true;
+    }
+
+    public bool HasState(string stateName)
+    {
+        return !string.IsNullOrWhiteSpace(stateName) && animator != null &&
+            animator.layerCount > BaseLayer &&
+            animator.HasState(BaseLayer, Animator.StringToHash($"Base Layer.{stateName}"));
+    }
+
     public bool TrySetFloat(int parameterHash, float value, bool optional = false)
     {
         if (!HasParameter(parameterHash, AnimatorControllerParameterType.Float, optional))

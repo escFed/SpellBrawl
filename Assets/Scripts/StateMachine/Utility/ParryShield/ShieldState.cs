@@ -14,7 +14,8 @@ public class ShieldState : CharacterState
             return;
         }
 
-        character.Animation.TryPlay(ShieldAnimation);
+        if (character.GetComponent<AmiroGuardVisuals>() == null)
+            character.Animation.TryPlay(ShieldAnimation);
         character.Movement.StopAllMovement();
     }
 

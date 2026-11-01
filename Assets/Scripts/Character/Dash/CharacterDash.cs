@@ -3,16 +3,13 @@ using UnityEngine;
 
 public class CharacterDash : MonoBehaviour
 {
-    [Header("Dash Usage")]
-    [SerializeField, Min(1)] private int maxDashes = 3;
-
     public bool CanDash => usage != null && usage.CanUse;
-    public int RemainingDashes => usage?.RemainingUses ?? 0;
     public float CooldownRemaining => usage?.CooldownRemaining ?? 0f;
     public float CooldownDuration => usage?.CooldownDuration ?? 0f;
     public float Direction { get; private set; } = 1f;
+    public bool IsPassingThroughCharacters { get; private set; }
 
-    private LimitedUseCooldown usage;
+    private AbilityCooldown usage;
     private CharacterCoordinator controller;
     private Rigidbody2D body;
     private CharacterMovement movement;
@@ -25,8 +22,8 @@ public class CharacterDash : MonoBehaviour
         controller = GetComponent<CharacterCoordinator>();
         body = GetComponent<Rigidbody2D>();
         movement = GetComponent<CharacterMovement>();
-        float cooldown = controller != null && controller.stats != null ? controller.stats.dashCooldown : 5f;
-        usage = new LimitedUseCooldown(Mathf.Max(1, maxDashes), Mathf.Max(0f, cooldown));
+        float cooldown = controller != null && controller.stats != null ? controller.stats.dashCooldown : 1f;
+        usage = new AbilityCooldown(Mathf.Max(0f, cooldown));
     }
 
     private void Update()
@@ -36,12 +33,12 @@ public class CharacterDash : MonoBehaviour
 
     public bool TryStartDash(float horizontalDirection)
     {
-        if (controller == null || controller.stats == null || !usage.TryConsume())
+        if (controller == null || controller.stats == null || !usage.TryStart())
             return false;
 
         Direction = Mathf.Abs(horizontalDirection) >= 0.2f
             ? Mathf.Sign(horizontalDirection)
-            : Mathf.Sign(transform.localScale.x);
+            : controller.Combat.FacingSign;
         if (Mathf.Approximately(Direction, 0f))
             Direction = 1f;
         controller.Combat.FaceDirection(Direction);
@@ -56,15 +53,10 @@ public class CharacterDash : MonoBehaviour
     {
         EndCharacterCollisionPassThrough();
 
-        Collider2D[] ownerColliders = GetPhysicalColliders(gameObject);
-        CharacterCoordinator[] characters = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
-        Dummy[] trainingDummies = FindObjectsByType<Dummy>(FindObjectsSortMode.None);
+        IsPassingThroughCharacters = true;
 
-        foreach (CharacterCoordinator character in characters)
-        {
-            if (character != null && character.gameObject != gameObject)
-                IgnoreBodyCollisions(ownerColliders, character.gameObject);
-        }
+        Collider2D[] ownerColliders = GetPhysicalColliders(gameObject);
+        Dummy[] trainingDummies = FindObjectsByType<Dummy>(FindObjectsSortMode.None);
 
         foreach (Dummy trainingDummy in trainingDummies)
         {
@@ -87,6 +79,7 @@ public class CharacterDash : MonoBehaviour
 
     public void EndCharacterCollisionPassThrough()
     {
+        IsPassingThroughCharacters = false;
         if (characterCollisions.IsEmpty)
             return;
 

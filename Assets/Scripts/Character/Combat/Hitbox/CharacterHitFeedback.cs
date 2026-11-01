@@ -6,6 +6,7 @@ public class CharacterHitFeedback : MonoBehaviour
     private static readonly Color HitFlashColor = new Color(1f, 0.55f, 0.35f, 1f);
     private static readonly Color StrongFlashColor = new Color(1f, 0.3f, 0.15f, 1f);
     private static readonly Color StunnedFlashColor = new Color(0.45f, 0.8f, 1f, 1f);
+    private static readonly Color AmiroStunnedFlashColor = new Color(1f, 0.85f, 0.9f, 1f);
 
     private SpriteRenderer sprite;
     private Coroutine flashRoutine;
@@ -45,6 +46,8 @@ public class CharacterHitFeedback : MonoBehaviour
             HitReaction.Stunned => StunnedFlashColor,
             _ => HitFlashColor
         };
+        if (reaction == HitReaction.Stunned && GetComponent<AmiroGuardVisuals>() != null)
+            flashColor = AmiroStunnedFlashColor;
 
         sprite.color = flashColor;
         float elapsed = 0f;

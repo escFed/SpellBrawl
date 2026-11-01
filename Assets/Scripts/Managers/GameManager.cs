@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     private bool isRoundTransitioning = false;
     private Coroutine roundResetRoutine;
     private int transitioningRoundWinner = -1;
+    public MatchStatistics Statistics { get; private set; }
 
     [Header("Victory UI")]
     public GameObject victoryPanel;
@@ -28,6 +29,8 @@ public class GameManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        Statistics = new MatchStatistics();
 
         if (SelectionManager.Instance != null && !SelectionManager.Instance.isTrainingMode)
             roundsToWin = SelectionManager.Instance.Rules.RoundsToWin;
@@ -70,6 +73,7 @@ public class GameManager : MonoBehaviour
         transitioningRoundWinner = -1;
         isRoundTransitioning = false;
         UpdateWinsUI();
+        UIManager.Instance?.HideRoundWins();
         if (PauseMenu.isPaused)
         {
             PauseMenu pauseMenu = FindAnyObjectByType<PauseMenu>();
@@ -110,30 +114,29 @@ public class GameManager : MonoBehaviour
         else p1Wins++;
 
         UpdateWinsUI();
-
+        Statistics.RecordRoundScore(p1RoundsWon, p2RoundsWon);
+        Statistics.EndLife(1 - deadPlayerIndex, Time.time);
         if (p1RoundsWon >= roundsToWin)
         {
-            ShowVictoryScreen(GetWinnerMessage(PlayerSlot.PlayerOne));
+            UIManager.Instance?.HideRoundWins();
+            ShowVictoryScreen(PlayerSlot.PlayerOne);
         }
         else if (p2RoundsWon >= roundsToWin)
         {
-            ShowVictoryScreen(GetWinnerMessage(PlayerSlot.PlayerTwo));
+            UIManager.Instance?.HideRoundWins();
+            ShowVictoryScreen(PlayerSlot.PlayerTwo);
         }
         else
         {
+            UIManager.Instance?.ShowRoundWinsForRoundResult();
             roundResetRoutine = StartCoroutine(ResetRoundRoutine());
         }
     }
 
     public void UpdateWinsUI()
     {
-        if (UIManager.Instance != null)
-        {
-            if (UIManager.Instance.p1_winsText != null)
-                UIManager.Instance.p1_winsText.text = p1Wins.ToString(); ;
-            if (UIManager.Instance.p2_winsText != null)
-                UIManager.Instance.p2_winsText.text = p2Wins.ToString(); ;
-        }
+        if (UIManager.Instance != null && UIManager.Instance.roundScoreText != null)
+            UIManager.Instance.roundScoreText.text = $"{p1Wins} - {p2Wins}";
     }
 
     private IEnumerator ResetRoundRoutine()
@@ -152,13 +155,19 @@ public class GameManager : MonoBehaviour
         CountdownManager.Instance.StartNextRound();
     }
 
-    private void ShowVictoryScreen(string message)
+    private void ShowVictoryScreen(PlayerSlot winner)
     {
-        if (winnerText != null) winnerText.text = message;
         if (victoryPanel != null)
         {
             victoryPanel.SetActive(true);
-            UIFocus.SelectFirst(victoryPanel);
+            MatchResultsView results = victoryPanel.GetComponent<MatchResultsView>();
+            if (results != null)
+                results.Show(Statistics, (int)winner);
+            else
+            {
+                if (winnerText != null) winnerText.text = GetWinnerMessage(winner);
+                UIFocus.SelectFirst(victoryPanel);
+            }
         }
         Time.timeScale = 0f;
     }
@@ -166,7 +175,7 @@ public class GameManager : MonoBehaviour
     private static string GetWinnerMessage(PlayerSlot slot)
     {
         string winnerName = SelectionManager.Instance != null ? SelectionManager.Instance.GetDisplayName(slot): ModeRules.GetDisplayName(MatchMode.PlayerVsPlayer, slot);
-        return $"{winnerName} Wins";
+        return $"{winnerName} GANA";
     }
 
     public void Rematch()

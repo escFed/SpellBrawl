@@ -23,6 +23,7 @@ public class ForwardTiltState : GroundAttackState
         if (Mathf.Abs(character.MoveInput.x) >= character.stats.tiltThreshold)
             character.Combat.FaceDirection(character.MoveInput.x);
         facingSign = character.Combat.FacingSign;
+        character.Combat.LockFacing();
         base.Enter();
         character.Animation.TryPlay("FTilt", "Jab");
     }
@@ -50,6 +51,7 @@ public class ForwardTiltState : GroundAttackState
     public override void Exit()
     {
         base.Exit();
+        character.Combat.UnlockFacing();
         character.Movement.StopHorizontalMovement();
         openerConnected = false;
         followupQueued = false;

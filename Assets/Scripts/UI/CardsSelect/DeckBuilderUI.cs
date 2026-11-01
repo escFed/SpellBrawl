@@ -340,14 +340,6 @@ public class DeckBuilderUI : MonoBehaviour
         if (deckSizeText != null)
             deckSizeText.text = rules != null ? $"{selectedCards.Count}/{rules.DeckSize}" : "0/0";
 
-      if(selectedCards.Count == 8)
-        {
-            deckSizeText.text = $"<color=green>{selectedCards.Count}/{rules.DeckSize}</color>"; 
-            LeanTween.scale(deckSizeText.gameObject, Vector3.one * 3f, 1.2f).setEasePunch().setOnComplete(() => {
-                LeanTween.scale(deckSizeText.gameObject, Vector3.one, 0.5f).setEaseOutBack().setDelay(1.2f);
-            });
-        }
-
         if (selectingPlayerText != null)
             selectingPlayerText.text = GetParticipantLabel();
 
@@ -460,7 +452,6 @@ public class DeckBuilderUI : MonoBehaviour
 
         for (int i = 0; i < selectedCards.Count; i++)
             selectedCardSet.Add(selectedCards[i]);
-        
 
         foreach (var cardPrefab in selectedCards)
         {
@@ -470,7 +461,6 @@ public class DeckBuilderUI : MonoBehaviour
                 cardVisual.SetActive(true);
                 ConfigureSelectedCardVisual(cardVisual, cardPrefab, true);
                 cardVisuals[cardPrefab] = cardVisual;
-               
             }
         }
         RepositionCards();

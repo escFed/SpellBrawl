@@ -40,9 +40,10 @@ public class FireProjectile : MonoBehaviour
             float dir = Mathf.Sign(rb.linearVelocity.x);
             Vector2 directedKnockback = new Vector2(knockback.x * dir, knockback.y);
 
-            target.ReceiveHit(new CombatHit(damage, directedKnockback, hitStun,
+            bool applied = target.ReceiveHit(new CombatHit(damage, directedKnockback, hitStun,
                 HitReaction.Hit, collision.ClosestPoint(transform.position), attackerPlayerIndex, launch,
                 attacker: caster != null ? caster.GetComponent<CharacterCoordinator>() : null));
+            if (applied) GetComponent<MatchCardUse>()?.MarkHit();
 
             Destroy(gameObject);
         }

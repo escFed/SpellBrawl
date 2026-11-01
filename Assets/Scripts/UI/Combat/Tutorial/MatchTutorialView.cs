@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 using UnityEngine.UI;
 
 public class MatchTutorialView : MonoBehaviour
@@ -34,6 +35,8 @@ public class MatchTutorialView : MonoBehaviour
     private InputAction advanceAction;
     private int visiblePreviewCards;
     private ControlsTutorial controls;
+    private IDisposable inputListener;
+    private bool useGamepad;
     private readonly Vector3[] targetCorners = new Vector3[4];
 
     public bool IsConfigured
@@ -58,6 +61,12 @@ public class MatchTutorialView : MonoBehaviour
         advanceAction = InputSystem.actions?.FindAction("UI/TutorialAdvance");
     }
 
+    private void OnDisable()
+    {
+        inputListener?.Dispose();
+        inputListener = null;
+    }
+
     public void Open(UIManager uiManager, Action<bool> finished)
     {
         if (!IsConfigured)
@@ -70,6 +79,21 @@ public class MatchTutorialView : MonoBehaviour
         controls = GetComponentInChildren<ControlsTutorial>(true);
         if (controls == null)
             controls = hud != null ? hud.controlsTutorial : null;
+        GameObject player = RespawnManager.Instance != null ? RespawnManager.Instance.p1Instance : null;
+        PlayerInput playerInput = player != null ? player.GetComponent<PlayerInput>() : null;
+        useGamepad = playerInput != null && playerInput.currentControlScheme == "Gamepad";
+        if (playerInput == null || string.IsNullOrEmpty(playerInput.currentControlScheme))
+            useGamepad = Gamepad.current != null && Keyboard.current == null;
+        inputListener?.Dispose();
+        inputListener = InputSystem.onAnyButtonPress.Call(control =>
+        {
+            if (!isOpen)
+                return;
+            if (control.device is Gamepad)
+                SetControlType(true);
+            else if (control.device is Keyboard || control.device is Mouse)
+                SetControlType(false);
+        });
         onFinished = finished;
         currentPage = 0;
         visiblePreviewCards = 0;
@@ -132,6 +156,8 @@ public class MatchTutorialView : MonoBehaviour
             return;
 
         isOpen = false;
+        inputListener?.Dispose();
+        inputListener = null;
         controls?.HideForTutorial();
         HideAllCardPreviews();
         RemoveButtonListeners();
@@ -150,7 +176,7 @@ public class MatchTutorialView : MonoBehaviour
         {
             if (controls != null && controls.transform.parent == transform)
                 controls.transform.SetSiblingIndex(1);
-            controls?.ShowForTutorial();
+            controls?.ShowForTutorial(useGamepad);
         }
         else
             controls?.HideForTutorial();
@@ -167,6 +193,16 @@ public class MatchTutorialView : MonoBehaviour
 
         if (EventSystem.current != null)
             EventSystem.current.SetSelectedGameObject(page.nextButton.gameObject);
+    }
+
+    private void SetControlType(bool isGamepad)
+    {
+        if (useGamepad == isGamepad)
+            return;
+
+        useGamepad = isGamepad;
+        if (pages[currentPage].showControls)
+            controls?.SetControlType(isGamepad);
     }
 
     private void HideAllCardPreviews()

@@ -40,7 +40,7 @@ public class AIExecutor
         Reset(input);
 
         float deltaX = perceivedTargetPosition.x - selfTransform.position.x;
-        float directionX = Mathf.Abs(deltaX) < 0.01f ? GetFacingDirection(selfTransform): Mathf.Sign(deltaX);
+        float directionX = Mathf.Abs(deltaX) < 0.01f ? GetFacingDirection(selfController, selfTransform) : Mathf.Sign(deltaX);
 
         switch (action.Decision)
         {
@@ -147,8 +147,11 @@ public class AIExecutor
             input.SetDirection(Vector2.zero);
     }
 
-    private static float GetFacingDirection(Transform selfTransform)
+    private static float GetFacingDirection(CharacterCoordinator selfController, Transform selfTransform)
     {
+        if (selfController != null && selfController.Combat != null)
+            return selfController.Combat.FacingSign;
+
         return selfTransform.localScale.x >= 0f ? 1f : -1f;
     }
 }

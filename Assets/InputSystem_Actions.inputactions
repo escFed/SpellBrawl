@@ -531,7 +531,7 @@
                 {
                     "name": "",
                     "id": "78fdc0bc-e107-4608-989d-33791ec033b2",
-                    "path": "<Keyboard>/l",
+                    "path": "<Keyboard>/i",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -564,7 +564,7 @@
                 {
                     "name": "",
                     "id": "39bf0e40-a193-4af8-a6c8-ff7c26d68342",
-                    "path": "<Keyboard>/u",
+                    "path": "<Keyboard>/o",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -585,8 +585,8 @@
                 },
                 {
                     "name": "",
-                    "id": "493d7f0f-e079-4bfd-b209-d13c09595933",
-                    "path": "<Keyboard>/o",
+                    "id": "b25b64c7-cade-4a8f-b809-80e3c93aa770",
+                    "path": "<Keyboard>/l",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -602,17 +602,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "RightDefenseTrigger",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "fb6d00b8-f924-4bb6-babe-0fc52ecfcc07",
-                    "path": "<Keyboard>/i",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Dodge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -640,19 +629,8 @@
                 },
                 {
                     "name": "",
-                    "id": "aa294045-908e-4372-8633-74f6a03e915f",
-                    "path": "<Keyboard>/o",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2db404c7-2006-4100-8560-88c1dbab038e",
-                    "path": "<Keyboard>/i",
+                    "id": "6a392125-e64e-4e6e-816e-87339d16cd3b",
+                    "path": "<Keyboard>/l",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

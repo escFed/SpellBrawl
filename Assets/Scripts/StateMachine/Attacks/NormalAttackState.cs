@@ -12,6 +12,7 @@ public class NormalAttackState : AttackState
     private bool isAerial;
     private int jabStage;
     private bool jabFollowupQueued;
+    private bool jabHeavyQueued;
     private float attackFacingSign;
 
     public NormalAttackState(CharacterCoordinator character, CharacterStateMachine stateMachine, NormalAttackType attackType, NormalAttackStats attackStats, string animationState, bool isAerial) : base(character, stateMachine, attackStats)
@@ -25,6 +26,7 @@ public class NormalAttackState : AttackState
     {
         jabStage = 0;
         jabFollowupQueued = false;
+        jabHeavyQueued = false;
         if (attackType == NormalAttackType.DownAir)
             character.Movement.DisarmFastFallUntilDownReleased();
         if (attackType == NormalAttackType.DiagonalDownAir)
@@ -34,7 +36,10 @@ public class NormalAttackState : AttackState
             character.Combat.LockFacing();
         }
         base.Enter();
-        character.Animation.TryPlay(animationState);
+        if (attackType == NormalAttackType.DiagonalDownAir)
+            character.Animation.TryPlay(animationState, "Jab");
+        else
+            character.Animation.TryPlay(animationState);
     }
 
     public override void Exit()
@@ -52,7 +57,18 @@ public class NormalAttackState : AttackState
             return;
         }
 
+        if (attackType == NormalAttackType.Jab && jabStage == 1 && !jabHeavyQueued &&
+            character.IsGrounded && character.HeavyAttackPressed &&
+            ElapsedTime <= Startup + Active + jabInputWindowAfterActive)
+        {
+            character.ActiveInput.ConsumeHeavyAttack();
+            character.ActiveInput.ConsumeAttack();
+            jabFollowupQueued = false;
+            jabHeavyQueued = true;
+        }
+
         if (attackType == NormalAttackType.Jab && jabStage < jabFinisherStage &&
+            !jabHeavyQueued &&
             !jabFollowupQueued && character.AttackInput &&
             ElapsedTime >= Startup && ElapsedTime <= Startup + Active + jabInputWindowAfterActive)
         {
@@ -61,6 +77,31 @@ public class NormalAttackState : AttackState
         }
 
         base.Update();
+
+        if (attackType != NormalAttackType.Jab || !jabHeavyQueued ||
+            stateMachine.CurrentState != this || ElapsedTime < Startup + Active || !character.IsGrounded)
+            return;
+
+        HeavyAttackType heavyType = character.Combat.ResolveHeavyAttackType();
+        HeavyAttackStats heavyStats = character.Combat.GetHeavyAttackStats(heavyType);
+        jabHeavyQueued = false;
+        if (heavyStats == null)
+        {
+            Debug.LogError($"[NormalAttackState] Missing {heavyType} Heavy Attack stats on '{character.name}'.", character);
+            return;
+        }
+
+        if (character.ActiveInput.IsHeavyAttackHeld)
+        {
+            character.States.HeavyCharge.Prepare(heavyType, heavyStats, true);
+            stateMachine.ChangeState(character.States.HeavyCharge);
+        }
+        else
+        {
+            character.ActiveInput.ConsumeHeavyAttackRelease();
+            character.States.HeavyAttack.Prepare(heavyType, heavyStats, 0f, true);
+            stateMachine.ChangeState(character.States.HeavyAttack);
+        }
     }
 
     public override void FixedUpdate()
@@ -101,7 +142,7 @@ public class NormalAttackState : AttackState
         jabStage++;
         jabFollowupQueued = false;
         RestartAttack();
-        character.Animation.TryPlay(animationState);
+        character.Animation.TryPlay($"{animationState}{jabStage + 1}", animationState);
         return true;
     }
 }

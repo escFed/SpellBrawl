@@ -34,12 +34,7 @@ public class CharacterHitBox : MonoBehaviour
 
     public void CheckAndFlip(float directionX)
     {
-        if (facingLocked)
-            return;
-        if (directionX > 0 && !IsFacingRight)
-            Flip();
-        else if (directionX < 0 && IsFacingRight)
-            Flip();
+        FaceDirection(directionX);
     }
 
     public void FaceDirection(float directionX)
@@ -51,15 +46,7 @@ public class CharacterHitBox : MonoBehaviour
 
         IsFacingRight = directionX > 0f;
         Vector3 localScale = transform.localScale;
-        localScale.x = Mathf.Abs(localScale.x) * (IsFacingRight ? 1f : -1f);
-        transform.localScale = localScale;
-    }
-
-    private void Flip()
-    {
-        IsFacingRight = !IsFacingRight;
-        Vector3 localScale = transform.localScale;
-        localScale.x *= -1f;
+        localScale.x = Mathf.Abs(localScale.x) * (IsFacingRight == originalSpriteFacesRight ? 1f : -1f);
         transform.localScale = localScale;
     }
 

@@ -1,0 +1,346 @@
+fileFormatVersion: 2
+guid: e66bb2b19ff8a9845b0cc45417744a69
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1343863713624084167
+    second: ShieldRuneSphereFx_128x128_0
+  - first:
+      213: 5201856323044443461
+    second: ShieldRuneSphereFx_128x128_1
+  - first:
+      213: 106586693557186025
+    second: ShieldRuneSphereFx_128x128_2
+  - first:
+      213: -3645529050785775916
+    second: ShieldRuneSphereFx_128x128_3
+  - first:
+      213: 6990547527139596800
+    second: ShieldRuneSphereFx_128x128_4
+  - first:
+      213: 7382938152810054819
+    second: ShieldRuneSphereFx_128x128_5
+  - first:
+      213: 5377738505835053265
+    second: ShieldRuneSphereFx_128x128_6
+  - first:
+      213: 2575582567743343643
+    second: ShieldRuneSphereFx_128x128_7
+  - first:
+      213: -5235053571607499409
+    second: ShieldRuneSphereFx_128x128_8
+  - first:
+      213: -3371462027075362478
+    second: ShieldRuneSphereFx_128x128_9
+  - first:
+      213: -6145003257690653547
+    second: ShieldRuneSphereFx_128x128_10
+  - first:
+      213: -251129771669277797
+    second: ShieldRuneSphereFx_128x128_11
+  - first:
+      213: -3781316283957406556
+    second: ShieldRuneSphereFx_128x128_12
+  - first:
+      213: 7030553386695353487
+    second: ShieldRuneSphereFx_128x128_13
+  - first:
+      213: -578068799681423997
+    second: ShieldRuneSphereFx_128x128_14
+  - first:
+      213: 5493344786727894425
+    second: ShieldRuneSphereFx_128x128_15
+  - first:
+      213: 8944917897321669901
+    second: ShieldRuneSphereFx_128x128_16
+  - first:
+      213: 311567363584305751
+    second: ShieldRuneSphereFx_128x128_17
+  - first:
+      213: -5753695154640484890
+    second: ShieldRuneSphereFx_128x128_18
+  - first:
+      213: -4405658983417900312
+    second: ShieldRuneSphereFx_128x128_19
+  - first:
+      213: 1055107352786023240
+    second: ShieldRuneSphereFx_128x128_20
+  - first:
+      213: -3818916491125254239
+    second: ShieldRuneSphereFx_128x128_21
+  - first:
+      213: -4408571659000237734
+    second: ShieldRuneSphereFx_128x128_22
+  - first:
+      213: -8377070576428534802
+    second: ShieldRuneSphereFx_128x128_23
+  - first:
+      213: 7491061473636519627
+    second: ShieldRuneSphereFx_128x128_24
+  - first:
+      213: 5506854172219796263
+    second: ShieldRuneSphereFx_128x128_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ShieldRuneSphereFx_128x128_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93136e29213a95de0800000000000000
+      internalID: -1343863713624084167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShieldRuneSphereFx_128x128_1
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5450fa3e3c4b03840800000000000000
+      internalID: 5201856323044443461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShieldRuneSphereFx_128x128_2
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ed6247780caa7100800000000000000
+      internalID: 106586693557186025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShieldRuneSphereFx_128x128_3
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4defb85a4aa786dc0800000000000000
+      internalID: -3645529050785775916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShieldRuneSphereFx_128x128_4
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00a14ac30f9630160800000000000000
+      internalID: 6990547527139596800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShieldRuneSphereFx_128x128_5
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a40cec2227757660800000000000000
+      internalID: 7382938152810054819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 97fdcc21a85932448a718d0bbff7c6f4
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      ShieldRuneSphereFx_128x128_0: -1343863713624084167
+      ShieldRuneSphereFx_128x128_1: 5201856323044443461
+      ShieldRuneSphereFx_128x128_2: 106586693557186025
+      ShieldRuneSphereFx_128x128_3: -3645529050785775916
+      ShieldRuneSphereFx_128x128_4: 6990547527139596800
+      ShieldRuneSphereFx_128x128_5: 7382938152810054819
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -34,6 +34,8 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
     public void SetUI(Image img)
     {
         cardVisual = img;
+        if (img != null)
+            img.sprite = cardIcon;
     }
 
     public bool CanBeUsed(CharacterCoordinator user)
@@ -77,8 +79,9 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
 
             if (opponent.TryGetComponent(out CharacterHealth opponentHealth))
             {
-                opponentHealth.ReceiveHit(new CombatHit(damage, knockback, hitStun, HitReaction.Hit, opponent.transform.position, character.PlayerIndex, launch,
+                bool applied = opponentHealth.ReceiveHit(new CombatHit(damage, knockback, hitStun, HitReaction.Hit, opponent.transform.position, character.PlayerIndex, launch,
                     attacker: character));
+                if (applied) GetComponent<MatchCardUse>()?.MarkHit();
             }
 
             opponent.Movement.moveSpeedMultiplier = slowAmount;

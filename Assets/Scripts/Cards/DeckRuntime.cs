@@ -110,7 +110,7 @@ public class DeckRuntime
 
         HandSlot slot = handSlots[activeHandSize];
         slot.Unlock();
-        slot.Assign(cardPrefab, cardPrefab.GetComponent<ICardable>(), readyAt);
+        slot.Assign(cardPrefab, cardPrefab.GetComponent<ICardable>(), readyAt, rules.DrawnCardCooldown);
         activeHandSize++;
         return true;
     }
@@ -126,7 +126,8 @@ public class DeckRuntime
         if (!TryDrawPrefab(out GameObject cardPrefab))
             return false;
 
-        handSlots[handIndex].Assign(cardPrefab, cardPrefab.GetComponent<ICardable>(), readyAt);
+        handSlots[handIndex].Assign(cardPrefab, cardPrefab.GetComponent<ICardable>(), readyAt,
+            readyAt > 0f ? rules.DrawnCardCooldown : 0f);
         return true;
     }
 
@@ -148,7 +149,8 @@ public class DeckRuntime
             discardStack.Add(slot.CardPrefab);
 
             GameObject replacementPrefab = redrawBuffer[i];
-            slot.Assign(replacementPrefab, replacementPrefab.GetComponent<ICardable>(), readyAt);
+            slot.Assign(replacementPrefab, replacementPrefab.GetComponent<ICardable>(), readyAt,
+                rules.DrawnCardCooldown);
         }
 
         return true;

@@ -15,6 +15,7 @@ public class CharacterShield : MonoBehaviour
     public float CooldownLength => CooldownDuration;
 
     private SpriteRenderer characterSprite;
+    private AmiroGuardVisuals guardVisuals;
     private Color colorBeforeShield;
     private float activeEndsAt;
     private float cooldownEndsAt;
@@ -22,6 +23,7 @@ public class CharacterShield : MonoBehaviour
     public void Initialize(SpriteRenderer sprite)
     {
         characterSprite = sprite;
+        guardVisuals = GetComponent<AmiroGuardVisuals>();
 
         if (characterSprite != null)
             colorBeforeShield = characterSprite.color;
@@ -42,7 +44,9 @@ public class CharacterShield : MonoBehaviour
         RemainingResistance = MaximumResistance;
         activeEndsAt = Time.time + ActiveDuration;
 
-        if (characterSprite != null)
+        if (guardVisuals != null)
+            guardVisuals.OnShieldStarted();
+        else if (characterSprite != null)
         {
             colorBeforeShield = characterSprite.color;
             characterSprite.color = ShieldColor;
@@ -51,7 +55,7 @@ public class CharacterShield : MonoBehaviour
         return true;
     }
 
-    public int AbsorbDamage(int incomingDamage)
+    public int AbsorbDamage(int incomingDamage, Vector2 hitPoint)
     {
         incomingDamage = Mathf.Max(0, incomingDamage);
 
@@ -61,6 +65,8 @@ public class CharacterShield : MonoBehaviour
         int absorbedDamage = Mathf.Min(RemainingResistance, incomingDamage);
         RemainingResistance -= absorbedDamage;
 
+        guardVisuals?.OnShieldImpact((float)RemainingResistance / MaximumResistance, hitPoint);
+
         if (RemainingResistance == 0)
             Break();
 
@@ -69,10 +75,17 @@ public class CharacterShield : MonoBehaviour
 
     public void Break()
     {
-        Deactivate();
+        if (!IsActive) return;
+        guardVisuals?.OnShieldBroken();
+        DeactivateInternal(true);
     }
 
     public void Deactivate()
+    {
+        DeactivateInternal(false);
+    }
+
+    private void DeactivateInternal(bool broken)
     {
         if (!IsActive)
             return;
@@ -80,6 +93,7 @@ public class CharacterShield : MonoBehaviour
         IsActive = false;
         RemainingResistance = 0;
         cooldownEndsAt = Time.time + CooldownDuration;
+        if (!broken) guardVisuals?.OnShieldStopped();
         RestoreSpriteColor();
     }
 
@@ -89,6 +103,7 @@ public class CharacterShield : MonoBehaviour
         RemainingResistance = 0;
         activeEndsAt = 0f;
         cooldownEndsAt = 0f;
+        guardVisuals?.OnShieldStopped();
         RestoreSpriteColor();
     }
 
@@ -99,12 +114,13 @@ public class CharacterShield : MonoBehaviour
 
         IsActive = false;
         RemainingResistance = 0;
+        guardVisuals?.OnShieldStopped();
         RestoreSpriteColor();
     }
 
     private void RestoreSpriteColor()
     {
-        if (characterSprite != null)
+        if (guardVisuals == null && characterSprite != null)
             characterSprite.color = colorBeforeShield;
     }
 }

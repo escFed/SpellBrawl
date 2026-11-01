@@ -5,7 +5,6 @@ public class DashState : CharacterState
     private enum Phase { Startup, Active, Recovery }
 
     private const float StartupDuration = 0.04f;
-    private const float ChainWindow = 0.08f;
 
     private Phase phase;
     private float timer;
@@ -62,14 +61,6 @@ public class DashState : CharacterState
                 break;
 
             case Phase.Recovery:
-                if (timer >= character.stats.dashRecovery - ChainWindow && character.IsGrounded && character.DashPressed &&
-                    character.Dash.TryStartDash(character.MoveInput.x))
-                {
-                    character.ActiveInput?.ConsumeDash();
-                    BeginDash();
-                    return;
-                }
-
                 if (timer >= character.stats.dashRecovery)
                     ReturnToLocomotion();
                 break;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -19,9 +20,15 @@ public class MenuManager : MonoBehaviour
     public GameObject mapSelectPanel;
     public GameObject settingsPanel;
 
+    [Header("Panel Transition")]
+    [SerializeField, Min(0f)] private float transitionSeconds = 0.3f;
+    [SerializeField, Min(0f)] private float confirmationHoldSeconds = 0.2f;
+
     private InputAction cancelAction;
     private InputAction showRulesAction;
     private bool backQueued;
+    private bool transitioning;
+    private GameObject currentPanel;
 
     private void Start()
     {
@@ -30,11 +37,22 @@ public class MenuManager : MonoBehaviour
             EventSystem.current.TryGetComponent(out InputSystemUIInputModule inputModule))
             cancelAction = inputModule.cancel?.action;
 
+        GameObject[] panels = { mainMenuPanel, gameModePanel, rulesPanel, howToPlayPanel,
+            controlsPanel, characterSelectPanel, cardsSelectPanel, mapSelectPanel, settingsPanel };
+        foreach (GameObject panel in panels)
+        {
+            if (panel != null)
+                panel.SetActive(false);
+        }
+
         ShowMainMenu();
     }
 
     private void Update()
     {
+        if (transitioning)
+            return;
+
         if (gameModePanel != null && gameModePanel.activeSelf && rulesView != null &&
             showRulesAction != null && showRulesAction.WasPressedThisFrame())
         {
@@ -55,6 +73,9 @@ public class MenuManager : MonoBehaviour
         yield return null;
         backQueued = false;
 
+        if (transitioning)
+            yield break;
+
         if (cardsSelectPanel != null && cardsSelectPanel.activeInHierarchy)
         {
             DeckBuilderUI deckBuilder = cardsSelectPanel.GetComponent<DeckBuilderUI>();
@@ -68,6 +89,9 @@ public class MenuManager : MonoBehaviour
 
     public void Back()
     {
+        if (transitioning)
+            return;
+
         if (rulesPanel != null && rulesPanel.activeSelf)
             ShowGameModeSelect();
         else if (settingsPanel != null && settingsPanel.activeSelf)
@@ -105,6 +129,9 @@ public class MenuManager : MonoBehaviour
 
     public void BackFromCardsSelect()
     {
+        if (transitioning)
+            return;
+
         if (cardsSelectPanel == null || !cardsSelectPanel.activeSelf)
             return;
 
@@ -120,43 +147,18 @@ public class MenuManager : MonoBehaviour
 
     public void ShowMainMenu()
     {
-        CloseSettings();
-        if (rulesPanel != null) rulesPanel.SetActive(false);
-        mainMenuPanel.SetActive(true);
-        if (gameModePanel != null) gameModePanel.SetActive(false);
-        characterSelectPanel.SetActive(false);
-        cardsSelectPanel.SetActive(false);
-        if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
-        howToPlayPanel.SetActive(false);
-        settingsPanel.SetActive(false);
-        if (controlsPanel != null) controlsPanel.SetActive(false);
-        Focus(mainMenuPanel);
+        SwitchPanel(mainMenuPanel, true);
     }
 
     public void ShowHowToPlay()
     {
-        CloseSettings();
-        if (rulesPanel != null) rulesPanel.SetActive(false);
-        mainMenuPanel.SetActive(false);
-        if (gameModePanel != null) gameModePanel.SetActive(false);
-        controlsPanel.SetActive(false);
-        howToPlayPanel.SetActive(true);
-        if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
-        Focus(howToPlayPanel);
+        SwitchPanel(howToPlayPanel);
     }
 
     public void ShowGameModeSelect()
     {
-        CloseSettings();
-        if (rulesPanel != null) rulesPanel.SetActive(false);
-        mainMenuPanel.SetActive(false);
-        if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
-        if (controlsPanel != null) controlsPanel.SetActive(false);
-        if (characterSelectPanel != null) characterSelectPanel.SetActive(false);
-        if (cardsSelectPanel != null) cardsSelectPanel.SetActive(false);
-        if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
-        if (gameModePanel != null) gameModePanel.SetActive(true);
-        Focus(gameModePanel);
+        bool goingBack = currentPanel != mainMenuPanel;
+        SwitchPanel(gameModePanel, goingBack);
     }
 
     public void ShowRules()
@@ -164,9 +166,7 @@ public class MenuManager : MonoBehaviour
         if (rulesView == null || rulesPanel == null || gameModePanel == null)
             return;
 
-        gameModePanel.SetActive(false);
-        rulesPanel.SetActive(true);
-        Focus(rulesPanel);
+        SwitchPanel(rulesPanel);
     }
 
     public void SelectPlayerVsPlayer()
@@ -186,37 +186,24 @@ public class MenuManager : MonoBehaviour
 
     public void CharacterSelect()
     {
-        CloseSettings();
-        if (rulesPanel != null) rulesPanel.SetActive(false);
+        if (transitioning)
+            return;
+
         if (SelectionManager.Instance != null)
             SelectionManager.Instance.isTrainingMode = false;
 
-        mainMenuPanel.SetActive(false);
-        if (gameModePanel != null) gameModePanel.SetActive(false);
-        if (controlsPanel != null) controlsPanel.SetActive(false);
-        characterSelectPanel.SetActive(true);
-        if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
-        howToPlayPanel.SetActive(false);
-        BeginCharacterSelection();
-        Focus(characterSelectPanel);
+        SwitchPanel(characterSelectPanel, false, BeginCharacterSelection);
     }
 
     public void TrainingRoom()
     {
-        CloseSettings();
-        if (rulesPanel != null) rulesPanel.SetActive(false);
+        if (transitioning)
+            return;
+
         if (SelectionManager.Instance != null)
             SelectionManager.Instance.isTrainingMode = true;
 
-        mainMenuPanel.SetActive(false);
-        if (gameModePanel != null) gameModePanel.SetActive(false);
-        if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
-        if (controlsPanel != null) controlsPanel.SetActive(false);
-        if (cardsSelectPanel != null) cardsSelectPanel.SetActive(false);
-        if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
-        characterSelectPanel.SetActive(true);
-        BeginCharacterSelection();
-        Focus(characterSelectPanel);
+        SwitchPanel(characterSelectPanel, false, BeginCharacterSelection);
     }
 
     public void GoToTrainingRoom()
@@ -226,14 +213,12 @@ public class MenuManager : MonoBehaviour
 
     public void ShowCardsSelect()
     {
-        CloseSettings();
-        characterSelectPanel.SetActive(false);
-        howToPlayPanel.SetActive(false);
-        cardsSelectPanel.SetActive(true);
-        DeckBuilderUI deckBuilder = cardsSelectPanel.GetComponent<DeckBuilderUI>();
-        if (deckBuilder != null)
-            deckBuilder.BeginSelection(PlayerSlot.PlayerOne);
-        Focus(cardsSelectPanel);
+        SwitchPanel(cardsSelectPanel, false, () =>
+        {
+            DeckBuilderUI deckBuilder = cardsSelectPanel.GetComponent<DeckBuilderUI>();
+            if (deckBuilder != null)
+                deckBuilder.BeginSelection(PlayerSlot.PlayerOne);
+        });
     }
 
     public void HandleCharacterSelectionComplete()
@@ -249,42 +234,23 @@ public class MenuManager : MonoBehaviour
 
     public void ShowMapSelect()
     {
-        CloseSettings();
-        if (rulesPanel != null) rulesPanel.SetActive(false);
-
-        if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
-        if (gameModePanel != null) gameModePanel.SetActive(false);
-        characterSelectPanel.SetActive(false);
-        cardsSelectPanel.SetActive(false);
-        howToPlayPanel.SetActive(false);
-        if (controlsPanel != null) controlsPanel.SetActive(false);
-        mapSelectPanel.SetActive(true);
-        Focus(mapSelectPanel);
+        SwitchPanel(mapSelectPanel);
     }
 
     public void BackToCharacterSelect()
     {
-        CloseSettings();
-        cardsSelectPanel.SetActive(false);
-        if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
-        characterSelectPanel.SetActive(true);
-        BeginCharacterSelection();
-        Focus(characterSelectPanel);
+        SwitchPanel(characterSelectPanel, true, BeginCharacterSelection);
     }
 
     public void BackToCardsSelect()
     {
-        CloseSettings();
-
         if (SelectionManager.Instance != null && SelectionManager.Instance.matchMode == MatchMode.AIVsAI)
         {
             BackToCharacterSelect();
             return;
         }
 
-        if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
-        cardsSelectPanel.SetActive(true);
-        Focus(cardsSelectPanel);
+        SwitchPanel(cardsSelectPanel, true);
     }
 
     public void GoToStage1()
@@ -294,16 +260,12 @@ public class MenuManager : MonoBehaviour
 
     public void ShowControls()
     {
-        if (controlsPanel != null) controlsPanel.SetActive(true);
-        howToPlayPanel.SetActive(false);
-        Focus(controlsPanel);
+        SwitchPanel(controlsPanel);
     }
 
     public void HideControls()
     {
-        if (controlsPanel != null) controlsPanel.SetActive(false);
-        howToPlayPanel.SetActive(true);
-        Focus(howToPlayPanel);
+        SwitchPanel(howToPlayPanel, true);
     }
 
     public void QuitGame()
@@ -313,25 +275,9 @@ public class MenuManager : MonoBehaviour
 
     public void ShowSettings()
     {
-        if (rulesPanel != null) rulesPanel.SetActive(false);
-        mainMenuPanel.SetActive(false);
-        if (gameModePanel != null) gameModePanel.SetActive(false);
-        if (howToPlayPanel != null) howToPlayPanel.SetActive(false);
-        if (controlsPanel != null) controlsPanel.SetActive(false);
-        if (characterSelectPanel != null) characterSelectPanel.SetActive(false);
-        if (cardsSelectPanel != null) cardsSelectPanel.SetActive(false);
-        if (mapSelectPanel != null) mapSelectPanel.SetActive(false);
-        if (settingsPanel != null)
-        {
-            settingsPanel.SetActive(true);
-
-            if (settingsPanel.TryGetComponent(out SettingsController settingsController))
-            {
-                settingsController.ShowSettingsHome();
-            }
-
-            Focus(settingsPanel);
-        }
+        if (settingsPanel != null && settingsPanel.TryGetComponent(out SettingsController settings))
+            settings.AnimateSections = true;
+        SwitchPanel(settingsPanel);
     }
 
     public void HideSettings()
@@ -339,13 +285,11 @@ public class MenuManager : MonoBehaviour
         ShowMainMenu();
     }
 
-    private void CloseSettings()
-    {
-        if (settingsPanel != null) settingsPanel.SetActive(false);
-    }
-
     private void SelectMatchMode(MatchMode mode)
     {
+        if (transitioning)
+            return;
+
         if (SelectionManager.Instance == null)
         {
             Debug.LogError("[MenuManager] SelectionManager is required before choosing a match mode.", this);
@@ -371,6 +315,96 @@ public class MenuManager : MonoBehaviour
     {
         if (panel != null)
             StartCoroutine(UIFocus.SelectFirstNextFrame(panel));
+    }
+
+    private void SwitchPanel(GameObject target, bool goingBack = false, Action onEnter = null)
+    {
+        if (target == null || transitioning)
+            return;
+
+        if (currentPanel == settingsPanel && settingsPanel != null &&
+            settingsPanel.TryGetComponent(out SettingsController settings) && settings.IsSectionChanging)
+            return;
+
+        if (currentPanel == target)
+        {
+            Focus(target);
+            return;
+        }
+
+        if (currentPanel == null || transitionSeconds <= 0f)
+        {
+            if (currentPanel != null)
+                currentPanel.SetActive(false);
+            target.SetActive(true);
+            currentPanel = target;
+            onEnter?.Invoke();
+            Focus(target);
+            return;
+        }
+
+        StartCoroutine(TransitionPanels(currentPanel, target, goingBack ? -1f : 1f, onEnter));
+    }
+
+    private IEnumerator TransitionPanels(GameObject outgoing, GameObject incoming, float direction, Action onEnter)
+    {
+        transitioning = true;
+
+        // Let the first flashes read before the selected panel starts moving.
+        if (confirmationHoldSeconds > 0f)
+            yield return new WaitForSecondsRealtime(confirmationHoldSeconds);
+
+        UIFocus.Clear();
+
+        CanvasGroup outgoingGroup = GetTransitionGroup(outgoing);
+        CanvasGroup incomingGroup = GetTransitionGroup(incoming);
+        RectTransform outgoingRect = outgoing.GetComponent<RectTransform>();
+        RectTransform incomingRect = incoming.GetComponent<RectTransform>();
+        Vector2 outgoingPosition = outgoingRect.anchoredPosition;
+        Vector2 incomingPosition = incomingRect.anchoredPosition;
+        float travel = Mathf.Max(outgoingRect.rect.width, incomingRect.rect.width);
+        bool outgoingInteractable = outgoingGroup.interactable;
+        bool outgoingBlocksRaycasts = outgoingGroup.blocksRaycasts;
+        bool incomingInteractable = incomingGroup.interactable;
+        bool incomingBlocksRaycasts = incomingGroup.blocksRaycasts;
+
+        outgoingGroup.interactable = false;
+        outgoingGroup.blocksRaycasts = false;
+        incoming.SetActive(true);
+        onEnter?.Invoke();
+        UIFocus.Clear();
+        incomingGroup.interactable = false;
+        incomingGroup.blocksRaycasts = false;
+        incomingRect.anchoredPosition = incomingPosition + Vector2.right * (direction * travel);
+
+        float elapsed = 0f;
+        while (elapsed < transitionSeconds)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / transitionSeconds);
+            float eased = 1f - Mathf.Pow(1f - t, 3f);
+            outgoingRect.anchoredPosition = outgoingPosition - Vector2.right * (direction * travel * eased);
+            incomingRect.anchoredPosition = incomingPosition + Vector2.right * (direction * travel * (1f - eased));
+            yield return null;
+        }
+
+        outgoingRect.anchoredPosition = outgoingPosition;
+        outgoingGroup.interactable = outgoingInteractable;
+        outgoingGroup.blocksRaycasts = outgoingBlocksRaycasts;
+        outgoing.SetActive(false);
+
+        incomingRect.anchoredPosition = incomingPosition;
+        incomingGroup.interactable = incomingInteractable;
+        incomingGroup.blocksRaycasts = incomingBlocksRaycasts;
+        currentPanel = incoming;
+        transitioning = false;
+        Focus(incoming);
+    }
+
+    private static CanvasGroup GetTransitionGroup(GameObject panel)
+    {
+        CanvasGroup group = panel.GetComponent<CanvasGroup>();
+        return group != null ? group : panel.AddComponent<CanvasGroup>();
     }
 
 }

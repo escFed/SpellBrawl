@@ -109,9 +109,9 @@ public class RespawnManager : MonoBehaviour
             controller.ConfigureControl(slot, mode);
         }
 
-        Vector3 scale = instance.transform.localScale;
-        scale.x = slot == PlayerSlot.PlayerOne ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.x);
-        instance.transform.localScale = scale;
+        controller?.Combat.FaceDirection(slot == PlayerSlot.PlayerOne ? 1f : -1f);
+        if (controller != null && GameManager.Instance != null)
+            GameManager.Instance.Statistics.StartLife(controller.PlayerIndex, Time.time);
 
         return controller;
     }
@@ -194,7 +194,8 @@ public class RespawnManager : MonoBehaviour
                 if (p1SpawnPoint != null)
                 {
                     p.transform.position = p1SpawnPoint.position;
-                    p.transform.localScale = new Vector3(Mathf.Abs(p.transform.localScale.x), p.transform.localScale.y, p.transform.localScale.z);
+                    p.Combat.UnlockFacing();
+                    p.Combat.FaceDirection(1f);
                     if (pHealth != null) pHealth.ResetHealth();
                 }
             }
@@ -203,7 +204,8 @@ public class RespawnManager : MonoBehaviour
                 if (p2SpawnPoint != null)
                 {
                     p.transform.position = p2SpawnPoint.position;
-                    p.transform.localScale = new Vector3(-Mathf.Abs(p.transform.localScale.x), p.transform.localScale.y, p.transform.localScale.z);
+                    p.Combat.UnlockFacing();
+                    p.Combat.FaceDirection(-1f);
                     if (pHealth != null) pHealth.ResetHealth();
                 }
             }

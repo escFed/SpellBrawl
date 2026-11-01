@@ -427,15 +427,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97b180f382a42624d9d6db658beb91e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BootStrapper
-  minimumBlackSeconds: 4
+  minimumBlackSeconds: 2
   recommendationFadeSeconds: 0.7
   recommendationHoldSeconds: 1
   titleFadeSeconds: 1
+  continueBlinkSeconds: 2
+  continueBlinkIntervalSeconds: 0.04
+  titleCloseSeconds: 0.4
+  blackHoldSeconds: 2
   titleGroup: {fileID: 585130807}
+  continueText: {fileID: 1749648162}
   recommendationGroup: {fileID: 2000000002}
   blackCover: {fileID: 123225193}
   loadingIcon: {fileID: 915250112}
-  menuMusicClip: {fileID: 8300000, guid: 5a9625d0051785f46abffa8e9c934f10, type: 3}
 --- !u!225 &813478353
 CanvasGroup:
   m_ObjectHideFlags: 0

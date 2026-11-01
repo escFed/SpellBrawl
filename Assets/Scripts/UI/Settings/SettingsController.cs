@@ -1,9 +1,14 @@
+using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SettingsController : MonoBehaviour
 {
+    public bool AnimateSections { get; set; }
+    public bool IsSectionChanging => sectionChanging;
+
     [Header("Sections")]
     [SerializeField] private GameObject audioPanel;
     [SerializeField] private GameObject controlsPanel;
@@ -41,17 +46,26 @@ public class SettingsController : MonoBehaviour
     [SerializeField] private Selectable gamepadInitialSelection;
     [SerializeField] private Selectable gameplayInitialSelection;
 
+    private bool sectionChanging;
+    private Coroutine sectionTransition;
+
     private void OnEnable()
     {
         RefreshAudioControls();
         RefreshGameplayControls();
         SubscribeToSliders();
         SubscribeToGameplayToggles();
-        ShowSettingsHome();
+        ApplySettingsHome();
+        Select(settingsInitialSelection, gameObject);
     }
 
     private void OnDisable()
     {
+        if (sectionTransition != null)
+            StopCoroutine(sectionTransition);
+        sectionTransition = null;
+        sectionChanging = false;
+
         UnsubscribeFromSliders();
         UnsubscribeFromGameplayToggles();
         SetActive(audioPanel, false);
@@ -64,57 +78,29 @@ public class SettingsController : MonoBehaviour
 
     public void ShowSettingsHome()
     {
-        SetSettingsHomeContentActive(true);
-        SetActive(audioPanel, false);
-        SetActive(controlsPanel, false);
-        SetActive(gameplayPanel, false);
-        SetActive(keyboardControlsPanel, false);
-        SetActive(gamepadControlsPanel, false);
-        Select(settingsInitialSelection, gameObject);
+        ChangeSection(ApplySettingsHome, settingsInitialSelection, gameObject, true);
     }
 
     public void ShowAudio()
     {
-        SetSettingsHomeContentActive(false);
-        SetActive(audioPanel, true);
-        SetActive(controlsPanel, false);
-        SetActive(gameplayPanel, false);
-        SetActive(keyboardControlsPanel, false);
-        SetActive(gamepadControlsPanel, false);
-        Select(audioInitialSelection, audioPanel);
+        ChangeSection(() => ApplySection(audioPanel), audioInitialSelection, audioPanel);
     }
 
     public void ShowControls()
     {
-        SetSettingsHomeContentActive(false);
-        SetActive(audioPanel, false);
-        SetActive(controlsPanel, true);
-        SetActive(gameplayPanel, false);
-        SetActive(keyboardControlsPanel, false);
-        SetActive(gamepadControlsPanel, false);
-        Select(controlsInitialSelection, controlsPanel);
+        bool goingBack = (keyboardControlsPanel != null && keyboardControlsPanel.activeSelf) ||
+            (gamepadControlsPanel != null && gamepadControlsPanel.activeSelf);
+        ChangeSection(() => ApplySection(controlsPanel), controlsInitialSelection, controlsPanel, goingBack);
     }
 
     public void ShowKeyboardControls()
     {
-        SetSettingsHomeContentActive(false);
-        SetActive(audioPanel, false);
-        SetActive(controlsPanel, false);
-        SetActive(gameplayPanel, false);
-        SetActive(keyboardControlsPanel, true);
-        SetActive(gamepadControlsPanel, false);
-        Select(keyboardInitialSelection, keyboardControlsPanel);
+        ChangeSection(() => ApplySection(keyboardControlsPanel), keyboardInitialSelection, keyboardControlsPanel);
     }
 
     public void ShowGamepadControls()
     {
-        SetSettingsHomeContentActive(false);
-        SetActive(audioPanel, false);
-        SetActive(controlsPanel, false);
-        SetActive(gameplayPanel, false);
-        SetActive(keyboardControlsPanel, false);
-        SetActive(gamepadControlsPanel, true);
-        Select(gamepadInitialSelection, gamepadControlsPanel);
+        ChangeSection(() => ApplySection(gamepadControlsPanel), gamepadInitialSelection, gamepadControlsPanel);
     }
 
     public void ShowGameplay()
@@ -126,17 +112,14 @@ public class SettingsController : MonoBehaviour
         }
 
         RefreshGameplayControls();
-        SetSettingsHomeContentActive(false);
-        SetActive(audioPanel, false);
-        SetActive(controlsPanel, false);
-        SetActive(keyboardControlsPanel, false);
-        SetActive(gamepadControlsPanel, false);
-        SetActive(gameplayPanel, true);
-        Select(gameplayInitialSelection, gameplayPanel);
+        ChangeSection(() => ApplySection(gameplayPanel), gameplayInitialSelection, gameplayPanel);
     }
 
     public bool TryGoBack()
     {
+        if (sectionChanging)
+            return true;
+
         if ((keyboardControlsPanel != null && keyboardControlsPanel.activeSelf) ||
             (gamepadControlsPanel != null && gamepadControlsPanel.activeSelf))
         {
@@ -158,6 +141,112 @@ public class SettingsController : MonoBehaviour
     public void Back()
     {
         TryGoBack();
+    }
+
+    private void ApplySettingsHome()
+    {
+        SetSettingsHomeContentActive(true);
+        SetActive(audioPanel, false);
+        SetActive(controlsPanel, false);
+        SetActive(gameplayPanel, false);
+        SetActive(keyboardControlsPanel, false);
+        SetActive(gamepadControlsPanel, false);
+    }
+
+    private void ApplySection(GameObject section)
+    {
+        SetSettingsHomeContentActive(false);
+        SetActive(audioPanel, section == audioPanel);
+        SetActive(controlsPanel, section == controlsPanel);
+        SetActive(gameplayPanel, section == gameplayPanel);
+        SetActive(keyboardControlsPanel, section == keyboardControlsPanel);
+        SetActive(gamepadControlsPanel, section == gamepadControlsPanel);
+    }
+
+    private void ChangeSection(Action apply, Selectable initialSelection, GameObject focusRoot, bool goingBack = false)
+    {
+        if (sectionChanging)
+            return;
+
+        GameObject outgoing = GetCurrentSectionRoot();
+        if (!AnimateSections || !isActiveAndEnabled || focusRoot == null || outgoing == focusRoot)
+        {
+            apply();
+            Select(initialSelection, focusRoot);
+            return;
+        }
+
+        sectionTransition = StartCoroutine(TransitionSection(outgoing, focusRoot, apply,
+            initialSelection, goingBack ? -1f : 1f));
+    }
+
+    private GameObject GetCurrentSectionRoot()
+    {
+        if (audioPanel != null && audioPanel.activeSelf) return audioPanel;
+        if (controlsPanel != null && controlsPanel.activeSelf) return controlsPanel;
+        if (gameplayPanel != null && gameplayPanel.activeSelf) return gameplayPanel;
+        if (keyboardControlsPanel != null && keyboardControlsPanel.activeSelf) return keyboardControlsPanel;
+        if (gamepadControlsPanel != null && gamepadControlsPanel.activeSelf) return gamepadControlsPanel;
+        return gameObject;
+    }
+
+    private IEnumerator TransitionSection(GameObject outgoing, GameObject incoming, Action apply,
+        Selectable initialSelection, float direction)
+    {
+        sectionChanging = true;
+        yield return new WaitForSecondsRealtime(0.2f);
+
+        CanvasGroup outgoingGroup = GetTransitionGroup(outgoing);
+        CanvasGroup incomingGroup = GetTransitionGroup(incoming);
+        RectTransform outgoingRect = outgoing.GetComponent<RectTransform>();
+        RectTransform incomingRect = incoming.GetComponent<RectTransform>();
+        Vector2 outgoingPosition = outgoingRect.anchoredPosition;
+        Vector2 incomingPosition = incomingRect.anchoredPosition;
+        float travel = Mathf.Max(outgoingRect.rect.width, incomingRect.rect.width);
+        bool outgoingInteractable = outgoingGroup.interactable;
+        bool outgoingBlocksRaycasts = outgoingGroup.blocksRaycasts;
+        bool incomingInteractable = incomingGroup.interactable;
+        bool incomingBlocksRaycasts = incomingGroup.blocksRaycasts;
+
+        if (incoming == gameObject)
+            SetSettingsHomeContentActive(true);
+        else
+            incoming.SetActive(true);
+        UIFocus.Clear();
+        outgoingGroup.interactable = false;
+        outgoingGroup.blocksRaycasts = false;
+        incomingGroup.interactable = false;
+        incomingGroup.blocksRaycasts = false;
+        incomingRect.anchoredPosition = incomingPosition + Vector2.right * (direction * travel);
+
+        float elapsed = 0f;
+        const float slideSeconds = 0.3f;
+        while (elapsed < slideSeconds)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / slideSeconds);
+            float eased = 1f - Mathf.Pow(1f - t, 3f);
+            outgoingRect.anchoredPosition = outgoingPosition - Vector2.right * (direction * travel * eased);
+            incomingRect.anchoredPosition = incomingPosition + Vector2.right * (direction * travel * (1f - eased));
+            yield return null;
+        }
+
+        outgoingRect.anchoredPosition = outgoingPosition;
+        incomingRect.anchoredPosition = incomingPosition;
+        outgoingGroup.interactable = outgoingInteractable;
+        outgoingGroup.blocksRaycasts = outgoingBlocksRaycasts;
+        incomingGroup.interactable = incomingInteractable;
+        incomingGroup.blocksRaycasts = incomingBlocksRaycasts;
+        apply();
+        sectionChanging = false;
+        sectionTransition = null;
+        Select(initialSelection, incoming);
+    }
+
+    private static CanvasGroup GetTransitionGroup(GameObject panel)
+    {
+        CanvasGroup group = panel.GetComponent<CanvasGroup>();
+        return group != null ? group : panel.AddComponent<CanvasGroup>();
     }
 
     public void SetMasterVolume(float value)

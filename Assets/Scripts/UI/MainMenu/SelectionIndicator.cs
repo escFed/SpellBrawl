@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -16,6 +18,10 @@ public class SelectionIndicator : MonoBehaviour
     [SerializeField] private bool matchSelectionSize;
     [SerializeField] private Vector2 sizePadding;
 
+    [Header("Confirmation")]
+    [SerializeField, Min(0f)] private float flashSeconds = 0.42f;
+    [SerializeField, Range(0f, 0.15f)] private float flashScale = 0.06f;
+
     [Header("Owner Labels")]
     [SerializeField] private TextMeshProUGUI p1Label;
     [SerializeField] private TextMeshProUGUI p2Label;
@@ -29,11 +35,17 @@ public class SelectionIndicator : MonoBehaviour
     private Selectable colorSource;
     private CharacterSelectUI characterSelection;
     private DeckBuilderUI deckSelection;
+    private readonly HashSet<Button> observedButtons = new HashSet<Button>();
+    private Vector3 restingScale;
+    private float flashStartedAt = -1f;
+    private Selectable confirmedOption;
+    private InputAction submitAction;
 
     private void Awake()
     {
         indicatorTransform = (RectTransform)transform;
         indicatorImage = GetComponent<Image>();
+        restingScale = indicatorTransform.localScale;
         indicatorImage.raycastTarget = false;
         indicatorImage.color = NeutralColor;
     }
@@ -47,11 +59,42 @@ public class SelectionIndicator : MonoBehaviour
         colorSource = null;
         characterSelection = null;
         deckSelection = null;
+        flashStartedAt = -1f;
+        confirmedOption = null;
+        submitAction = InputSystem.actions?.FindAction("UI/Submit");
+        RegisterExistingButtons();
+    }
+
+    private void OnDisable()
+    {
+        foreach (Button button in observedButtons)
+        {
+            if (button != null)
+                button.onClick.RemoveListener(FlashConfirmation);
+        }
+
+        observedButtons.Clear();
+        submitAction = null;
+        confirmedOption = null;
+        indicatorTransform.localScale = restingScale;
+    }
+
+    public void FlashConfirmation()
+    {
+        flashStartedAt = Time.unscaledTime;
+        GameObject selectedObject = EventSystem.current != null
+            ? EventSystem.current.currentSelectedGameObject
+            : null;
+        confirmedOption = selectedObject != null ? selectedObject.GetComponent<Selectable>() : colorSource;
     }
 
     private void LateUpdate()
     {
         Selectable selectedOption = GetCurrentSelection();
+        if (selectedOption is Button button)
+            RegisterButton(button);
+        else if (selectedOption is UICard && submitAction != null && submitAction.WasPressedThisFrame())
+            FlashConfirmation();
         RectTransform selection = selectedOption != null
             ? UIFocus.GetSelectionFrameTarget(selectedOption)
             : null;
@@ -62,6 +105,7 @@ public class SelectionIndicator : MonoBehaviour
         if (selection == null || indicatorParent == null)
         {
             indicatorImage.enabled = false;
+            indicatorTransform.localScale = restingScale;
             SetLabelsVisible(false, false, false, false);
             return;
         }
@@ -105,14 +149,23 @@ public class SelectionIndicator : MonoBehaviour
 
         GameObject selectedObject = EventSystem.current.currentSelectedGameObject;
         if (selectedObject == null || selectedObject == gameObject || !selectedObject.activeInHierarchy)
-            return null;
+            return GetConfirmedOption();
 
         Selectable selectable = selectedObject.GetComponent<Selectable>();
 
         if (!UIFocus.IsMenuOption(selectable) || !selectable.IsActive() || !selectable.IsInteractable())
-            return null;
+            return GetConfirmedOption();
 
         return selectable;
+    }
+
+    private Selectable GetConfirmedOption()
+    {
+        if (confirmedOption == null || !confirmedOption.gameObject.activeInHierarchy ||
+            flashStartedAt < 0f || Time.unscaledTime - flashStartedAt >= flashSeconds)
+            return null;
+
+        return confirmedOption;
     }
 
     private void RefreshPresentation(Selectable selectedOption)
@@ -155,9 +208,43 @@ public class SelectionIndicator : MonoBehaviour
             targetColor = activeLabel != null ? activeLabel.color : TeamColors.Get(slot);
         }
 
-        if (indicatorImage.color != targetColor)
-            indicatorImage.color = targetColor;
+        float flash = 0f;
+        if (flashStartedAt >= 0f && flashSeconds > 0f)
+        {
+            float progress = (Time.unscaledTime - flashStartedAt) / flashSeconds;
+            if (progress < 1f)
+            {
+                float pulse = Mathf.Sin(Mathf.Clamp01(progress) * Mathf.PI * 3f);
+                flash = pulse * pulse * (1f - 0.25f * progress);
+            }
+            else
+            {
+                flashStartedAt = -1f;
+                confirmedOption = null;
+            }
+        }
+
+        Color displayColor = Color.Lerp(targetColor, Color.white, flash * 0.9f);
+        if (indicatorImage.color != displayColor)
+            indicatorImage.color = displayColor;
+        indicatorTransform.localScale = restingScale * (1f + flash * flashScale);
         SetLabelsVisible(showP1, showP2, showAIP2, showAIP1);
+    }
+
+    private void RegisterExistingButtons()
+    {
+        Canvas canvas = GetComponentInParent<Canvas>();
+        if (canvas == null)
+            return;
+
+        foreach (Button button in canvas.GetComponentsInChildren<Button>(true))
+            RegisterButton(button);
+    }
+
+    private void RegisterButton(Button button)
+    {
+        if (button != null && observedButtons.Add(button))
+            button.onClick.AddListener(FlashConfirmation);
     }
 
     private void SetLabelsVisible(bool showP1, bool showP2, bool showAIP2, bool showAIP1)

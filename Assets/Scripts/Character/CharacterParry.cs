@@ -9,6 +9,7 @@ public class CharacterParry : MonoBehaviour
     private AudioSource audioSource;
 
     private CharacterCoordinator controller;
+    private AmiroGuardVisuals guardVisuals;
 
     private bool hasParriedThisHit = false;
     public bool IsParrying { get; private set; }
@@ -16,6 +17,7 @@ public class CharacterParry : MonoBehaviour
     private void Awake()
     {
         controller = GetComponent<CharacterCoordinator>();
+        guardVisuals = GetComponent<AmiroGuardVisuals>();
         audioSource = GetComponent<AudioSource>();
         GameSettings.RegisterSource(audioSource, GameSound.SoundEffects);
     }
@@ -46,6 +48,9 @@ public class CharacterParry : MonoBehaviour
         }
 
         hasParriedThisHit = true;
+        if (controller != null && GameManager.Instance != null)
+            GameManager.Instance.Statistics.RecordParry(controller.PlayerIndex);
+        guardVisuals?.OnParrySucceeded();
         CombatFeedback.PlayParryRumble(controller);
 
         if (attacker != null && attacker != controller && !attacker.IsDead && attacker.Combat != null)

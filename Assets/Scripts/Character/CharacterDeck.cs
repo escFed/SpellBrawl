@@ -83,7 +83,10 @@ public class CharacterDeck : MonoBehaviour
 
         GameObject cardPrefab = runtime.ConsumeAndRefill(handIndex, Time.time + rules.DrawnCardCooldown);
 
-        ExecuteCard(cardPrefab);
+        int useId = GameManager.Instance != null
+            ? GameManager.Instance.Statistics.RecordCardUsed(controller.PlayerIndex, cardData)
+            : -1;
+        ExecuteCard(cardPrefab, useId);
         UIEvents.OnCardUsed?.Invoke(controller.PlayerIndex, handIndex);
         UIEvents.OnLastCardUsed?.Invoke(controller.PlayerIndex, cardData.CardName);
         PublishState();
@@ -121,10 +124,13 @@ public class CharacterDeck : MonoBehaviour
         PublishState();
     }
 
-    private void ExecuteCard(GameObject cardPrefab)
+    private void ExecuteCard(GameObject cardPrefab, int useId)
     {
         GameObject cardInstance = Instantiate(cardPrefab, transform.position, Quaternion.identity);
         ICardable card = cardInstance.GetComponent<ICardable>();
+
+        if (useId > 0)
+            cardInstance.AddComponent<MatchCardUse>().Initialize(controller.PlayerIndex, useId);
 
         controller.ExecuteCardState(card);
         Destroy(cardInstance, CardLifetime);

@@ -55,6 +55,7 @@ public class StarThrowCard : MonoBehaviour, ICardable
             Vector3 spawnPosition = new Vector3(character.transform.position.x, character.transform.position.y + spawnHeight, 0f);
 
             GameObject starObj = Instantiate(starPrefab, spawnPosition, Quaternion.identity);
+            GetComponent<MatchCardUse>()?.CopyTo(starObj);
 
             if (starObj.TryGetComponent(out StarProjectile starProjectile))
             {

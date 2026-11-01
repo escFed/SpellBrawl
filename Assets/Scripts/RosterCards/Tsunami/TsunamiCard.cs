@@ -47,11 +47,7 @@ public class TsunamiCard : MonoBehaviour, ICardable
         if (hitBox != null && Mathf.Abs(character.MoveInput.x) > 0.1f)
             hitBox.FaceDirection(character.MoveInput.x);
 
-        float direction = hitBox != null
-            ? (hitBox.IsFacingRight ? 1f : -1f)
-            : Mathf.Sign(character.transform.localScale.x);
-        if (direction == 0f)
-            direction = 1f;
+        float direction = character.Combat.FacingSign;
 
         Vector3 spawnPosition = character.transform.position + Vector3.right * (direction * spawnDistance);
         GameObject waveInstance = Instantiate(tsunamiPrefab, spawnPosition, Quaternion.identity);

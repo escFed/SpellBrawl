@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class CharacterCombat : MonoBehaviour
 {
+    private const float JabFinisherDamageScale = 0.45f;
+    private const float JabFinisherKnockbackScale = 0.7f;
+    private const float JabFinisherHitStunScale = 0.75f;
+    private const float JabFinisherGrowthScale = 0.7f;
     private const float AerialComboWindow = 0.9f;
     private const float VisualHitChainWindow = 0.75f;
     private const int MaximumVisualHitChainStep = 2;
@@ -175,7 +179,7 @@ public class CharacterCombat : MonoBehaviour
         };
     }
 
-    public void SetupHeavyAttack(HeavyAttackType type, HeavyAttackStats stats, float chargeRatio)
+    public void SetupHeavyAttack(HeavyAttackType type, HeavyAttackStats stats, float chargeRatio, bool isJabFinisher = false)
     {
         float damage = HeavyAttackCharge.CalculateDamage(stats.minDamage, stats.maxDamage, chargeRatio);
         float knockbackMagnitude = HeavyAttackCharge.CalculateKnockback(stats.minKnockback, stats.maxKnockback, chargeRatio);
@@ -183,6 +187,13 @@ public class CharacterCombat : MonoBehaviour
         Vector2 direction = stats.knockbackDirection.sqrMagnitude > 0.0001f ? stats.knockbackDirection.normalized : Vector2.right;
 
         float growth = Mathf.Lerp(stats.launch?.growth ?? 3f, stats.maxKnockbackGrowth, Mathf.Clamp01(chargeRatio));
+        if (isJabFinisher)
+        {
+            damage *= JabFinisherDamageScale;
+            knockbackMagnitude *= JabFinisherKnockbackScale;
+            hitStun *= JabFinisherHitStunScale;
+            growth *= JabFinisherGrowthScale;
+        }
         hitBox.SetupHeavyAttack(type, stats, Mathf.RoundToInt(damage), direction * knockbackMagnitude, hitStun, growth);
     }
 
