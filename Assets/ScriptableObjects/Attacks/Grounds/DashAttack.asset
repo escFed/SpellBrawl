@@ -17,13 +17,14 @@ MonoBehaviour:
   recovery: 0.35
   hitStun: 0.35
   launch:
-    growth: 4
+    growth: 12
+    growthUsesPreHitDamage: 0
     hitStunPerSpeed: 0.006
     maxHitStun: 0.6
     directionalInfluence: 1
     airDecelerationMultiplier: 1
   hitReaction: 0
   hitSound: {fileID: 8300000, guid: 14619561bda68f04bb2f176c827d813b, type: 3}
-  damage: 15
+  damage: 11
   knockback: {x: 6, y: 3}
   startsAerialCombo: 0

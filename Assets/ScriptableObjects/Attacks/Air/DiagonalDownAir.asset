@@ -18,6 +18,7 @@ MonoBehaviour:
   hitStun: 0.3
   launch:
     growth: 2.5
+    growthUsesPreHitDamage: 0
     hitStunPerSpeed: 0.005
     maxHitStun: 0.5
     directionalInfluence: 1
@@ -25,12 +26,12 @@ MonoBehaviour:
   hitReaction: 0
   hitSound: {fileID: 8300000, guid: 14619561bda68f04bb2f176c827d813b, type: 3}
   damage: 11
-  knockback: {x: 2.5, y: 1.5}
+  knockback: {x: 2.5, y: -4.5}
   activeMovementVelocity: {x: 10, y: -12}
   attackerSuspensionDuration: 0.08
-  attackerGravityMultiplier: 0.5
+  attackerGravityMultiplier: 0.6
   attackerMaximumDownwardSpeed: 2
   defenderSuspensionDuration: 0.1
-  defenderGravityMultiplier: 0.6
+  defenderGravityMultiplier: 1
   suspensionDecay: 0.55
   maximumSuspensionHits: 2

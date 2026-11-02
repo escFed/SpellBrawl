@@ -15,14 +15,14 @@ MonoBehaviour:
   characterName: AMIRO
   characterPrefab: {fileID: 8413723424367857399, guid: 491719e9891be884fb091497794ca54f, type: 3}
   characterIcon: {fileID: -46962489034023418, guid: 2ce252f9ebeb78747b87603525a3b3dc, type: 3}
-  moveSpeed: 5
-  jumpForce: 9
+  moveSpeed: 8
+  jumpForce: 10
   jumpSpeedMultiplier: 1.5
   shortHopVelocityMultiplier: 0.58
   maxJumps: 2
   coyoteTime: 0.1
   weight: 75
-  maxFallSpeed: -15
+  maxFallSpeed: -12
   fastFallSpeed: -20
   wallJumpHorizontalSpeed: 8
   wallJumpVerticalSpeed: 11
@@ -34,7 +34,7 @@ MonoBehaviour:
   directionalInfluenceDegrees: 12
   knockbackAirDeceleration: 10
   knockbackGroundDeceleration: 40
-  dashSpeed: 14
+  dashSpeed: 15
   dashDuration: 0.18
   dashRecovery: 0.14
   dashCooldown: 0.5

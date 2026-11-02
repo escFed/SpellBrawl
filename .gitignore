@@ -62,3 +62,6 @@ ServerData/
 
 Unity Collab
 .collabignore
+.vs/SpellBrawl/v17/DocumentLayout.json
+.vs/SpellBrawl/v17/DocumentLayout.backup.json
+.vs/SpellBrawl/v17/.suo
