@@ -28,11 +28,13 @@ public class ConsentPopUp : MonoBehaviour
         }
     }
 
+
     public void OnAccept()
     {
         MetricsConsentManager.Instance.Accept();
         consentPopUp.SetActive(false);
-        menuManager.ShowMainMenu();
+        menuManager.mainMenuPanel.SetActive(true);
+        menuManager.ShowMainMenu(); // ahora solo le da el foco
     }
 
     public void OnDecline()
