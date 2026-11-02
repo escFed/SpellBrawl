@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4444732334181579149}
   m_Layer: 0
   m_Name: DragonBreath
-  m_TagString: Untagged
+  m_TagString: BreathHHitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7963132a653565d499a01fee3566a4ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragonBreathLogic
-  breathDuration: 4
+  breathDuration: 1.5
   visualPrefab: {fileID: 4448992838361051948, guid: 2e1e59c9a3714fb4d958da788ce30b7c, type: 3}
   breathClip: {fileID: 8300000, guid: 7da68a6037e84414d9b730a5e6c8e1c7, type: 3}
   s: {fileID: 4444732334181579149}

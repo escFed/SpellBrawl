@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class DragonBreathLogic : MonoBehaviour 
 {
-    [SerializeField] private float breathDuration = 2f; // Duration of the breath effect
+    [SerializeField] private float breathDuration = 0.5f; // Duration of the breath effect
     [SerializeField] private GameObject visualPrefab; // Prefab visual separado si lo necesitas
 
     [SerializeField] private AudioClip breathClip; // Audio clip for the breath sound
@@ -55,7 +55,7 @@ public class DragonBreathLogic : MonoBehaviour
                 CharacterMovement movement = target.GetComponent<CharacterMovement>();
                 if (movement != null)
                 {
-                    movement.ApplyKnockback(new Vector2(5, 2), 0.5f);
+                    movement.ApplyKnockback(new Vector2(breathVisualInstance.transform.position.x - target.transform.position.x, breathVisualInstance.transform.position.y - target.transform.position.y), 0.5f);
                 }
 
                 // Aplicar daño
