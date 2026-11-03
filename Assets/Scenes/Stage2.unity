@@ -765,9 +765,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 281864188487608602, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1486592960}
+    - target: {fileID: 281864188487608602, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoToMainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 797486307704316388, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1486592962}
+    - target: {fileID: 797486307704316388, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ShowSettings
+      objectReference: {fileID: 0}
     - target: {fileID: 3842538409020597418, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4782138497448963335, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6191893903806215337, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
       propertyPath: m_Pivot.x
@@ -849,9 +869,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6975030084057319407, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1486592962}
+    - target: {fileID: 6975030084057319407, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResumeGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7596946160946312298, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1486592962}
+    - target: {fileID: 7596946160946312298, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HideSettings
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472790943100021010, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8655724852199320700, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9075702317752564246, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1486592960}
+    - target: {fileID: 9075702317752564246, guid: 700d7f5a0884c7947823f822baa0257d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Rematch
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
