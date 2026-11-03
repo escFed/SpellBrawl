@@ -340,6 +340,18 @@ public class DeckBuilderUI : MonoBehaviour
         if (deckSizeText != null)
             deckSizeText.text = rules != null ? $"{selectedCards.Count}/{rules.DeckSize}" : "0/0";
 
+
+        if(selectedCards.Count == rules.DeckSize)
+        {
+            if (deckSizeText != null)
+                deckSizeText.color = Color.green;
+            LeanTween.moveLocalX(deckSizeText.gameObject, 0f, 0.1f).setEasePunch();
+        }
+        else
+        {
+            if (deckSizeText != null)
+                deckSizeText.color = Color.white;
+        }
         if (selectingPlayerText != null)
             selectingPlayerText.text = GetParticipantLabel();
 
