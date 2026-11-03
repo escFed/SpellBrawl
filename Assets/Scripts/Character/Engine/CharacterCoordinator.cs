@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterCoordinator : MonoBehaviour
@@ -37,6 +38,7 @@ public class CharacterCoordinator : MonoBehaviour
     private CharacterDeck deck;
     private CharacterActionRouter actionRouter;
     private CharacterJumpController jumpController;
+    private readonly HashSet<int> moveInputInversionSources = new HashSet<int>();
     private IInputProvider input => ActiveInput;
 
     public Animator Anim { get; private set; }
@@ -56,7 +58,14 @@ public class CharacterCoordinator : MonoBehaviour
     public CharacterVisuals Visuals { get; private set; }
 
     public IInputProvider ActiveInput => Controller?.ActiveInput;
-    public Vector2 MoveInput => ActiveInput != null ? ActiveInput.CurrentDirection : Vector2.zero;
+    public Vector2 MoveInput
+    {
+        get
+        {
+            Vector2 direction = ActiveInput != null ? ActiveInput.CurrentDirection : Vector2.zero;
+            return moveInputInversionSources.Count > 0 ? -direction : direction;
+        }
+    }
     public bool JumpPressed => ActiveInput != null && ActiveInput.HasBufferedJump;
     public bool IsGrounded => Movement.IsGrounded;
     public bool AttackInput => ActiveInput != null && ActiveInput.HasBufferedAttack;
@@ -145,6 +154,21 @@ public class CharacterCoordinator : MonoBehaviour
     {
         controlsEnabled = enabled;
         Controller?.SetInputEnabled(enabled);
+    }
+
+    public void SetMoveInputInversion(Component source, bool enabled)
+    {
+        if (source == null)
+        {
+            Debug.LogError("[CharacterCoordinator] Cannot change move input inversion without a source.", this);
+            return;
+        }
+
+        int sourceId = source.GetInstanceID();
+        if (enabled)
+            moveInputInversionSources.Add(sourceId);
+        else
+            moveInputInversionSources.Remove(sourceId);
     }
 
     private void Update()

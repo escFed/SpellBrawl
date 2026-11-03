@@ -28,7 +28,16 @@ public class MirrorWorldLogic : MonoBehaviour
             yield break;
         }
 
+        targetController.SetMoveInputInversion(this, true);
+
         yield return new WaitForSeconds(effectDuration > 0f ? effectDuration : 3f);
+        targetController.SetMoveInputInversion(this, false);
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (targetController != null)
+            targetController.SetMoveInputInversion(this, false);
     }
 }

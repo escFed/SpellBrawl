@@ -23,7 +23,7 @@ public class CharacterGrab : MonoBehaviour
 
     public ICharacterState ResolveGrabState()
     {
-        Vector2 dir = Input != null ? Input.CurrentDirection : Vector2.zero;
+        Vector2 dir = controller.MoveInput;
         bool hasHorizontal = Mathf.Abs(dir.x) >= controller.stats.tiltThreshold;
         bool inputOppositeFacing = (dir.x > 0f && !hitBox.IsFacingRight) || (dir.x < 0f && hitBox.IsFacingRight);
         bool canPivotGrab = controller.stateMachine.CurrentState == controller.States.Move;
@@ -60,7 +60,7 @@ public class CharacterGrab : MonoBehaviour
 
     public ThrowDirection ResolveThrowDirection()
     {
-        Vector2 dir = Input != null ? Input.CurrentDirection : Vector2.zero;
+        Vector2 dir = controller.MoveInput;
 
         if (dir.y >= controller.stats.tiltThreshold)
             return ThrowDirection.Up;
