@@ -3,19 +3,19 @@
   "WorkspaceRootPath": "C:\\Users\\alu763\\Documents\\GitHub\\SpellBrawl\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|c:\\users\\alu763\\documents\\github\\spellbrawl\\assets\\scripts\\metrics\\metricsconsentmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\metrics\\metricsconsentmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|C:\\Users\\alu763\\Documents\\GitHub\\SpellBrawl\\assets\\scripts\\metrics\\iawinrateevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\metrics\\iawinrateevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|c:\\users\\alu763\\documents\\github\\spellbrawl\\assets\\scripts\\metrics\\iawinrateevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\metrics\\iawinrateevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|c:\\users\\alu763\\documents\\github\\spellbrawl\\assets\\scripts\\metrics\\metricsconsentmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\metrics\\metricsconsentmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|C:\\Users\\alu763\\Documents\\GitHub\\SpellBrawl\\assets\\scripts\\managers\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\managers\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|c:\\users\\alu763\\documents\\github\\spellbrawl\\assets\\scripts\\ui\\combat\\matchresultsview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|C:\\Users\\alu763\\Documents\\GitHub\\SpellBrawl\\assets\\scripts\\ui\\combat\\matchresultsview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DEA8577E-F3F2-3920-1886-CE5302886FEB}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\combat\\matchresultsview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -70,30 +70,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MetricsConsentManager.cs",
               "DocumentMoniker": "C:\\Users\\alu763\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Metrics\\MetricsConsentManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Metrics\\MetricsConsentManager.cs",
               "ToolTip": "C:\\Users\\alu763\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Metrics\\MetricsConsentManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Metrics\\MetricsConsentManager.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAAAwFsAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAADkAAAAAAAAAAIAywFQAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-11-04T18:01:37.739Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "IAWinrateEvent.cs",
               "DocumentMoniker": "C:\\Users\\alu763\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Metrics\\IAWinrateEvent.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Metrics\\IAWinrateEvent.cs",
               "ToolTip": "C:\\Users\\alu763\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Metrics\\IAWinrateEvent.cs",
               "RelativeToolTip": "Assets\\Scripts\\Metrics\\IAWinrateEvent.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAkwBsAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAABjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-11-04T17:51:55.325Z",
               "EditorCaption": ""
@@ -108,8 +108,7 @@
               "RelativeToolTip": "Assets\\Scripts\\UI\\Combat\\MatchResultsView.cs",
               "ViewState": "AgIAAL8AAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-04T17:50:33.505Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-11-04T17:50:33.505Z"
             },
             {
               "$type": "Document",
@@ -191,10 +190,9 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\Managers\\GameManager.cs",
               "ToolTip": "C:\\Users\\alu763\\Documents\\GitHub\\SpellBrawl\\Assets\\Scripts\\Managers\\GameManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Managers\\GameManager.cs",
-              "ViewState": "AgIAAIsAAAAAAAAAAAD4v6AAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAWwKAAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-25T23:13:40.943Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-25T23:13:40.943Z"
             },
             {
               "$type": "Document",

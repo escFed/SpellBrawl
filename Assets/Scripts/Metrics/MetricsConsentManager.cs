@@ -75,14 +75,14 @@ public class MetricsConsentManager : MonoBehaviour
         }
     }
 
-    public async Task TrackEventAsync(string eventName)
+    public async Task TrackEventAsync(string eventName, params (string key, string value)[] props)
     {
         if (!GetConsent()) return;
 
         try
         {
             await IdentifyAsync(); // garantiza que haya jugador antes de enviar
-            await Talo.Events.Track(eventName);
+            await Talo.Events.Track(eventName, props);
         }
         catch (Exception e)
         {

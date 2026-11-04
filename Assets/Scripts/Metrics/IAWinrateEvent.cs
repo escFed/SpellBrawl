@@ -27,7 +27,7 @@ public static class IAWinrateEvent
 
         
         // El denominador se envía siempre; el numerador solo si ganó la IA.
-        await metrics.TrackEventAsync(PlayedEvent);
+        await metrics.TrackEventAsync("ia_partidaterminada", ("ganador", aiWon ? "ia" : "Jugador"));
         if (aiWon)
             await metrics.TrackEventAsync(WonEvent);
     }
