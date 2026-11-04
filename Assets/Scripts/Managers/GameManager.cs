@@ -157,6 +157,8 @@ public class GameManager : MonoBehaviour
 
     private void ShowVictoryScreen(PlayerSlot winner)
     {
+
+        IAWinrateEvent.Report(winner);
         if (victoryPanel != null)
         {
             victoryPanel.SetActive(true);
