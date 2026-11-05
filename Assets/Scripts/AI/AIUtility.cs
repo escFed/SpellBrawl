@@ -22,6 +22,7 @@ public class AIUtility
         TryChoose(ref best, ScoreShield(context, profile), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreParry(context, profile), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreHeavyAttack(context, profile), profile, currentDecision, memory, now);
+        TryChoose(ref best, ScoreQuickHeavyAttack(context, profile), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreDashAttack(context, profile, attackRange, idealSpacing), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreAttack(context, profile), profile, currentDecision, memory, now);
         TryChoose(ref best, ScoreDash(context, profile, idealSpacing), profile, currentDecision, memory, now);
@@ -159,7 +160,8 @@ public class AIUtility
 
     private static AIActionScore ScoreJump(AIContext context)
     {
-        return context.CanJump && context.HasPlannedJump && context.TargetAbove && context.DistanceX < 4f
+        return context.CanJump && (context.HasPlannedJump || !context.IsGrounded) &&
+            context.TargetAbove && context.DistanceX < 4f
             ? new AIActionScore(AIDecision.Jump, 50f)
             : new AIActionScore(AIDecision.Jump, 0f);
     }
@@ -207,6 +209,16 @@ public class AIUtility
 
         float score = 65f + Math.Min(30f, context.TargetDamage * 0.25f);
         return new AIActionScore(AIDecision.HeavyAttack, score * profile.heavyAttackUsage);
+    }
+
+    private static AIActionScore ScoreQuickHeavyAttack(AIContext context, AIProfile profile)
+    {
+        if (!context.CanHeavyAttack || !context.TargetInAttackRange ||
+            (!context.TargetThreatening && !context.IncomingHazard))
+            return new AIActionScore(AIDecision.QuickHeavyAttack, 0f);
+
+        return new AIActionScore(AIDecision.QuickHeavyAttack,
+            75f * profile.heavyAttackUsage);
     }
 
     private static AIActionScore ScoreShield(AIContext context, AIProfile profile)

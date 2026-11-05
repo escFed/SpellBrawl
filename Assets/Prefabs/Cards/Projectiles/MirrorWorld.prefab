@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75222b9075afd71499f0c25abfe26794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MirrorWorldLogic
-  effectDuration: 10
+  effectDuration: 5

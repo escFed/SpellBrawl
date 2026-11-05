@@ -37,7 +37,7 @@ public class CombatFeedback : MonoBehaviour
     private float hitStopEndTime;
     private float timeScaleBeforeHitStop = 1f;
 
-    // Called only by an attack hitbox after the receiver accepts the hit.
+    // Called by accepted melee hits and by each staged impact in a clash.
     // Keeping this separate from PlayImpact avoids adding melee audio to cards.
     public static void PlayHitSound(AudioClip overrideClip = null)
     {
@@ -46,17 +46,29 @@ public class CombatFeedback : MonoBehaviour
         if (clip == null)
             return;
 
-        if (feedback.hitAudioSource == null)
+        float volume = feedback.audioSettings != null ? Mathf.Clamp01(feedback.audioSettings.hitVolume) : 1f;
+        feedback.GetHitAudioSource().PlayOneShot(clip, volume);
+    }
+
+    public static void PlayBlockSound()
+    {
+        CombatFeedback feedback = GetOrCreate();
+        if (feedback.audioSettings?.blockClip != null)
+            feedback.GetHitAudioSource().PlayOneShot(feedback.audioSettings.blockClip);
+    }
+
+    private AudioSource GetHitAudioSource()
+    {
+        if (hitAudioSource == null)
         {
-            feedback.hitAudioSource = feedback.gameObject.AddComponent<AudioSource>();
-            feedback.hitAudioSource.playOnAwake = false;
-            feedback.hitAudioSource.loop = false;
-            feedback.hitAudioSource.spatialBlend = 0f;
-            GameSettings.RegisterSource(feedback.hitAudioSource, GameSound.SoundEffects);
+            hitAudioSource = gameObject.AddComponent<AudioSource>();
+            hitAudioSource.playOnAwake = false;
+            hitAudioSource.loop = false;
+            hitAudioSource.spatialBlend = 0f;
+            GameSettings.RegisterSource(hitAudioSource, GameSound.SoundEffects);
         }
 
-        float volume = feedback.audioSettings != null ? Mathf.Clamp01(feedback.audioSettings.hitVolume) : 1f;
-        feedback.hitAudioSource.PlayOneShot(clip, volume);
+        return hitAudioSource;
     }
 
     public static void PlayHitRumble(CharacterCoordinator defender, HitReaction reaction)
@@ -83,7 +95,8 @@ public class CombatFeedback : MonoBehaviour
         if (feedback.stockLossVisual == null)
             feedback.stockLossVisual = feedback.gameObject.AddComponent<StockLossVisual>();
 
-        feedback.stockLossVisual.Play(position, velocity, PlayerColors.Get(playerIndex), finalStock);
+        feedback.stockLossVisual.Play(position, velocity, PlayerColors.Get(playerIndex), finalStock,
+            feedback.audioSettings != null ? feedback.audioSettings.stockLossClip : null);
         feedback.ShakeStockLossCamera(velocity, finalStock);
     }
 
@@ -435,7 +448,8 @@ public class CombatFeedback : MonoBehaviour
 
     private void RequestHitStop(float duration)
     {
-        if (duration <= 0f || PauseMenu.isPaused)
+        if (duration <= 0f || PauseMenu.isPaused ||
+            (GameManager.Instance != null && GameManager.Instance.MatchFinished))
             return;
 
         hitStopEndTime = Mathf.Max(hitStopEndTime, Time.realtimeSinceStartup + duration);
@@ -461,7 +475,9 @@ public class CombatFeedback : MonoBehaviour
 
     private void RestoreTimeScale()
     {
-        if (!PauseMenu.isPaused && Mathf.Approximately(Time.timeScale, 0f))
+        if (!PauseMenu.isPaused &&
+            (GameManager.Instance == null || !GameManager.Instance.MatchFinished) &&
+            Mathf.Approximately(Time.timeScale, 0f))
             Time.timeScale = Mathf.Max(0.0001f, timeScaleBeforeHitStop);
     }
 

@@ -98,9 +98,12 @@ public class AICardSelector : IAICardSelector
         if (card is HealCard)
             return context.SelfDamage >= 20f ? score + Mathf.Min(45f, context.SelfDamage * 0.5f) : -100f;
         if (card is FortifyCard)
-            return selfController != null && selfController.Health != null && selfController.Health.activeDefenseMultiplier < 1f ? -100f : context.IncomingHazard || context.TargetThreatening ? score + 38f : score - 20f;
+            return selfController != null && selfController.Health != null && selfController.Health.IsDamageImmune ? -100f : context.IncomingHazard || context.TargetThreatening ? score + 38f : score - 20f;
         if (card is HasteCard)
-            return selfController != null && selfController.Movement != null && selfController.Movement.moveSpeedMultiplier > 1f ? -100f : score + 12f;
+        {
+            HasteEffect haste = selfController != null ? selfController.GetComponent<HasteEffect>() : null;
+            return haste != null && haste.IsActive ? -100f : score + 12f;
+        }
         if (card is FireBallCard)
             return Mathf.Abs(context.DistanceY) < 1.2f && !context.TargetShielding ? score + 14f : score - 28f;
         if (card is ThunderStrikeCard)

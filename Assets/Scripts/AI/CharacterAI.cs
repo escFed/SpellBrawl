@@ -191,7 +191,16 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
         executor.Tick(input, Time.time);
         navigation.GuardInput(input, currentDecision);
         thinkTimer -= Time.deltaTime;
-        if (navigation.HasCommittedJump)
+
+        if (navigation.TryExecuteWallJump(SelfController, transform,
+            targetTracker.PerceivedTargetPosition, input))
+        {
+            currentDecision = AIDecision.Jump;
+            thinkTimer = profile.reactionTime;
+            return;
+        }
+
+        if (TryQueueAttackFollowup())
             return;
         if (IsWaitingForCommittedAction())
             return;
@@ -216,6 +225,12 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
             memory,
             Time.time,
             Time.time >= nextCardAllowedAt);
+
+        if (navigation.HasCommittedJump && IsPathMovementDecision(action.Decision))
+        {
+            thinkTimer = profile.reactionTime;
+            return;
+        }
 
         currentDecision = action.Decision;
         thinkTimer = IsMovementDecision(action.Decision)
@@ -268,6 +283,48 @@ public sealed class CharacterAI : MonoBehaviour, IInputProvider, IDirectionalInf
         return state == SelfController.States.Idle ||
             state == SelfController.States.Move ||
             state == SelfController.States.Jump;
+    }
+
+    private bool TryQueueAttackFollowup()
+    {
+        if (targetTracker.Target == null ||
+            Mathf.Abs(targetTracker.Target.position.x - transform.position.x) > attackRange * 1.5f)
+            return false;
+
+        ICharacterState state = SelfController.GetCurrentState();
+        if (state == SelfController.States.Jab)
+        {
+            NormalAttackState jab = SelfController.States.Jab;
+            if (jab.CanQueueHeavyFinisher && profile.heavyAttackUsage >= 0.5f &&
+                targetTracker.TargetHealth != null && targetTracker.TargetHealth.currentDamage >= 80)
+            {
+                executor.BeginHeavyAttack(input, transform,
+                    targetTracker.PerceivedTargetPosition, attackRange,
+                    Time.time, 0.05f);
+                return true;
+            }
+
+            if (jab.CanQueueFollowup)
+            {
+                input.PressAttack();
+                return true;
+            }
+        }
+        else if (state == SelfController.States.ForwardTilt &&
+                 SelfController.States.ForwardTilt.CanQueueFollowup)
+        {
+            input.PressAttack();
+            return true;
+        }
+
+        return false;
+    }
+
+    private static bool IsPathMovementDecision(AIDecision decision)
+    {
+        return decision == AIDecision.Idle || decision == AIDecision.Chase ||
+            decision == AIDecision.Flee || decision == AIDecision.Reposition ||
+            decision == AIDecision.Dash || decision == AIDecision.ShortHop;
     }
 
     private void ResetExecution()

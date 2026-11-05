@@ -1,0 +1,468 @@
+fileFormatVersion: 2
+guid: 94bb7b6b36896cf4eb81302b0a590ab5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5014524529487543835
+    second: "Sprite de estrellita en p\xEDxeles 7_0"
+  - first:
+      213: 8963786521059654529
+    second: "Sprite de estrellita en p\xEDxeles 7_1"
+  - first:
+      213: 2298633005668770663
+    second: "Sprite de estrellita en p\xEDxeles 7_2"
+  - first:
+      213: -8527911821162732205
+    second: "Sprite de estrellita en p\xEDxeles 7_3"
+  - first:
+      213: 8011872923108129440
+    second: "Sprite de estrellita en p\xEDxeles 7_4"
+  - first:
+      213: 8829005193951657532
+    second: "Sprite de estrellita en p\xEDxeles 7_5"
+  - first:
+      213: 8006317819023641189
+    second: "Sprite de estrellita en p\xEDxeles 7_6"
+  - first:
+      213: -1419268155057888149
+    second: "Sprite de estrellita en p\xEDxeles 7_7"
+  - first:
+      213: -1593300889958767317
+    second: "Sprite de estrellita en p\xEDxeles 7_8"
+  - first:
+      213: -583670731118999025
+    second: "Sprite de estrellita en p\xEDxeles 7_9"
+  - first:
+      213: 6808593552122660491
+    second: "Sprite de estrellita en p\xEDxeles 7_10"
+  - first:
+      213: 5369278993695905105
+    second: "Sprite de estrellita en p\xEDxeles 7_11"
+  - first:
+      213: 1136304452572595496
+    second: "Sprite de estrellita en p\xEDxeles 7_12"
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 128
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: "Sprite de estrellita en p\xEDxeles 7_0"
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 124
+        width: 500
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e1896e2284d86ab0800000000000000
+      internalID: -5014524529487543835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite de estrellita en p\xEDxeles 7_1"
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 485
+        width: 33
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18bf1364954c56c70800000000000000
+      internalID: 8963786521059654529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite de estrellita en p\xEDxeles 7_2"
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 481
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76320eb3a8266ef10800000000000000
+      internalID: 2298633005668770663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite de estrellita en p\xEDxeles 7_3"
+      rect:
+        serializedVersion: 2
+        x: 222
+        y: 483
+        width: 15
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 355adb7a165c6a980800000000000000
+      internalID: -8527911821162732205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite de estrellita en p\xEDxeles 7_4"
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 485
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0aa3e6f89f3ef2f60800000000000000
+      internalID: 8011872923108129440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite de estrellita en p\xEDxeles 7_5"
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 359
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3e3191227de68a70800000000000000
+      internalID: 8829005193951657532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite de estrellita en p\xEDxeles 7_6"
+      rect:
+        serializedVersion: 2
+        x: 446
+        y: 261
+        width: 7
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56ac8c913a72c1f60800000000000000
+      internalID: 8006317819023641189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite de estrellita en p\xEDxeles 7_7"
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 183
+        width: 8
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6420c0f12fbd4ce0800000000000000
+      internalID: -1419268155057888149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite de estrellita en p\xEDxeles 7_8"
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 181
+        width: 17
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b25a1b1484573e9e0800000000000000
+      internalID: -1593300889958767317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite de estrellita en p\xEDxeles 7_9"
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 183
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0a0cddff8266e7f0800000000000000
+      internalID: -583670731118999025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite de estrellita en p\xEDxeles 7_10"
+      rect:
+        serializedVersion: 2
+        x: 364
+        y: 173
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b86494e13cbfc7e50800000000000000
+      internalID: 6808593552122660491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite de estrellita en p\xEDxeles 7_11"
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 124
+        width: 37
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 155163f0cc2838a40800000000000000
+      internalID: 5369278993695905105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite de estrellita en p\xEDxeles 7_12"
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 124
+        width: 11
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 825c84411e6f4cf00800000000000000
+      internalID: 1136304452572595496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      "Sprite de estrellita en p\xEDxeles 7_0": -5014524529487543835
+      "Sprite de estrellita en p\xEDxeles 7_1": 8963786521059654529
+      "Sprite de estrellita en p\xEDxeles 7_10": 6808593552122660491
+      "Sprite de estrellita en p\xEDxeles 7_11": 5369278993695905105
+      "Sprite de estrellita en p\xEDxeles 7_12": 1136304452572595496
+      "Sprite de estrellita en p\xEDxeles 7_2": 2298633005668770663
+      "Sprite de estrellita en p\xEDxeles 7_3": -8527911821162732205
+      "Sprite de estrellita en p\xEDxeles 7_4": 8011872923108129440
+      "Sprite de estrellita en p\xEDxeles 7_5": 8829005193951657532
+      "Sprite de estrellita en p\xEDxeles 7_6": 8006317819023641189
+      "Sprite de estrellita en p\xEDxeles 7_7": -1419268155057888149
+      "Sprite de estrellita en p\xEDxeles 7_8": -1593300889958767317
+      "Sprite de estrellita en p\xEDxeles 7_9": -583670731118999025
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

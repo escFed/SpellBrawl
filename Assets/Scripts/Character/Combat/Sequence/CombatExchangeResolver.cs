@@ -116,15 +116,11 @@ public class CombatExchangeResolver : MonoBehaviour
         float firstDirection = GetOutwardDirection(first, second);
         float secondDirection = -firstDirection;
 
-        first.States.ClashSequence.Prepare(second, new Vector2(firstDirection * LaunchHorizontalSpeed, LaunchVerticalSpeed), SequenceStepDuration, LaunchHitStun);
-        second.States.ClashSequence.Prepare(first, new Vector2(secondDirection * LaunchHorizontalSpeed, LaunchVerticalSpeed), SequenceStepDuration, LaunchHitStun);
+        first.States.ClashSequence.Prepare(second, new Vector2(firstDirection * LaunchHorizontalSpeed, LaunchVerticalSpeed), SequenceStepDuration, LaunchHitStun, true);
+        second.States.ClashSequence.Prepare(first, new Vector2(secondDirection * LaunchHorizontalSpeed, LaunchVerticalSpeed), SequenceStepDuration, LaunchHitStun, false);
 
         first.ChangeState(first.States.ClashSequence);
         second.ChangeState(second.States.ClashSequence);
-
-        Vector2 impactPoint = (first.transform.position + second.transform.position) * 0.5f;
-        CombatFeedback.PlayHitSound();
-        CombatFeedback.PlayImpact(impactPoint, Vector2.up * LaunchVerticalSpeed, HitReaction.Stunned, Color.white);
     }
 
     private static float GetOutwardDirection(CharacterCoordinator character, CharacterCoordinator opponent)

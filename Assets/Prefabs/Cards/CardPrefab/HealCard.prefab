@@ -48,5 +48,5 @@ MonoBehaviour:
   cardDescription: REDUCES YOUR DAMAGE
   damageOrNot: NON DAMAGEABLE
   healAmount: 25
-  energyCost: 0
-  cardIcon: {fileID: -9155219071720790082, guid: 665ad15aeddc4764eae13148e548bc6f, type: 3}
+  cardIcon: {fileID: -7877466031251878517, guid: 8f5730f99ac3b934f84324223611ba8e, type: 3}
+  cardVisual: {fileID: 0}

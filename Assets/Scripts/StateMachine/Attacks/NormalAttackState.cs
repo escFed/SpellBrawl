@@ -14,6 +14,16 @@ public class NormalAttackState : AttackState
     private bool jabFollowupQueued;
     private bool jabHeavyQueued;
     private float attackFacingSign;
+    private float recoveryMultiplier = 1f;
+
+    public bool CanQueueFollowup => attackType == NormalAttackType.Jab &&
+        jabStage < jabFinisherStage && !jabHeavyQueued && !jabFollowupQueued &&
+        character.IsGrounded && ElapsedTime >= Startup &&
+        ElapsedTime <= Startup + Active + jabInputWindowAfterActive;
+
+    public bool CanQueueHeavyFinisher => attackType == NormalAttackType.Jab &&
+        jabStage == 1 && !jabHeavyQueued && character.IsGrounded &&
+        ElapsedTime <= Startup + Active + jabInputWindowAfterActive;
 
     public NormalAttackState(CharacterCoordinator character, CharacterStateMachine stateMachine, NormalAttackType attackType, NormalAttackStats attackStats, string animationState, bool isAerial) : base(character, stateMachine, attackStats)
     {
@@ -24,6 +34,8 @@ public class NormalAttackState : AttackState
 
     public override void Enter()
     {
+        HasteEffect haste = character.GetComponent<HasteEffect>();
+        recoveryMultiplier = haste != null ? haste.ConsumeAttackRecoveryMultiplier() : 1f;
         jabStage = 0;
         jabFollowupQueued = false;
         jabHeavyQueued = false;
@@ -132,7 +144,8 @@ public class NormalAttackState : AttackState
     protected override bool StopsHorizontalMovement => !isAerial;
     protected override bool AllowsAirDrift => isAerial;
     protected override float Startup => attackType == NormalAttackType.Jab && jabStage > 0 ? jabFollowupStartup : base.Startup;
-    protected override float Recovery => attackType == NormalAttackType.Jab && jabFollowupQueued ? jabQueuedRecovery : base.Recovery;
+    protected override float Recovery =>
+        (attackType == NormalAttackType.Jab && jabFollowupQueued ? jabQueuedRecovery : base.Recovery) * recoveryMultiplier;
 
     protected override bool TryContinueAttack()
     {

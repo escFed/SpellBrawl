@@ -48,6 +48,5 @@ MonoBehaviour:
   cardDescription: CAST A THUNDERSTRIKE FROM THE SKY
   damageOrNot: DAMAGEABLE
   tsPrefab: {fileID: 7062071539232757206, guid: 36b700d52f911bf42bbad3ddd8180354, type: 3}
-  energyCost: 0
-  cardSprite: {fileID: -5031075911619066452, guid: 7c4d4c03f4b75894fbb8c89cadb23ef3, type: 3}
+  cardSprite: {fileID: 5209792369018764175, guid: 5ce40e5e37df8324a86448622384b011, type: 3}
   cardUI: {fileID: 0}

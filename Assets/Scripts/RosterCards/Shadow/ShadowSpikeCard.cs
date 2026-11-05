@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,13 +5,13 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
 {
     [Header("Card Info")]
     [SerializeField] private string cardName = "Shadow Spike";
-    [SerializeField, TextArea(3, 5)] private string cardDescription = "Deals damage and slows the target.";
-    [SerializeField] private string damageOrNot = "8";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Marks the rival's ground. Spikes erupt after a warning and slow on hit.";
+    [SerializeField] private string damageOrNot = "DAMAGEABLE";
 
     [Header("Settings Shadow Spike")]
     [SerializeField] private int damage = 8;
-    [SerializeField] private float slowAmount = 0.4f;
-    [SerializeField] private float duration = 2f;
+    [SerializeField, Range(0f, 1f)] private float slowAmount = 0.7f;
+    [SerializeField, Min(0f)] private float duration = 1.25f;
     [SerializeField] private Vector2 knockback = Vector2.up;
     [SerializeField, Min(0f)] private float hitStun = 0.3f;
     [SerializeField] private KnockbackProfile launch = new KnockbackProfile { growth = 0f, hitStunPerSpeed = 0f, directionalInfluence = 0f };
@@ -20,7 +19,7 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
     [Header("Visual")]
     [SerializeField] private GameObject spikePrefab;
     [SerializeField] private Sprite cardIcon;
-    [SerializeField] private Image cardVisual; // añadido: referencia a la imagen UI
+    [SerializeField] private Image cardVisual;
 
     public string CardName => cardName;
     public string CardDescription => cardDescription;
@@ -28,7 +27,6 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
     public string DamageableOrNot => damageOrNot;
     public CardType Type => CardType.Offensive;
 
-    // Implementación requerida por ICardable
     public Sprite CardVisual => cardIcon;
 
     public void SetUI(Image img)
@@ -40,60 +38,48 @@ public class ShadowSpikeCard : MonoBehaviour, ICardable
 
     public bool CanBeUsed(CharacterCoordinator user)
     {
+        if (user == null || spikePrefab == null)
+            return false;
+
         CharacterCoordinator[] allPlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
         foreach (var p in allPlayers)
         {
-            if (p.PlayerIndex != user.PlayerIndex)
-            {
-                return p.IsGrounded;
-            }
+            if (p.PlayerIndex != user.PlayerIndex && p.IsGrounded)
+                return true;
         }
         return false;
     }
 
     public void ExecuteCard(CharacterCoordinator character)
     {
-        StartCoroutine(SpikeRoutine(character));
-    }
-
-    private IEnumerator SpikeRoutine(CharacterCoordinator character)
-    {
-        CharacterCoordinator opponent = null;
-        CharacterCoordinator[] allPlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
-
-        foreach (var p in allPlayers)
+        if (character == null || spikePrefab == null)
         {
-            if (p.PlayerIndex != character.PlayerIndex)
-            {
-                opponent = p;
-                break;
-            }
+            Destroy(gameObject);
+            return;
         }
 
-        if (opponent != null)
+        CharacterCoordinator[] allPlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
+        foreach (var p in allPlayers)
         {
-            if (spikePrefab != null)
+            if (p.PlayerIndex == character.PlayerIndex || !p.IsGrounded)
+                continue;
+
+            Collider2D body = p.GetComponent<Collider2D>();
+            if (body == null)
+                break;
+
+            Vector2 groundPosition = new Vector2(p.transform.position.x, body.bounds.min.y);
+            GameObject spike = Instantiate(spikePrefab, groundPosition, Quaternion.identity);
+            GetComponent<MatchCardUse>()?.CopyTo(spike);
+            if (spike.TryGetComponent(out ShadowProjectile trap))
+                trap.Initialize(character, p, groundPosition, damage, slowAmount, duration,
+                    knockback, hitStun, launch);
+            else
             {
-                Instantiate(spikePrefab, opponent.transform.position, Quaternion.identity);
+                Debug.LogError("Shadow Spike prefab is missing ShadowProjectile", spike);
+                Destroy(spike);
             }
-
-            if (opponent.TryGetComponent(out CharacterHealth opponentHealth))
-            {
-                bool applied = opponentHealth.ReceiveHit(new CombatHit(damage, knockback, hitStun, HitReaction.Hit, opponent.transform.position, character.PlayerIndex, launch,
-                    attacker: character));
-                if (applied) GetComponent<MatchCardUse>()?.MarkHit();
-            }
-
-            opponent.Movement.moveSpeedMultiplier = slowAmount;
-            opponent.Combat.attackSpeedMultiplier = slowAmount;
-
-            yield return new WaitForSeconds(duration);
-
-            if (opponent != null)
-            {
-                opponent.Movement.moveSpeedMultiplier = 1f;
-                opponent.Combat.attackSpeedMultiplier = 1f;
-            }
+            break;
         }
 
         Destroy(gameObject);

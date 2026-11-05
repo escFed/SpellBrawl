@@ -16,8 +16,8 @@ public class UIIndicator : MonoBehaviour
     [HideInInspector]
     public Color p2Color = new Color(0.2f, 0.4f, 1f);
 
-    [Header("IA")]
-    public string iaName = "IA";
+    [Header("CPU")]
+    public string iaName = "CPU";
     [HideInInspector]
     public Color iaColor = new Color(0.2f, 0.4f, 1f);
 

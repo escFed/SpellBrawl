@@ -89,7 +89,7 @@ public sealed class MatchStatistics
         PlayerRecord player = Get(playerIndex);
         if (player == null || card == null) return -1;
 
-        string name = string.IsNullOrWhiteSpace(card.CardName) ? "Carta sin nombre" : card.CardName;
+        string name = string.IsNullOrWhiteSpace(card.CardName) ? "Unnamed card" : card.CardName;
         int count = player.CardCounts.TryGetValue(name, out int previous) ? previous + 1 : 1;
         player.CardCounts[name] = count;
         player.CardIcons[name] = card.CardVisual;
@@ -121,20 +121,20 @@ public sealed class MatchStatistics
     public string GetTitle(int playerIndex, bool isWinner)
     {
         PlayerRecord player = Get(playerIndex);
-        if (player == null) return "Combatiente";
+        if (player == null) return "Fighter";
         PlayerRecord other = players[1 - playerIndex];
-        if (isWinner && player.WasBehind) return "Remontada";
+        if (isWinner && player.WasBehind) return "Comeback";
         if (player.SuccessfulParries >= 2 && player.SuccessfulParries > other.SuccessfulParries)
-            return "Reflejos perfectos";
+            return "Perfect Reflexes";
         if (player.DamageBlocked >= 30 && player.DamageBlocked > other.DamageBlocked)
-            return "Muro arcano";
+            return "Arcane Wall";
         if (player.OffensiveCardsHit >= 2 && player.CardAccuracy >= 70)
-            return "Maestro de cartas";
+            return "Card Master";
         if (player.Eliminations >= 2 && player.Eliminations > other.Eliminations)
-            return "Imparable";
+            return "Unstoppable";
         if (player.SurvivalSeconds >= 60f && player.TimesEliminated == 0)
-            return "Superviviente";
-        return "Combatiente";
+            return "Survivor";
+        return "Fighter";
     }
 
     private static bool IsValid(int playerIndex) => playerIndex >= 0 && playerIndex < 2;

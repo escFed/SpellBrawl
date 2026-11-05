@@ -4,26 +4,35 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
-// The Canvas owns every stage and timing setting; match values stay in GameManager.Statistics.
+// The Canvas owns the screens; match values stay in GameManager.Statistics.
 public sealed class MatchResultsView : MonoBehaviour
 {
     [Header("Sequence stages (Canvas children)")]
     [SerializeField] private GameObject gameStage;
-    [SerializeField] private GameObject animationStage;
+    [SerializeField] private GameObject loadingStage;
     [SerializeField] private GameObject winnerStage;
     [SerializeField] private GameObject statisticsStage;
     [SerializeField] private CanvasGroup transitionCurtain;
+    [SerializeField] private UnityEngine.UI.Image panelBackground;
 
     [Header("Sequence timing (unscaled seconds)")]
     [SerializeField, Min(0f)] private float gameHoldSeconds = 1.25f;
+    [SerializeField, Min(0f)] private float loadingSeconds = 2f;
     [SerializeField, Min(0f)] private float transitionSeconds = 0.35f;
-    [SerializeField, Min(0f)] private float placeholderAnimationSeconds = 1.2f;
-    [SerializeField, Min(0f)] private float winnerHoldSeconds = 1.6f;
 
     [Header("Winner stage")]
     [SerializeField] private TextMeshProUGUI winnerIdentity;
+    [SerializeField] private TextMeshProUGUI winnerCharacter;
+    [SerializeField] private UnityEngine.UI.Button nextButton;
 
-    [Header("Victory animation stage")]
+    [Header("Victory soundtrack")]
+    [SerializeField] private AudioSource victoryMusic;
+
+    [Header("Presenter voice")]
+    [SerializeField] private AudioClip gameClip;
+    [SerializeField] private AudioClip winnerClip;
+
+    [Header("Winner animation")]
     [SerializeField] private UnityEngine.UI.Image winnerPortrait;
     [SerializeField] private UnityEngine.UI.Image amiroRune;
     [SerializeField] private Animator victoryAnimator;
@@ -31,6 +40,7 @@ public sealed class MatchResultsView : MonoBehaviour
     [SerializeField] private Sprite[] amiroVictoryFrames;
     [SerializeField] private Sprite[] amiroIdleFrames;
     [SerializeField] private Sprite[] amiroRuneFrames;
+    [SerializeField] private Material blueAmiroMaterial;
 
     [Header("Statistics stage")]
     [SerializeField] private GameObject overview;
@@ -44,11 +54,27 @@ public sealed class MatchResultsView : MonoBehaviour
     private bool playingClip;
     private bool animationPlaying;
     private float presentationTime;
+    private AudioSource presenterSource;
+
+    private void Awake()
+    {
+        // Victory music already has an AudioSource on this object; the voice needs
+        // its own object so AudioController can assign a different volume channel.
+        GameObject presenterPlayer = new GameObject("Winner Voice");
+        presenterPlayer.transform.SetParent(transform, false);
+        presenterSource = presenterPlayer.AddComponent<AudioSource>();
+        presenterSource.playOnAwake = false;
+        presenterSource.spatialBlend = 0f;
+        GameSettings.RegisterSource(presenterSource, GameSound.SoundEffects);
+        if (victoryMusic != null)
+            GameSettings.RegisterSource(victoryMusic, GameSound.Music);
+    }
 
     public void Show(MatchStatistics statistics, int winnerIndex)
     {
         if (statistics == null) return;
         StopSequence();
+        if (victoryMusic != null) victoryMusic.Stop();
 
         for (int i = 0; i < 2; i++)
         {
@@ -60,56 +86,80 @@ public sealed class MatchResultsView : MonoBehaviour
         }
 
         CharacterStats winner = GetCharacter(winnerIndex);
-        string characterName = winner != null ? winner.characterName : "PERSONAJE";
-        if (winnerIdentity != null)
-            winnerIdentity.text = $"{characterName}\n{GetPlayerName(winnerIndex)}";
+        string characterName = winner != null ? winner.characterName : "CHARACTER";
+        if (winnerIdentity != null) winnerIdentity.text = GetPlayerName(winnerIndex);
+        if (winnerCharacter != null) winnerCharacter.text = characterName;
 
         isAmiro = winner != null && string.Equals(characterName, "AMIRO", System.StringComparison.OrdinalIgnoreCase);
+        SelectionManager selection = SelectionManager.Instance;
+        bool blueAmiroWinner = isAmiro &&
+            (winnerIndex == (int)PlayerSlot.PlayerTwo ||
+             selection != null && selection.GetControlMode((PlayerSlot)winnerIndex) == PlayerMode.AI);
+        Material victoryMaterial = blueAmiroWinner ? blueAmiroMaterial : null;
         if (winnerPortrait != null)
         {
+            winnerPortrait.material = victoryMaterial;
             winnerPortrait.sprite = isAmiro && amiroVictoryFrames != null && amiroVictoryFrames.Length > 0
                 ? amiroVictoryFrames[0]
                 : winner != null ? winner.characterIcon : null;
             winnerPortrait.enabled = winnerPortrait.sprite != null;
-            winnerPortrait.rectTransform.localScale = isAmiro ? Vector3.one * 0.35f : Vector3.one;
         }
         if (amiroRune != null)
         {
-            amiroRune.gameObject.SetActive(isAmiro && amiroRuneFrames != null && amiroRuneFrames.Length > 0);
+            amiroRune.material = victoryMaterial;
+            amiroRune.gameObject.SetActive(isAmiro && amiroVictoryClip == null &&
+                amiroRuneFrames != null && amiroRuneFrames.Length > 0);
             if (amiroRune.gameObject.activeSelf) amiroRune.sprite = amiroRuneFrames[0];
-            amiroRune.rectTransform.localScale = Vector3.one * 0.1f;
-            amiroRune.rectTransform.localRotation = Quaternion.Euler(0f, 0f, -120f);
         }
 
         SetDetails(false);
-        SetStage(gameStage != null ? gameStage : statisticsStage);
+        SetStage(gameStage != null ? gameStage : loadingStage);
+        if (gameStage != null && presenterSource != null && gameClip != null)
+            presenterSource.PlayOneShot(gameClip);
+        if (panelBackground != null) panelBackground.enabled = gameStage == null;
         if (transitionCurtain != null) transitionCurtain.alpha = 0f;
+        if (nextButton != null) nextButton.interactable = true;
         presentationTime = 0f;
         animationPlaying = false;
 
-        if (Application.isPlaying && gameStage != null && animationStage != null &&
-            winnerStage != null && statisticsStage != null)
+        if (Application.isPlaying && loadingStage != null && winnerStage != null && statisticsStage != null)
             sequence = StartCoroutine(PlaySequence());
     }
 
     public void ToggleDetails() => SetDetails(details != null && !details.activeSelf);
 
+    public void Next()
+    {
+        if (!Application.isPlaying || sequence != null || winnerStage == null || !winnerStage.activeInHierarchy)
+            return;
+        if (nextButton != null) nextButton.interactable = false;
+        sequence = StartCoroutine(ShowStatistics());
+    }
+
     private IEnumerator PlaySequence()
     {
         yield return new WaitForSecondsRealtime(gameHoldSeconds);
-        yield return TransitionTo(animationStage);
-
+        SetStage(loadingStage);
+        if (panelBackground != null) panelBackground.enabled = true;
+        yield return new WaitForSecondsRealtime(loadingSeconds);
+        yield return TransitionTo(winnerStage);
+        if (presenterSource != null && winnerClip != null)
+            presenterSource.PlayOneShot(winnerClip);
         presentationTime = 0f;
         animationPlaying = true;
         StartVictoryClip();
-        float animationSeconds = playingClip ? amiroVictoryClip.length : placeholderAnimationSeconds;
-        yield return new WaitForSecondsRealtime(Mathf.Max(0f, animationSeconds));
+        UIFocus.SelectFirst(winnerStage);
+        if (winnerClip != null)
+            yield return new WaitForSecondsRealtime(winnerClip.length);
+        if (victoryMusic != null && victoryMusic.clip != null) victoryMusic.Play();
+        sequence = null;
+    }
+
+    private IEnumerator ShowStatistics()
+    {
+        yield return TransitionTo(statisticsStage);
         animationPlaying = false;
         StopVictoryClip();
-
-        yield return TransitionTo(winnerStage);
-        yield return new WaitForSecondsRealtime(winnerHoldSeconds);
-        yield return TransitionTo(statisticsStage);
         UIFocus.SelectFirst(statisticsStage);
         sequence = null;
     }
@@ -145,7 +195,7 @@ public sealed class MatchResultsView : MonoBehaviour
     private void SetStage(GameObject active)
     {
         if (gameStage != null) gameStage.SetActive(gameStage == active);
-        if (animationStage != null) animationStage.SetActive(animationStage == active);
+        if (loadingStage != null) loadingStage.SetActive(loadingStage == active);
         if (winnerStage != null) winnerStage.SetActive(winnerStage == active);
         if (statisticsStage != null) statisticsStage.SetActive(statisticsStage == active);
     }
@@ -154,7 +204,7 @@ public sealed class MatchResultsView : MonoBehaviour
     {
         if (overview != null) overview.SetActive(!showDetails);
         if (details != null) details.SetActive(showDetails);
-        if (detailsButtonLabel != null) detailsButtonLabel.text = showDetails ? "RESUMEN" : "DETALLES";
+        if (detailsButtonLabel != null) detailsButtonLabel.text = showDetails ? "OVERVIEW" : "DETAILS";
     }
 
     private void StartVictoryClip()
@@ -178,23 +228,26 @@ public sealed class MatchResultsView : MonoBehaviour
 
     private void StopSequence()
     {
+        if (presenterSource != null) presenterSource.Stop();
         if (sequence != null) StopCoroutine(sequence);
         sequence = null;
         animationPlaying = false;
         StopVictoryClip();
     }
 
-    private void OnDisable() => StopSequence();
+    private void OnDisable()
+    {
+        StopSequence();
+        if (victoryMusic != null) victoryMusic.Stop();
+        if (gameStage != null) gameStage.SetActive(false);
+    }
 
     private void Update()
     {
-        if (!isAmiro || !animationPlaying || playingClip || animationStage == null || !animationStage.activeInHierarchy ||
+        if (!isAmiro || !animationPlaying || playingClip || winnerStage == null || !winnerStage.activeInHierarchy ||
             winnerPortrait == null) return;
 
         presentationTime += Time.unscaledDeltaTime;
-        float entrance = Mathf.Clamp01(presentationTime / 0.55f);
-        float overshoot = 1f + Mathf.Sin(entrance * Mathf.PI) * 0.12f;
-        winnerPortrait.rectTransform.localScale = Vector3.one * Mathf.Lerp(0.35f, overshoot, entrance);
 
         if (amiroVictoryFrames != null && amiroVictoryFrames.Length > 0 && presentationTime < 0.9f)
             winnerPortrait.sprite = amiroVictoryFrames[Mathf.Min(amiroVictoryFrames.Length - 1,
@@ -208,13 +261,11 @@ public sealed class MatchResultsView : MonoBehaviour
             int frame = Mathf.Min(amiroRuneFrames.Length - 1, Mathf.FloorToInt(presentationTime * 12f));
             amiroRune.sprite = amiroRuneFrames[frame];
         }
-        amiroRune.rectTransform.localScale = Vector3.one * Mathf.Lerp(0.1f, 1f, entrance);
-        amiroRune.rectTransform.localRotation = Quaternion.Euler(0f, 0f, (1f - entrance) * -120f);
     }
 
     private static string GetPlayerName(int playerIndex) => SelectionManager.Instance != null
         ? SelectionManager.Instance.GetDisplayName((PlayerSlot)playerIndex)
-        : $"JUGADOR {playerIndex + 1}";
+        : $"PLAYER {playerIndex + 1}";
 
     private static CharacterStats GetCharacter(int playerIndex)
     {

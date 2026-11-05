@@ -45,9 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HasteCard
   cardName: HASTE
-  cardDescription: INCREASE YOUR ATTACK AND MOVEMENT SPEED SIMULTANEOUSLY
+  cardDescription: MOVE 25% FASTER FOR 4 SECONDS. YOUR NEXT NORMAL ATTACK DURING
+    HASTE RECOVERS 20% FASTER
   damageOrNot: NON DAMAGEABLE
-  speedMultiplier: 1.5
-  duration: 5
-  energyCost: 0
-  cardIcon: {fileID: -2028240897101911080, guid: 56d8ce3ad7cb29f418f974fcf10514ac, type: 3}
+  speedMultiplier: 1.25
+  duration: 4
+  attackRecoveryMultiplier: 0.8
+  cardIcon: {fileID: -2028240897101911080, guid: e73c13ca8ec554f478580068f63ed215, type: 3}
+  cardVisual: {fileID: 0}

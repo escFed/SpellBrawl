@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class CharacterHitBox : MonoBehaviour
 {
+    private const float ForwardTiltFollowupHorizontalScale = 2f / 3f;
+    private const float ForwardTiltFollowupVerticalScale = 0.6f;
+    private const float ForwardTiltFollowupGrowthScale = 0.5f;
+
     [Header("Combat Hitboxes")]
     [SerializeField] private AttackHitbox jabHitbox;
     [SerializeField] private AttackHitbox fTiltHitbox;
@@ -90,16 +94,23 @@ public class CharacterHitBox : MonoBehaviour
         if (fTiltHitbox == null) { Debug.LogError($"[CharacterHitBox] fTiltHitbox no está asignado en el Inspector de '{gameObject.name}'"); return; }
         if (stats == null) { Debug.LogError($"[CharacterHitBox] fTiltAttack stats es null en CharacterStats de '{gameObject.name}'"); return; }
 
-        if (stage == 0)
+        int openerDamage = Mathf.Max(1, Mathf.RoundToInt(stats.damage * 0.375f));
+        int intermediateDamage = Mathf.Max(1, (stats.damage - openerDamage) / 2);
+        if (stage < 2)
         {
-            int damage = Mathf.Max(1, Mathf.RoundToInt(stats.damage * 0.375f));
+            int damage = stage == 0 ? openerDamage : intermediateDamage;
             Vector2 knockback = new Vector2(Mathf.Max(0.5f, stats.knockback.x * 0.15f), 0f);
             fTiltHitbox.Setup(stats, damage, knockback, Mathf.Max(0.3f, stats.hitStun), 0f);
         }
         else
         {
-            int damage = Mathf.Max(1, stats.damage - Mathf.Max(1, Mathf.RoundToInt(stats.damage * 0.375f)));
-            fTiltHitbox.Setup(stats, damage, stats.knockback);
+            int damage = Mathf.Max(1, stats.damage - openerDamage - intermediateDamage);
+            // Only the third contact launches; the shared asset also serves as a dash-attack fallback.
+            Vector2 knockback = new Vector2(
+                stats.knockback.x * ForwardTiltFollowupHorizontalScale,
+                stats.knockback.y * ForwardTiltFollowupVerticalScale);
+            fTiltHitbox.Setup(stats, damage, knockback, stats.hitStun,
+                stats.launch.growth * ForwardTiltFollowupGrowthScale);
         }
     }
     public bool IsForwardTiltHitbox(AttackHitbox source) => source == fTiltHitbox;

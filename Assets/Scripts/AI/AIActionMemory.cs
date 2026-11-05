@@ -82,6 +82,8 @@ public class AIActionMemory
 
     private static bool TracksDamage(AIDecision decision, string cardKey)
     {
-        return decision == AIDecision.Attack || decision == AIDecision.DashAttack || decision == AIDecision.HeavyAttack || (decision == AIDecision.UseOffensiveCard && cardKey != nameof(TsunamiCard));
+        return decision == AIDecision.Attack || decision == AIDecision.DashAttack ||
+            decision == AIDecision.HeavyAttack || decision == AIDecision.QuickHeavyAttack ||
+            (decision == AIDecision.UseOffensiveCard && cardKey != nameof(TsunamiCard));
     }
 }

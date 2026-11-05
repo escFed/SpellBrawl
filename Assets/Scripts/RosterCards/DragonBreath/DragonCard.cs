@@ -1,15 +1,18 @@
-
-using System.Collections.Generic;
 using UnityEngine;
 using UI = UnityEngine.UI;
 
-public class DragonCard : MonoBehaviour, ICardable
+public class DragonCard : MonoBehaviour, ICardable, IMobileCard
 {
     [SerializeField] private string cardName = "Dragon Breath";
-    [SerializeField][TextArea] private string cardDescription = "Invokes a continuous fire breath attack";
+    [SerializeField, TextArea] private string cardDescription = "Breathe fire forward. Staying in the flames leads to a final launch.";
     [SerializeField] private CardType type = CardType.Offensive;
-    [SerializeField] private Sprite cardVisual = null;
-    [SerializeField] private string damageableOrNot = "Damageable";
+    [SerializeField] private Sprite cardVisual;
+    [SerializeField] private string damageableOrNot = "12";
+
+    [Header("Visual")]
+    [SerializeField] private Sprite cardSprite;
+    [SerializeField] private UI.Image cardUI;
+    [SerializeField] private GameObject dragonPrefab;
 
     public string CardName => cardName;
     public string CardDescription => cardDescription;
@@ -17,102 +20,42 @@ public class DragonCard : MonoBehaviour, ICardable
     public Sprite CardVisual => cardVisual;
     public string DamageableOrNot => damageableOrNot;
 
-
-    [Header("Visual")]
-    [SerializeField] private Sprite cardSprite;
-    [SerializeField] private UI.Image cardUI;
-
-
-    [SerializeField] private GameObject dragonPrefab;
-
-
-
-
     public void SetUI(UI.Image uiImage)
     {
         cardUI = uiImage;
+        if (cardUI == null)
+            return;
 
-        if (cardUI != null)
-        {
-            cardUI.sprite = cardSprite;
-
-            cardUI.enabled = true;
-        }
+        cardUI.sprite = cardSprite;
+        cardUI.enabled = true;
     }
 
-    public bool CanBeUsed(CharacterCoordinator user) => true;
+    public bool CanBeUsed(CharacterCoordinator user) => user != null && dragonPrefab != null;
+
     public void ExecuteCard(CharacterCoordinator character)
     {
-        // Obtener todos los CharacterCoordinator en la escena
-        CharacterCoordinator[] allPlayers = GameObject.FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
-
-        // Elegir el primer jugador que no sea el que usa la carta
-        CharacterCoordinator target = null;
-        foreach (CharacterCoordinator p in allPlayers)
-        {
-            if (p.gameObject != character.gameObject)
-            {
-                target = p;
-                break;
-            }
-        }
-
-        if (target == null)
-        {
-            Debug.LogError("Dragon Breath: No se encontró enemigo!");
+        if (!CanBeUsed(character))
             return;
-        }
 
-        Transform spawnPoint = character.Grab != null && character.Grab.throwPoint != null
-            ? character.Grab.throwPoint
-            : character.transform;
-        Vector3 spawnPosition = Vector3.Lerp(spawnPoint.position, target.transform.position, 0.5f);
+        CharacterHitBox hitBox = character.GetComponent<CharacterHitBox>();
+        if (hitBox != null && Mathf.Abs(character.MoveInput.x) > 0.1f)
+            hitBox.FaceDirection(character.MoveInput.x);
 
-        GameObject breath = Instantiate(dragonPrefab, spawnPosition, Quaternion.identity);
+        float direction = character.Combat.FacingSign;
+        GameObject breath = Instantiate(dragonPrefab, character.transform.position, Quaternion.identity);
         GetComponent<MatchCardUse>()?.CopyTo(breath);
-        breath.transform.localScale = Vector3.one * 2f;
 
-        if (!breath.TryGetComponent(out Collider2D hitBox))
+        if (breath.TryGetComponent(out DragonBreathLogic logic))
         {
-            Debug.LogError("Dragon Breath: El prefab no tiene una hitbox Collider2D.", breath);
+            logic.Initialize(character, direction);
+            character.States.Card.SetCard(this, logic.TotalDuration + 0.1f);
+        }
+        else
+        {
+            Debug.LogError("Dragon Breath prefab is missing DragonBreathLogic.", dragonPrefab);
             Destroy(breath);
-            return;
         }
 
-        if (!breath.TryGetComponent(out DragonBreathLogic script))
-        {
-            Debug.LogError("Dragon Breath: El prefab no tiene DragonBreathLogic.", breath);
-            Destroy(breath);
-            return;
-        }
-
-        Physics2D.SyncTransforms();
-        ContactFilter2D filter = new ContactFilter2D();
-        filter.useTriggers = true;
-        filter.SetLayerMask(Physics2D.AllLayers);
-        List<Collider2D> overlaps = new List<Collider2D>();
-        hitBox.Overlap(filter, overlaps);
-
-        bool detectedOpponent = false;
-        foreach (Collider2D overlap in overlaps)
-        {
-            if (overlap != null && overlap.GetComponentInParent<CharacterCoordinator>() == target)
-            {
-                detectedOpponent = true;
-                break;
-            }
-        }
-
-        if (!detectedOpponent)
-        {
-            Destroy(breath);
-            return;
-        }
-
-        script.SetTargetAndPrefab(target, breath, character.PlayerIndex);
-        script.StartCoroutine(script.BreathCorroutine(target));
-
+        Destroy(gameObject);
     }
-
-
 }

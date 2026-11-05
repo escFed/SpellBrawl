@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragonBreathVisuals
   spriteRenderer: {fileID: 4474505888078881951}
-  particleSystem: {fileID: 7179934908077714009}
+  breathParticles: {fileID: 7179934908077714009}
   damageArea: {fileID: 4033777766332290325}
   breathSprite: {fileID: -7293803181517503039, guid: 2306e20620b0ab2479d89a0ffae6fd56, type: 3}
   breathColor: {r: 1, g: 0.59008783, b: 0, a: 0.8}

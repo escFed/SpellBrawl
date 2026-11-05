@@ -8,6 +8,8 @@ public class BootStrapper : MonoBehaviour
 {
     [Header("Timing")]
     [SerializeField, Min(0f)] private float minimumBlackSeconds = 2f;
+    [SerializeField, Min(0f)] private float studioLogoSeconds = 2f;
+    [SerializeField, Min(0f)] private float studioFadeSeconds = 0.4f;
     [SerializeField, Min(0f)] private float recommendationFadeSeconds = 0.7f;
     [SerializeField, Min(0f)] private float recommendationHoldSeconds = 3.5f;
     [SerializeField, Min(0f)] private float titleFadeSeconds = 0.7f;
@@ -22,12 +24,24 @@ public class BootStrapper : MonoBehaviour
     [SerializeField] private CanvasGroup recommendationGroup;
     [SerializeField] private CanvasGroup blackCover;
     [SerializeField] private UnityEngine.UI.Image loadingIcon;
+    [SerializeField] private CanvasGroup studioSplash;
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip gameStartClip;
 
     private InputAction continueAction;
+    private AudioSource gameStartSource;
 
     private void Awake()
     {
         continueAction = InputSystem.actions?.FindAction("UI/Continue");
+        if (gameStartClip != null)
+        {
+            gameStartSource = gameObject.AddComponent<AudioSource>();
+            gameStartSource.playOnAwake = false;
+            gameStartSource.spatialBlend = 0f;
+            GameSettings.RegisterSource(gameStartSource, GameSound.SoundEffects);
+        }
         if (titleGroup != null)
             titleGroup.alpha = 0f;
         if (recommendationGroup != null)
@@ -36,6 +50,11 @@ public class BootStrapper : MonoBehaviour
             blackCover.alpha = 1f;
         if (loadingIcon != null)
             loadingIcon.color = Color.white;
+        if (studioSplash != null)
+        {
+            studioSplash.alpha = 0f;
+            studioSplash.gameObject.SetActive(false);
+        }
     }
 
     private void Start()
@@ -45,10 +64,10 @@ public class BootStrapper : MonoBehaviour
 
     private IEnumerator ShowTitleWhenReady()
     {
-        if (titleGroup == null || continueText == null || recommendationGroup == null || blackCover == null || loadingIcon == null ||
+        if (titleGroup == null || continueText == null || recommendationGroup == null || blackCover == null || loadingIcon == null || studioSplash == null ||
             !Application.CanStreamedLevelBeLoaded("MainMenu") || continueAction == null)
         {
-            Debug.LogError("[BootStrapper] Assign the Canvas, continue text, UI/Continue action, and MainMenu build scene.", this);
+            Debug.LogError("[BootStrapper] Assign the Canvas, studio splash, continue text, UI/Continue action, and MainMenu build scene.", this);
             yield break;
         }
 
@@ -60,6 +79,21 @@ public class BootStrapper : MonoBehaviour
 
         while (menuLoad.progress < 0.9f || Time.realtimeSinceStartup - startedAt < minimumBlackSeconds)
             yield return null;
+
+        float studioFade = Mathf.Min(studioFadeSeconds, studioLogoSeconds * 0.5f);
+        float splashStart = Time.realtimeSinceStartup;
+        studioSplash.alpha = studioFade > 0f ? 0f : 1f;
+        studioSplash.gameObject.SetActive(true);
+        while (Time.realtimeSinceStartup - splashStart < studioLogoSeconds)
+        {
+            float splashElapsed = Time.realtimeSinceStartup - splashStart;
+            studioSplash.alpha = studioFade > 0f
+                ? Mathf.Clamp01(Mathf.Min(splashElapsed, studioLogoSeconds - splashElapsed) / studioFade)
+                : 1f;
+            yield return null;
+        }
+        studioSplash.alpha = 0f;
+        studioSplash.gameObject.SetActive(false);
 
         float elapsed = 0f;
         while (elapsed < recommendationFadeSeconds)
@@ -92,6 +126,9 @@ public class BootStrapper : MonoBehaviour
 
         while (!continueAction.WasPressedThisFrame())
             yield return null;
+
+        if (gameStartSource != null)
+            gameStartSource.PlayOneShot(gameStartClip);
 
         Color textColor = continueText.color;
         elapsed = 0f;

@@ -9,12 +9,11 @@ public sealed class StockLossVisual : MonoBehaviour
     private const int RayWidth = 256;
     private const int RayHeight = 64;
     private const int RayCount = 8;
-    private const float RaySpacingScale = 0.65f;
+    private const float RaySpacingScale = 0.5f;
 
     private RectTransform canvasRect;
     private AudioSource audioSource;
     private Sprite raySprite;
-    private AudioClip customCue;
 
     private void Awake()
     {
@@ -31,17 +30,10 @@ public sealed class StockLossVisual : MonoBehaviour
         canvasRect = canvasObject.GetComponent<RectTransform>();
 
         raySprite = BuildRaySprite();
-        customCue = Resources.Load<AudioClip>("StockLoss");
-        if (customCue != null)
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.playOnAwake = false;
-            audioSource.spatialBlend = 0f;
-            GameSettings.RegisterSource(audioSource, GameSound.SoundEffects);
-        }
     }
 
-    public void Play(Vector2 worldPosition, Vector2 velocity, Color playerColor, bool finalStock)
+    public void Play(Vector2 worldPosition, Vector2 velocity, Color playerColor, bool finalStock,
+        AudioClip stockLossClip)
     {
         Camera camera = Camera.main;
         Vector2 viewport = camera != null ? camera.WorldToViewportPoint(worldPosition) : new Vector2(0.5f, -0.2f);
@@ -94,8 +86,18 @@ public sealed class StockLossVisual : MonoBehaviour
                 centers[i], rotation);
         }
 
-        if (audioSource != null && customCue != null && !PauseMenu.isPaused)
-            audioSource.PlayOneShot(customCue, finalStock ? 1f : 0.8f);
+        if (stockLossClip != null && !PauseMenu.isPaused)
+        {
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+                audioSource.playOnAwake = false;
+                audioSource.spatialBlend = 0f;
+                GameSettings.RegisterSource(audioSource, GameSound.SoundEffects);
+            }
+
+            audioSource.PlayOneShot(stockLossClip, finalStock ? 1f : 0.8f);
+        }
 
         StartCoroutine(Animate(effect, glows, cores, centers, direction, screenSpan,
             playerColor, finalStock));

@@ -13,3 +13,6 @@ public interface ICardable
     void ExecuteCard(CharacterCoordinator character);
     void SetUI(Image uiImage);
 }
+
+// Cards with this marker allow regular movement during their cast state.
+public interface IMobileCard { }

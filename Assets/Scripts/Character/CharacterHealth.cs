@@ -13,6 +13,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
     public int fallLives = 3;
 
     public float activeDefenseMultiplier = 1f;
+    private float damageImmunityEndsAt;
 
     private Rigidbody2D rb;
     private Collider2D bodyCollider;
@@ -31,6 +32,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
     public RespawnPhase Phase { get; private set; } = RespawnPhase.Active;
     public bool IsDead => Phase == RespawnPhase.Eliminated;
     public bool IsIntangible { get; private set; }
+    public bool IsDamageImmune => Phase == RespawnPhase.Active && Time.time < damageImmunityEndsAt;
     public bool IsRespawnProtected => Phase == RespawnPhase.RespawnProtected;
     public bool IsWaitingToDrop => Phase == RespawnPhase.WaitingToDrop;
     public float RemainingRespawnDropTime => remainingRespawnDropTime;
@@ -63,7 +65,14 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
     private void OnDisable()
     {
+        damageImmunityEndsAt = 0f;
         CameraTrackingChanged?.Invoke(this);
+    }
+
+    public void GrantDamageImmunity(float duration)
+    {
+        if (Phase != RespawnPhase.Active || duration <= 0f) return;
+        damageImmunityEndsAt = Mathf.Max(damageImmunityEndsAt, Time.time + duration);
     }
 
     public void SetIntangible(bool intangible)
@@ -85,7 +94,8 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         if (hit.Damage == 0 && controller.Shield != null && controller.Shield.IsActive)
             return false;
 
-        int finalDamage = Mathf.Max(0, Mathf.RoundToInt(hit.Damage * controller.stats.defenseMultiplier * activeDefenseMultiplier));
+        bool damageImmune = IsDamageImmune;
+        int finalDamage = damageImmune ? 0 : Mathf.Max(0, Mathf.RoundToInt(hit.Damage * controller.stats.defenseMultiplier * activeDefenseMultiplier));
 
         int damageBeforeShield = finalDamage;
         if (controller != null && controller.Shield != null)
@@ -103,12 +113,17 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
             lastAttackerTime = Time.time;
         }
 
-        if (finalDamage <= 0 && (hit.Damage > 0 || hit.BaseKnockback.sqrMagnitude < 0.000001f))
+        bool hasKnockback = hit.BaseKnockback.sqrMagnitude >= 0.000001f;
+        if (finalDamage <= 0 && (!hasKnockback || (hit.Damage > 0 && !damageImmune)))
             return false;
 
         int damageBeforeHit = currentDamage;
         currentDamage += finalDamage;
         UpdateUI();
+
+        // Damage-over-time hits use the same defense rules without interrupting movement.
+        if (!hasKnockback && hit.BaseHitStun <= 0f)
+            return true;
 
         // Capture held direction before TakeHit clears action buffers.
         Vector2 influence = controller.ActiveInput != null ? controller.ActiveInput.CurrentDirection : Vector2.zero;
@@ -139,7 +154,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
     public void TakePummelDamage(int amount, int attackerPlayerIndex = -1)
     {
-        if (Phase != RespawnPhase.Active || amount <= 0)
+        if (Phase != RespawnPhase.Active || amount <= 0 || IsDamageImmune)
             return;
 
         float defenseMultiplier = controller != null && controller.stats != null ? controller.stats.defenseMultiplier : 1f;
@@ -475,6 +490,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         // energy, deck order/hand, card cooldowns, and movement-ability cooldowns.
         currentDamage = 0;
         activeDefenseMultiplier = 1f;
+        damageImmunityEndsAt = 0f;
         ResetTransientCharacterState();
         deck?.HandleLifeLost();
     }
@@ -484,6 +500,7 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         currentDamage = 0;
         fallLives = initialStocks;
         activeDefenseMultiplier = 1f;
+        damageImmunityEndsAt = 0f;
         ResetTransientCharacterState();
 
         if (controller != null)
@@ -501,6 +518,8 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         IsIntangible = false;
 
         GetComponent<AntiGravityEffect>()?.CancelEffect();
+        GetComponent<HasteEffect>()?.CancelEffect();
+        GetComponentInChildren<MirrorWorldLogic>()?.CancelEffect();
 
         if (controller == null)
             return;

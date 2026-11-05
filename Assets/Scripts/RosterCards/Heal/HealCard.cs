@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class HealCard : MonoBehaviour, ICardable
 {
@@ -33,20 +32,15 @@ public class HealCard : MonoBehaviour, ICardable
 
     public void ExecuteCard(CharacterCoordinator character)
     {
-        StartCoroutine(HealRoutine(character));
-    }
-
-    private IEnumerator HealRoutine(CharacterCoordinator character)
-    {
-        CharacterHealth health = character.GetComponent<CharacterHealth>();
-
-        if (health != null)
+        if (character != null && character.Health != null && !character.Health.IsDead)
         {
-            health.HealDamage(healAmount);
+            character.Health.HealDamage(healAmount);
+
+            HealEffect effect = character.GetComponent<HealEffect>();
+            if (effect == null)
+                effect = character.gameObject.AddComponent<HealEffect>();
+            effect.Play(character.Sprite);
         }
-
-        yield return new WaitForSeconds(0.2f);
-
         Destroy(gameObject);
     }
 }

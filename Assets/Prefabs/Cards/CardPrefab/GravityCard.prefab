@@ -47,8 +47,7 @@ MonoBehaviour:
   cardName: Gravity
   cardDescription: LIFT A NEARBY RIVAL AND REDUCE THEIR GRAVITY BRIEFLY
   damageOrNot: NON DAMAGEABLE
-  cardIcon: {fileID: 5167368838633182998, guid: de9b5c7786885ba46abbbd3f93125358, type: 3}
-  energyCost: 0
+  cardIcon: {fileID: -4432417307726716028, guid: d0458b9c3150a8c498120e3f90e6e23f, type: 3}
   cardVisual: {fileID: 0}
   effectDuration: 1.75
   range: 6

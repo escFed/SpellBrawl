@@ -1,17 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class FortifyCard : MonoBehaviour, ICardable
 {
     [Header("Card Info")]
     [SerializeField] private string cardName = "FortifyCard";
-    [SerializeField, TextArea(3, 5)] private string cardDescription = "Reduce damage taken";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Take no damage for 2 seconds. Hits still launch you.";
     [SerializeField] private string damageOrNot = "no";
 
     [Header("Defense Settings")]
-    public float damageMultiplier = 0.5f;
-    public float duration = 3f;
+    public float duration = 2f;
 
     [Header("UI Settings")]
     public Sprite cardIcon;
@@ -33,30 +31,18 @@ public class FortifyCard : MonoBehaviour, ICardable
         }
     }
 
-    public bool CanBeUsed(CharacterCoordinator user) => true;
+    public bool CanBeUsed(CharacterCoordinator user) => user != null && user.Health != null && !user.Health.IsDamageImmune;
 
     public void ExecuteCard(CharacterCoordinator character)
     {
-        StartCoroutine(ShieldRoutine(character));
-    }
-
-    private IEnumerator ShieldRoutine(CharacterCoordinator character)
-    {
-        CharacterHealth health = character.GetComponent<CharacterHealth>();
-
-        if (health != null)
+        character.Health?.GrantDamageImmunity(duration);
+        if (character.Health != null && character.Health.IsDamageImmune)
         {
-            health.activeDefenseMultiplier = damageMultiplier;
-
-            character.GetComponent<SpriteRenderer>().color = Color.blue;
-
-            yield return new WaitForSeconds(duration);
-
-            health.activeDefenseMultiplier = 1f;
-
-            character.GetComponent<SpriteRenderer>().color = Color.white;
+            FortifyAura aura = character.GetComponent<FortifyAura>();
+            if (aura == null)
+                aura = character.gameObject.AddComponent<FortifyAura>();
+            aura.Play(character.Health, character.Sprite);
         }
-
         Destroy(gameObject);
     }
 

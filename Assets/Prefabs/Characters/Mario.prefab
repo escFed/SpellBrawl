@@ -1002,7 +1002,7 @@ MonoBehaviour:
   p1Color: {r: 1, g: 1, b: 1, a: 1}
   p2Name: P2
   p2Color: {r: 0.2, g: 0.4, b: 1, a: 1}
-  iaName: IA
+  iaName: CPU
   iaColor: {r: 1, g: 0, b: 0.009498596, a: 1}
   viewportMargin: 0.08
 --- !u!1 &6999972211173830063
