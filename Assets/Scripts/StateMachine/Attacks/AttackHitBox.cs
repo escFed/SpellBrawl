@@ -109,6 +109,11 @@ public class AttackHitbox : MonoBehaviour
             }
 
             CombatFeedback.PlayHitSound(contact.Stats.hitSound);
+            SuccessfulHitsEvent.Report(1);
+        }
+        else
+        {
+            FailedHitsEvents.Report(1);
         }
     }
 

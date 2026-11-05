@@ -8,8 +8,8 @@ using UnityEngine;
 /// </summary>
 public static class IAWinrateEvent
 {
-    public const string PlayedEvent = "ia_partida_jugada";
-    public const string WonEvent = "ia_victoria";
+   
+    public const string FinishedEvent = "ia_partidaganada";
 
     public static async void Report(PlayerSlot winner)
     {
@@ -27,8 +27,8 @@ public static class IAWinrateEvent
 
         
         // El denominador se envía siempre; el numerador solo si ganó la IA.
-        await metrics.TrackEventAsync("ia_partidaterminada", ("ganador", aiWon ? "ia" : "Jugador"));
+        await metrics.TrackEventAsync("ia_partidaterminada", ("ganador", aiWon ? "ia" : "jugador"));
         if (aiWon)
-            await metrics.TrackEventAsync(WonEvent);
+            await metrics.TrackEventAsync(FinishedEvent);
     }
 }

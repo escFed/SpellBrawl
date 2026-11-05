@@ -532,6 +532,74 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3fc8b3d4d5570e4cae480ba3ad4ad50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
+--- !u!1 &3819054564401613218
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9069473166784513587}
+  - component: {fileID: 6445811774382046567}
+  m_Layer: 7
+  m_Name: MetricsCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9069473166784513587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3819054564401613218}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3262535833314222879}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &6445811774382046567
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3819054564401613218}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.06246516, y: 0}
+  m_Radius: 0.4875069
 --- !u!1 &4516136392088953856
 GameObject:
   m_ObjectHideFlags: 0
@@ -1224,6 +1292,8 @@ MonoBehaviour:
   iaName: IA
   iaColor: {r: 1, g: 0, b: 0.009498596, a: 1}
   viewportMargin: 0.08
+  portraitTransitionDuration: 0.16
+  koWarningDistance: 2.5
 --- !u!1 &6441949935067177936
 GameObject:
   m_ObjectHideFlags: 0
@@ -1650,7 +1720,7 @@ GameObject:
   - component: {fileID: 1957898609065517066}
   m_Layer: 7
   m_Name: Amiro
-  m_TagString: Untagged
+  m_TagString: MetricsCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1684,6 +1754,7 @@ Transform:
   - {fileID: 8565430047860564715}
   - {fileID: 8212687849180458643}
   - {fileID: 8125392962007199716}
+  - {fileID: 9069473166784513587}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7737548126659744619
@@ -1936,7 +2007,7 @@ MonoBehaviour:
   groundCheckRadius: 0.2
   wallJumpLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 0
   wallCheckDistance: 0.08
   minimumWallNormalX: 0.7
   moveSpeedMultiplier: 1

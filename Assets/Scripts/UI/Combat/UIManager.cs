@@ -306,6 +306,7 @@ public class UIManager : MonoBehaviour
         {
             if (icons[i] != null) icons[i].SetActive(i < lives);
         }
+        
     }
 
     private void PlayLostLifePulse(int playerIndex, int remainingLives)
