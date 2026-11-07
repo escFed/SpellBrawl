@@ -179,7 +179,27 @@ public class GameManager : MonoBehaviour
                 if (winnerText != null) winnerText.text = GetWinnerMessage(winner);
                 UIFocus.SelectFirst(victoryPanel);
             }
+
+
+       
         }
+
+        IAWinrateEvent.Report(winner);
+
+        SelectionManager sel = SelectionManager.Instance;
+        if (sel != null && !sel.isTrainingMode && sel.matchMode == MatchMode.PlayerVsAI)
+        {
+            MatchSummaryEvent.Report(
+     MatchHitStats.HitsRegisteredToPlayer,
+     MatchHitStats.HitsRegisteredtoAI,
+     MatchHitStats.AttemptsToPlayer,
+     MatchHitStats.AttemptsToAI,
+     MatchHitStats.GetMatchDuration());
+        }
+        _ = MetricsConsentManager.Instance?.FlushAsync();
+
+
+
     }
 
     private static string GetWinnerMessage(PlayerSlot slot)

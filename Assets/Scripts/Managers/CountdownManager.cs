@@ -182,7 +182,7 @@ public class CountdownManager : MonoBehaviour
                 battleMusic.Play();
             }
         }
-
+        MatchHitStats.ResetStats();
         EnablePlayers();
 
         yield return new WaitForSeconds(1f);

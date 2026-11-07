@@ -93,4 +93,18 @@ public class MetricsConsentManager : MonoBehaviour
             Debug.LogWarning($"No se pudo enviar el evento '{eventName}': {e.Message}");
         }
     }
+    public async Task FlushAsync()
+    {
+        if (!GetConsent()) return;
+        try
+        {
+            await IdentifyAsync();
+            await Talo.Events.Flush();
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning($"No se pudo enviar la cola de eventos: {e.Message}");
+        }
+    }
+
 }
