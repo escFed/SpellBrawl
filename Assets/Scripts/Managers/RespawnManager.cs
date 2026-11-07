@@ -20,6 +20,7 @@ public class RespawnManager : MonoBehaviour
     [SerializeField] private float respawnProtectionDuration = 2f;
     [HideInInspector] public GameObject p1Instance;
     [HideInInspector] public GameObject p2Instance;
+    private bool refreshLocalControls;
 
     private void Awake()
     {
@@ -30,6 +31,38 @@ public class RespawnManager : MonoBehaviour
     private void Start()
     {
         InitialSpawn();
+    }
+
+    private void OnEnable()
+    {
+        InputSystem.onDeviceChange += OnDeviceChange;
+    }
+
+    private void OnDisable()
+    {
+        InputSystem.onDeviceChange -= OnDeviceChange;
+    }
+
+    private void OnDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        if (device is Gamepad &&
+            (change == InputDeviceChange.Added || change == InputDeviceChange.Reconnected ||
+             change == InputDeviceChange.Enabled || change == InputDeviceChange.Removed ||
+             change == InputDeviceChange.Disconnected || change == InputDeviceChange.Disabled))
+            refreshLocalControls = true;
+    }
+
+    private void Update()
+    {
+        if (!refreshLocalControls)
+            return;
+
+        refreshLocalControls = false;
+        if (SelectionManager.Instance == null || SelectionManager.Instance.matchMode != MatchMode.PlayerVsPlayer ||
+            p1Instance == null || p2Instance == null)
+            return;
+
+        ConfigureLocal(p1Instance.GetComponent<CharacterCoordinator>(), p2Instance.GetComponent<CharacterCoordinator>(), true);
     }
 
     private void InitialSpawn()
@@ -54,6 +87,10 @@ public class RespawnManager : MonoBehaviour
             PlayerSlot.PlayerTwo,
             p2Mode,
             out p2Instance);
+
+        if (p1Stats == p2Stats && p2Instance != null &&
+            p2Instance.TryGetComponent(out AmiroBlueVariant blueVariant))
+            blueVariant.Apply();
 
         ConfigureInitialControls(selection.matchMode, p1Controller, p2Controller);
 
@@ -133,7 +170,10 @@ public class RespawnManager : MonoBehaviour
         return database != null && index >= 0 && index < database.CharacterCount;
     }
 
-    private void ConfigureLocal(CharacterCoordinator p1Controller, CharacterCoordinator p2Controller)
+    private void ConfigureLocal(
+        CharacterCoordinator p1Controller,
+        CharacterCoordinator p2Controller,
+        bool preserveExistingGamepads = false)
     {
         if (p1Controller == null || p2Controller == null)
             return;
@@ -151,15 +191,34 @@ public class RespawnManager : MonoBehaviour
 
         if (Gamepad.all.Count >= 2)
         {
-            p1Input.SwitchCurrentControlScheme("Gamepad", Gamepad.all[0]);
-            p2Input.SwitchCurrentControlScheme("Gamepad", Gamepad.all[1]);
+            Gamepad p1Pad = preserveExistingGamepads ? GetPairedGamepad(p1Input) : null;
+            Gamepad p2Pad = preserveExistingGamepads ? GetPairedGamepad(p2Input) : null;
+            if (p1Pad != null && p2Pad != null && p1Pad != p2Pad)
+                return;
+
+            if (p1Pad != null)
+                p2Input.SwitchCurrentControlScheme("Gamepad", FirstOtherGamepad(p1Pad));
+            else if (p2Pad != null)
+                p1Input.SwitchCurrentControlScheme("Gamepad", FirstOtherGamepad(p2Pad));
+            else
+            {
+                p1Input.SwitchCurrentControlScheme("Gamepad", Gamepad.all[0]);
+                p2Input.SwitchCurrentControlScheme("Gamepad", Gamepad.all[1]);
+            }
             return;
         }
 
         if (Gamepad.all.Count >= 1 && Keyboard.current != null && Mouse.current != null)
         {
-            p1Input.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current, Mouse.current);
-            p2Input.SwitchCurrentControlScheme("Gamepad", Gamepad.all[0]);
+            if (preserveExistingGamepads && GetPairedGamepad(p1Input) == Gamepad.all[0])
+            {
+                p2Input.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current, Mouse.current);
+            }
+            else
+            {
+                p1Input.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current, Mouse.current);
+                p2Input.SwitchCurrentControlScheme("Gamepad", Gamepad.all[0]);
+            }
             return;
         }
 
@@ -167,6 +226,30 @@ public class RespawnManager : MonoBehaviour
             "[RespawnManager] Local 1 vs 1 requires two gamepads, or a keyboard/mouse plus one gamepad. " +
             "The current input bindings cannot split one keyboard between both players.",
             this);
+    }
+
+    private static Gamepad GetPairedGamepad(PlayerInput input)
+    {
+        foreach (InputDevice device in input.devices)
+        {
+            if (device is not Gamepad pad)
+                continue;
+
+            foreach (Gamepad connected in Gamepad.all)
+                if (connected == pad)
+                    return pad;
+        }
+
+        return null;
+    }
+
+    private static Gamepad FirstOtherGamepad(Gamepad pairedPad)
+    {
+        foreach (Gamepad pad in Gamepad.all)
+            if (pad != pairedPad)
+                return pad;
+
+        return null;
     }
 
     public void RespawnPlayerAfterFall(CharacterHealth health, int playerIndex)

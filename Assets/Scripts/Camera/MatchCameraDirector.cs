@@ -159,6 +159,9 @@ public class MatchCameraDirector : MonoBehaviour
         if (targetGroup == null)
             return;
 
+        // Keep the stage framed while any living fighter is outside the camera bounds.
+        bool holdWideShot = stageAnchor != null &&
+            (IsStockLossTransitionActive() || IsTrackedPlayerOutsideBounds());
         int activeCount = 0;
         foreach (CharacterHealth health in observedHealth)
             if (GetCameraWeight(health) > 0f)
@@ -173,7 +176,7 @@ public class MatchCameraDirector : MonoBehaviour
             if (index < 0)
                 continue;
 
-            float weight = GetCameraWeight(health);
+            float weight = holdWideShot ? 0f : GetCameraWeight(health);
             if (weight > 0f && activeCount > 1 && stageBounds != null)
                 weight *= GetStageFocusWeight(health.transform.position);
             targetGroup.Targets[index].Weight = weight;
@@ -211,6 +214,14 @@ public class MatchCameraDirector : MonoBehaviour
     {
         if (groupFraming == null || matchCamera == null)
             return;
+
+        if ((stageAnchor != null && IsStockLossTransitionActive()) || IsTrackedPlayerOutsideBounds())
+        {
+            groupFraming.OrthoSizeRange = new Vector2(authoredOrthoRange.y, authoredOrthoRange.y);
+            groupFraming.Damping = zoomOutDamping;
+            zoomInAllowedAt = Time.time + zoomInHoldTime;
+            return;
+        }
 
         float totalWeight = 0f;
         float maxWeight = 0f;
@@ -283,5 +294,27 @@ public class MatchCameraDirector : MonoBehaviour
     private static float GetCameraWeight(CharacterHealth health)
     {
         return health != null && health.isActiveAndEnabled && health.ShouldCameraTrack ? 1f : 0f;
+    }
+
+    private bool IsStockLossTransitionActive()
+    {
+        foreach (CharacterHealth health in observedHealth)
+            if (health != null && health.isActiveAndEnabled &&
+                (health.Phase == RespawnPhase.RespawnDelay || health.Phase == RespawnPhase.Eliminated))
+                return true;
+
+        return false;
+    }
+
+    private bool IsTrackedPlayerOutsideBounds()
+    {
+        if (stageBounds == null)
+            return false;
+
+        foreach (CharacterHealth health in observedHealth)
+            if (GetCameraWeight(health) > 0f && !stageBounds.OverlapPoint(health.transform.position))
+                return true;
+
+        return false;
     }
 }

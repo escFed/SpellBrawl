@@ -106,7 +106,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 621e3b1a5a53cc1459e595d78e60d3b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlackHoleLogic
-  effectDuration: 5
+  effectDuration: 1.75
+  moveSpeedMultiplier: 0.65
+  pullSpeed: 0.8
+  centerDeadZone: 0.25
 --- !u!61 &1025739308643662698
 BoxCollider2D:
   m_ObjectHideFlags: 0

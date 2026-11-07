@@ -61,7 +61,10 @@ public class AIExecutor
                 break;
 
             case AIDecision.Jump:
-                navigation.ExecutePlannedJump(selfController, input, false);
+                if (selfController != null && !selfController.IsGrounded)
+                    input.PressJump();
+                else
+                    navigation.ExecutePlannedJump(selfController, input, false);
                 break;
 
             case AIDecision.ShortHop:
@@ -90,9 +93,13 @@ public class AIExecutor
                 break;
 
             case AIDecision.HeavyAttack:
-                SetAttackDirection(input, selfTransform, perceivedTargetPosition, directionX, attackRange);
-                input.SetHeavyAttackHeld(true);
-                heavyReleaseAt = currentTime + profile.heavyChargeTime;
+                BeginHeavyAttack(input, selfTransform, perceivedTargetPosition, directionX,
+                    attackRange, currentTime, profile.heavyChargeTime);
+                break;
+
+            case AIDecision.QuickHeavyAttack:
+                BeginHeavyAttack(input, selfTransform, perceivedTargetPosition, directionX,
+                    attackRange, currentTime, 0.05f);
                 break;
 
             case AIDecision.Shield:
@@ -117,6 +124,25 @@ public class AIExecutor
                 input.PressCardButton(action.CardIndex);
                 break;
         }
+    }
+
+    public void BeginHeavyAttack(AIInput input, Transform selfTransform,
+        Vector3 perceivedTargetPosition, float attackRange, float currentTime, float holdTime)
+    {
+        float deltaX = perceivedTargetPosition.x - selfTransform.position.x;
+        float directionX = Mathf.Abs(deltaX) < 0.01f
+            ? Mathf.Sign(selfTransform.localScale.x) : Mathf.Sign(deltaX);
+        BeginHeavyAttack(input, selfTransform, perceivedTargetPosition, directionX,
+            attackRange, currentTime, holdTime);
+    }
+
+    private void BeginHeavyAttack(AIInput input, Transform selfTransform,
+        Vector3 perceivedTargetPosition, float directionX, float attackRange,
+        float currentTime, float holdTime)
+    {
+        SetAttackDirection(input, selfTransform, perceivedTargetPosition, directionX, attackRange);
+        input.SetHeavyAttackHeld(true);
+        heavyReleaseAt = currentTime + holdTime;
     }
 
     private static void ExecuteAttack(AIInput input, CharacterCoordinator selfController, Transform selfTransform, Vector3 perceivedTargetPosition, float directionX, float attackRange)

@@ -19,16 +19,33 @@ public class MenuManager : MonoBehaviour
     public GameObject cardsSelectPanel;
     public GameObject mapSelectPanel;
     public GameObject settingsPanel;
+    public GameObject creditsPanel;
 
     [Header("Panel Transition")]
     [SerializeField, Min(0f)] private float transitionSeconds = 0.3f;
     [SerializeField, Min(0f)] private float confirmationHoldSeconds = 0.2f;
+
+    [Header("Presenter voice")]
+    [SerializeField] private AudioClip welcomeClip;
+    [SerializeField] private AudioClip amiroClip;
+    [SerializeField] private AudioClip fightClip;
 
     private InputAction cancelAction;
     private InputAction showRulesAction;
     private bool backQueued;
     private bool transitioning;
     private GameObject currentPanel;
+    private AudioSource presenterSource;
+
+    private void Awake()
+    {
+        GameObject presenterPlayer = new GameObject("Menu Presenter Voice");
+        presenterPlayer.transform.SetParent(transform, false);
+        presenterSource = presenterPlayer.AddComponent<AudioSource>();
+        presenterSource.playOnAwake = false;
+        presenterSource.spatialBlend = 0f;
+        GameSettings.RegisterSource(presenterSource, GameSound.SoundEffects);
+    }
 
     private void Start()
     {
@@ -38,7 +55,8 @@ public class MenuManager : MonoBehaviour
             cancelAction = inputModule.cancel?.action;
 
         GameObject[] panels = { mainMenuPanel, gameModePanel, rulesPanel, howToPlayPanel,
-            controlsPanel, characterSelectPanel, cardsSelectPanel, mapSelectPanel, settingsPanel };
+            controlsPanel, characterSelectPanel, cardsSelectPanel, mapSelectPanel, settingsPanel,
+            creditsPanel };
         foreach (GameObject panel in panels)
         {
             if (panel != null)
@@ -46,6 +64,29 @@ public class MenuManager : MonoBehaviour
         }
 
         ShowMainMenu();
+        PlayPresenterClip(welcomeClip);
+    }
+
+    public float PlayAmiroAnnouncement()
+    {
+        PlayPresenterClip(amiroClip);
+        return amiroClip != null ? amiroClip.length : 0f;
+    }
+
+    public float PlayFightAnnouncement()
+    {
+        PlayPresenterClip(fightClip);
+        return fightClip != null ? fightClip.length : 0f;
+    }
+
+    private void PlayPresenterClip(AudioClip clip)
+    {
+        if (presenterSource == null || clip == null)
+            return;
+
+        presenterSource.Stop();
+        presenterSource.clip = clip;
+        presenterSource.Play();
     }
 
     private void Update()
@@ -104,6 +145,8 @@ public class MenuManager : MonoBehaviour
             HideControls();
         else if (howToPlayPanel != null && howToPlayPanel.activeSelf)
             ShowMainMenu();
+        else if (creditsPanel != null && creditsPanel.activeSelf)
+            ShowMainMenu();
         else if (mapSelectPanel != null && mapSelectPanel.activeSelf)
         {
             StageSelectionUI stageSelection = mapSelectPanel.GetComponent<StageSelectionUI>();
@@ -153,6 +196,11 @@ public class MenuManager : MonoBehaviour
     public void ShowHowToPlay()
     {
         SwitchPanel(howToPlayPanel);
+    }
+
+    public void ShowCredits()
+    {
+        SwitchPanel(creditsPanel);
     }
 
     public void ShowGameModeSelect()
@@ -209,6 +257,20 @@ public class MenuManager : MonoBehaviour
     public void GoToTrainingRoom()
     {
         SceneManager.LoadScene("TrainingRoom");
+    }
+
+    public void GoToTrainingRoomAfter(float announcementSeconds)
+    {
+        if (announcementSeconds <= 0f)
+            GoToTrainingRoom();
+        else
+            StartCoroutine(EnterTrainingRoomAfter(announcementSeconds));
+    }
+
+    private IEnumerator EnterTrainingRoomAfter(float announcementSeconds)
+    {
+        yield return new WaitForSecondsRealtime(announcementSeconds);
+        GoToTrainingRoom();
     }
 
     public void ShowCardsSelect()

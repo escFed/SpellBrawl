@@ -23,5 +23,6 @@ public enum AIDecision
     // Preserve serialized values after removing the former Crouch decision (20).
     FastFall = 21,
     Reposition,
-    Recover
+    Recover,
+    QuickHeavyAttack
 }

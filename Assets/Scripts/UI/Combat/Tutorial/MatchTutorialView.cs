@@ -43,7 +43,7 @@ public class MatchTutorialView : MonoBehaviour
     {
         get
         {
-            if (pages == null || pages.Length == 0 || backdrop == null || hideFutureTutorialToggle == null)
+            if (pages == null || pages.Length == 0 || backdrop == null)
                 return false;
 
             foreach (Page page in pages)
@@ -99,7 +99,8 @@ public class MatchTutorialView : MonoBehaviour
         visiblePreviewCards = 0;
         lastAdvanceFrame = Time.frameCount;
         isOpen = true;
-        hideFutureTutorialToggle.isOn = false;
+        if (hideFutureTutorialToggle != null)
+            hideFutureTutorialToggle.isOn = false;
 
         foreach (Page page in pages)
             page.nextButton.onClick.AddListener(Advance);
@@ -138,7 +139,7 @@ public class MatchTutorialView : MonoBehaviour
 
         if (currentPage == pages.Length - 1)
         {
-            bool hideFutureTutorials = hideFutureTutorialToggle.isOn;
+            bool hideFutureTutorials = hideFutureTutorialToggle != null && hideFutureTutorialToggle.isOn;
             Action<bool> finished = onFinished;
             onFinished = null;
             finished?.Invoke(hideFutureTutorials);
@@ -171,7 +172,7 @@ public class MatchTutorialView : MonoBehaviour
 
         Page page = pages[currentPage];
         bool showControls = page.showControls;
-        backdrop.enabled = !showControls && !page.followP1Stocks;
+        backdrop.enabled = true;
         if (showControls)
         {
             if (controls != null && controls.transform.parent == transform)

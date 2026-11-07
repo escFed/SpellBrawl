@@ -45,11 +45,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShadowSpikeCard
   cardName: SHADOW SPIKE
-  cardDescription: GENERATE TOXIC THORNS ON TOP OF THE PLATFORM
+  cardDescription: MARK THE RIVAL'S GROUND. SPIKES ERUPT AND SLOW ON HIT
   damageOrNot: DAMAGEABLE
   damage: 8
-  slowAmount: 0.4
-  duration: 2
-  energyCost: 0
+  slowAmount: 0.7
+  duration: 1.25
+  knockback: {x: 0, y: 1}
+  hitStun: 0.3
+  launch:
+    growth: 0
+    growthUsesPreHitDamage: 0
+    hitStunPerSpeed: 0
+    maxHitStun: 0.8
+    directionalInfluence: 0
+    airDecelerationMultiplier: 1
   spikePrefab: {fileID: 4468951265254541048, guid: ba5530e1633eafc43a19aa26acca2cc7, type: 3}
-  cardIcon: {fileID: 8736062599295021686, guid: c41d36de60f78654eb37d65a364ebce6, type: 3}
+  cardIcon: {fileID: -5606645243775016049, guid: 6f454e1ffd0a1ec4e913846b1b959040, type: 3}
+  cardVisual: {fileID: 0}

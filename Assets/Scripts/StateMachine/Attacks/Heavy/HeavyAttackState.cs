@@ -4,6 +4,7 @@ public class HeavyAttackState : AttackState
 {
     private const float JabFinisherStartup = 0.12f;
     private const float JabFinisherRecovery = 0.30f;
+    private const float QuickTapStartup = 0.10f;
     private static int HeavyAttackTypeParameter = Animator.StringToHash("HeavyAttackType");
     private static int HeavyChargeRatioParameter = Animator.StringToHash("HeavyChargeRatio");
     private static int HeavyChargeMaxParameter = Animator.StringToHash("HeavyChargeMax");
@@ -28,7 +29,7 @@ public class HeavyAttackState : AttackState
     {
         base.Enter();
         character.Animation.TryPlay(HeavyStats.executionAnimationState, GetFallbackAnimation());
-        if (isJabFinisher)
+        if (isJabFinisher || chargeRatio <= 0f)
             character.Animation.TrySetPlaybackSpeed(Mathf.Max(1f, stats.startup / Startup));
         character.Animation.TrySetInt(HeavyAttackTypeParameter, (int)attackType, optional: true);
         character.Animation.TrySetFloat(HeavyChargeRatioParameter, chargeRatio, optional: true);
@@ -51,7 +52,7 @@ public class HeavyAttackState : AttackState
     public override void Exit()
     {
         base.Exit();
-        if (isJabFinisher)
+        if (isJabFinisher || chargeRatio <= 0f)
             character.Animation.TrySetPlaybackSpeed(1f);
         character.Combat.CloseAllHeavyHitboxes();
         character.Animation.TrySetFloat(HeavyChargeRatioParameter, 0f, optional: true);
@@ -62,7 +63,7 @@ public class HeavyAttackState : AttackState
     protected override void ReadyHitbox() => character.Combat.SetupHeavyAttack(attackType, HeavyStats, chargeRatio, isJabFinisher);
     protected override void OpenHitbox() => character.Combat.OpenHeavyHitbox(attackType);
     protected override void CloseHitbox() => character.Combat.CloseHeavyHitbox(attackType);
-    protected override float Startup => isJabFinisher ? JabFinisherStartup : base.Startup;
+    protected override float Startup => isJabFinisher ? JabFinisherStartup : chargeRatio <= 0f ? QuickTapStartup : base.Startup;
     protected override float Recovery => isJabFinisher ? JabFinisherRecovery : base.Recovery;
 
     private string GetFallbackAnimation()

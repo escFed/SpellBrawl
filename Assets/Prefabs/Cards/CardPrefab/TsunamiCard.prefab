@@ -51,10 +51,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TsunamiCard
   cardName: TSUNAMI
-  cardDescription: SENDS A WAVE FORWARD THAT PUSHES RIVALS WHILE THEY REMAIN INSIDE IT
+  cardDescription: SENDS A WAVE FORWARD THAT PUSHES RIVALS WHILE THEY REMAIN INSIDE
+    IT
   damageableOrNot: NON DAMAGEABLE
   type: 2
-  cardVisual: {fileID: -3354741048468357691, guid: 530242507da49bb43957637cdb2b0379, type: 3}
+  cardVisual: {fileID: -5589154591701079256, guid: 28ad52cb8fc14fb4cbe630aae564aeac, type: 3}
   cardUI: {fileID: 0}
   tsunamiPrefab: {fileID: 1454149254468200836, guid: 060ddce4b3e31a144a7fd03554f94f15, type: 3}
   spawnDistance: 3
@@ -86,7 +87,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -3354741048468357691, guid: 530242507da49bb43957637cdb2b0379, type: 3}
+  m_Sprite: {fileID: -5589154591701079256, guid: 28ad52cb8fc14fb4cbe630aae564aeac, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

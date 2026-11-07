@@ -53,11 +53,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragonCard
   cardName: DRAGON BREATH
-  cardDescription: INVOKES A CONTINUOUS FIRE BREATH ATTACK
+  cardDescription: BREATHE FIRE FORWARD. STAYING IN THE FLAMES LEADS TO A FINAL LAUNCH.
   type: 0
-  cardVisual: {fileID: -439844855632847530, guid: 403fdeffad9fd274c9bceb4248e5075c, type: 3}
-  damageableOrNot: DAMAGEABLE
-  cardSprite: {fileID: -439844855632847530, guid: 403fdeffad9fd274c9bceb4248e5075c, type: 3}
+  cardVisual: {fileID: 8483628454916712415, guid: a4c729f4fc3f456409e103cc3cde9030, type: 3}
+  damageableOrNot: 12
+  cardSprite: {fileID: 8483628454916712415, guid: a4c729f4fc3f456409e103cc3cde9030, type: 3}
   cardUI: {fileID: 0}
   dragonPrefab: {fileID: 6564555053357165582, guid: 3332d6ebd25f89f409868b1050b1025a, type: 3}
 --- !u!95 &-3261153566099375775
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -439844855632847530, guid: 403fdeffad9fd274c9bceb4248e5075c, type: 3}
+  m_Sprite: {fileID: 8483628454916712415, guid: a4c729f4fc3f456409e103cc3cde9030, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

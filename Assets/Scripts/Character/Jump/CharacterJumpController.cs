@@ -63,6 +63,9 @@ public sealed class CharacterJumpController
         {
             lastWallJumpSurfaceId = currentWallSurfaceId;
             wallCoyoteTimeRemaining = 0f;
+            airJumpsRemaining = character.stats != null
+                ? Mathf.Max(0, character.stats.maxJumps - 1)
+                : 0;
         }
         else
         {

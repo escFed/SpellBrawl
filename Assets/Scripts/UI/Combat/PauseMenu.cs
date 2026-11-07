@@ -28,6 +28,8 @@ public class PauseMenu : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance != null && GameManager.Instance.MatchFinished)
+            return;
         if (CountdownManager.Instance != null && CountdownManager.Instance.IsTutorialOpen)
             return;
 
@@ -57,6 +59,7 @@ public class PauseMenu : MonoBehaviour
 
     public void PauseGame()
     {
+        if (GameManager.Instance != null && GameManager.Instance.MatchFinished) return;
         if (settingsPanel != null) settingsPanel.SetActive(false);
         pausePanel.SetActive(true);
         Time.timeScale = 0f;
@@ -68,11 +71,21 @@ public class PauseMenu : MonoBehaviour
 
     public void ResumeGame()
     {
+        if (GameManager.Instance != null && GameManager.Instance.MatchFinished) return;
         if (settingsPanel != null) settingsPanel.SetActive(false);
         pausePanel.SetActive(false);
         foreach (CharacterCoordinator character in FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None))
             character.Controller?.ClearAllInputs();
         Time.timeScale = 1f;
+        isPaused = false;
+        AudioListener.pause = false;
+        UIFocus.Clear();
+    }
+
+    public void CloseForMatchEnd()
+    {
+        if (settingsPanel != null) settingsPanel.SetActive(false);
+        if (pausePanel != null) pausePanel.SetActive(false);
         isPaused = false;
         AudioListener.pause = false;
         UIFocus.Clear();

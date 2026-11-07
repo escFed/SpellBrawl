@@ -14,6 +14,8 @@ public class CountdownManager : MonoBehaviour
 
     [Header("Audio")]
     public AudioSource battleMusic;
+    [SerializeField] private AudioClip counterClip;
+    private AudioSource presenterSource;
     private Coroutine roundStartRoutine;
     private bool firstRoundStarted;
     private bool tutorialOpen;
@@ -23,7 +25,16 @@ public class CountdownManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        presenterSource = gameObject.AddComponent<AudioSource>();
+        presenterSource.playOnAwake = false;
+        presenterSource.spatialBlend = 0f;
+        GameSettings.RegisterSource(presenterSource, GameSound.SoundEffects);
 
         // The panel may be left visible in the editor for Canvas layout work.
         if (tutorialView != null)
@@ -116,6 +127,21 @@ public class CountdownManager : MonoBehaviour
         if (playCardAnimation && cardAnimation != null)
             cardAnimation.PlayDrawAnimation();
         EnablePlayers();
+        if (battleMusic != null && !battleMusic.isPlaying)
+            battleMusic.Play();
+    }
+
+    public void StopForMatchEnd()
+    {
+        if (presenterSource != null) presenterSource.Stop();
+        if (roundStartRoutine != null)
+        {
+            StopCoroutine(roundStartRoutine);
+            roundStartRoutine = null;
+        }
+        cameraFocus?.EndIntro();
+        DisablePlayers();
+        if (battleMusic != null) battleMusic.Stop();
     }
 
     private IEnumerator StartMatchRoutine(bool playCardAnimation)
@@ -130,18 +156,23 @@ public class CountdownManager : MonoBehaviour
         if (countdownText != null)
         {
             countdownText.gameObject.SetActive(true);
+            float countStepSeconds = counterClip != null
+                ? Mathf.Max(1f, counterClip.length / 3f)
+                : 1f;
 
             countdownText.text = "3";
+            if (presenterSource != null && counterClip != null)
+                presenterSource.PlayOneShot(counterClip);
             cameraFocus?.FocusOnPlayer(PlayerSlot.PlayerOne);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(countStepSeconds);
 
             countdownText.text = "2";
             cameraFocus?.FocusOnPlayer(PlayerSlot.PlayerTwo);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(countStepSeconds);
 
             countdownText.text = "1";
             cameraFocus?.ReturnToMatch();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(countStepSeconds);
 
             countdownText.text = "FIGHT!";
             cameraFocus?.EndIntro();

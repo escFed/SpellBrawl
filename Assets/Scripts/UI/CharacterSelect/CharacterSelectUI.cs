@@ -14,6 +14,7 @@ public class CharacterSelectUI : MonoBehaviour
 
     private PlayerSlot selectingSlot = PlayerSlot.PlayerOne;
     private bool buttonsCreated;
+    private bool trainingRoomQueued;
 
     public PlayerSlot SelectingSlot => selectingSlot;
 
@@ -26,6 +27,7 @@ public class CharacterSelectUI : MonoBehaviour
     {
         CreateCharacterButtons();
         selectingSlot = PlayerSlot.PlayerOne;
+        trainingRoomQueued = false;
 
         if (gridContainer != null)
             gridContainer.SetActive(true);
@@ -65,6 +67,9 @@ public class CharacterSelectUI : MonoBehaviour
 
     public void ShowCharacterPreview(Sprite icon, string name, int index)
     {
+        if (trainingRoomQueued)
+            return;
+
         if (selectImage != null && selectImage.gameObject != gridContainer)
             selectImage.sprite = icon;
 
@@ -74,10 +79,16 @@ public class CharacterSelectUI : MonoBehaviour
 
         selection.SetSelectedCharacter(selectingSlot, index);
 
+        float announcementSeconds = 0f;
+        if (menuManager != null &&
+            string.Equals(name, "Amiro", System.StringComparison.OrdinalIgnoreCase))
+            announcementSeconds = menuManager.PlayAmiroAnnouncement();
+
         if (selection.isTrainingMode)
         {
+            trainingRoomQueued = true;
             if (menuManager != null)
-                menuManager.GoToTrainingRoom();
+                menuManager.GoToTrainingRoomAfter(announcementSeconds);
             return;
         }
 
@@ -117,6 +128,6 @@ public class CharacterSelectUI : MonoBehaviour
         SelectionManager selection = SelectionManager.Instance;
         bool isAI = selection != null && !selection.isTrainingMode &&
             selection.GetControlMode(selectingSlot) == PlayerMode.AI;
-        selectText.text = isAI ? "IA SELECT" : "PLAYER SELECT";
+        selectText.text = isAI ? "CPU SELECT" : "PLAYER SELECT";
     }
 }

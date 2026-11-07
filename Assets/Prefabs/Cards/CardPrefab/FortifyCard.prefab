@@ -45,9 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefenseCard
   cardName: FORTIFY
-  cardDescription: REDUCES THE DAMAGE YOU WILL RECEIVE FROM THE OPPONENT
+  cardDescription: TAKE NO DAMAGE FOR 2 SECONDS. HITS STILL LAUNCH YOU
   damageOrNot: NON DAMAGEABLE
-  damageMultiplier: 0.5
-  duration: 3
-  energyCost: 0
-  cardIcon: {fileID: 4870125245114056259, guid: c74bc045efffbd84a9de89292c928773, type: 3}
+  duration: 2
+  cardIcon: {fileID: 4870125245114056259, guid: 7d52a9aa69eb96c49b82770b07b7d90d, type: 3}
+  cardVisualImage: {fileID: 0}

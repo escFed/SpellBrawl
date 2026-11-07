@@ -26,12 +26,12 @@ MonoBehaviour:
   hitReaction: 1
   hitSound: {fileID: 8300000, guid: 14619561bda68f04bb2f176c827d813b, type: 3}
   maxChargeTime: 2
-  minDamage: 11
-  maxDamage: 18
-  minKnockback: 11
-  maxKnockback: 18
-  maxKnockbackGrowth: 20
-  knockbackDirection: {x: 2, y: 0.5}
+  minDamage: 7
+  maxDamage: 56
+  minKnockback: 7
+  maxKnockback: 16
+  maxKnockbackGrowth: 18
+  knockbackDirection: {x: 1, y: 0.5}
   maxHitStun: 0.85
   chargeAnimationState: ForwardHeavyCharge
   executionAnimationState: ForwardHeavy

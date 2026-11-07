@@ -105,7 +105,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e235c73a6830b4d4ea096adffe005b3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShadowProjectile
-  lifeTime: 1
+  impactTime: 0.45
+  lifeTime: 0.85
+  hitHalfWidth: 1.2
+  groundTolerance: 0.35
 --- !u!95 &3542593999460178201
 Animator:
   serializedVersion: 7

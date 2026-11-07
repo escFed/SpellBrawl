@@ -52,6 +52,13 @@ public sealed class HeavyChargeState : CharacterState
             return;
         }
 
+        IInputProvider input = character.ActiveInput;
+        if (input != null && (input.WasHeavyAttackReleased || !input.IsHeavyAttackHeld))
+        {
+            ExecuteAttack(charge.ChargeRatio);
+            return;
+        }
+
         charge.Tick(Time.deltaTime);
         character.Animation.TrySetFloat(HeavyChargeRatioParameter, charge.ChargeRatio, optional: true);
 
@@ -62,10 +69,6 @@ public sealed class HeavyChargeState : CharacterState
             ExecuteAttack(1f);
             return;
         }
-
-        IInputProvider input = character.ActiveInput;
-        if (input != null && (input.WasHeavyAttackReleased || !input.IsHeavyAttackHeld))
-            ExecuteAttack(charge.ChargeRatio);
     }
 
     public override void FixedUpdate()

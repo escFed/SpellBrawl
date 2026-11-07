@@ -9,6 +9,7 @@ public class VersusIntroUI : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Image playerTwoPortrait;
     [SerializeField] private TextMeshProUGUI playerOneName;
     [SerializeField] private TextMeshProUGUI playerTwoName;
+    [SerializeField] private Material blueAmiroIconMaterial;
 
     public bool Show(SelectionManager selection)
     {
@@ -39,6 +40,18 @@ public class VersusIntroUI : MonoBehaviour
         playerOnePortrait.enabled = first.characterIcon != null;
         playerTwoPortrait.sprite = second.characterIcon;
         playerTwoPortrait.enabled = second.characterIcon != null;
+
+        Vector3 leftScale = playerOnePortrait.rectTransform.localScale;
+        leftScale.x = Mathf.Abs(leftScale.x);
+        playerOnePortrait.rectTransform.localScale = leftScale;
+        Vector3 rightScale = playerTwoPortrait.rectTransform.localScale;
+        rightScale.x = -Mathf.Abs(rightScale.x);
+        playerTwoPortrait.rectTransform.localScale = rightScale;
+
+        bool duplicateAmiro = first == second && second.characterPrefab != null &&
+            second.characterPrefab.GetComponent<AmiroBlueVariant>() != null;
+        playerTwoPortrait.material = duplicateAmiro ? blueAmiroIconMaterial : null;
+
         playerOneName.text = first.characterName.ToUpperInvariant();
         playerTwoName.text = second.characterName.ToUpperInvariant();
         canvasGroup.alpha = 1f;

@@ -12,6 +12,7 @@ public class StageSelectionUI : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Button map2Button;
     [SerializeField] private UnityEngine.UI.Button randomMapButton;
     [SerializeField] private UnityEngine.UI.Button fightButton;
+    [SerializeField] private MenuManager menuManager;
     [SerializeField] private string noSelectionDisplayName = "Select a stage";
 
     [Header("Transition")]
@@ -107,10 +108,11 @@ public class StageSelectionUI : MonoBehaviour
         }
 
         transitionStarted = true;
-        StartCoroutine(EnterLoadingScreen(sceneName));
+        float announcementSeconds = menuManager != null ? menuManager.PlayFightAnnouncement() : 0f;
+        StartCoroutine(EnterLoadingScreen(sceneName, announcementSeconds));
     }
 
-    private IEnumerator EnterLoadingScreen(string sceneName)
+    private IEnumerator EnterLoadingScreen(string sceneName, float announcementSeconds)
     {
         blackTransition.gameObject.SetActive(true);
         blackTransition.alpha = 0f;
@@ -122,6 +124,8 @@ public class StageSelectionUI : MonoBehaviour
             yield return null;
         }
         blackTransition.alpha = 1f;
+        if (announcementSeconds > elapsed)
+            yield return new WaitForSecondsRealtime(announcementSeconds - elapsed);
         LoadingScreen.LoadStage(sceneName);
     }
 

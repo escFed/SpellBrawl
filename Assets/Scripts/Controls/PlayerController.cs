@@ -54,14 +54,26 @@ public class PlayerController
 
     private void ApplyInputEnabled()
     {
-        bool playerActive = InputEnabled && !usesExternalProvider && Mode == PlayerMode.Player;
+        bool humanMode = !usesExternalProvider && Mode == PlayerMode.Player;
+        bool playerActive = InputEnabled && humanMode;
         bool aiActive = InputEnabled && !usesExternalProvider && Mode == PlayerMode.AI;
+
+        if (playerInput != null)
+        {
+            // Disabling PlayerInput unpairs its device. Keep the user's gamepad paired
+            // through countdowns and respawns while disabling only gameplay actions.
+            playerInput.enabled = humanMode;
+            if (humanMode)
+            {
+                if (playerActive)
+                    playerInput.ActivateInput();
+                else
+                    playerInput.DeactivateInput();
+            }
+        }
 
         if (brain != null)
             brain.enabled = playerActive;
-
-        if (playerInput != null)
-            playerInput.enabled = playerActive;
         if (ai != null)
             ai.enabled = aiActive;
 

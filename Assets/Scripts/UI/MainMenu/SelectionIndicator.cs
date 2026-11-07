@@ -18,6 +18,9 @@ public class SelectionIndicator : MonoBehaviour
     [SerializeField] private bool matchSelectionSize;
     [SerializeField] private Vector2 sizePadding;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip selectionClip;
+
     [Header("Confirmation")]
     [SerializeField, Min(0f)] private float flashSeconds = 0.42f;
     [SerializeField, Range(0f, 0.15f)] private float flashScale = 0.06f;
@@ -40,6 +43,7 @@ public class SelectionIndicator : MonoBehaviour
     private float flashStartedAt = -1f;
     private Selectable confirmedOption;
     private InputAction submitAction;
+    private AudioSource selectionAudioSource;
 
     private void Awake()
     {
@@ -48,6 +52,16 @@ public class SelectionIndicator : MonoBehaviour
         restingScale = indicatorTransform.localScale;
         indicatorImage.raycastTarget = false;
         indicatorImage.color = NeutralColor;
+        if (selectionClip != null)
+        {
+            selectionAudioSource = GetComponent<AudioSource>();
+            if (selectionAudioSource == null)
+                selectionAudioSource = gameObject.AddComponent<AudioSource>();
+            selectionAudioSource.playOnAwake = false;
+            selectionAudioSource.spatialBlend = 0f;
+            selectionAudioSource.ignoreListenerPause = true;
+            GameSettings.RegisterSource(selectionAudioSource, GameSound.SoundEffects);
+        }
     }
 
     private void OnEnable()
@@ -81,6 +95,9 @@ public class SelectionIndicator : MonoBehaviour
 
     public void FlashConfirmation()
     {
+        if (selectionAudioSource != null)
+            selectionAudioSource.PlayOneShot(selectionClip);
+
         flashStartedAt = Time.unscaledTime;
         GameObject selectedObject = EventSystem.current != null
             ? EventSystem.current.currentSelectedGameObject

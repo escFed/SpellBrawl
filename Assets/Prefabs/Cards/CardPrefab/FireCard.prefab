@@ -49,7 +49,7 @@ MonoBehaviour:
   cardDescription: CAST A FIREBALL
   damageOrNot: DAMAGEABLE
   fbPrefab: {fileID: 2221465273619720722, guid: f0973e9c22a6a32458aa00c1a5d8d237, type: 3}
-  cardSprite: {fileID: 755929074753127798, guid: 2eb86d250183cd14186104aa12639832, type: 3}
+  cardSprite: {fileID: -2783564730504059021, guid: 7e6393ea3ffc7ba4fa7178e606e666ec, type: 3}
   cardUI: {fileID: 0}
 --- !u!95 &4692674383013063285
 Animator:

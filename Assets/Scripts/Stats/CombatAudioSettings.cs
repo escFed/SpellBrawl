@@ -8,4 +8,10 @@ public class CombatAudioSettings : ScriptableObject
 
     [Range(0f, 1f)]
     public float hitVolume = 1f;
+
+    [Tooltip("Played once for each attack that the shield absorbs.")]
+    public AudioClip blockClip;
+
+    [Tooltip("Played when the stock-loss visual appears.")]
+    public AudioClip stockLossClip;
 }

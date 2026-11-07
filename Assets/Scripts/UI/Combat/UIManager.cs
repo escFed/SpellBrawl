@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     [Header("Character Icons")]
     public Image p1_icon;
     public Image p2_icon;
+    [SerializeField] private Material blueAmiroIconMaterial;
 
     [Header("Control Labels")]
     [SerializeField] private TextMeshProUGUI p1ControlLabel;
@@ -34,6 +35,10 @@ public class UIManager : MonoBehaviour
     [Header("Cards P2")]
     public Image[] p2_cards = new Image[4];
 
+    [Header("Card Input Hints")]
+    [SerializeField] private RectTransform cardInputHints;
+    [SerializeField] private Image[] cardInputHintIcons = new Image[4];
+
     [Header("Last Used Card")]
     public TextMeshProUGUI p1LastCardText;
     public TextMeshProUGUI p2LastCardText;
@@ -47,6 +52,10 @@ public class UIManager : MonoBehaviour
     [Header("Life")]
     public GameObject[] p1_life = new GameObject[3];
     public GameObject[] p2_life = new GameObject[3];
+
+    [Header("Match results")]
+    [SerializeField] private GameObject[] combatHudRoots;
+    private bool[] combatHudWasActive;
 
     [Header("Energy")]
     public Slider p1_energySlider;
@@ -157,8 +166,8 @@ public class UIManager : MonoBehaviour
     {
         return ModeRules.GetControlMode(matchMode, slot) == PlayerMode.AI
             ? matchMode == MatchMode.AIVsAI
-                ? (slot == PlayerSlot.PlayerOne ? "IA 1" : "IA 2")
-                : "IA"
+                ? (slot == PlayerSlot.PlayerOne ? "CPU 1" : "CPU 2")
+                : "CPU"
             : slot == PlayerSlot.PlayerOne ? "P1" : "P2";
     }
 
@@ -225,9 +234,10 @@ public class UIManager : MonoBehaviour
 
         if (percent != null)
         {
-            percent.text = $"{damage}";
+            percent.text = $"{damage}%";
             LeanTween.cancel(percent.gameObject);
-            percent.color = Color.red;
+            percent.color = Color.Lerp(Color.white, Color.red,
+                Mathf.Clamp01(damage / (float)DamageFlameThreshold));
             UpdateDamageFlame(percent, flame, damage >= DamageFlameThreshold);
 
             if (damage > 50 && damage <= 100 && source != null && damageIncreaseSound != null)
@@ -306,7 +316,6 @@ public class UIManager : MonoBehaviour
         {
             if (icons[i] != null) icons[i].SetActive(i < lives);
         }
-        
     }
 
     private void PlayLostLifePulse(int playerIndex, int remainingLives)
@@ -324,8 +333,7 @@ public class UIManager : MonoBehaviour
         if (sourceRect == null)
             return;
 
-        Canvas canvas = icon.GetComponentInParent<Canvas>();
-        Transform ghostParent = canvas != null ? canvas.transform : icon.transform.parent;
+        Transform ghostParent = icon.transform.parent;
         GameObject ghost = new GameObject("Lost Life Pulse", typeof(RectTransform), typeof(CanvasRenderer),
             typeof(UnityEngine.UI.Image), typeof(LayoutElement));
         RectTransform rect = ghost.GetComponent<RectTransform>();
@@ -385,7 +393,23 @@ public class UIManager : MonoBehaviour
     private void UpdateIconUI(int playerIndex, Sprite iconSprite)
     {
         Image icon = (playerIndex == 0) ? p1_icon : p2_icon;
-        if (icon != null) icon.sprite = iconSprite;
+        if (icon == null) return;
+
+        icon.sprite = iconSprite;
+        if (playerIndex != 1) return;
+
+        SelectionManager selection = SelectionManager.Instance;
+        bool duplicateAmiro = false;
+        if (selection != null && selection.characterDb != null &&
+            selection.p1SelectedIndex == selection.p2SelectedIndex && selection.p2SelectedIndex >= 0 &&
+            selection.p2SelectedIndex < selection.characterDb.CharacterCount)
+        {
+            CharacterStats stats = selection.characterDb.GetCharacter(selection.p2SelectedIndex);
+            duplicateAmiro = stats != null && stats.characterPrefab != null &&
+                stats.characterPrefab.GetComponent<AmiroBlueVariant>() != null;
+        }
+
+        icon.material = duplicateAmiro ? blueAmiroIconMaterial : null;
     }
 
     private void UpdateLastCardText(int playerIndex, string cardName)
@@ -397,6 +421,8 @@ public class UIManager : MonoBehaviour
 
     private void ApplyGameplayAids()
     {
+        SetVisible(cardInputHints, GameplayAidSettings.ShowInputHistory);
+        RefreshCardInputHints();
         SetVisible(p1LastCardText, GameplayAidSettings.ShowLastCard);
         SetVisible(p2LastCardText, GameplayAidSettings.ShowLastCard);
         SetVisible(p1DashIcon, GameplayAidSettings.ShowAbilityIcons);
@@ -436,6 +462,28 @@ public class UIManager : MonoBehaviour
         }
 
         SetVisible(roundScoreText, false);
+    }
+
+    public void HideCombatHudForResults()
+    {
+        if (combatHudRoots == null) return;
+        combatHudWasActive = new bool[combatHudRoots.Length];
+        for (int i = 0; i < combatHudRoots.Length; i++)
+        {
+            GameObject root = combatHudRoots[i];
+            if (root == null) continue;
+            combatHudWasActive[i] = root.activeSelf;
+            root.SetActive(false);
+        }
+    }
+
+    public void RestoreCombatHudAfterResults()
+    {
+        if (combatHudRoots == null || combatHudWasActive == null) return;
+        for (int i = 0; i < combatHudRoots.Length && i < combatHudWasActive.Length; i++)
+            if (combatHudRoots[i] != null)
+                combatHudRoots[i].SetActive(combatHudWasActive[i]);
+        combatHudWasActive = null;
     }
 
     private void UpdateAbilityVisuals()
@@ -567,12 +615,31 @@ public class UIManager : MonoBehaviour
 
         UpdateCardCooldownVisuals(uiSlots,
             playerIndex == 0 ? p1CooldownFills : p2CooldownFills, hand);
+        if (playerIndex == 0)
+            RefreshCardInputHints();
     }
 
     private void HideAllCardSlots()
     {
         HideCardSlots(p1_cards);
         HideCardSlots(p2_cards);
+        RefreshCardInputHints();
+    }
+
+    private void RefreshCardInputHints()
+    {
+        if (cardInputHintIcons == null)
+            return;
+
+        for (int i = 0; i < cardInputHintIcons.Length; i++)
+        {
+            bool visible = GameplayAidSettings.ShowInputHistory &&
+                p1HandSlots != null && i < p1HandSlots.Length &&
+                p1_cards != null && i < p1_cards.Length && p1_cards[i] != null &&
+                p1_cards[i].gameObject.activeSelf &&
+                p1HandSlots[i].IsUnlocked && p1HandSlots[i].Card != null;
+            SetVisible(cardInputHintIcons[i], visible);
+        }
     }
 
     public void HideCardsForTutorial()
@@ -775,6 +842,8 @@ public class UIManager : MonoBehaviour
                 source.PlayOneShot(cardProgressionSound);
             }
         }
+        if (playerIndex == 0)
+            RefreshCardInputHints();
     }
 
 
@@ -808,6 +877,8 @@ public class UIManager : MonoBehaviour
                         .setEase(LeanTweenType.easeInOutQuad);
                 });
         }
+        if (playerIndex == 0)
+            RefreshCardInputHints();
     }
 
 

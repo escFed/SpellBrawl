@@ -1,17 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class HasteCard : MonoBehaviour, ICardable
 {
     [Header("Card Info")]
     [SerializeField] private string cardName = "Haste Card";
-    [SerializeField, TextArea(3, 5)] private string cardDescription = "Increases attack and movement speed";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Move 25% faster for 4 seconds. Your next normal attack during Haste recovers 20% faster.";
     [SerializeField] private string damageOrNot = "no";
 
     [Header("Haste Settings")]
-    [SerializeField] private float speedMultiplier = 1.5f;
-    [SerializeField] private float duration = 5f;
+    [SerializeField] private float speedMultiplier = 1.25f;
+    [SerializeField] private float duration = 4f;
+    [SerializeField, Range(0.1f, 1f)] private float attackRecoveryMultiplier = 0.8f;
     [SerializeField] private Sprite cardIcon;
 
     // Nuevo campo para cumplir la interfaz
@@ -36,25 +36,13 @@ public class HasteCard : MonoBehaviour, ICardable
 
     public void ExecuteCard(CharacterCoordinator character)
     {
-        StartCoroutine(HasteRoutine(character));
-    }
-
-    private IEnumerator HasteRoutine(CharacterCoordinator character)
-    {
-        character.Movement.moveSpeedMultiplier = speedMultiplier;
-        character.Combat.attackSpeedMultiplier = speedMultiplier;
-
-        character.GetComponent<SpriteRenderer>().color = Color.yellow;
-
-        yield return new WaitForSeconds(duration);
-
         if (character != null)
         {
-            character.Movement.moveSpeedMultiplier = 1f;
-            character.Combat.attackSpeedMultiplier = 1f;
-            character.GetComponent<SpriteRenderer>().color = Color.white;
+            HasteEffect effect = character.GetComponent<HasteEffect>();
+            if (effect == null)
+                effect = character.gameObject.AddComponent<HasteEffect>();
+            effect.Apply(duration, speedMultiplier, attackRecoveryMultiplier);
         }
-
         Destroy(gameObject);
     }
 }

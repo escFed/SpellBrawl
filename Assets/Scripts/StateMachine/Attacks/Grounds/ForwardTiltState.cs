@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ForwardTiltState : GroundAttackState
 {
+    private const int FinisherStage = 2;
     private float stepDuration = 0.10f;
     private float stepSpeedMultiplier = 0.6f;
     private float followupStartup = 0.08f;
@@ -9,16 +10,20 @@ public class ForwardTiltState : GroundAttackState
     private float queuedRecovery = 0.06f;
     private float inputWindowAfterActive = 0.14f;
     private int stage;
-    private bool openerConnected;
+    private bool stageConnected;
     private bool followupQueued;
     private float facingSign;
+
+    public bool CanQueueFollowup => stage < FinisherStage && stageConnected &&
+        !followupQueued && character.IsGrounded && ElapsedTime >= Startup &&
+        ElapsedTime <= Startup + Active + inputWindowAfterActive;
 
     public ForwardTiltState(CharacterCoordinator character, CharacterStateMachine sm, GroundAttackStats attackStats): base(character, sm, attackStats) { }
 
     public override void Enter()
     {
         stage = 0;
-        openerConnected = false;
+        stageConnected = false;
         followupQueued = false;
         if (Mathf.Abs(character.MoveInput.x) >= character.stats.tiltThreshold)
             character.Combat.FaceDirection(character.MoveInput.x);
@@ -30,7 +35,7 @@ public class ForwardTiltState : GroundAttackState
 
     public override void Update()
     {
-        if (stage == 0 && openerConnected && !followupQueued && character.AttackInput &&
+        if (stage < FinisherStage && stageConnected && !followupQueued && character.AttackInput &&
             ElapsedTime >= Startup && ElapsedTime <= Startup + Active + inputWindowAfterActive)
         {
             character.ActiveInput.ConsumeAttack();
@@ -53,28 +58,29 @@ public class ForwardTiltState : GroundAttackState
         base.Exit();
         character.Combat.UnlockFacing();
         character.Movement.StopHorizontalMovement();
-        openerConnected = false;
+        stageConnected = false;
         followupQueued = false;
     }
 
     public void ConfirmHit()
     {
-        if (stage == 0)
-            openerConnected = true;
+        if (stage < FinisherStage)
+            stageConnected = true;
     }
 
     protected override void ReadyHitbox() => character.Combat.SetupForwardTiltStage(GroundStats, stage);
     protected override void OpenHitbox() => character.Combat.OpenFTiltHitbox();
     protected override void CloseHitbox() => character.Combat.CloseFTiltHitbox();
     protected override float Startup => stage == 0 ? base.Startup : followupStartup;
-    protected override float Recovery => stage == 0 ? (followupQueued ? queuedRecovery : base.Recovery) : followupRecovery;
+    protected override float Recovery => followupQueued ? queuedRecovery : stage == 0 ? base.Recovery : followupRecovery;
 
     protected override bool TryContinueAttack()
     {
-        if (stage != 0 || !openerConnected || !followupQueued || !character.IsGrounded)
+        if (stage >= FinisherStage || !stageConnected || !followupQueued || !character.IsGrounded)
             return false;
 
-        stage = 1;
+        stage++;
+        stageConnected = false;
         followupQueued = false;
         RestartAttack();
         character.Animation.TryPlay("FTiltFollowup", "Jab");

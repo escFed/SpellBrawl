@@ -5,7 +5,7 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
 {
     [Header("Card Info")]
     [SerializeField] private string cardName = "MirrorWorld Card";
-    [SerializeField, TextArea(3, 5)] private string cardDescription = "Inverse controls";
+    [SerializeField, TextArea(3, 5)] private string cardDescription = "Reverse the rival's horizontal controls for 5 seconds.";
     [SerializeField] private string damageOrNot = "no";
 
     [Header("Settings Mirror World")]
@@ -30,7 +30,7 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
         if (uiImage != null && cardIcon != null) uiImage.sprite = cardIcon;
     }
 
-    public bool CanBeUsed(CharacterCoordinator user) => true;
+    public bool CanBeUsed(CharacterCoordinator user) => FindEnemy(user) != null;
 
 
     public void ExecuteCard(CharacterCoordinator caster)
@@ -49,13 +49,19 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
             return;
         }
 
-        GameObject instance = Instantiate(mirrorWorldPrefab, caster.transform.position, Quaternion.identity);
-
-        MirrorWorldLogic logic = instance.GetComponent<MirrorWorldLogic>();
+        MirrorWorldLogic logic = target.GetComponentInChildren<MirrorWorldLogic>();
+        GameObject instance = null;
+        if (logic == null)
+        {
+            instance = Instantiate(mirrorWorldPrefab, target.transform.position, Quaternion.identity, target.transform);
+            instance.transform.localPosition = Vector3.zero;
+            logic = instance.GetComponent<MirrorWorldLogic>();
+        }
         if (logic == null)
         {
             Debug.LogError("[MirrorWorldCard] The effect prefab has no MirrorWorldLogic component.", this);
-            Destroy(instance);
+            if (instance != null)
+                Destroy(instance);
             Destroy(gameObject);
             return;
         }
@@ -67,11 +73,14 @@ public class MirrorWorldCard : MonoBehaviour, ICardable
 
     private CharacterCoordinator FindEnemy(CharacterCoordinator caster)
     {
+        if (caster == null)
+            return null;
+
         CharacterCoordinator[] allPlayers = FindObjectsByType<CharacterCoordinator>(FindObjectsSortMode.None);
 
         foreach (CharacterCoordinator player in allPlayers)
         {
-            if (player != caster && !player.IsDead)
+            if (player != caster && player.Health != null && player.Health.Phase == RespawnPhase.Active)
                 return player;
         }
         return null;

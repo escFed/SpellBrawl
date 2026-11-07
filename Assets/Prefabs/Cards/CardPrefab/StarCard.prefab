@@ -49,6 +49,5 @@ MonoBehaviour:
   damageOrNot: DAMAGEABLE
   starPrefab: {fileID: 2942788602873880493, guid: 1e325a311c0cb7d49a27f9eb1d3038c2, type: 3}
   spawnHeight: 12
-  energyCost: 0
-  cardSprite: {fileID: 2170560513983882954, guid: e90dddbd423e3fd4a9e464e69fad876e, type: 3}
+  cardSprite: {fileID: -1824685533128329794, guid: 610a6a1f7b9ccc9489224b8b9b1260b3, type: 3}
   cardUI: {fileID: 0}

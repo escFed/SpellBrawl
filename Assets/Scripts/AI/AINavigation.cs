@@ -162,6 +162,29 @@ public class AINavigation
         return !HasGroundBelow(predictedX, FeetY, fallCheckDepth);
     }
 
+    public bool TryExecuteWallJump(CharacterCoordinator selfController, Transform characterTransform,
+        Vector3 perceivedTargetPosition, AIInput input)
+    {
+        if (selfController == null || !selfController.CanWallJump)
+            return false;
+
+        ICharacterState state = selfController.GetCurrentState();
+        if (state != selfController.States.Idle &&
+            state != selfController.States.Move &&
+            state != selfController.States.Jump)
+            return false;
+
+        bool targetAbove = perceivedTargetPosition.y - characterTransform.position.y >
+            verticalJumpThreshold;
+        bool needsRecovery = selfTransform != null &&
+            ShouldRecover(selfController, characterTransform);
+        if (!targetAbove && !needsRecovery)
+            return false;
+
+        input.PressJump();
+        return true;
+    }
+
     public void ExecuteMove(
         CharacterCoordinator selfController,
         Transform characterTransform,

@@ -337,27 +337,19 @@ public class DeckBuilderUI : MonoBehaviour
 
     private void UpdateUI()
     {
+        bool deckComplete = rules != null && selectedCards.Count == rules.DeckSize;
         if (deckSizeText != null)
+        {
             deckSizeText.text = rules != null ? $"{selectedCards.Count}/{rules.DeckSize}" : "0/0";
-
-
-        if(selectedCards.Count == rules.DeckSize)
-        {
-            if (deckSizeText != null)
-                deckSizeText.color = Color.green;
-            LeanTween.moveLocalX(deckSizeText.gameObject, 0f, 0.1f).setEasePunch();
+            deckSizeText.color = deckComplete ? Color.green : Color.red;
         }
-        else
-        {
-            if (deckSizeText != null)
-                deckSizeText.color = Color.white;
-        }
+
         if (selectingPlayerText != null)
             selectingPlayerText.text = GetParticipantLabel();
 
         if (startMatchButton != null)
         {
-            bool canStart = rules != null && selectedCards.Count == rules.DeckSize;
+            bool canStart = deckComplete;
             EventSystem eventSystem = EventSystem.current;
             bool fightWasSelected = !canStart && eventSystem != null &&
                 eventSystem.currentSelectedGameObject == startMatchButton.gameObject;

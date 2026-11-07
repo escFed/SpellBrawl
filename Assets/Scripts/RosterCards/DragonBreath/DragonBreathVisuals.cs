@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class DragonBreathVisuals : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private ParticleSystem particleSystem;
+    [FormerlySerializedAs("particleSystem")]
+    [SerializeField] private ParticleSystem breathParticles;
     [SerializeField] private CircleCollider2D damageArea;
 
     [SerializeField] private Sprite breathSprite;
@@ -33,8 +35,8 @@ public class DragonBreathVisuals : MonoBehaviour
         transform.localScale = Vector3.one * breathScale;
 
         // Reproducir partículas si existen
-        if (particleSystem != null)
-            particleSystem.Play();
+        if (breathParticles != null)
+            breathParticles.Play();
     }
 
     public void SetVisuals(Sprite sprite, Color color, float scale = 1.5f)

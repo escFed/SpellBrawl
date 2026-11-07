@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MirrorWorldCard
   cardName: MIRROR WORLD
-  cardDescription: REVERSE HORIZONTAL INPUT DURING A COUPLE OF SECONDS
+  cardDescription: REVERSE THE RIVAL'S HORIZONTAL CONTROLS FOR 5 SECONDS
   damageOrNot: NON DAMAGEABLE
-  energyCost: 0
   mirrorWorldPrefab: {fileID: 8518958410068127547, guid: 41b99edbd45012e4bb9ef8f082aa6ecf, type: 3}
-  cardIcon: {fileID: -5260706477386446363, guid: e9dad3f99f9ea8949a819841e5074128, type: 3}
+  cardIcon: {fileID: 8727325682045901178, guid: ba6898b417f07d44a84654e064406076, type: 3}
+  cardVisual: {fileID: 0}

@@ -15,6 +15,7 @@ public class CharacterMovement : MonoBehaviour
 
     [Header("Movement Modifiers")]
     public float moveSpeedMultiplier = 1f;
+    private float hasteMoveSpeedMultiplier = 1f;
 
     public bool IsGrounded { get; private set; }
     public bool HasStableGroundContact => IsGrounded && rb != null && rb.linearVelocity.y <= 0.01f;
@@ -29,6 +30,7 @@ public class CharacterMovement : MonoBehaviour
     private Rigidbody2D rb;
     private readonly KnockbackMotion knockbackMotion = new KnockbackMotion();
     private readonly Dictionary<Component, float> externalHorizontalPushes = new Dictionary<Component, float>();
+    private readonly Dictionary<Component, float> externalMoveSpeedMultipliers = new Dictionary<Component, float>();
     public Vector2 KnockbackVelocity => knockbackMotion.Velocity;
     public Vector2 OrdinaryVelocity => rb.linearVelocity - KnockbackVelocity;
 
@@ -49,6 +51,18 @@ public class CharacterMovement : MonoBehaviour
     {
         if (source != null)
             externalHorizontalPushes.Remove(source);
+    }
+
+    public void SetExternalMoveSpeedMultiplier(Component source, float multiplier)
+    {
+        if (source != null)
+            externalMoveSpeedMultipliers[source] = Mathf.Clamp01(multiplier);
+    }
+
+    public void ClearExternalMoveSpeedMultiplier(Component source)
+    {
+        if (source != null)
+            externalMoveSpeedMultipliers.Remove(source);
     }
 
     // Runs after the current state writes its movement so the current cannot be erased by input.
@@ -112,6 +126,7 @@ public class CharacterMovement : MonoBehaviour
     private void OnDisable()
     {
         externalHorizontalPushes.Clear();
+        externalMoveSpeedMultipliers.Clear();
         ResetKnockback();
         ResetAirMovementState();
         ClearWallContact();
@@ -206,10 +221,21 @@ public class CharacterMovement : MonoBehaviour
             return;
         }
 
-        float currentSpeed = controller.stats.moveSpeed * moveSpeedMultiplier;
+        float effectiveMultiplier = moveSpeedMultiplier * hasteMoveSpeedMultiplier;
+        foreach (KeyValuePair<Component, float> entry in externalMoveSpeedMultipliers)
+        {
+            if (entry.Key != null)
+                effectiveMultiplier = Mathf.Min(effectiveMultiplier, entry.Value);
+        }
+        float currentSpeed = controller.stats.moveSpeed * effectiveMultiplier;
         SetOrdinaryVelocity(new Vector2(controller.MoveInput.x * currentSpeed, OrdinaryVelocity.y));
 
         controller.Combat.CheckAndFlip(controller.MoveInput.x);
+    }
+
+    public void SetHasteMoveSpeedMultiplier(float multiplier)
+    {
+        hasteMoveSpeedMultiplier = Mathf.Max(1f, multiplier);
     }
 
     public void StopHorizontalMovement() => SetOrdinaryVelocity(new Vector2(0f, OrdinaryVelocity.y));

@@ -1107,6 +1107,7 @@ MonoBehaviour:
   playerTwoPortrait: {fileID: 3100000040}
   playerOneName: {fileID: 3100000028}
   playerTwoName: {fileID: 3100000044}
+  blueAmiroIconMaterial: {fileID: 2100000, guid: 2a28213f40994bd28266a399a9a9719f, type: 2}
 --- !u!1 &3100000006
 GameObject:
   m_ObjectHideFlags: 0
@@ -1648,7 +1649,7 @@ RectTransform:
   m_GameObject: {fileID: 3100000038}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3100000031}

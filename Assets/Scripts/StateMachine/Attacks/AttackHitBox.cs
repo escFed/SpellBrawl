@@ -12,8 +12,6 @@ public class AttackHitbox : MonoBehaviour
     private CharacterCoordinator owner;
     private bool hasHit;
 
-
-
     private void Awake()
     {
         hitCollider = GetComponent<Collider2D>();
@@ -88,10 +86,6 @@ public class AttackHitbox : MonoBehaviour
 
     public void ResolveContact(AttackContact contact)
     {
-
-        
-    
-
         if (contact == null || contact.Target == null)
             return;
 
@@ -115,21 +109,6 @@ public class AttackHitbox : MonoBehaviour
             }
 
             CombatFeedback.PlayHitSound(contact.Stats.hitSound);
-            SuccessfulHitsEvent.Report(1);
-
-            string attackerType = contact.Attacker == null
-      ? "unknown"
-      : contact.Attacker.Mode == PlayerMode.Player ? "player" : "ai";
-           
-
-            
-            HitAdditionToKnockBack.Report(contact.Hit.BaseKnockback.magnitude, contact.Hit.Damage, attackerType);
-            MatchHitStats.HitRegister(attackerType);
-
-        }
-        else
-        {
-            FailedHitsEvents.Report(1);
         }
     }
 

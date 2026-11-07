@@ -65,6 +65,9 @@ public class CharacterShield : MonoBehaviour
         int absorbedDamage = Mathf.Min(RemainingResistance, incomingDamage);
         RemainingResistance -= absorbedDamage;
 
+        if (absorbedDamage > 0)
+            CombatFeedback.PlayBlockSound();
+
         guardVisuals?.OnShieldImpact((float)RemainingResistance / MaximumResistance, hitPoint);
 
         if (RemainingResistance == 0)

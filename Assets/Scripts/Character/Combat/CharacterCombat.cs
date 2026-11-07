@@ -3,6 +3,7 @@ using UnityEngine;
 public class CharacterCombat : MonoBehaviour
 {
     private const float JabFinisherDamageScale = 0.45f;
+    private const float JabFinisherMinimumMaxDamageScale = 0.2f;
     private const float JabFinisherKnockbackScale = 0.7f;
     private const float JabFinisherHitStunScale = 0.75f;
     private const float JabFinisherGrowthScale = 0.7f;
@@ -189,7 +190,8 @@ public class CharacterCombat : MonoBehaviour
         float growth = Mathf.Lerp(stats.launch?.growth ?? 3f, stats.maxKnockbackGrowth, Mathf.Clamp01(chargeRatio));
         if (isJabFinisher)
         {
-            damage *= JabFinisherDamageScale;
+            damage = Mathf.Max(damage * JabFinisherDamageScale,
+                stats.maxDamage * JabFinisherMinimumMaxDamageScale);
             knockbackMagnitude *= JabFinisherKnockbackScale;
             hitStun *= JabFinisherHitStunScale;
             growth *= JabFinisherGrowthScale;
