@@ -27,8 +27,12 @@ public class MetricsConsentManager : MonoBehaviour
     // Si ya había aceptado en una sesión anterior, identificar al arrancar.
     private async void Start()
     {
+        if (Instance != this) return; // por si este duplicado alcanza a ejecutar Start antes de destruirse
+        Talo.Events.OnFlushed += () => { };
+
         if (GetConsent())
             await IdentifyAsync();
+        
     }
 
     public bool Answered() => PlayerPrefs.HasKey(ConsentKey);
