@@ -205,6 +205,8 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
         if (controller != null)
         {
             Vector2 exitVelocity = rb != null ? rb.linearVelocity : Vector2.zero;
+            KnockBackFinalAmountEvent.Report(exitVelocity.magnitude,
+                controller.Mode == PlayerMode.AI ? "AI" : "Player");
             CombatFeedback.PlayStockLoss(transform.position, exitVelocity, controller.PlayerIndex, fallLives == 0);
             UIEvents.OnStockLost?.Invoke(controller.PlayerIndex, fallLives);
         }

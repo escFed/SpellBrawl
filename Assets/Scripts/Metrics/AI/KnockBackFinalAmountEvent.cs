@@ -1,16 +1,15 @@
 using UnityEngine;
 
-public class KnockBackFinalAmountEvent : MonoBehaviour
+public static class KnockBackFinalAmountEvent
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public const string EventName = "knockback_final_amount";
+    public static async void Report(float knockback, string attackerType)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        MetricsConsentManager metrics = MetricsConsentManager.Instance;
+        if (metrics == null || !metrics.GetConsent()) return;
+        await metrics.TrackEventAsync(
+            EventName,
+            ("knockback_final", knockback.ToString("0.#", System.Globalization.CultureInfo.InvariantCulture)),
+            ("attacker_type", attackerType));
     }
 }

@@ -198,7 +198,7 @@ public class GameManager : MonoBehaviour
         }
         _ = MetricsConsentManager.Instance?.FlushAsync();
 
-
+        AveragePlayersLifesEvents.Report(Statistics.SurvivalTime((int)winner, Time.time), sel != null && sel.GetControlMode(winner) == PlayerMode.AI); 
 
     }
 
@@ -206,6 +206,8 @@ public class GameManager : MonoBehaviour
     {
         string winnerName = SelectionManager.Instance != null ? SelectionManager.Instance.GetDisplayName(slot): ModeRules.GetDisplayName(MatchMode.PlayerVsPlayer, slot);
         return $"{winnerName} WINS";
+
+      
     }
 
     public void Rematch()

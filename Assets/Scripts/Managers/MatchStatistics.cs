@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 // Match-wide values. GameManager owns this instance; character components report events to it.
 public sealed class MatchStatistics
 {
@@ -51,7 +52,7 @@ public sealed class MatchStatistics
         player.LifeActive = false;
     }
 
-    public float SurvivalTime(int playerIndex, float now)
+    public float SurvivalTime(int playerIndex, float now)  
     {
         PlayerRecord player = Get(playerIndex);
         return player == null ? 0f : player.SurvivalSeconds +

@@ -109,6 +109,18 @@ public class AttackHitbox : MonoBehaviour
             }
 
             CombatFeedback.PlayHitSound(contact.Stats.hitSound);
+
+            
+            SuccessfulHitsEvent.Report(1);
+
+            if(contact.Attacker != null && contact.Stats is GroundAttackStats groundAttackStats)
+            {
+                HitAdditionToKnockBack.Report(contact.Hit.BaseKnockback.magnitude, contact.Hit.Damage, groundAttackStats.GetType().Name);
+            }
+        }
+        else
+        {
+            FailedHitsEvents.Report(1);
         }
     }
 
