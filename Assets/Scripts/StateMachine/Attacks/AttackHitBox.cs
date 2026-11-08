@@ -75,7 +75,7 @@ public class AttackHitbox : MonoBehaviour
 
         swingResolved = true;
         string attackerType = owner.Mode == PlayerMode.AI ? "ai" : "player";
-        _ = FailedHitsEvents.Report(1, attackerType);
+        _ = FailedHitsEvents.Report(1, attackerType, MatchHitStats.MatchId);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -114,7 +114,7 @@ public class AttackHitbox : MonoBehaviour
         CombatHit hit = new CombatHit(currentDamage, directedKnockback, currentHitStun, currentHitReaction, hitPoint, attackerPlayerIndex, currentStats.launch, currentGrowth, defenderSuspension, owner);
 
         CharacterCoordinator defender = other.GetComponentInParent<CharacterCoordinator>();
-        AttackContact contact = new AttackContact(this ,owner ,defender ,target ,hit ,currentStats ,aerialStats ,targetGroundedBeforeHit, suspensionStrength, Time.fixedTimeAsDouble, IsEligibleForGroundClash(defender));
+        AttackContact contact = new AttackContact(this, owner, defender, target, hit, currentStats, aerialStats, targetGroundedBeforeHit, suspensionStrength, Time.fixedTimeAsDouble, IsEligibleForGroundClash(defender));
 
         CombatExchangeResolver.Register(contact);
         hasHit = true;
@@ -152,7 +152,11 @@ public class AttackHitbox : MonoBehaviour
             }
 
             CombatFeedback.PlayHitSound(contact.Stats.hitSound);
-            _ = SuccessfulHitsEvent.Report(1);
+            if (contact.Attacker != null)
+                _ = SuccessfulHitsEvent.Report(
+                    1,
+                    contact.Attacker.Mode == PlayerMode.AI ? "ai" : "player",
+                    MatchHitStats.MatchId);
 
             if (contact.Attacker != null)
                 _ = HitAdditionToKnockBack.Report(contact.Hit.BaseKnockback.magnitude,
@@ -165,7 +169,8 @@ public class AttackHitbox : MonoBehaviour
             swingResolved = true;
             if (contact.Attacker != null)
                 _ = FailedHitsEvents.Report(1,
-                    contact.Attacker.Mode == PlayerMode.AI ? "ai" : "player");
+                    contact.Attacker.Mode == PlayerMode.AI ? "ai" : "player",
+                    MatchHitStats.MatchId);
         }
     }
 

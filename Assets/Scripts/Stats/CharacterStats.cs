@@ -7,6 +7,7 @@ public class CharacterStats : ScriptableObject
     public string characterName = "New Character";
     public GameObject characterPrefab;
     public Sprite characterIcon;
+    public string MetricId => !string.IsNullOrWhiteSpace(name) ? name.Trim() : characterName?.Trim();
 
     [Header("Movement Stats")]
     public float moveSpeed = 5f;
@@ -77,3 +78,4 @@ public class CharacterStats : ScriptableObject
     public ThrowStats upThrow;
     public ThrowStats downThrow;
 }
+

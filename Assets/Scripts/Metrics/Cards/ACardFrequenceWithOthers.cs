@@ -8,12 +8,14 @@ public class ACardFrequenceWithOthers : MonoBehaviour
         string matchId,
         string cardId,
         string otherCardId,
-        string result)
+        string result,
+        string characterId = null)
     {
         return metrics.TrackEventAsync(
             CardPickRateEvent.CardCooccurrenceEventName,
             ("match_id", matchId),
             ("deck_owner", "player"),
+            ("character_id", characterId ?? string.Empty),
             ("card_id", cardId),
             ("other_card_id", otherCardId),
             ("result", result));

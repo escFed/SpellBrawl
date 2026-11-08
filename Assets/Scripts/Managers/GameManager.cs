@@ -184,7 +184,7 @@ public class GameManager : MonoBehaviour
             }
 
 
-       
+
         }
 
         MatchHitStats.StopRecording();
@@ -215,7 +215,8 @@ public class GameManager : MonoBehaviour
                     playerCharacterDeck.MatchDeck,
                     player.Slot,
                     winner == player.Slot,
-                    MatchHitStats.MatchId);
+                    MatchHitStats.MatchId,
+                    player.Stats != null ? player.Stats.MetricId : null);
 
             GameObject winnerObject = respawn != null
                 ? winner == PlayerSlot.PlayerOne ? respawn.p1Instance : respawn.p2Instance
@@ -228,6 +229,19 @@ public class GameManager : MonoBehaviour
                     sel.GetControlMode(winner) == PlayerMode.AI);
         }
 
+        RespawnManager matchRespawn = RespawnManager.Instance;
+        float durationSeconds = MatchHitStats.GetMatchDuration();
+        CharacterCoordinator playerOneCharacter = matchRespawn != null && matchRespawn.p1Instance != null
+            ? matchRespawn.p1Instance.GetComponent<CharacterCoordinator>()
+            : null;
+        CharacterCoordinator playerTwoCharacter = matchRespawn != null && matchRespawn.p2Instance != null
+            ? matchRespawn.p2Instance.GetComponent<CharacterCoordinator>()
+            : null;
+        await MatchSummaryEvent.ReportCharacterDuration(
+            playerOneCharacter, winner == PlayerSlot.PlayerOne, durationSeconds, MatchHitStats.MatchId);
+        await MatchSummaryEvent.ReportCharacterDuration(
+            playerTwoCharacter, winner == PlayerSlot.PlayerTwo, durationSeconds, MatchHitStats.MatchId);
+
         await FirstCardUsedTime.WaitForPendingReportAsync();
 
         MetricsConsentManager metrics = MetricsConsentManager.Instance;
@@ -238,10 +252,10 @@ public class GameManager : MonoBehaviour
 
     private static string GetWinnerMessage(PlayerSlot slot)
     {
-        string winnerName = SelectionManager.Instance != null ? SelectionManager.Instance.GetDisplayName(slot): ModeRules.GetDisplayName(MatchMode.PlayerVsPlayer, slot);
+        string winnerName = SelectionManager.Instance != null ? SelectionManager.Instance.GetDisplayName(slot) : ModeRules.GetDisplayName(MatchMode.PlayerVsPlayer, slot);
         return $"{winnerName} WINS";
 
-      
+
     }
 
     public void Rematch()

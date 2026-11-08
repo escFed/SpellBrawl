@@ -5,6 +5,7 @@ using UnityEngine;
 public static class MatchSummaryEvent
 {
     public const string EventName = "match_summary";
+    public const string CharacterMatchResultEventName = "character_match_result";
 
     public static async Task Report(int hitsPlayer, int hitsAi, int attemptsPlayer, int attemptsAi, float durationSeconds)
     {
@@ -30,5 +31,32 @@ public static class MatchSummaryEvent
             ("attempts_per_minute", attemptsPerMinute.ToString("0", CultureInfo.InvariantCulture)),
             ("accuracy_percent", accuracy.ToString("0", CultureInfo.InvariantCulture)),
             ("player_profile", profile));
+    }
+
+    public static async Task ReportCharacterDuration(
+        CharacterCoordinator character,
+        bool won,
+        float durationSeconds,
+        string matchId)
+    {
+        SelectionManager selection = SelectionManager.Instance;
+        if (selection == null || selection.isTrainingMode ||
+            character == null || character.Stats == null || string.IsNullOrWhiteSpace(character.Stats.MetricId) ||
+            string.IsNullOrWhiteSpace(matchId))
+            return;
+
+        MetricsConsentManager metrics = MetricsConsentManager.Instance;
+        if (metrics == null || !metrics.GetConsent())
+            return;
+
+        await metrics.TrackEventAsync(
+            CharacterMatchResultEventName,
+            ("match_id", matchId),
+            ("character_id", character.Stats.MetricId),
+            ("duration_seconds", Mathf.RoundToInt(durationSeconds).ToString(CultureInfo.InvariantCulture)),
+            ("result", won ? "win" : "loss"),
+            ("player_type", character.Mode == PlayerMode.AI ? "ai" : "player"),
+            ("player_slot", character.Slot.ToString()),
+            ("match_mode", selection.matchMode.ToString()));
     }
 }

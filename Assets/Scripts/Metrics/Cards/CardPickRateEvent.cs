@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using UnityEngine;
 
 public static class CardPickRateEvent
 {
+    public const string CardPickRateEventName = "card_pick_rate";
     public const string CardWinRateEventName = "a_card_win_rate";
     public const string CardCooccurrenceEventName = "a_card_frequence_with_others";
 
@@ -11,13 +13,31 @@ public static class CardPickRateEvent
         IReadOnlyList<GameObject> deck,
         PlayerSlot deckSlot,
         bool won,
-        string matchId)
+        string matchId,
+        string characterId = null)
     {
         SelectionManager selection = SelectionManager.Instance;
         if (selection == null || selection.isTrainingMode || selection.matchMode != MatchMode.PlayerVsAI ||
             selection.GetControlMode(deckSlot) != PlayerMode.Player ||
             deck == null || deck.Count == 0 || string.IsNullOrWhiteSpace(matchId))
             return;
+
+        if (string.IsNullOrWhiteSpace(characterId))
+        {
+            int characterIndex = selection.GetSelectedCharacter(deckSlot);
+            if (selection.characterDb != null &&
+                characterIndex >= 0 && characterIndex < selection.characterDb.CharacterCount)
+            {
+                CharacterStats character = selection.characterDb.GetCharacter(characterIndex);
+                characterId = character != null ? character.MetricId : null;
+            }
+        }
+
+        if (string.IsNullOrWhiteSpace(characterId))
+        {
+            Debug.LogError("[CardPickRateEvent] The selected character has no metric ID.");
+            return;
+        }
 
         MetricsConsentManager metrics = MetricsConsentManager.Instance;
         if (metrics == null || !metrics.GetConsent())
@@ -44,29 +64,41 @@ public static class CardPickRateEvent
                 continue;
             }
 
-            cards.Add(new CardMetricEntry(cardId));
+            cards.Add(new CardMetricEntry(cardId, card.Type.ToString().ToLowerInvariant()));
         }
 
         cards.Sort((left, right) => string.CompareOrdinal(left.Id, right.Id));
         string result = won ? "win" : "loss";
         foreach (CardMetricEntry card in cards)
-            await ACardWinRate.Report(metrics, matchId, card.Id, result);
+        {
+            await metrics.TrackEventAsync(
+                CardPickRateEventName,
+                ("match_id", matchId),
+                ("deck_owner", "player"),
+                ("character_id", characterId),
+                ("card_id", card.Id),
+                ("card_type", card.Type),
+                ("deck_size", cards.Count.ToString(CultureInfo.InvariantCulture)));
+            await ACardWinRate.Report(metrics, matchId, card.Id, result, characterId);
+        }
 
         for (int i = 0; i < cards.Count; i++)
         {
             for (int j = i + 1; j < cards.Count; j++)
                 await ACardFrequenceWithOthers.Report(
-                    metrics, matchId, cards[i].Id, cards[j].Id, result);
+                    metrics, matchId, cards[i].Id, cards[j].Id, result, characterId);
         }
     }
 
     private readonly struct CardMetricEntry
     {
         public string Id { get; }
+        public string Type { get; }
 
-        public CardMetricEntry(string id)
+        public CardMetricEntry(string id, string type)
         {
             Id = id;
+            Type = type;
         }
     }
 }
