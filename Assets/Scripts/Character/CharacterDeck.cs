@@ -14,6 +14,7 @@ public class CharacterDeck : MonoBehaviour
     private HandSlotView[] handSnapshot;
 
     public int HandSlotCount => runtime != null ? runtime.HandSlotCount : 0;
+    public IReadOnlyList<GameObject> MatchDeck { get; private set; }
 
     public void RefreshUI()
     {
@@ -55,6 +56,7 @@ public class CharacterDeck : MonoBehaviour
         runtime = matchRules != null
             ? new DeckRuntime(rules, deckTemplate, matchRules.InitialHandSize, matchRules.MaxHandSize)
             : new DeckRuntime(rules, deckTemplate);
+        MatchDeck = deckTemplate.AsReadOnly();
         ResetDeckForNewRound();
     }
 
@@ -87,6 +89,7 @@ public class CharacterDeck : MonoBehaviour
             ? GameManager.Instance.Statistics.RecordCardUsed(controller.PlayerIndex, cardData)
             : -1;
         ExecuteCard(cardPrefab, useId);
+        FirstCardUsedTime.RecordFirstUse(controller);
         UIEvents.OnCardUsed?.Invoke(controller.PlayerIndex, handIndex);
         UIEvents.OnLastCardUsed?.Invoke(controller.PlayerIndex, cardData.CardName);
         PublishState();

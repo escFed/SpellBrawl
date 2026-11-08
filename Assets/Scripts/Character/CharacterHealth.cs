@@ -195,18 +195,21 @@ public class CharacterHealth : MonoBehaviour, ICombatHitReceiver
 
         CombatFeedback.PlayStockLossRumble(controller);
         fallLives--;
+        int creditedAttacker = Time.time - lastAttackerTime <= EliminationCreditSeconds ? lastAttackerIndex : -1;
         if (GameManager.Instance != null && controller != null)
-        {
-            int credited = Time.time - lastAttackerTime <= EliminationCreditSeconds ? lastAttackerIndex : -1;
-            GameManager.Instance.Statistics.RecordStockLost(controller.PlayerIndex, credited, Time.time);
-        }
+            GameManager.Instance.Statistics.RecordStockLost(controller.PlayerIndex, creditedAttacker, Time.time);
         lastAttackerIndex = -1;
         lastAttackerTime = float.NegativeInfinity;
         if (controller != null)
         {
             Vector2 exitVelocity = rb != null ? rb.linearVelocity : Vector2.zero;
-            KnockBackFinalAmountEvent.Report(exitVelocity.magnitude,
-                controller.Mode == PlayerMode.AI ? "AI" : "Player");
+            SelectionManager selection = SelectionManager.Instance;
+            string attackerType = "environment";
+            if (creditedAttacker >= 0 && selection != null)
+                attackerType = selection.GetControlMode((PlayerSlot)creditedAttacker) == PlayerMode.AI
+                    ? "ai"
+                    : "player";
+            _ = KnockBackFinalAmountEvent.Report(exitVelocity.magnitude, attackerType, currentDamage);
             CombatFeedback.PlayStockLoss(transform.position, exitVelocity, controller.PlayerIndex, fallLives == 0);
             UIEvents.OnStockLost?.Invoke(controller.PlayerIndex, fallLives);
         }

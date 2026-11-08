@@ -1,11 +1,12 @@
 using System.Globalization;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public static class MatchSummaryEvent
 {
     public const string EventName = "match_summary";
 
-    public static async void Report(int hitsPlayer, int hitsAi, int attemptsPlayer, int attemptsAi, float durationSeconds)
+    public static async Task Report(int hitsPlayer, int hitsAi, int attemptsPlayer, int attemptsAi, float durationSeconds)
     {
         MetricsConsentManager metrics = MetricsConsentManager.Instance;
         if (metrics == null || !metrics.GetConsent()) return;

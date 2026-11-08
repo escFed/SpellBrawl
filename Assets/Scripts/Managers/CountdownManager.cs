@@ -183,6 +183,7 @@ public class CountdownManager : MonoBehaviour
             }
         }
         MatchHitStats.ResetStats();
+        FirstCardUsedTime.BeginMatchTimer();
         EnablePlayers();
 
         yield return new WaitForSeconds(1f);

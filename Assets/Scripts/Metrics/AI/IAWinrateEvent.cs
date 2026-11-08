@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using TaloGameServices;
 using UnityEngine;
 
@@ -9,9 +10,10 @@ using UnityEngine;
 public static class IAWinrateEvent
 {
    
-    public const string FinishedEvent = "ia_partidaganada";
+    public const string PlayedEvent = "ia_partida_jugada";
+    public const string FinishedEvent = "ia_victoria";
 
-    public static async void Report(PlayerSlot winner)
+    public static async Task Report(PlayerSlot winner)
     {
         SelectionManager selection = SelectionManager.Instance;
         if (selection == null || selection.isTrainingMode) return;
@@ -26,8 +28,7 @@ public static class IAWinrateEvent
         bool aiWon = selection.GetControlMode(winner) == PlayerMode.AI;
 
         
-        // El denominador se envía siempre; el numerador solo si ganó la IA.
-        await metrics.TrackEventAsync("ia_partidaterminada", ("ganador", aiWon ? "ia" : "jugador"));
+        await metrics.TrackEventAsync(PlayedEvent);
         if (aiWon)
             await metrics.TrackEventAsync(FinishedEvent);
     }

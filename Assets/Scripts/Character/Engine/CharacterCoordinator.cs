@@ -195,6 +195,8 @@ public class CharacterCoordinator : MonoBehaviour
             return;
         }
 
+        MatchHitStats.RecordStateTime(this, Time.deltaTime);
+
         if (CombatFeedback.IsHitStopActive) return;
 
         Movement.RefreshGroundedState();

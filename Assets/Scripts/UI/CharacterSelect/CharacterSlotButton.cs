@@ -30,8 +30,13 @@ public class CharacterSlotButton : MonoBehaviour
 
     public void PlaySelectedSound()
     {
-        audioSource = GetComponent<AudioSource>();
-        GameSettings.RegisterSource(audioSource, GameSound.SoundEffects);
+        if (audioSource == null)
+        {
+
+
+            audioSource = GetComponent<AudioSource>();
+        }
+            GameSettings.RegisterSource(audioSource, GameSound.SoundEffects);
         audioSource.PlayOneShot(selectedClip);
     }
 }

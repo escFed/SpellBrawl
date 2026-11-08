@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading.Tasks;
 using TaloGameServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -11,7 +12,7 @@ public static class AveragePlayersLifesEvents
     public const string PlayerWinLivesEvent = "vidas_restantes_victoria_jugador";
     public const string AIWinLivesEvent = "vidas_restantes_victoria_ia";
 
-    public static async void Report(float livesLeft, bool aiWon)
+    public static async Task Report(float livesLeft, bool aiWon)
     {
         SelectionManager selection = SelectionManager.Instance;
         if (selection == null || selection.isTrainingMode) return;

@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class GameManager : MonoBehaviour
         else Destroy(gameObject);
 
         Statistics = new MatchStatistics();
+        if (Instance == this)
+            MatchHitStats.BeginMatch();
 
         if (SelectionManager.Instance != null && !SelectionManager.Instance.isTrainingMode)
             roundsToWin = SelectionManager.Instance.Rules.RoundsToWin;
@@ -158,7 +161,7 @@ public class GameManager : MonoBehaviour
         CountdownManager.Instance.StartNextRound();
     }
 
-    private void ShowVictoryScreen(PlayerSlot winner)
+    private async void ShowVictoryScreen(PlayerSlot winner)
     {
         MatchFinished = true;
         CountdownManager.Instance?.StopForMatchEnd();
@@ -184,21 +187,52 @@ public class GameManager : MonoBehaviour
        
         }
 
-        IAWinrateEvent.Report(winner);
+        MatchHitStats.StopRecording();
+        await IAWinrateEvent.Report(winner);
 
         SelectionManager sel = SelectionManager.Instance;
         if (sel != null && !sel.isTrainingMode && sel.matchMode == MatchMode.PlayerVsAI)
         {
-            MatchSummaryEvent.Report(
-     MatchHitStats.HitsRegisteredToPlayer,
-     MatchHitStats.HitsRegisteredtoAI,
-     MatchHitStats.AttemptsToPlayer,
-     MatchHitStats.AttemptsToAI,
-     MatchHitStats.GetMatchDuration());
-        }
-        _ = MetricsConsentManager.Instance?.FlushAsync();
+            await MatchSummaryEvent.Report(
+                MatchHitStats.HitsRegisteredToPlayer,
+                MatchHitStats.HitsRegisteredtoAI,
+                MatchHitStats.AttemptsToPlayer,
+                MatchHitStats.AttemptsToAI,
+                MatchHitStats.GetMatchDuration());
+            await TimeBetweenCombatStatesEvent.Report(
+                MatchHitStats.CombatTimePercentage, MatchHitStats.NeutralTimePercentage);
 
-        AveragePlayersLifesEvents.Report(Statistics.SurvivalTime((int)winner, Time.time), sel != null && sel.GetControlMode(winner) == PlayerMode.AI); 
+            RespawnManager respawn = RespawnManager.Instance;
+            GameObject playerObject = respawn != null ? respawn.p1Instance : null;
+            CharacterCoordinator player = playerObject != null
+                ? playerObject.GetComponent<CharacterCoordinator>()
+                : null;
+            CharacterDeck playerCharacterDeck = playerObject != null
+                ? playerObject.GetComponent<CharacterDeck>()
+                : null;
+            if (player != null && player.Mode == PlayerMode.Player && playerCharacterDeck != null)
+                await CardPickRateEvent.ReportMatch(
+                    playerCharacterDeck.MatchDeck,
+                    player.Slot,
+                    winner == player.Slot,
+                    MatchHitStats.MatchId);
+
+            GameObject winnerObject = respawn != null
+                ? winner == PlayerSlot.PlayerOne ? respawn.p1Instance : respawn.p2Instance
+                : null;
+            CharacterHealth winnerHealth = winnerObject != null
+                ? winnerObject.GetComponent<CharacterHealth>()
+                : null;
+            if (winnerHealth != null)
+                await AveragePlayersLifesEvents.Report(winnerHealth.fallLives,
+                    sel.GetControlMode(winner) == PlayerMode.AI);
+        }
+
+        await FirstCardUsedTime.WaitForPendingReportAsync();
+
+        MetricsConsentManager metrics = MetricsConsentManager.Instance;
+        if (metrics != null)
+            await metrics.FlushAsync();
 
     }
 

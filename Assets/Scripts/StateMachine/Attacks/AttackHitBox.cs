@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class AttackHitbox : MonoBehaviour
@@ -11,6 +12,9 @@ public class AttackHitbox : MonoBehaviour
     private Collider2D hitCollider;
     private CharacterCoordinator owner;
     private bool hasHit;
+    private bool swingActive;
+    private bool swingResolved;
+    private int swingSequence;
 
     private void Awake()
     {
@@ -39,8 +43,40 @@ public class AttackHitbox : MonoBehaviour
         hasHit = false;
     }
 
-    public void BeginSwing() => hitCollider.enabled = true;
-    public void EndSwing() => hitCollider.enabled = false;
+    public void BeginSwing()
+    {
+        if (swingActive)
+            return;
+
+        swingActive = true;
+        swingResolved = false;
+        hasHit = false;
+        swingSequence++;
+        hitCollider.enabled = true;
+        if (owner != null)
+            MatchHitStats.AttemptRegister(owner.Mode == PlayerMode.AI ? "ai" : "player");
+    }
+
+    public void EndSwing()
+    {
+        if (!swingActive)
+            return;
+
+        swingActive = false;
+        hitCollider.enabled = false;
+        StartCoroutine(ReportMissAfterContactResolution(swingSequence));
+    }
+
+    private IEnumerator ReportMissAfterContactResolution(int sequence)
+    {
+        yield return new WaitForEndOfFrame();
+        if (sequence != swingSequence || swingResolved || owner == null)
+            yield break;
+
+        swingResolved = true;
+        string attackerType = owner.Mode == PlayerMode.AI ? "ai" : "player";
+        _ = FailedHitsEvents.Report(1, attackerType);
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -95,6 +131,13 @@ public class AttackHitbox : MonoBehaviour
         bool applied = contact.Target.ReceiveHit(contact.Hit);
         if (applied)
         {
+            swingResolved = true;
+            if (contact.Attacker != null)
+            {
+                string attackerType = contact.Attacker.Mode == PlayerMode.AI ? "ai" : "player";
+                MatchHitStats.HitRegister(attackerType);
+            }
+
             contact.Attacker?.Combat.RegisterForwardTiltHit(contact.Source, contact.Stats);
 
             if (contact.Attacker != null && contact.Stats is GroundAttackStats groundStats && groundStats.startsAerialCombo)
@@ -109,18 +152,20 @@ public class AttackHitbox : MonoBehaviour
             }
 
             CombatFeedback.PlayHitSound(contact.Stats.hitSound);
+            _ = SuccessfulHitsEvent.Report(1);
 
-            
-            SuccessfulHitsEvent.Report(1);
-
-            if(contact.Attacker != null && contact.Stats is GroundAttackStats groundAttackStats)
-            {
-                HitAdditionToKnockBack.Report(contact.Hit.BaseKnockback.magnitude, contact.Hit.Damage, groundAttackStats.GetType().Name);
-            }
+            if (contact.Attacker != null)
+                _ = HitAdditionToKnockBack.Report(contact.Hit.BaseKnockback.magnitude,
+                    contact.Hit.Damage,
+                    contact.Attacker.Mode == PlayerMode.AI ? "ai" : "player",
+                    MatchHitStats.MatchId);
         }
         else
         {
-            FailedHitsEvents.Report(1);
+            swingResolved = true;
+            if (contact.Attacker != null)
+                _ = FailedHitsEvents.Report(1,
+                    contact.Attacker.Mode == PlayerMode.AI ? "ai" : "player");
         }
     }
 
