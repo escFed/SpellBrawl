@@ -18,9 +18,13 @@ public static class CardPickRateEvent
     {
         SelectionManager selection = SelectionManager.Instance;
         if (selection == null || selection.isTrainingMode || selection.matchMode != MatchMode.PlayerVsAI ||
-            selection.GetControlMode(deckSlot) != PlayerMode.Player ||
             deck == null || deck.Count == 0 || string.IsNullOrWhiteSpace(matchId))
             return;
+
+        PlayerMode deckMode = selection.GetControlMode(deckSlot);
+        if (deckMode != PlayerMode.Player && deckMode != PlayerMode.AI)
+            return;
+        string deckOwner = deckMode == PlayerMode.AI ? "ai" : "player";
 
         if (string.IsNullOrWhiteSpace(characterId))
         {
@@ -74,19 +78,19 @@ public static class CardPickRateEvent
             await metrics.TrackEventAsync(
                 CardPickRateEventName,
                 ("match_id", matchId),
-                ("deck_owner", "player"),
+                ("deck_owner", deckOwner),
                 ("character_id", characterId),
                 ("card_id", card.Id),
                 ("card_type", card.Type),
                 ("deck_size", cards.Count.ToString(CultureInfo.InvariantCulture)));
-            await ACardWinRate.Report(metrics, matchId, card.Id, result, characterId);
+            await ACardWinRate.Report(metrics, matchId, card.Id, result, characterId, deckOwner, card.Type, cards.Count);
         }
 
         for (int i = 0; i < cards.Count; i++)
         {
             for (int j = i + 1; j < cards.Count; j++)
                 await ACardFrequenceWithOthers.Report(
-                    metrics, matchId, cards[i].Id, cards[j].Id, result, characterId);
+                    metrics, matchId, cards[i].Id, cards[j].Id, result, characterId, deckOwner);
         }
     }
 

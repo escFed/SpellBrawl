@@ -203,20 +203,29 @@ public class GameManager : MonoBehaviour
                 MatchHitStats.CombatTimePercentage, MatchHitStats.NeutralTimePercentage);
 
             RespawnManager respawn = RespawnManager.Instance;
-            GameObject playerObject = respawn != null ? respawn.p1Instance : null;
-            CharacterCoordinator player = playerObject != null
-                ? playerObject.GetComponent<CharacterCoordinator>()
-                : null;
-            CharacterDeck playerCharacterDeck = playerObject != null
-                ? playerObject.GetComponent<CharacterDeck>()
-                : null;
-            if (player != null && player.Mode == PlayerMode.Player && playerCharacterDeck != null)
+            GameObject[] participantObjects =
+            {
+                respawn != null ? respawn.p1Instance : null,
+                respawn != null ? respawn.p2Instance : null
+            };
+            foreach (GameObject participantObject in participantObjects)
+            {
+                CharacterCoordinator participant = participantObject != null
+                    ? participantObject.GetComponent<CharacterCoordinator>()
+                    : null;
+                CharacterDeck participantDeck = participantObject != null
+                    ? participantObject.GetComponent<CharacterDeck>()
+                    : null;
+                if (participant == null || participantDeck == null)
+                    continue;
+
                 await CardPickRateEvent.ReportMatch(
-                    playerCharacterDeck.MatchDeck,
-                    player.Slot,
-                    winner == player.Slot,
+                    participantDeck.MatchDeck,
+                    participant.Slot,
+                    winner == participant.Slot,
                     MatchHitStats.MatchId,
-                    player.Stats != null ? player.Stats.MetricId : null);
+                    participant.Stats != null ? participant.Stats.MetricId : null);
+            }
 
             GameObject winnerObject = respawn != null
                 ? winner == PlayerSlot.PlayerOne ? respawn.p1Instance : respawn.p2Instance

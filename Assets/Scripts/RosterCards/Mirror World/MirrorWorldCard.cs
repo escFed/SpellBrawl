@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class MirrorWorldCard : MonoBehaviour, ICardable
 {
     [Header("Card Info")]
-    [SerializeField] private string cardName = "MirrorWorld Card";
+    [SerializeField] private string cardName = "Mirror World Card";
     [SerializeField, TextArea(3, 5)] private string cardDescription = "Reverse the rival's horizontal controls for 5 seconds.";
     [SerializeField] private string damageOrNot = "no";
 

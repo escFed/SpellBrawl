@@ -1,4 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 // The effect is parented to the afflicted character, so its lifetime and visuals stay together.
 public class MirrorWorldLogic : MonoBehaviour
@@ -10,7 +13,14 @@ public class MirrorWorldLogic : MonoBehaviour
     private static readonly Color MirrorColor = new Color(0.25f, 0.95f, 1f, 1f);
 
     [SerializeField, Min(0.1f)] private float effectDuration = 5f;
+    [SerializeField, Min(0.1f)] private float soundSaturationDuration = 3f;
+    [SerializeField, Range(0f, 1f)] private float soundDistortionLevel = 0.75f;
+    [SerializeField, Min(1f)] private float battleMusicBpm = 120f;
+    [SerializeField] private float musicBeatOffsetSeconds;
+    [SerializeField] private Color screenTint = new Color(1f, 0f, 0f, 0.2f);
 
+    private readonly List<AudioFilterState> saturatedAudioFilters = new List<AudioFilterState>();
+    private Coroutine soundSaturationRoutine;
     private CharacterCoordinator caster;
     private CharacterCoordinator target;
     private CharacterHealth targetHealth;
@@ -26,7 +36,12 @@ public class MirrorWorldLogic : MonoBehaviour
     private float activatedAt;
     private float expiresAt;
     private bool active;
+   [SerializeField] private Camera affectedCamera;
+    private Color originalCameraColor;
+    private bool cameraColorChanged;
+    private GameObject screenTintCanvas;
 
+    [SerializeField] private AudioClip cardClip;
     public void Initialize(CharacterCoordinator source, CharacterCoordinator afflicted)
     {
         caster = source;
@@ -47,6 +62,15 @@ public class MirrorWorldLogic : MonoBehaviour
         activatedAt = Time.time;
         expiresAt = activatedAt + Mathf.Max(0.1f, effectDuration);
         target.SetHorizontalInputMirrored(true);
+        affectedCamera = Camera.main;
+        if (affectedCamera != null)
+        {
+            originalCameraColor = affectedCamera.backgroundColor;
+            cameraColorChanged = true;
+            ChangeCameraColor(Color.red);
+        }
+        ShowScreenTint();
+        StartSoundSaturation();
 
         EnsureIndicator();
         PlayCastAnimation();
@@ -77,6 +101,14 @@ public class MirrorWorldLogic : MonoBehaviour
         active = false;
         if (wasActive && target != null)
             target.SetHorizontalInputMirrored(false);
+        if (cameraColorChanged && affectedCamera != null)
+            affectedCamera.backgroundColor = originalCameraColor;
+        cameraColorChanged = false;
+        affectedCamera = null;
+        if (screenTintCanvas != null)
+            Destroy(screenTintCanvas);
+        screenTintCanvas = null;
+        StopSoundSaturation();
         if (castVisual != null)
             Destroy(castVisual);
         if (echo != null)
@@ -257,5 +289,140 @@ public class MirrorWorldLogic : MonoBehaviour
     {
         line.startColor = color;
         line.endColor = color;
+    }
+
+    private void StartSoundSaturation()
+    {
+        StopSoundSaturation();
+        soundSaturationRoutine = StartCoroutine(SaturateSoundOnNextBeat());
+    }
+
+    private IEnumerator SaturateSoundOnNextBeat()
+    {
+        AudioSource music = CountdownManager.Instance != null
+            ? CountdownManager.Instance.battleMusic
+            : null;
+        if (music != null && music.isPlaying && music.clip != null && battleMusicBpm > 0f)
+        {
+            double beatDuration = 60.0 / battleMusicBpm;
+            double musicTime = music.timeSamples / (double)music.clip.frequency;
+            double beatPosition = (musicTime - musicBeatOffsetSeconds) % beatDuration;
+            if (beatPosition < 0d)
+                beatPosition += beatDuration;
+
+            double delayUntilBeat = beatPosition < 0.001d
+                ? 0d
+                : beatDuration - beatPosition;
+            if (delayUntilBeat > 0d)
+                yield return new WaitForSecondsRealtime((float)delayUntilBeat);
+        }
+
+        ApplySoundSaturation();
+        yield return new WaitForSecondsRealtime(Mathf.Max(0.1f, soundSaturationDuration));
+        RestoreSoundSaturation();
+        soundSaturationRoutine = null;
+    }
+
+    private void ApplySoundSaturation()
+    {
+        AudioSource[] sources = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
+        foreach (AudioSource source in sources)
+        {
+            if (source == null)
+                continue;
+
+            AudioDistortionFilter filter = source.GetComponent<AudioDistortionFilter>();
+            bool addedFilter = filter == null;
+            if (addedFilter)
+                filter = source.gameObject.AddComponent<AudioDistortionFilter>();
+
+            saturatedAudioFilters.Add(new AudioFilterState(
+                filter, addedFilter, filter.enabled, filter.distortionLevel));
+            filter.enabled = true;
+            filter.distortionLevel = soundDistortionLevel;
+        }
+    }
+
+    private void StopSoundSaturation()
+    {
+        if (soundSaturationRoutine != null)
+        {
+            StopCoroutine(soundSaturationRoutine);
+            soundSaturationRoutine = null;
+        }
+
+        RestoreSoundSaturation();
+    }
+
+    private void RestoreSoundSaturation()
+    {
+        foreach (AudioFilterState state in saturatedAudioFilters)
+        {
+            if (state.Filter == null)
+                continue;
+
+            if (state.AddedFilter)
+            {
+                Destroy(state.Filter);
+                continue;
+            }
+
+            state.Filter.distortionLevel = state.OriginalDistortionLevel;
+            state.Filter.enabled = state.WasEnabled;
+        }
+
+        saturatedAudioFilters.Clear();
+    }
+
+    private sealed class AudioFilterState
+    {
+        public AudioDistortionFilter Filter { get; }
+        public bool AddedFilter { get; }
+        public bool WasEnabled { get; }
+        public float OriginalDistortionLevel { get; }
+
+        public AudioFilterState(
+            AudioDistortionFilter filter,
+            bool addedFilter,
+            bool wasEnabled,
+            float originalDistortionLevel)
+        {
+            Filter = filter;
+            AddedFilter = addedFilter;
+            WasEnabled = wasEnabled;
+            OriginalDistortionLevel = originalDistortionLevel;
+        }
+    }
+
+
+    private void ShowScreenTint()
+    {
+        if (screenTintCanvas != null)
+            Destroy(screenTintCanvas);
+
+        screenTintCanvas = new GameObject("Mirror World Screen Tint", typeof(RectTransform), typeof(Canvas));
+        Canvas canvas = screenTintCanvas.GetComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.overrideSorting = true;
+        canvas.sortingOrder = 10000;
+
+        GameObject tintObject = new GameObject("Red Tint", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        tintObject.transform.SetParent(screenTintCanvas.transform, false);
+        RectTransform tintRect = tintObject.GetComponent<RectTransform>();
+        tintRect.anchorMin = Vector2.zero;
+        tintRect.anchorMax = Vector2.one;
+        tintRect.offsetMin = Vector2.zero;
+        tintRect.offsetMax = Vector2.zero;
+
+        Image tintImage = tintObject.GetComponent<Image>();
+        tintImage.color = screenTint;
+        tintImage.raycastTarget = false;
+    }
+
+    private static void ChangeCameraColor(Color color)
+    {
+        Camera mainCamera = Camera.main;
+        if (mainCamera != null)
+            mainCamera.backgroundColor = color;
     }
 }

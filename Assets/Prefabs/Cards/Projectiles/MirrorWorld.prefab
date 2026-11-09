@@ -45,3 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MirrorWorldLogic
   effectDuration: 5
+  soundSaturationDuration: 3
+  soundDistortionLevel: 0.436
+  battleMusicBpm: 120
+  musicBeatOffsetSeconds: 0
+  cardClip: {fileID: 0}

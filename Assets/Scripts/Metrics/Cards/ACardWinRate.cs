@@ -8,14 +8,15 @@ public class ACardWinRate : MonoBehaviour
         string matchId,
         string cardId,
         string result,
-        string characterId = null,
-        string cardType = null,
-        int deckSize = 0)
+        string characterId,
+        string deckOwner,
+        string cardType,
+        int deckSize)
     {
         return metrics.TrackEventAsync(
             CardPickRateEvent.CardWinRateEventName,
             ("match_id", matchId),
-            ("deck_owner", "player"),
+            ("deck_owner", deckOwner),
             ("character_id", characterId ?? string.Empty),
             ("card_id", cardId),
             ("card_type", cardType ?? string.Empty),
